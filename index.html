@@ -9,30 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./fleet.css">
-
-  <!-- Access gate — simple sessionStorage-backed prompt. NOT real security;
-       keeps casual visitors out but the code is visible in the page source.
-       If you find this, the code is: stockertv2026 -->
-  <script>
-    (function () {
-      var KEY = "stv-fleet-access";
-      var CORRECT = "stockertv2026";
-      if (sessionStorage.getItem(KEY) === CORRECT) return;
-      var entered = window.prompt("Enter access code to continue:");
-      if (entered === CORRECT) {
-        sessionStorage.setItem(KEY, CORRECT);
-        return;
-      }
-      document.addEventListener("DOMContentLoaded", function () {
-        document.documentElement.innerHTML =
-          "<body style=\"background:#0a0a0f;color:#e6e6ee;font-family:'JetBrains Mono',monospace;" +
-          "display:grid;place-items:center;min-height:100vh;margin:0;letter-spacing:2px;" +
-          "text-transform:uppercase;font-size:14px;\">Access denied.</body>";
-      });
-      // Stop any further script execution on this page load
-      throw new Error("Access denied");
-    })();
-  </script>
 </head>
 <body>
 
