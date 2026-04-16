@@ -19,6 +19,11 @@
   const SVGNS = "http://www.w3.org/2000/svg";
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
+  // Easing tokens — kept in sync with CSS --ease-* variables
+  const EASE_ENTER = "cubic-bezier(.22,.94,.3,1)";
+  const EASE_EXIT  = "cubic-bezier(.4,0,1,1)";
+  const EASE_PULSE = "cubic-bezier(.45,0,.55,1)";
+
   // ── Constants ─────────────────────────────────────────────────────────
   const MAP_VB_W = 360;
   const MAP_VB_H = 180;
@@ -334,7 +339,7 @@
         { transform: `translate(${originScreen.x}px, ${originScreen.y}px) scale(0.4)`, opacity: 0 },
         { transform: `translate(${originScreen.x}px, ${originScreen.y}px) scale(1)`,   opacity: 1 },
       ],
-      { duration: 280, fill: "forwards", easing: "ease-out" }
+      { duration: 280, fill: "forwards", easing: EASE_ENTER }
     ).finished.catch(() => {});
 
     // 3) Flight arc — draw SVG dashed path + animate card along bezier
@@ -381,7 +386,7 @@
             { r: 1.2, opacity: 0.7, strokeWidth: 0.35 },
             { r: 8,   opacity: 0,   strokeWidth: 0.15 },
           ],
-          { duration: 900, easing: "cubic-bezier(.3,.1,.25,1)", fill: "forwards" }
+          { duration: 900, easing: EASE_ENTER, fill: "forwards" }
         ).onfinish = () => p.remove();
       }, i * 160);
     }
@@ -412,7 +417,7 @@
     path.classList.add("arc--drawn");
     path.animate(
       [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
-      { duration: FLIGHT_MS, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" }
+      { duration: FLIGHT_MS, easing: EASE_ENTER, fill: "forwards" }
     );
 
     // Cap the active trails — evict the oldest when we overflow
@@ -450,7 +455,7 @@
       const s = t < 0.1 ? 1.0 : (t > 0.85 ? 0.85 - (t - 0.85) * 2 : 1.0); // slight shrink near end
       kf.push({ transform: `translate(${x}px, ${y}px) scale(${s.toFixed(3)})`, opacity: 1, offset: t });
     }
-    const anim = card.animate(kf, { duration: FLIGHT_MS, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" });
+    const anim = card.animate(kf, { duration: FLIGHT_MS, easing: EASE_ENTER, fill: "forwards" });
     await anim.finished.catch(() => {});
   }
 
@@ -548,7 +553,7 @@
           { transform: "translate(-50%, -50%)", opacity: 1 },
           { transform: `translate(calc(-50% + ${(Math.cos(angle) * dist).toFixed(1)}px), calc(-50% + ${(Math.sin(angle) * dist).toFixed(1)}px))`, opacity: 0 },
         ],
-        { duration: 600, easing: "cubic-bezier(.2,.8,.2,1)" }
+        { duration: 600, easing: EASE_ENTER }
       ).onfinish = () => p.remove();
     }
     const ring = document.createElement("div");
@@ -561,7 +566,7 @@
         { transform: "translate(-50%, -50%) scale(0.5)", opacity: 0.85 },
         { transform: "translate(-50%, -50%) scale(3)",   opacity: 0 },
       ],
-      { duration: 500, easing: "ease-out" }
+      { duration: 500, easing: EASE_ENTER }
     ).onfinish = () => ring.remove();
   }
 
@@ -887,7 +892,7 @@
       $("#map-pulses").appendChild(p);
       p.animate(
         [{ r: startR, opacity: 0.7, strokeWidth: 0.35 }, { r: endR, opacity: 0, strokeWidth: 0.12 }],
-        { duration: 1400, easing: "cubic-bezier(.3,.1,.25,1)" }
+        { duration: 1400, easing: EASE_ENTER }
       ).onfinish = () => p.remove();
     }
     // Batch counter tick
@@ -965,7 +970,7 @@
         $("#map-pulses").appendChild(p);
         p.animate(
           [{ r: 1.5, opacity: 0.8, strokeWidth: 0.45 }, { r: 18, opacity: 0, strokeWidth: 0.1 }],
-          { duration: 1600, easing: "cubic-bezier(.3,.1,.25,1)" }
+          { duration: 1600, easing: EASE_ENTER }
         ).onfinish = () => p.remove();
       }, i * 180);
     }

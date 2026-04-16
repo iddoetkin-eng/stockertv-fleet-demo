@@ -13,6 +13,11 @@
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
+  // Easing tokens — kept in sync with CSS --ease-* variables
+  const EASE_ENTER = "cubic-bezier(.22,.94,.3,1)";
+  const EASE_EXIT  = "cubic-bezier(.4,0,1,1)";
+  const EASE_PULSE = "cubic-bezier(.45,0,.55,1)";
+
   // ── SoundFX — shared module, loaded via ./soundfx.js ───────────────────
   // Exposes window.SoundFX. Shared with the Fleet View. We explicitly set
   // the master volume here in case another page has changed it previously.
@@ -121,7 +126,7 @@
     // Quick "type-in" reveal: fade the text in by progressively setting opacity
     bodyEl.style.opacity = "0";
     requestAnimationFrame(() => {
-      bodyEl.style.transition = "opacity 700ms ease";
+      bodyEl.style.transition = `opacity 700ms ${EASE_ENTER}`;
       bodyEl.style.opacity = "1";
     });
     await wait(900);
@@ -303,14 +308,14 @@
     // then switch each drawn edge to a flowing dash pattern.
     for (let i = 0; i < nodes.length; i++) {
       const g = svg.querySelector(`g[data-node-i="${i}"]`);
-      g.style.transition = "opacity 360ms ease";
+      g.style.transition = `opacity 360ms ${EASE_ENTER}`;
       g.style.opacity = "1";
       g.querySelector("circle").classList.add("node-circle--lit");
       const edge = svg.querySelector(`line[data-edge-i="${i}"]`);
       edge.classList.add("edge--lit");
       setTimeout(() => edge.classList.add("edge--flowing"), 650);
       const lbl = svg.querySelector(`text[data-edge-lbl-i="${i}"]`);
-      lbl.style.transition = "opacity 400ms ease";
+      lbl.style.transition = `opacity 400ms ${EASE_ENTER}`;
       lbl.style.opacity = "1";
       await wait(260);
     }
@@ -841,7 +846,7 @@
 
     // Next frame: set transition + end position so the move animates
     requestAnimationFrame(() => {
-      packet.style.transition = "top 400ms cubic-bezier(.4,0,.2,1), left 400ms cubic-bezier(.4,0,.2,1)";
+      packet.style.transition = `top 400ms ${EASE_ENTER}, left 400ms ${EASE_ENTER}`;
       packet.style.left = endX + "px";
       packet.style.top  = endY + "px";
     });
