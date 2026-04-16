@@ -12,13 +12,21 @@
 </head>
 <body>
 
-<!-- Welcome splash — full-screen title card before the map comes online -->
+<!-- Welcome splash — cinematic title card before the map comes online -->
 <div class="splash" id="splash">
+  <div class="splash-nebula" aria-hidden="true"></div>
   <div class="splash-grid" aria-hidden="true"></div>
+  <div class="splash-beam" aria-hidden="true"></div>
   <div class="splash-content">
     <div class="splash-eyebrow">WELCOME TO</div>
     <div class="splash-title">
-      <span class="splash-title-stocker">Stocker</span><span class="splash-title-tv">TV</span><span class="splash-title-demo">Demo</span>
+      <span class="splash-word splash-word--stocker brand-wordmark">
+        <span style="--i:0">S</span><span style="--i:1">t</span><span style="--i:2">o</span><span style="--i:3">c</span><span style="--i:4">k</span><span style="--i:5">e</span><span style="--i:6">r</span>
+      </span><span class="splash-word splash-word--tv brand-wordmark">
+        <span style="--i:7">T</span><span style="--i:8">V</span>
+      </span><span class="splash-word splash-word--demo">
+        <span style="--i:9">D</span><span style="--i:10">e</span><span style="--i:11">m</span><span style="--i:12">o</span>
+      </span>
     </div>
     <div class="splash-accent-line" aria-hidden="true"></div>
     <div class="splash-sub">
@@ -34,7 +42,7 @@
     <div class="brand">
       <div class="brand-mark">STV</div>
       <div class="brand-text">
-        <div class="brand-title">StockerTV</div>
+        <div class="brand-title brand-wordmark">StockerTV</div>
         <div class="brand-sub">Live Operations</div>
       </div>
     </div>
@@ -49,7 +57,10 @@
     </div>
 
     <div class="topbar-meta">
-      <span class="meta-pill meta-pill--live" id="meta-live">● LIVE</span>
+      <span class="meta-pill meta-pill--live" id="meta-live">
+        <span class="live-pulse" aria-hidden="true"></span>
+        LIVE
+      </span>
       <a class="demo-link" href="./pipeline.html" target="_blank" rel="noopener noreferrer" title="Open the single-pipeline demo in a new tab">DEMO</a>
       <button class="audit-toggle" id="audit-toggle" type="button" aria-pressed="false" title="Compliance audit overlay (hold A or click)">AUDIT</button>
       <span class="meta-pill meta-pill--ghost" id="meta-clock">00:00:00 UTC</span>

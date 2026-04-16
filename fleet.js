@@ -147,7 +147,19 @@
       const { x, y } = latLngToMap(ex.lat, ex.lng);
       const r = ex.tier === 0 ? 1.8 : (ex.tier === 1 ? 1.3 : 0.9);
       const tierClass = ex.tier === 0 ? " ex-dot--major" : (ex.tier === 1 ? " ex-dot--region" : "");
-      // Halo (breathing for tier 0/1)
+
+      // Group wraps halo + dot so CSS can target ex-dot-group:hover → ring-expand on halo.
+      const group = svgEl("g", { class: "ex-dot-group", "data-code": ex.code });
+
+      // Hover-triggered ring-expansion halo — always rendered, animates on hover.
+      const hoverRing = svgEl("circle", {
+        cx: x, cy: y, r: r * 3,
+        class: "ex-hover-ring",
+        "data-code": ex.code,
+      });
+      group.appendChild(hoverRing);
+
+      // Ambient breathing halo (tier 0/1 only)
       if (ex.tier <= 1) {
         const halo = svgEl("circle", {
           cx: x, cy: y, r: r * 3,
@@ -155,7 +167,7 @@
           "data-code": ex.code,
         });
         halo.style.animationDelay = (Math.random() * 2.4) + "s";
-        g.appendChild(halo);
+        group.appendChild(halo);
       }
       // Dot
       const dot = svgEl("circle", {
@@ -166,10 +178,20 @@
       });
       dot.addEventListener("mouseenter", () => showTooltipForExchange(ex));
       dot.addEventListener("mouseleave", hideTooltip);
-      g.appendChild(dot);
+      group.appendChild(dot);
+      g.appendChild(group);
     }
     // Initial day/night state
     refreshDayNight();
+  }
+
+  // Score → color class for feed entries (95+ gold, 85-94 green, 75-84 white, else amber)
+  function scoreClass(score) {
+    const n = Number(score);
+    if (n >= 95) return "feed-score--gold";
+    if (n >= 85) return "feed-score--green";
+    if (n >= 75) return "feed-score--white";
+    return "feed-score--amber";
   }
 
   // Always-visible labels for the 22 named exchanges
@@ -503,7 +525,7 @@
       <span class="feed-ticker">${escapeHtml(company.ticker)}</span>
       <span class="feed-exchange">${escapeHtml(company.exchange)}</span>
       <span class="feed-headline">${escapeHtml(tpl.headline)}</span>
-      <span class="feed-score">${tpl.score}</span>
+      <span class="feed-score ${scoreClass(tpl.score)}">${tpl.score}</span>
     `;
     li.addEventListener("click", () => openDrill(company, reporter, tpl));
     list.insertBefore(li, list.firstChild);
@@ -1082,15 +1104,17 @@
     if (kbdHelpTimer) { clearTimeout(kbdHelpTimer); kbdHelpTimer = null; }
   }
 
-  // ── Welcome splash — 3.5s title card shown before the reveal ─────────
+  // ── Welcome splash — cinematic title card shown before the reveal ────
   async function runSplash() {
     const splash = $("#splash");
     if (!splash) return;
-    // Items fade in via CSS animation-delay (0.5s / 1.0s / 1.5s).
-    // Hold full display until t=3.0s, fade out over 500ms, remove at 3.5s.
-    await wait(3000);
+    // Letter-by-letter title lands 1000-1540ms, beam sweeps at 1700-2100ms.
+    // At 2600ms, ghost the map through the splash (reveal effect).
+    await wait(2600);
+    splash.classList.add("splash--reveal-map");
+    await wait(600);
     splash.classList.add("splash--exit");
-    await wait(500);
+    await wait(600);
     splash.remove();
   }
 

@@ -19,13 +19,24 @@
   --accent-soft: rgba(74, 158, 255, 0.16);
   --accent-glow: rgba(74, 158, 255, 0.45);
 
-  --green:       #22c55e;
-  --green-soft:  rgba(34, 197, 94, 0.18);
-  --green-glow:  rgba(34, 197, 94, 0.45);
+  /* Lit palette — softer, richer than Tailwind defaults */
+  --green:       #34D399;
+  --green-soft:  rgba(52, 211, 153, 0.18);
+  --green-glow:  rgba(52, 211, 153, 0.45);
 
-  --red:         #ef4444;
-  --red-soft:    rgba(239, 68, 68, 0.20);
-  --red-glow:    rgba(239, 68, 68, 0.55);
+  --red:         #F87171;
+  --red-soft:    rgba(248, 113, 113, 0.20);
+  --red-glow:    rgba(248, 113, 113, 0.55);
+
+  /* Luxury accents */
+  --gold:        #D4A574;
+  --warm-white:  #F5E6D3;
+  --purple:      #A78BFA;
+
+  /* Depth shadows */
+  --shadow-l1:   0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-l2:   inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-l3:   0 28px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
 
   --amber:       #f59e0b;
   --amber-soft:  rgba(245, 158, 11, 0.18);
@@ -100,19 +111,26 @@ body {
     var(--bg);
 }
 
-/* Ambient corner lighting — subtle purple (bottom-left) + green (top-right) */
+/* Ambient corner lighting — subtle purple (bottom-left) + green (top-right),
+   slowly drifting for ambient life. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 600px 400px at 0% 100%, rgba(168, 85, 247, 0.07), transparent 70%),
-    radial-gradient(ellipse 500px 350px at 100% 0%, rgba(34, 197, 94, 0.05), transparent 70%);
+  background-image:
+    radial-gradient(ellipse 600px 400px at 0% 100%, rgba(168, 85, 247, 0.08), transparent 70%),
+    radial-gradient(ellipse 500px 350px at 100% 0%, rgba(52, 211, 153, 0.06), transparent 70%);
+  background-size: 110% 110%;
+  animation: ambient-drift 22s ease-in-out infinite alternate;
+}
+@keyframes ambient-drift {
+  from { background-position: 0% 100%, 100% 0%; }
+  to   { background-position: 8% 92%, 92% 8%; }
 }
 
-/* ── Top bar ────────────────────────────────────────────────────────────── */
+/* ── Top bar — glass morphism (L2) ─────────────────────────────────────── */
 .topbar {
   position: sticky;
   top: 0;
@@ -121,9 +139,22 @@ body::before {
   align-items: center;
   justify-content: space-between;
   padding: 14px 28px;
-  background: rgba(10, 10, 15, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(12, 12, 20, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(74, 158, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 1px 0 rgba(74, 158, 255, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* Reusable brand wordmark — subtle gradient replaces flat white */
+.brand-wordmark {
+  background: linear-gradient(180deg, #ffffff 0%, #c4c4d0 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand-mark {
@@ -186,7 +217,7 @@ body::before {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 2px 6px rgba(0, 0, 0, 0.4);
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
 }
 .sound-toggle-icon { width: 16px; height: 16px; display: block; }
 .sound-toggle[data-state="on"]  .sound-toggle-icon--off,
@@ -221,7 +252,7 @@ body::before {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
     0 4px 12px rgba(74, 158, 255, 0.55);
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
 }
 
 /* ── Launch panel ───────────────────────────────────────────────────────── */
@@ -236,7 +267,7 @@ body::before {
   font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--gold);
   margin-bottom: 16px;
 }
 .launch-title {
@@ -245,11 +276,14 @@ body::before {
   font-weight: 700;
   line-height: 1.1;
   margin: 0 0 48px;
-  letter-spacing: -1.5px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 60px rgba(74, 158, 255, 0.15);
 }
 .brand-logo { white-space: nowrap; }
-.launch-title .brand-logo-stocker { color: #ffffff; }
-.launch-title .brand-logo-tv      { color: #ffffff; }
+/* When .brand-logo has .brand-wordmark applied, its children inherit the
+   gradient clip via background-clip cascade. Keep spans as-is. */
+.launch-title .brand-logo-stocker,
+.launch-title .brand-logo-tv { color: inherit; }
 
 .launch-cta-row {
   display: flex;
@@ -276,14 +310,14 @@ body::before {
   transition: transform 120ms var(--ease-enter), box-shadow 120ms var(--ease-enter), background 120ms var(--ease-enter);
 }
 .cta-primary:hover {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
   background: linear-gradient(180deg, #6db4ff 0%, #5ba8ff 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
     0 16px 44px rgba(74, 158, 255, 0.45),
     0 4px 12px rgba(74, 158, 255, 0.55);
 }
-.cta-primary:active { transform: translateY(0); }
+.cta-primary:active { transform: translateY(0) scale(1); }
 .cta-label { font-size: 18px; font-weight: 600; letter-spacing: 0.2px; }
 .cta-sub   { font-size: 12px; opacity: 0.85; font-family: var(--mono); }
 
@@ -1230,7 +1264,7 @@ body::before {
 .audit-section[data-section="sources"]    { border-left-color: #2563eb; }
 .audit-section[data-section="facts"]      { border-left-color: #16a34a; }
 .audit-section[data-section="compliance"] { border-left-color: #b45309; }
-.audit-section[data-section="timeline"]   { border-left-color: #6b21a8; }
+.audit-section[data-section="timeline"]   { border-left-color: var(--purple); }
 @keyframes audit-section-in {
   to { opacity: 1; transform: translateY(0); }
 }
@@ -1247,7 +1281,7 @@ body::before {
 .audit-section[data-section="sources"]    .audit-section-icon { background: #2563eb; }
 .audit-section[data-section="facts"]      .audit-section-icon { background: #16a34a; }
 .audit-section[data-section="compliance"] .audit-section-icon { background: #b45309; }
-.audit-section[data-section="timeline"]   .audit-section-icon { background: #6b21a8; }
+.audit-section[data-section="timeline"]   .audit-section-icon { background: var(--purple); }
 .audit-section-icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 .audit-section-title {
@@ -1310,7 +1344,7 @@ body::before {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 2px 6px rgba(0, 0, 0, 0.4);
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
 }
 
 /* ── Stage 15 — final output ────────────────────────────────────────────── */
@@ -1359,7 +1393,7 @@ body::before {
 }
 .final-cta:hover {
   background: linear-gradient(180deg, #6db4ff 0%, #5ba8ff 100%);
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
     0 10px 28px rgba(74, 158, 255, 0.45),
@@ -1713,14 +1747,14 @@ body::before {
   transition: transform 120ms var(--ease-enter), box-shadow 120ms var(--ease-enter), background 120ms var(--ease-enter);
 }
 .replay-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
   background: linear-gradient(180deg, #6db4ff 0%, #5ba8ff 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
     0 10px 28px rgba(74, 158, 255, 0.45),
     0 4px 12px rgba(74, 158, 255, 0.55);
 }
-.replay-btn:active { transform: translateY(0); }
+.replay-btn:active { transform: translateY(0) scale(1); }
 .replay-icon { font-size: 16px; line-height: 1; display: inline-block; }
 
 /* ── Hero background — ambient timeline pulse ─────────────────────────── */
