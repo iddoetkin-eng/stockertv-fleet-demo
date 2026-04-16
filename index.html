@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>StockerTV — Live Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./fleet.css">
+
+  <!-- Access gate — simple sessionStorage-backed prompt. NOT real security;
+       keeps casual visitors out but the code is visible in the page source.
+       If you find this, the code is: stockertv2026 -->
+  <script>
+    (function () {
+      var KEY = "stv-fleet-access";
+      var CORRECT = "stockertv2026";
+      if (sessionStorage.getItem(KEY) === CORRECT) return;
+      var entered = window.prompt("Enter access code to continue:");
+      if (entered === CORRECT) {
+        sessionStorage.setItem(KEY, CORRECT);
+        return;
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.innerHTML =
+          "<body style=\"background:#0a0a0f;color:#e6e6ee;font-family:'JetBrains Mono',monospace;" +
+          "display:grid;place-items:center;min-height:100vh;margin:0;letter-spacing:2px;" +
+          "text-transform:uppercase;font-size:14px;\">Access denied.</body>";
+      });
+      // Stop any further script execution on this page load
+      throw new Error("Access denied");
+    })();
+  </script>
+</head>
+<body>
+
+<!-- Welcome splash — full-screen title card before the map comes online -->
+<div class="splash" id="splash">
+  <div class="splash-content">
+    <div class="splash-eyebrow">WELCOME TO</div>
+    <div class="splash-title">
+      <span class="splash-title-stocker">Stocker</span><span class="splash-title-tv">TV</span><span class="splash-title-demo">Demo</span>
+    </div>
+    <div class="splash-sub">Live Operations · 89 Exchanges · 32,190 Companies</div>
+  </div>
+</div>
+
+<!-- Topbar: brand, inline metrics, clock, toggles — two-row layout -->
+<header class="topbar">
+  <div class="topbar-row topbar-row--primary">
+    <div class="brand">
+      <div class="brand-mark">STV</div>
+      <div class="brand-text">
+        <div class="brand-title">StockerTV</div>
+        <div class="brand-sub">Live Operations</div>
+      </div>
+    </div>
+
+    <div class="tb-metrics" id="tb-metrics">
+      <div class="tb-metric" data-metric="scripts"><span class="tb-k">Scripts Today</span><span class="tb-v" data-slot="scripts">0</span></div>
+      <div class="tb-metric" data-metric="facts"><span class="tb-k">Facts Verified</span><span class="tb-v" data-slot="facts">0</span></div>
+      <div class="tb-metric" data-metric="rewrites"><span class="tb-k">Rewrites</span><span class="tb-v" data-slot="rewrites">0</span></div>
+      <div class="tb-metric" data-metric="compliance"><span class="tb-k">Compliance</span><span class="tb-v tb-v--green" data-slot="compliance">100.0%</span></div>
+      <div class="tb-metric" data-metric="quality"><span class="tb-k">Quality</span><span class="tb-v" data-slot="quality">0.0</span></div>
+      <div class="tb-metric" data-metric="exchanges"><span class="tb-k">Exchanges</span><span class="tb-v tb-v--green" data-slot="exchanges">89</span></div>
+    </div>
+
+    <div class="topbar-meta">
+      <span class="meta-pill meta-pill--live" id="meta-live">● LIVE</span>
+      <button class="audit-toggle" id="audit-toggle" type="button" aria-pressed="false" title="Compliance audit overlay (hold A or click)">AUDIT</button>
+      <span class="meta-pill meta-pill--ghost" id="meta-clock">00:00:00 UTC</span>
+      <button class="sound-toggle" id="sound-toggle" type="button" data-state="on" aria-label="Toggle sound" title="Toggle sound">
+        <svg class="sound-toggle-icon sound-toggle-icon--on" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M11 5L6 9H3v6h3l5 4V5z" fill="currentColor"/>
+          <path d="M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M19.07 4.93a10 10 0 010 14.14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </svg>
+        <svg class="sound-toggle-icon sound-toggle-icon--off" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M11 5L6 9H3v6h3l5 4V5z" fill="currentColor"/>
+          <line x1="15" y1="9" x2="21" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="21" y1="9" x2="15" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="topbar-row topbar-row--health" id="health-bar">● System healthy · 0 pipelines in flight · exchanges 89/89 online</div>
+</header>
+
+<!-- Main stage: world map on left, right rail on right -->
+<main class="stage">
+  <!-- Map region — a single SVG hosts continents, dots, radar pulses, flight arcs -->
+  <section class="map-wrap" id="map-wrap">
+    <svg class="map-svg" id="map-svg" viewBox="0 0 360 180" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <!-- Per-region arc-color gradients, referenced by flight arcs at launch -->
+      <defs>
+        <linearGradient id="arc-grad-NA"    gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0">
+          <stop offset="0%"  stop-color="#4a9eff" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#6db4ff" stop-opacity="0.18"/>
+        </linearGradient>
+        <linearGradient id="arc-grad-EU"    gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0">
+          <stop offset="0%"  stop-color="#22c55e" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#6db4ff" stop-opacity="0.18"/>
+        </linearGradient>
+        <linearGradient id="arc-grad-APAC"  gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0">
+          <stop offset="0%"  stop-color="#f59e0b" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#6db4ff" stop-opacity="0.18"/>
+        </linearGradient>
+        <linearGradient id="arc-grad-LATAM" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0">
+          <stop offset="0%"  stop-color="#ec4899" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#6db4ff" stop-opacity="0.18"/>
+        </linearGradient>
+        <linearGradient id="arc-grad-MEA"   gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0">
+          <stop offset="0%"  stop-color="#a855f7" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#6db4ff" stop-opacity="0.18"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Layer order: grid → continents → region labels → trails → radar pulses → dots → labels → flight arcs → cards -->
+      <g class="map-grid" id="map-grid"></g>
+      <g class="map-continents" id="map-continents"></g>
+      <g class="map-region-labels" id="map-region-labels">
+        <text class="map-region-label" x="82"  y="56">AMERICAS</text>
+        <text class="map-region-label" x="188" y="38">EUROPE</text>
+        <text class="map-region-label" x="300" y="80">ASIA-PACIFIC</text>
+        <text class="map-region-label" x="226" y="68">MIDDLE EAST</text>
+        <text class="map-region-label" x="200" y="108">AFRICA</text>
+      </g>
+      <g class="map-trails" id="map-trails"></g>
+      <g class="map-pulses" id="map-pulses"></g>
+      <g class="map-dots" id="map-dots"></g>
+      <g class="map-labels" id="map-labels"></g>
+      <g class="map-arcs" id="map-arcs"></g>
+    </svg>
+
+    <!-- HTML layer for in-flight company cards (rendered in CSS pixels, not SVG units) -->
+    <div class="card-layer" id="card-layer"></div>
+
+    <!-- Hero title overlay, top-left of map -->
+    <div class="map-hero" id="map-hero">
+      <div class="map-hero-title">LIVE OPERATIONS</div>
+      <div class="map-hero-sub">89 exchanges · 32,190 companies · real-time compliance-first video generation</div>
+    </div>
+
+    <!-- Mini legend, bottom-left of map -->
+    <div class="map-legend" id="map-legend">
+      <span class="legend-item"><span class="legend-dot legend-dot--major"></span> Major exchange</span>
+      <span class="legend-item"><span class="legend-dot legend-dot--regional"></span> Regional</span>
+      <span class="legend-item"><span class="legend-dot legend-dot--minor"></span> Minor</span>
+      <span class="legend-sep">·</span>
+      <span class="legend-item"><span class="legend-arc"></span> Script in flight</span>
+    </div>
+
+    <!-- AUDIT mode toast, shown when audit is on -->
+    <div class="audit-toast" id="audit-toast" hidden></div>
+
+    <!-- Tooltip for exchange dot + in-flight card clicks -->
+    <div class="map-tooltip" id="map-tooltip" hidden></div>
+  </section>
+
+  <!-- Right rail: live feed + top reporters -->
+  <aside class="rail" id="rail">
+    <div class="rail-section rail-section--feed">
+      <div class="rail-head">Recent Completions</div>
+      <ul class="feed-list" id="feed-list"></ul>
+    </div>
+    <div class="rail-divider"></div>
+    <div class="rail-section rail-section--reporters">
+      <div class="rail-head">Top Reporters Today</div>
+      <ul class="reporters-list" id="reporters-list"></ul>
+    </div>
+  </aside>
+</main>
+
+<!-- Newsroom ticker at the bottom -->
+<footer class="news-ticker">
+  <div class="news-ticker-track" id="news-ticker-track"></div>
+</footer>
+
+<!-- Drill-down modal: compressed ~25s pipeline replay for a clicked feed entry -->
+<div class="drill-modal" id="drill-modal" hidden>
+  <button class="drill-modal-close" id="drill-modal-close" aria-label="Close">×</button>
+  <div class="drill-modal-stage" id="drill-modal-stage">
+    <div class="drill-head">
+      <div class="drill-head-ticker" data-slot="ticker">—</div>
+      <div class="drill-head-name" data-slot="name">—</div>
+      <div class="drill-head-reporter" data-slot="reporter">—</div>
+    </div>
+    <div class="drill-steps" id="drill-steps"></div>
+    <div class="drill-foot" id="drill-foot">Compressed replay · 25 seconds</div>
+  </div>
+</div>
+
+<!-- Keyboard shortcut help overlay — toggled by `?` key -->
+<div class="kbd-help" id="kbd-help" hidden>
+  <div class="kbd-help-title">KEYBOARD SHORTCUTS</div>
+  <dl class="kbd-help-list">
+    <dt>A</dt><dd>Audit mode</dd>
+    <dt>B</dt><dd>Ring the bell</dd>
+    <dt>?</dt><dd>Toggle this help</dd>
+    <dt>ESC</dt><dd>Close modal</dd>
+    <dt>Click dot</dt><dd>Exchange info</dd>
+    <dt>Click feed</dt><dd>Full pipeline replay</dd>
+  </dl>
+</div>
+
+<!-- Scripts: showcase data → shared SoundFX → main app. Order matters. -->
+<script src="./showcase.js"></script>
+<script src="./soundfx.js"></script>
+<script src="./fleet.js"></script>
+</body>
+</html>
