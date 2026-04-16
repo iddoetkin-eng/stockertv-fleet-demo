@@ -1357,8 +1357,11 @@ body::after {
 .splash-word {
   display: inline-block;
 }
-.splash-word--tv   { margin-left: 0; }
-.splash-word--demo { margin-left: 20px; color: var(--accent); -webkit-background-clip: initial; background-clip: initial; }
+/* Explicit letter colors — background-clip gradients don't cascade into
+   per-letter child spans reliably, so color each word directly. */
+.splash-word--stocker { color: #ffffff; }
+.splash-word--tv      { color: #888888; margin-left: 0; }
+.splash-word--demo    { color: var(--accent); margin-left: 20px; }
 .splash-title .splash-word > span {
   display: inline-block;
   opacity: 0;
