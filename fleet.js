@@ -1104,17 +1104,26 @@
     if (kbdHelpTimer) { clearTimeout(kbdHelpTimer); kbdHelpTimer = null; }
   }
 
-  // ── Welcome splash — cinematic title card shown before the reveal ────
+  // ── Welcome splash — cinematic 7-second opening ──────────────────────
+  // Timing:
+  //   0.0s  black screen, nebula + dot grid visible
+  //   1.0s  "WELCOME TO" fades in
+  //   1.8s  "StockerTV Demo" letters begin landing (13 letters × 40ms stagger)
+  //   2.7s  accent line expands from center
+  //   3.0s  horizontal beam sweeps left → right
+  //   3.5s  subtitle + pulsing green dot appears
+  //   3.5s–6.0s  everything holds — viewer reads
+  //   6.0s  map starts ghosting through (splash--reveal-map)
+  //   6.5s  splash begins fading out (splash--exit)
+  //   7.0s  splash removed, simulation begins
   async function runSplash() {
     const splash = $("#splash");
     if (!splash) return;
-    // Letter-by-letter title lands 1000-1540ms, beam sweeps at 1700-2100ms.
-    // At 2600ms, ghost the map through the splash (reveal effect).
-    await wait(2600);
+    await wait(6000);
     splash.classList.add("splash--reveal-map");
-    await wait(600);
+    await wait(500);
     splash.classList.add("splash--exit");
-    await wait(600);
+    await wait(500);
     splash.remove();
   }
 
