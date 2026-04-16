@@ -13,13 +13,6 @@ server, no auth, no Express. Works on `file://` locally and on GitHub Pages.
 | `showcase.js` | **Bundled** seed data: 89 exchanges (with lat/lng + trading hours), 100 companies, sector content, 41 company profiles, 85 Natural Earth 110m continent paths. Exposes `window.FLEET_SHOWCASE`. |
 | `soundfx.js` | Procedural Web Audio UI sounds (shared module). |
 
-## Access code
-
-The page is gated by a simple `prompt()` + `sessionStorage` check. **Not**
-real security — the correct code is in the page source.
-
-Current code: **`stockertv2026`**
-
 ## Running locally
 
 Just open `index.html` in Chrome. Everything is loaded via `<script>` tags
