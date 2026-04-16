@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>StockerTV — Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./pipeline.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">STV</div>
+    <div class="brand-text">
+      <div class="brand-title">StockerTV</div>
+      <div class="brand-sub">Live Compliance Demo</div>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <div class="stage-tracker" id="stage-tracker" data-state="ready">
+      <span class="stage-tracker-label" id="stage-tracker-label">READY</span>
+    </div>
+    <a class="fleet-link" href="./index.html" title="Back to Fleet View">FLEET</a>
+    <span class="meta-pill meta-pill--ghost" id="meta-clock">00:00.0</span>
+    <button class="sound-toggle" id="sound-toggle" type="button" data-state="on" aria-label="Toggle sound" title="Toggle sound">
+      <svg class="sound-toggle-icon sound-toggle-icon--on" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M11 5L6 9H3v6h3l5 4V5z" fill="currentColor"/>
+        <path d="M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M19.07 4.93a10 10 0 010 14.14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <svg class="sound-toggle-icon sound-toggle-icon--off" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M11 5L6 9H3v6h3l5 4V5z" fill="currentColor"/>
+        <line x1="15" y1="9"  x2="21" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="21" y1="9"  x2="15" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- ── Launch panel ── -->
+<section class="launch" id="launch">
+  <!-- Ambient timeline pulse behind the hero content -->
+  <svg class="launch-bg" viewBox="0 0 1200 100" preserveAspectRatio="none" aria-hidden="true">
+    <g class="launch-bg-line">
+      <line x1="40" y1="50" x2="1160" y2="50"/>
+    </g>
+    <g class="launch-bg-dots">
+      <circle cx="40"   cy="50" r="3"/>
+      <circle cx="120"  cy="50" r="3"/>
+      <circle cx="200"  cy="50" r="3"/>
+      <circle cx="280"  cy="50" r="3"/>
+      <circle cx="360"  cy="50" r="3"/>
+      <circle cx="440"  cy="50" r="3"/>
+      <circle cx="520"  cy="50" r="3"/>
+      <circle cx="600"  cy="50" r="3"/>
+      <circle cx="680"  cy="50" r="3"/>
+      <circle cx="760"  cy="50" r="3"/>
+      <circle cx="840"  cy="50" r="3"/>
+      <circle cx="920"  cy="50" r="3"/>
+      <circle cx="1000" cy="50" r="3"/>
+      <circle cx="1080" cy="50" r="3"/>
+      <circle cx="1160" cy="50" r="3"/>
+    </g>
+    <g class="launch-bg-pulse-wrap">
+      <circle class="launch-bg-pulse" cx="0" cy="50" r="8"/>
+    </g>
+  </svg>
+
+  <div class="launch-inner">
+    <div class="launch-eyebrow">Article → Compliance-cleared script in under a minute</div>
+    <h1 class="launch-title">See how <span class="brand-logo"><span class="brand-logo-stocker">Stocker</span><span class="brand-logo-tv">TV</span></span> turns SEC filings<br/>into broadcast-ready video, automatically.</h1>
+
+    <div class="launch-cta-row">
+      <button class="cta-primary cta-primary--pulse" id="btn-watch-demo">
+        <span class="cta-label">Watch Demo</span>
+        <span class="cta-sub">Curated NVIDIA story · 47 sec</span>
+      </button>
+    </div>
+
+    <div class="launch-stats">
+      <span class="launch-stat"><span class="launch-stat-v">32,190</span> companies</span>
+      <span class="launch-stat-dot">·</span>
+      <span class="launch-stat"><span class="launch-stat-v">53</span> exchanges</span>
+      <span class="launch-stat-dot">·</span>
+      <span class="launch-stat"><span class="launch-stat-v">30</span> AI agents</span>
+      <span class="launch-stat-dot">·</span>
+      <span class="launch-stat"><span class="launch-stat-v">22</span> compliance rules</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pipeline timeline ── -->
+<main class="timeline" id="timeline">
+
+  <!-- Stage 1 — ARTICLE INPUT -->
+  <section class="stage" data-stage="1" data-name="article_input">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">01</span>
+        <span class="stage-title">Article Input</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content stage-content--two">
+        <div class="article-card">
+          <div class="article-meta">
+            <span class="article-source" data-slot="source">—</span>
+            <span class="article-dot">·</span>
+            <span class="article-time" data-slot="publishedAt">—</span>
+            <span class="article-dot">·</span>
+            <span class="article-words"><span data-slot="wordCount">0</span> words</span>
+          </div>
+          <h2 class="article-title" data-slot="title">—</h2>
+          <div class="article-body" data-slot="fullText"></div>
+        </div>
+        <aside class="side-panel side-panel--ghost">
+          <div class="side-label">Awaiting metadata extraction</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 2 — STORY DETECTION -->
+  <section class="stage" data-stage="2" data-name="watcher_detection">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">02</span>
+        <span class="stage-title">Story Detection</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-subtitle">Scanning 47 news sources · deduplicating against the last 7 days</div>
+      <div class="stage-content">
+        <div class="watcher-card">
+          <div class="watcher-row">
+            <div class="watcher-cell"><div class="cell-label">Source</div><div class="cell-value" data-slot="source">—</div></div>
+            <div class="watcher-cell"><div class="cell-label">Published</div><div class="cell-value" data-slot="publishedAt">—</div></div>
+            <div class="watcher-cell"><div class="cell-label">Ticker</div><div class="cell-value cell-ticker" data-slot="ticker">—</div></div>
+            <div class="watcher-cell"><div class="cell-label">Exchange</div><div class="cell-value" data-slot="exchange">—</div></div>
+          </div>
+          <div class="radar" id="watcher-radar"><div class="radar-sweep"></div><div class="radar-grid"></div></div>
+          <div class="novelty">
+            <div class="novelty-label">Story Freshness</div>
+            <div class="novelty-bar"><div class="novelty-bar-fill" data-slot="noveltyBar"></div></div>
+            <div class="novelty-value"><span data-slot="noveltyScore">0</span><span class="novelty-pct">%</span></div>
+            <div class="novelty-reason" data-slot="noveltyReason">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 3 — COMPANY ENRICHMENT -->
+  <section class="stage" data-stage="3" data-name="company_enrichment">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">03</span>
+        <span class="stage-title">Company Enrichment</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="company-card" id="company-card">
+          <div class="company-head">
+            <div class="company-name" data-slot="name">—</div>
+            <div class="company-ticker" data-slot="ticker">—</div>
+          </div>
+          <div class="company-grid">
+            <div class="company-cell"><div class="cell-label">Sector</div><div class="cell-value" data-slot="sector">—</div></div>
+            <div class="company-cell"><div class="cell-label">Industry</div><div class="cell-value" data-slot="industry">—</div></div>
+            <div class="company-cell"><div class="cell-label">CEO</div><div class="cell-value" data-slot="ceo">—</div></div>
+            <div class="company-cell"><div class="cell-label">HQ</div><div class="cell-value" data-slot="headquarters">—</div></div>
+            <div class="company-cell"><div class="cell-label">Founded</div><div class="cell-value" data-slot="foundedYear">—</div></div>
+            <div class="company-cell"><div class="cell-label">Market Cap</div><div class="cell-value" data-slot="marketCap">—</div></div>
+            <div class="company-cell"><div class="cell-label">Last Price</div><div class="cell-value" data-slot="lastPrice">—</div></div>
+            <div class="company-cell"><div class="cell-label">52-Week High</div><div class="cell-value" data-slot="week52High">—</div></div>
+            <div class="company-cell"><div class="cell-label">52-Week Low</div><div class="cell-value" data-slot="week52Low">—</div></div>
+          </div>
+          <div class="company-block"><div class="cell-label">Key Products</div><div class="cell-value" data-slot="keyProducts">—</div></div>
+          <div class="company-block"><div class="cell-label">Competitors</div><div class="cell-value" data-slot="competitors">—</div></div>
+          <div class="company-block"><div class="cell-label">Description</div><div class="cell-value" data-slot="description">—</div></div>
+          <div class="company-foot">Enriched from <span data-slot="dbSize">32,190</span> companies across <span data-slot="dbExchanges">53</span> exchanges</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 4 — FACT EXTRACTION -->
+  <section class="stage" data-stage="4" data-name="fact_extraction">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">04</span>
+        <span class="stage-title">Fact Extraction</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content stage-content--two">
+        <div class="article-card article-card--mirror">
+          <div class="article-meta">Source article (re-scanned)</div>
+          <div class="article-body" id="fact-source-body"></div>
+        </div>
+        <aside class="side-panel">
+          <div class="side-label">Extracted facts <span class="side-counter"><span id="fact-count">0</span> / <span id="fact-total">0</span></span></div>
+          <ul class="fact-list" id="fact-list"></ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 5 — SEC EDGAR VALIDATION -->
+  <section class="stage" data-stage="5" data-name="sec_validation">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">05</span>
+        <span class="stage-title">SEC EDGAR Validation</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <ul class="validation-list" id="validation-list"></ul>
+        <div class="validation-summary"><span id="validation-summary-text">— / — facts verified</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 6 — CROSS-REFERENCE -->
+  <section class="stage" data-stage="6" data-name="cross_reference">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">06</span>
+        <span class="stage-title">Cross-Reference</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-subtitle">Mapping the business ecosystem to provide context</div>
+      <div class="stage-content">
+        <div class="graph-wrap">
+          <svg class="graph" id="xref-graph" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="graph-legend" aria-hidden="true">
+            <span class="graph-legend-item"><span class="graph-legend-line graph-legend-line--supplier"></span>Supplier</span>
+            <span class="graph-legend-item"><span class="graph-legend-line graph-legend-line--competitor"></span>Competitor</span>
+            <span class="graph-legend-item"><span class="graph-legend-line graph-legend-line--partner"></span>Partner</span>
+          </div>
+        </div>
+        <div class="graph-note" id="xref-note">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 7 — REPORTER SELECTION -->
+  <section class="stage" data-stage="7" data-name="reporter_selection">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">07</span>
+        <span class="stage-title">Reporter Selection</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-subtitle">Matching content type to the right editorial voice</div>
+      <div class="stage-content">
+        <div class="reporters" id="reporter-row"></div>
+        <div class="reporter-reason" id="reporter-reason">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 8 — SCRIPT GENERATION -->
+  <section class="stage" data-stage="8" data-name="script_generation">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">08</span>
+        <span class="stage-title">Script Generation</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="script-meta">
+          <span class="script-meta-pill">Model: <span data-slot="model">—</span></span>
+          <span class="script-meta-pill"><span id="script-words">0</span> / <span id="script-target">0</span> words</span>
+        </div>
+        <div class="script-box" id="script-box"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 9 — CHART SUGGESTION -->
+  <section class="stage" data-stage="9" data-name="chart_suggestion">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">09</span>
+        <span class="stage-title">Chart Suggestion</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="chart-rec">Recommended visualization: <span class="chart-rec-strong" data-slot="type">—</span></div>
+        <div class="chart-wrap">
+          <div class="chart-frame">
+            <div class="chart-yaxis">
+              <span>$40B</span><span>$30B</span><span>$20B</span><span>$10B</span><span>$0</span>
+            </div>
+            <div class="chart-plot">
+              <div class="chart-grid">
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+              </div>
+              <div class="chart" id="chart"></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-data" id="chart-data">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 10 — THUMBNAIL GENERATION -->
+  <section class="stage" data-stage="10" data-name="thumbnail_generation">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">10</span>
+        <span class="stage-title">Thumbnail Generation</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 11 — COMPLIANCE RED PASS -->
+  <section class="stage stage--feature" data-stage="11" data-name="compliance_red_pass">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">11</span>
+        <span class="stage-title">Compliance — Red Pass &amp; Auto-Rewrite</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="redpass-script" id="redpass-script"></div>
+        <ul class="violations" id="violations"></ul>
+        <div class="redpass-counter"><span id="violation-count">0</span> violations detected</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 12 — THREE COMPLIANCE GATES -->
+  <section class="stage" data-stage="12" data-name="compliance_gates">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">12</span>
+        <span class="stage-title">Compliance Gates</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="gates" id="gates">
+          <div class="gate" data-gate="l1">
+            <div class="gate-head"><span class="gate-num">L1</span><span class="gate-name">Forbidden Phrases Scan</span><span class="gate-time" data-slot="ms">—</span></div>
+            <div class="gate-bar"><div class="gate-door gate-door--left"></div><div class="gate-door gate-door--right"></div></div>
+            <div class="gate-msg" data-slot="msg">—</div>
+          </div>
+          <div class="gate" data-gate="l2">
+            <div class="gate-head"><span class="gate-num">L2</span><span class="gate-name">AI Meaning Check</span><span class="gate-time" data-slot="ms">—</span></div>
+            <div class="gate-bar"><div class="gate-door gate-door--left"></div><div class="gate-door gate-door--right"></div></div>
+            <div class="gate-msg" data-slot="msg">—</div>
+          </div>
+          <div class="gate" data-gate="l3">
+            <div class="gate-head"><span class="gate-num">L3</span><span class="gate-name">Tone &amp; Balance Review</span><span class="gate-time" data-slot="ms">—</span></div>
+            <div class="gate-bar"><div class="gate-door gate-door--left"></div><div class="gate-door gate-door--right"></div></div>
+            <div class="gate-msg" data-slot="msg">—</div>
+          </div>
+        </div>
+        <div class="dual-gate" id="dual-gate">
+          <div class="dual-row">
+            <div class="dual-label">Quality Score</div>
+            <div class="dual-bar">
+              <div class="dual-bar-fill" data-slot="qualityBar"></div>
+              <div class="dual-threshold" style="left: 31.82%;" data-threshold-label="Pass: 35"></div>
+            </div>
+            <div class="dual-value"><span data-slot="qualityScore">0</span><span class="dual-of">/110</span></div>
+          </div>
+          <div class="dual-row">
+            <div class="dual-label">Compliance Score</div>
+            <div class="dual-bar">
+              <div class="dual-bar-fill" data-slot="complianceBar"></div>
+              <div class="dual-threshold" style="left: 60%;" data-threshold-label="Pass: 60"></div>
+            </div>
+            <div class="dual-value"><span data-slot="complianceScore">0</span><span class="dual-of">/100</span></div>
+          </div>
+          <div class="dual-verdict" id="dual-verdict">awaiting</div>
+          <div class="dual-exceeds" id="dual-exceeds">EXCEEDS COMPLIANCE THRESHOLD</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 13 — MULTI-LANGUAGE -->
+  <section class="stage" data-stage="13" data-name="multilanguage">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">13</span>
+        <span class="stage-title">Multi-Language Generation</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-subtitle">Same script, three markets — native quality, not translation</div>
+      <div class="stage-content">
+        <div class="lang-summary">Same script, three markets — <strong>$27T combined market cap reached</strong></div>
+        <div class="lang-cols">
+          <div class="lang-col" data-lang="en">
+            <svg class="lang-flag-bg" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="30" height="20" fill="#b22234"/>
+              <rect y="1.54"  width="30" height="1.54" fill="#fff"/>
+              <rect y="4.62"  width="30" height="1.54" fill="#fff"/>
+              <rect y="7.69"  width="30" height="1.54" fill="#fff"/>
+              <rect y="10.77" width="30" height="1.54" fill="#fff"/>
+              <rect y="13.85" width="30" height="1.54" fill="#fff"/>
+              <rect y="16.92" width="30" height="1.54" fill="#fff"/>
+              <rect width="12" height="10.77" fill="#3c3b6e"/>
+            </svg>
+            <div class="lang-market">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 30 20">
+                  <rect width="30" height="20" fill="#b22234"/>
+                  <rect y="1.54"  width="30" height="1.54" fill="#fff"/>
+                  <rect y="4.62"  width="30" height="1.54" fill="#fff"/>
+                  <rect y="7.69"  width="30" height="1.54" fill="#fff"/>
+                  <rect y="10.77" width="30" height="1.54" fill="#fff"/>
+                  <rect y="13.85" width="30" height="1.54" fill="#fff"/>
+                  <rect y="16.92" width="30" height="1.54" fill="#fff"/>
+                  <rect width="12" height="10.77" fill="#3c3b6e"/>
+                </svg>
+              </span>
+              <span class="lang-market-text">NYSE · $24T market cap</span>
+            </div>
+            <div class="lang-head">English</div>
+            <div class="lang-body" id="lang-en"></div>
+          </div>
+
+          <div class="lang-col" data-lang="pt">
+            <svg class="lang-flag-bg" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="30" height="20" fill="#009c3b"/>
+              <polygon points="15,2 28,10 15,18 2,10" fill="#ffdf00"/>
+              <circle cx="15" cy="10" r="4" fill="#002776"/>
+            </svg>
+            <div class="lang-market">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 30 20">
+                  <rect width="30" height="20" fill="#009c3b"/>
+                  <polygon points="15,2 28,10 15,18 2,10" fill="#ffdf00"/>
+                  <circle cx="15" cy="10" r="4" fill="#002776"/>
+                </svg>
+              </span>
+              <span class="lang-market-text">B3 · $1.2T market cap</span>
+            </div>
+            <div class="lang-head">Português</div>
+            <div class="lang-body" id="lang-pt"></div>
+          </div>
+
+          <div class="lang-col" data-lang="es">
+            <svg class="lang-flag-bg" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="30" height="20" fill="#aa151b"/>
+              <rect y="5" width="30" height="10" fill="#f1bf00"/>
+            </svg>
+            <div class="lang-market">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 30 20">
+                  <rect width="30" height="20" fill="#aa151b"/>
+                  <rect y="5" width="30" height="10" fill="#f1bf00"/>
+                </svg>
+              </span>
+              <span class="lang-market-text">BME · $1.6T market cap</span>
+            </div>
+            <div class="lang-head">Español</div>
+            <div class="lang-body" id="lang-es"></div>
+          </div>
+        </div>
+        <div class="lang-qa" id="lang-qa">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 14 — AUDIT TRAIL -->
+  <section class="stage" data-stage="14" data-name="audit_trail">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">14</span>
+        <span class="stage-title">Audit Trail</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="audit-doc" id="audit-doc">
+          <div class="audit-doc-page">
+            <div class="audit-doc-header">
+              <div class="audit-doc-title">Audit Trail</div>
+              <div class="audit-doc-sub">NVIDIA · Q4 FY2025 Financial Update</div>
+              <div class="audit-doc-id">DOC-NVDA-2026-0415</div>
+            </div>
+            <div class="audit-doc-body" id="audit-doc-body"></div>
+            <div class="audit-doc-footer">
+              <span>Generated by StockerTV Orchestrator</span>
+              <span>Page 1 of 1</span>
+            </div>
+          </div>
+          <button class="audit-dl" id="audit-dl">Download Audit Trail PDF</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stage 15 — FINAL OUTPUT -->
+  <section class="stage stage--final" data-stage="15" data-name="final_output">
+    <div class="stage-rail"><div class="stage-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body">
+      <div class="stage-header">
+        <span class="stage-num">15</span>
+        <span class="stage-title">Final Output</span>
+        <span class="stage-status">awaiting</span>
+      </div>
+      <div class="stage-content">
+        <div class="final-card">
+          <div class="final-head">
+            <div class="final-reporter">
+              <div class="final-reporter-avatar" data-slot="reporterAvatar"></div>
+              <div>
+                <div class="final-reporter-name" data-slot="reporter">—</div>
+                <div class="final-reporter-role" data-slot="reporterRole">—</div>
+              </div>
+            </div>
+            <div class="final-scores">
+              <div class="final-score"><div class="final-score-k">Quality</div><div class="final-score-v" data-slot="qualityScore">—</div></div>
+              <div class="final-score"><div class="final-score-k">Compliance</div><div class="final-score-v" data-slot="complianceScore">—</div></div>
+            </div>
+          </div>
+          <div class="final-script" data-slot="finalScript"></div>
+          <div class="final-foot">
+            <div class="final-foot-left">
+              <span class="final-pill" data-slot="ticker">—</span>
+              <span class="final-pill" data-slot="exchange">—</span>
+              <span class="final-pill" data-slot="source">—</span>
+            </div>
+            <button class="final-cta" id="final-cta">Generate Avatar Video →</button>
+          </div>
+        </div>
+        <div class="final-headline">
+          <div class="final-headline-k">Article → Script</div>
+          <div class="final-headline-v"><span data-slot="totalSeconds">—</span><span class="final-headline-unit">seconds</span></div>
+          <div class="final-runtime-note">Pipeline runtime: 47 seconds · Demo replay slowed for visibility</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Confetti canvas overlay -->
+<canvas id="confetti" class="confetti"></canvas>
+
+<!-- Replay action bar (shown after demo completes) -->
+<div class="replay-fab" id="replay-fab" hidden>
+  <button class="replay-btn" id="replay-btn" type="button">
+    <span class="replay-icon" aria-hidden="true">↻</span>
+    <span>Replay Demo</span>
+  </button>
+</div>
+
+<!-- ── Avatar video modal ── -->
+<div class="avatar-modal" id="avatar-modal" hidden>
+  <button class="avatar-modal-close" id="avatar-modal-close" aria-label="Close video">×</button>
+  <div class="avatar-modal-stage" id="avatar-modal-stage">
+    <video
+      class="avatar-modal-video"
+      id="avatar-modal-video"
+      controls
+      playsinline
+      preload="none"
+    ></video>
+  </div>
+</div>
+
+<!-- Scripts: showcase data → shared SoundFX → main app. Order matters. -->
+<script src="./pipeline-showcase.js"></script>
+<script src="./soundfx.js"></script>
+<script src="./pipeline.js"></script>
+</body>
+</html>
