@@ -7,31 +7,32 @@
   <title>StockerTV — Live Operations</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./fleet.css">
 </head>
 <body>
 
-<!-- Welcome splash — cinematic title card before the map comes online -->
+<!-- Editorial cold open — Fraunces display line with blur-lift reveal, 7s runtime -->
 <div class="splash" id="splash">
   <div class="splash-nebula" aria-hidden="true"></div>
   <div class="splash-grid" aria-hidden="true"></div>
   <div class="splash-beam" aria-hidden="true"></div>
   <div class="splash-content">
-    <div class="splash-eyebrow">WELCOME TO</div>
-    <div class="splash-title">
-      <span class="splash-word splash-word--stocker">
-        <span style="--i:0">S</span><span style="--i:1">t</span><span style="--i:2">o</span><span style="--i:3">c</span><span style="--i:4">k</span><span style="--i:5">e</span><span style="--i:6">r</span>
-      </span><span class="splash-word splash-word--tv">
-        <span style="--i:7">T</span><span style="--i:8">V</span>
-      </span><span class="splash-word splash-word--demo">
-        <span style="--i:9">D</span><span style="--i:10">e</span><span style="--i:11">m</span><span style="--i:12">o</span>
-      </span>
-    </div>
+    <div class="splash-eyebrow">STOCKERTV · LIVE OPERATIONS</div>
+    <h1 class="splash-headline">
+      <span class="splash-headline-line">Where the market's news</span>
+      <span class="splash-headline-line splash-headline-line--accent">becomes <em>broadcast.</em></span>
+    </h1>
     <div class="splash-accent-line" aria-hidden="true"></div>
     <div class="splash-sub">
       <span class="splash-sub-dot" aria-hidden="true"></span>
-      Live Operations · 89 Exchanges · 32,190 Companies
+      89 Exchanges · 32,190 Companies · Live
+    </div>
+    <div class="splash-footnote">
+      <span class="splash-footnote-ts" id="splash-timestamp">—</span>
+      <span class="splash-footnote-sep">·</span>
+      <span class="splash-footnote-label">Pre-market intelligence active</span>
     </div>
   </div>
 </div>

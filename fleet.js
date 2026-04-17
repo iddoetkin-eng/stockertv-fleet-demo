@@ -800,6 +800,8 @@
   }
 
   // ── Clock (UTC) ──────────────────────────────────────────────────────
+  // Also freezes the boot-time timestamp into the splash footnote — it reads
+  // "14:32:07 UTC · 17 APR 2026" and anchors the cold open to a real moment.
   function startClock() {
     const clockEl = $("#meta-clock");
     const tick = () => {
@@ -811,6 +813,19 @@
     };
     tick();
     setInterval(tick, 1000);
+
+    // One-shot splash timestamp (frozen at boot)
+    const splashTs = $("#splash-timestamp");
+    if (splashTs) {
+      const d = new Date();
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mm = String(d.getUTCMinutes()).padStart(2, "0");
+      const ss = String(d.getUTCSeconds()).padStart(2, "0");
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const mon = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"][d.getUTCMonth()];
+      const yyyy = d.getUTCFullYear();
+      splashTs.textContent = `${hh}:${mm}:${ss} UTC · ${dd} ${mon} ${yyyy}`;
+    }
   }
 
   // ── Event wiring ─────────────────────────────────────────────────────

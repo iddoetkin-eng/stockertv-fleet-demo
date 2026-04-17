@@ -766,7 +766,7 @@
     const ctx = canvas.getContext("2d");
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-    const colors = ["#22c55e", "#4a9eff", "#f59e0b", "#e6e6ee"];
+    const colors = ["#22c55e", "#FF7A59", "#D4A574", "#e6e6ee"];
     const N = 120;
     const parts = Array.from({ length: N }, () => ({
       x: window.innerWidth / 2 + (Math.random() - 0.5) * 200,

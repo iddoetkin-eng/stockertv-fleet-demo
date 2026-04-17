@@ -15,11 +15,16 @@
   --text-2:       #9e9eb4;
   --text-3:       #6b6b80;
 
-  /* Cool accent — used sparingly, for interactive + informational emphasis */
-  --accent:       #4a9eff;
-  --accent-2:     #6db4ff;
-  --accent-soft:  rgba(74, 158, 255, 0.16);
-  --accent-glow:  rgba(74, 158, 255, 0.45);
+  /* Editorial salmon — the identity color. Used sparingly, for interactive + emphasis.
+     Blue remains available as a regional/informational cue on the map only. */
+  --accent:       #FF7A59;
+  --accent-2:     #FFA68C;
+  --accent-soft:  rgba(255, 122, 89, 0.16);
+  --accent-glow:  rgba(255, 122, 89, 0.45);
+
+  /* Map/regional blue — scoped to geographic signal, not brand */
+  --map-blue:     #4a9eff;
+  --map-blue-2:   #FFA68C;
 
   /* Lit palette — softer, richer than Tailwind defaults */
   --green:        #34D399;
@@ -39,16 +44,17 @@
   --purple:       #A78BFA;
 
   /* Reporter palette (kept for brand associations) */
-  --reporter-gerardo: #4a9eff;
+  --reporter-gerardo: #60A5FA;
   --reporter-liam:    #34D399;
   --reporter-annie:   #f59e0b;
   --reporter-sophia:  #A78BFA;
   --reporter-maya:    #ec4899;
 
-  /* Typography */
+  /* Typography — editorial display voice via Fraunces (variable serif with opsz axis) */
   --mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --display: 'Geist', 'Space Grotesk', 'Outfit', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --serif:   'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+  --display: 'Fraunces', 'Geist', 'Space Grotesk', 'Outfit', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --fs-display: 64px;
   --fs-h1:      40px;
@@ -82,9 +88,24 @@
 
 * { box-sizing: border-box; }
 
+/* ── Utility: editorial lit-edge hairline ──────────────────────────────
+   Apply `.lit-edge` to any relatively-positioned card surface. Produces a
+   1px top-edge gradient that reads as "lit from above" — the single depth
+   signal replacing heavy drop shadows. */
+.lit-edge { position: relative; }
+.lit-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0 1px auto 1px;
+  height: 1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 18%, rgba(255, 255, 255, 0.1) 82%, transparent);
+  pointer-events: none;
+}
+
 /* ── Global selection + scrollbar + focus ─────────────────────────────── */
 ::selection {
-  background: rgba(74, 158, 255, 0.25);
+  background: rgba(255, 122, 89, 0.25);
   color: #fff;
 }
 ::-webkit-scrollbar { width: 6px; }
@@ -93,10 +114,11 @@
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.35);
+  box-shadow: 0 0 0 3px rgba(255, 122, 89, 0.35);
 }
 
 html, body {
+  font-variant-numeric: tabular-nums;
   margin: 0;
   padding: 0;
   background: var(--bg);
@@ -152,10 +174,10 @@ body::after {
   background: rgba(12, 12, 20, 0.65);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(74, 158, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 122, 89, 0.15);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 1px 0 rgba(74, 158, 255, 0.12),
+    0 1px 0 rgba(255, 122, 89, 0.12),
     0 8px 32px rgba(0, 0, 0, 0.45);
   height: var(--topbar-h);
   z-index: 30;
@@ -324,17 +346,17 @@ body::after {
 .demo-link {
   color: #fff;
   border: 1px solid transparent;
-  background: linear-gradient(180deg, #5ba8ff 0%, var(--accent) 100%);
+  background: linear-gradient(180deg, #FF6040 0%, var(--accent) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 2px 6px rgba(74, 158, 255, 0.4);
+    0 2px 6px rgba(255, 122, 89, 0.4);
 }
 .demo-link:hover {
   color: #fff;
-  background: linear-gradient(180deg, #6db4ff 0%, #5ba8ff 100%);
+  background: linear-gradient(180deg, #FFA68C 0%, #FF6040 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 6px 16px rgba(74, 158, 255, 0.6);
+    0 6px 16px rgba(255, 122, 89, 0.6);
   transform: translateY(-1px) scale(1.02);
 }
 
@@ -377,7 +399,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(74, 158, 255, 0.07), transparent 60%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 122, 89, 0.07), transparent 60%),
     radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
   z-index: 1;
 }
@@ -423,8 +445,8 @@ body::after {
   top: 0;
   height: 1px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.35) 50%, transparent);
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
+  background: linear-gradient(90deg, transparent, rgba(255, 122, 89, 0.35) 50%, transparent);
+  box-shadow: 0 0 8px rgba(255, 122, 89, 0.3);
   z-index: 4;
   animation: grid-travel 10s linear infinite;
 }
@@ -446,12 +468,12 @@ body::after {
 
 /* Continents — soft blue edge glow */
 .map-continents path {
-  fill: rgba(74, 158, 255, 0.14);
+  fill: rgba(255, 122, 89, 0.14);
   stroke: rgba(110, 110, 130, 0.42);
   stroke-width: 0.25;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 2px rgba(74, 158, 255, 0.35));
+  filter: drop-shadow(0 0 2px rgba(255, 122, 89, 0.35));
 }
 
 /* Latitude / longitude grid */
@@ -487,8 +509,8 @@ body::after {
   0%, 100% { opacity: 0.90; }
   50%      { opacity: 0.94; }
 }
-.map-dots .ex-dot--major  { filter: drop-shadow(0 0 1.2px rgba(74, 158, 255, 0.75)); }
-.map-dots .ex-dot--region { filter: drop-shadow(0 0 0.8px rgba(74, 158, 255, 0.55)); }
+.map-dots .ex-dot--major  { filter: drop-shadow(0 0 1.2px rgba(255, 122, 89, 0.75)); }
+.map-dots .ex-dot--region { filter: drop-shadow(0 0 0.8px rgba(255, 122, 89, 0.55)); }
 .map-dots .ex-dot--closed { opacity: 0.6; }
 .ex-dot-group:hover .ex-dot { fill: var(--accent-2); }
 
@@ -609,7 +631,7 @@ body::after {
   box-shadow:
     0 0 0 1px var(--accent-soft),
     0 8px 16px rgba(0, 0, 0, 0.45),
-    0 0 14px rgba(74, 158, 255, 0.35);
+    0 0 14px rgba(255, 122, 89, 0.35);
   pointer-events: auto;
   cursor: pointer;
   will-change: transform, opacity;
@@ -671,13 +693,13 @@ body::after {
 }
 .map-hero-title {
   font-family: var(--display);
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: rgba(230, 230, 238, 0.82);
+  font-size: 44px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(245, 230, 211, 0.92);
   line-height: 1;
-  text-shadow: 0 0 60px rgba(74, 158, 255, 0.15);
+  text-shadow: 0 0 60px rgba(255, 122, 89, 0.15);
+  font-variation-settings: "opsz" 96, "SOFT" 50;
 }
 .map-hero-sub {
   font-family: var(--mono);
@@ -710,7 +732,7 @@ body::after {
   border-radius: 50%;
   background: rgba(230, 230, 238, 0.65);
 }
-.legend-dot--major    { width: 8px; height: 8px; box-shadow: 0 0 4px rgba(74, 158, 255, 0.5); }
+.legend-dot--major    { width: 8px; height: 8px; box-shadow: 0 0 4px rgba(255, 122, 89, 0.5); }
 .legend-dot--regional { width: 4px; height: 4px; }
 .legend-dot--minor    { width: 4px; height: 4px; opacity: 0.7; }
 .legend-arc {
@@ -860,7 +882,7 @@ body::after {
   transition: opacity 160ms var(--ease-enter);
 }
 .feed-list li:hover {
-  background: rgba(74, 158, 255, 0.08);
+  background: rgba(255, 122, 89, 0.08);
   transform: translateX(2px);
 }
 .feed-list li:hover::before { opacity: 1; }
@@ -952,29 +974,39 @@ body::after {
 .reporter-row .rcount { color: var(--text); font-weight: 700; font-size: 11px; }
 
 /* ── Newsroom ticker — glass (L2) ──────────────────────────────────────── */
+/* Newsroom ticker — promoted to editorial hero element (Bloomberg-style type mix) */
 .news-ticker {
   height: var(--ticker-h);
-  background: rgba(12, 12, 20, 0.65);
+  background: rgba(12, 12, 20, 0.72);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-top: 1px solid rgba(74, 158, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 -4px 20px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   position: relative;
   z-index: 30;
   padding: 0;
 }
+/* Top-edge hairline highlight — the single depth signal */
+.news-ticker::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent);
+  pointer-events: none;
+}
 .news-ticker-track {
   display: inline-flex;
   align-items: center;
-  gap: 40px;
+  gap: 36px;
   white-space: nowrap;
   height: 100%;
   padding: 0 28px;
-  font-family: var(--mono);
-  font-size: 12px;
+  font-family: var(--sans);
+  font-size: 13px;
   color: var(--text-2);
   animation: news-scroll 80s linear infinite;
 }
@@ -982,14 +1014,38 @@ body::after {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.news-item { display: inline-flex; align-items: center; gap: 8px; }
-.news-item-ticker { color: var(--accent); font-weight: 600; letter-spacing: 0.2px; }
-.news-item-sep { color: var(--text-3); }
-.news-item.news-item--active {
-  color: var(--accent-2);
-  text-shadow: 0 0 12px var(--accent-glow), 0 0 22px var(--accent-glow);
+.news-item { display: inline-flex; align-items: center; gap: 10px; }
+.news-item-ticker {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  padding: 2px 7px;
+  border: 1px solid rgba(255, 122, 89, 0.22);
+  border-radius: 3px;
+  background: rgba(255, 122, 89, 0.04);
 }
-.news-item.news-item--active .news-item-ticker { color: #fff; }
+.news-item-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--warm-white);
+  letter-spacing: 0.005em;
+  font-variation-settings: "opsz" 14, "SOFT" 30;
+}
+.news-item-sep { color: var(--gold); opacity: 0.45; font-size: 10px; }
+.news-item.news-item--active .news-item-ticker {
+  background: var(--accent);
+  color: #0a0a0f;
+  border-color: var(--accent);
+}
+.news-item.news-item--active .news-item-text {
+  color: #fff;
+  text-shadow: 0 0 12px var(--accent-glow);
+}
 
 /* ── Drill-down modal — L3 depth ───────────────────────────────────────── */
 .drill-modal {
@@ -1013,7 +1069,7 @@ body::after {
   border: 1px solid var(--border-soft);
   border-radius: var(--r-lg);
   padding: 24px 28px;
-  box-shadow: var(--shadow-l3), 0 0 60px rgba(74, 158, 255, 0.12);
+  box-shadow: var(--shadow-l3), 0 0 60px rgba(255, 122, 89, 0.12);
   animation: drill-stage-in 400ms var(--ease-enter);
   display: flex; flex-direction: column; gap: 16px;
 }
@@ -1064,8 +1120,8 @@ body::after {
 .drill-step--active {
   opacity: 1;
   border-color: var(--accent);
-  background: linear-gradient(180deg, rgba(74, 158, 255, 0.08), var(--bg-elev));
-  box-shadow: 0 0 0 1px var(--accent-soft), 0 4px 18px rgba(74, 158, 255, 0.18);
+  background: linear-gradient(180deg, rgba(255, 122, 89, 0.08), var(--bg-elev));
+  box-shadow: 0 0 0 1px var(--accent-soft), 0 4px 18px rgba(255, 122, 89, 0.18);
 }
 .drill-step--done { opacity: 1; border-color: var(--green-soft); }
 .drill-step--done .drill-step-icon { color: var(--green); }
@@ -1278,7 +1334,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 800px 500px at 30% 30%, rgba(74, 158, 255, 0.1), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 30% 30%, rgba(255, 122, 89, 0.1), transparent 60%),
     radial-gradient(ellipse 600px 400px at 75% 70%, rgba(168, 85, 247, 0.07), transparent 60%),
     radial-gradient(ellipse 500px 300px at 50% 90%, rgba(52, 211, 153, 0.04), transparent 60%);
   animation: nebula-drift 36s var(--ease-pulse) infinite alternate;
@@ -1312,8 +1368,8 @@ body::after {
   transform: translateY(-50%);
   width: 30%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.5), transparent);
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.6);
+  background: linear-gradient(90deg, transparent, rgba(255, 122, 89, 0.5), transparent);
+  box-shadow: 0 0 8px rgba(255, 122, 89, 0.6);
   opacity: 0;
   left: -30%;
   animation: beam-sweep 500ms var(--ease-enter) 3000ms forwards;
@@ -1337,43 +1393,67 @@ body::after {
 }
 .splash-eyebrow {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 11px;
   text-transform: uppercase;
   color: var(--warm-white);
-  opacity: 0.52;
-  letter-spacing: 5px;
-  animation: splash-fade-in 700ms var(--ease-enter) 1000ms both;
+  opacity: 0;
+  letter-spacing: 0.3em;
+  animation: splash-fade-in 700ms var(--ease-enter) 600ms forwards;
 }
 
-/* Title — letter-by-letter reveal */
-.splash-title {
+/* Editorial headline — Fraunces display, blur-lift reveal by line */
+.splash-headline {
   font-family: var(--display);
-  font-size: 80px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  text-shadow: 0 0 60px rgba(74, 158, 255, 0.15);
+  font-size: clamp(40px, 6.2vw, 80px);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-align: center;
+  color: var(--warm-white);
+  text-shadow: 0 0 80px rgba(255, 122, 89, 0.18);
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  max-width: 920px;
+  padding: 0 24px;
 }
-.splash-word {
-  display: inline-block;
-}
-/* Explicit letter colors — background-clip gradients don't cascade into
-   per-letter child spans reliably, so color each word directly. */
-.splash-word--stocker { color: #ffffff; }
-.splash-word--tv      { color: #888888; margin-left: 0; }
-.splash-word--demo    { color: var(--accent); margin-left: 20px; }
-.splash-title .splash-word > span {
-  display: inline-block;
+.splash-headline-line {
+  display: block;
   opacity: 0;
-  transform: translateY(8px);
-  animation: letter-land 400ms var(--ease-enter) forwards;
-  animation-delay: calc(1800ms + (var(--i) * 40ms));
+  transform: translateY(14px);
+  filter: blur(8px);
+  animation: splash-headline-rise 1100ms var(--ease-enter) forwards;
 }
-@keyframes letter-land {
-  0%   { opacity: 0; transform: translateY(8px); filter: brightness(2.2); }
-  50%  { opacity: 1; transform: translateY(-1px); filter: brightness(1.6); }
-  100% { opacity: 1; transform: translateY(0);    filter: brightness(1); }
+.splash-headline-line:nth-child(1) { animation-delay: 1100ms; }
+.splash-headline-line:nth-child(2) { animation-delay: 1900ms; }
+.splash-headline-line--accent em {
+  font-style: italic;
+  color: var(--accent);
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  text-shadow: 0 0 40px rgba(255, 122, 89, 0.35);
 }
+@keyframes splash-headline-rise {
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(8px); }
+  40%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* Editorial footnote — UTC timestamp + standing dek */
+.splash-footnote {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: splash-sub-in 700ms var(--ease-enter) 4100ms forwards;
+}
+.splash-footnote-ts { color: var(--warm-white); font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }
+.splash-footnote-sep { color: var(--text-3); opacity: 0.5; }
+.splash-footnote-label { color: var(--text-2); }
 
 .splash-accent-line {
   height: 2px;
@@ -1392,7 +1472,7 @@ body::after {
 .splash-sub {
   font-family: var(--mono);
   font-size: var(--fs-body);
-  color: rgba(74, 158, 255, 0.72);
+  color: rgba(255, 122, 89, 0.72);
   letter-spacing: 0.5px;
   display: inline-flex;
   align-items: center;
