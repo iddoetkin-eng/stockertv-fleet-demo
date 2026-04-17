@@ -858,6 +858,30 @@
       if (!now) window.SoundFX.playClick();
     });
 
+    // Theme toggle — light/dark, persisted to localStorage. Pre-paint script
+    // in <head> has already applied the persisted theme; we just wire the
+    // click to flip and update meta theme-color.
+    const themeBtn = $("#theme-toggle");
+    if (themeBtn) {
+      const htmlEl = document.documentElement;
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      const syncLabel = () => {
+        const t = htmlEl.dataset.theme || "dark";
+        themeBtn.setAttribute(
+          "aria-label",
+          t === "light" ? "Switch to dark mode" : "Switch to light mode"
+        );
+      };
+      syncLabel();
+      themeBtn.addEventListener("click", () => {
+        const next = (htmlEl.dataset.theme === "light") ? "dark" : "light";
+        htmlEl.dataset.theme = next;
+        if (metaTheme) metaTheme.setAttribute("content", next === "light" ? "#FAF7F2" : "#0A0B0F");
+        try { localStorage.setItem("stv-theme", next); } catch (e) {}
+        syncLabel();
+      });
+    }
+
     // Audit toggle — dims map/rail/ticker; highlights in-flight cards
     // (red alarm pulse) and feed entries that were flagged as rewritten.
     const auditBtn = $("#audit-toggle");

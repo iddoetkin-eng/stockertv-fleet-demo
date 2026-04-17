@@ -4,9 +4,11 @@
    ────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  --bg:           #0a0a0f;
+  color-scheme: dark;
+
+  --bg:           #0A0B0F;
   --bg-elev:     #0e0e16;
-  --surface:     #12121a;
+  --surface:     #111318;
   --surface-2:   #181826;
   --border:      #1e1e2e;
   --border-soft: #2a2a3d;
@@ -14,13 +16,21 @@
   --text-2:      #9e9eb4;
   --text-3:      #6b6b80;
 
+  /* Abstract surface tokens — flip per theme */
+  --hairline:       rgba(255, 255, 255, 0.06);
+  --hairline-bold:  rgba(255, 255, 255, 0.12);
+  --lit-edge-color: rgba(255, 255, 255, 0.1);
+  --glass-bg:       rgba(12, 12, 20, 0.65);
+  --glass-bg-deep:  rgba(8, 8, 12, 0.5);
+  --scrim:          rgba(6, 6, 10, 0.78);
+
   /* Editorial salmon — identity color. Blue remains available as map-blue for regional cues. */
   --accent:      #FF7A59;
   --accent-2:    #FFA68C;
   --accent-soft: rgba(255, 122, 89, 0.16);
   --accent-glow: rgba(255, 122, 89, 0.45);
   --map-blue:    #4a9eff;
-  --map-blue-2:  #FFA68C;
+  --map-blue-2:  #6db4ff;
 
   /* Lit palette — softer, richer than Tailwind defaults */
   --green:       #34D399;
@@ -69,6 +79,53 @@
   --ease-enter: cubic-bezier(.22, .94, .3, 1);
   --ease-exit:  cubic-bezier(.4, 0, 1, 1);
   --ease-pulse: cubic-bezier(.45, 0, .55, 1);
+}
+
+/* ── Light mode — editorial paper palette ─────────────────────────────── */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg:           #FAF7F2;
+  --bg-elev:      #FFFFFF;
+  --surface:      #FFFFFF;
+  --surface-2:    #F5F0E8;
+  --border:       #E6DFD3;
+  --border-soft:  #D6CEBE;
+  --text:         #1A1815;
+  --text-2:       #5A5550;
+  --text-3:       #8C857E;
+
+  --hairline:       rgba(26, 24, 21, 0.08);
+  --hairline-bold:  rgba(26, 24, 21, 0.16);
+  --lit-edge-color: rgba(26, 24, 21, 0.06);
+  --glass-bg:       rgba(255, 253, 250, 0.82);
+  --glass-bg-deep:  rgba(250, 247, 242, 0.88);
+  --scrim:          rgba(26, 24, 21, 0.38);
+
+  --accent:       #C74B28;
+  --accent-2:     #FF7A59;
+  --accent-soft:  rgba(199, 75, 40, 0.1);
+  --accent-glow:  rgba(199, 75, 40, 0.32);
+
+  --green:        #0D9C6E;
+  --green-soft:   rgba(13, 156, 110, 0.12);
+  --green-glow:   rgba(13, 156, 110, 0.35);
+
+  --red:          #D93030;
+  --red-soft:     rgba(217, 48, 48, 0.12);
+  --red-glow:     rgba(217, 48, 48, 0.35);
+
+  --amber:        #9D6700;
+  --amber-soft:   rgba(157, 103, 0, 0.14);
+
+  --gold:         #8A5E2B;
+  --warm-white:   #2A2520;
+
+  --inactive:     #D6CEBE;
+
+  --shadow-l1:   0 1px 2px rgba(26, 24, 21, 0.06);
+  --shadow-l2:   0 2px 8px rgba(26, 24, 21, 0.06), 0 1px 3px rgba(26, 24, 21, 0.04);
+  --shadow-l3:   0 16px 48px rgba(26, 24, 21, 0.12), 0 0 0 1px rgba(26, 24, 21, 0.05);
 }
 
 * { box-sizing: border-box; }
@@ -224,14 +281,14 @@ body::before {
   align-items: center;
   justify-content: space-between;
   padding: 14px 28px;
-  background: rgba(12, 12, 20, 0.65);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 122, 89, 0.15);
+  border-bottom: 1px solid var(--accent-soft);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 var(--lit-edge-color),
     0 1px 0 rgba(255, 122, 89, 0.12),
-    0 8px 32px rgba(0, 0, 0, 0.35);
+    var(--shadow-l2);
 }
 
 /* Reusable brand wordmark — subtle gradient replaces flat white */
@@ -308,6 +365,42 @@ body::before {
 .sound-toggle[data-state="on"]  .sound-toggle-icon--off,
 .sound-toggle[data-state="off"] .sound-toggle-icon--on { display: none; }
 .sound-toggle[data-state="off"] { color: var(--text-3); }
+
+/* Theme toggle — mirrors sound-toggle; moon in dark, sun in light */
+.theme-toggle {
+  appearance: none;
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  color: var(--text-2);
+  cursor: pointer;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
+    var(--surface-2);
+  border: 1px solid var(--border-soft);
+  box-shadow:
+    inset 0 1px 0 var(--lit-edge-color),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+  transition:
+    color 160ms var(--ease-enter),
+    border-color 160ms var(--ease-enter),
+    background 160ms var(--ease-enter),
+    box-shadow 160ms var(--ease-enter),
+    transform 120ms var(--ease-enter);
+}
+.theme-toggle:hover {
+  color: var(--accent-2);
+  border-color: var(--accent);
+  transform: translateY(-1px) scale(1.02);
+}
+.theme-toggle-icon { width: 15px; height: 15px; display: block; }
+:root[data-theme="dark"]  .theme-toggle-icon--sun,
+:root                     .theme-toggle-icon--sun   { display: none; }
+:root[data-theme="light"] .theme-toggle-icon--moon  { display: none; }
+:root[data-theme="light"] .theme-toggle-icon--sun   { display: block; }
 
 /* ── FLEET link (topbar — back to Fleet View) ──────────────────────────── */
 .fleet-link {
@@ -478,7 +571,7 @@ body::before {
   inset: 0 1px auto 1px;
   height: 1px;
   border-radius: var(--r-lg) var(--r-lg) 0 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0.08) 82%, transparent);
+  background: linear-gradient(90deg, transparent, var(--lit-edge-color) 18%, var(--lit-edge-color) 82%, transparent);
   pointer-events: none;
 }
 .stage--active .stage-body {
@@ -1210,7 +1303,7 @@ body::before {
   inset: 0 1px auto 1px;
   height: 1px;
   border-radius: var(--r-md) var(--r-md) 0 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent);
+  background: linear-gradient(90deg, transparent, var(--lit-edge-color) 20%, var(--lit-edge-color) 80%, transparent);
   pointer-events: none;
 }
 
@@ -1877,19 +1970,35 @@ body::before {
   text-transform: uppercase;
 }
 
-/* ── EXCEEDS COMPLIANCE THRESHOLD banner ───────────────────────────────── */
+/* ── EXCEEDS COMPLIANCE THRESHOLD banner — gold treatment ──────────────
+   Gold now signals "achievement / threshold exceeded" across the product.
+   Was green before Wave 4; shifted to gold so achievement reads distinct
+   from "passed" (green). */
 .dual-exceeds {
-  margin-top: 4px;
+  margin-top: 6px;
   text-align: center;
   font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: 2px;
-  color: var(--green);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
   opacity: 0;
   transition: opacity 400ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+  padding: 6px 12px;
+  border: 1px solid rgba(212, 165, 116, 0.25);
+  border-radius: 999px;
+  background: rgba(212, 165, 116, 0.06);
+}
+[data-theme="light"] .dual-exceeds {
+  border-color: rgba(138, 94, 43, 0.28);
+  background: rgba(138, 94, 43, 0.06);
 }
 .dual-exceeds--shown { opacity: 1; }
-.dual-exceeds::before { content: "✓ "; }
+.dual-exceeds::before { content: "★"; font-size: 10px; line-height: 1; }
 
 /* ── Stage 11 script dim (spotlight on violations) ─────────────────────── */
 .redpass-script { transition: color 400ms ease; }
@@ -2180,3 +2289,35 @@ body::before {
   .reporters { grid-template-columns: 1fr; }
   .audit-doc-page { padding: 14px 12px; }
 }
+
+/* ── Light-mode specific overrides ───────────────────────────────────── */
+[data-theme="light"] body::before {
+  background-image:
+    radial-gradient(ellipse 600px 400px at 0% 100%, rgba(199, 75, 40, 0.035), transparent 70%),
+    radial-gradient(ellipse 500px 350px at 100% 0%, rgba(13, 156, 110, 0.025), transparent 70%);
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(26, 24, 21, 0.12); }
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(26, 24, 21, 0.24); }
+[data-theme="light"] ::selection { background: rgba(199, 75, 40, 0.18); color: var(--text); }
+[data-theme="light"] .launch-bg-line line,
+[data-theme="light"] .launch-bg-dots circle { stroke: var(--border-soft); fill: var(--border-soft); }
+[data-theme="light"] .dual-reveal-number,
+[data-theme="light"] .launch-title,
+[data-theme="light"] .stage-title,
+[data-theme="light"] .bell-lockup-name {
+  /* In light mode --warm-white resolves to #2A2520 (editorial dark tone) */
+  color: var(--warm-white);
+  text-shadow: none;
+}
+[data-theme="light"] .brand-mark { color: #FFFFFF; }
+[data-theme="light"] .stage-dot { background: var(--border-soft); box-shadow: 0 0 0 2px var(--border-soft); }
+[data-theme="light"] .cta-primary { color: #FFFFFF; }
+/* Final-card glow is very green-heavy; soften for paper */
+[data-theme="light"] .final-card {
+  box-shadow: 0 0 0 1px var(--green-soft), var(--shadow-l2);
+}
+[data-theme="light"] .avatar-modal { background: var(--scrim); }
+[data-theme="light"] .violation { color: var(--red); }
+/* Stage 12 reveal — ensure threshold amber ticks and scale labels read on paper */
+[data-theme="light"] .dual-reveal-pass { color: var(--amber); }
+[data-theme="light"] .dual-threshold { box-shadow: 0 0 6px rgba(181, 119, 10, 0.35); }

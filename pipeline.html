@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0A0B0F" id="theme-color-meta">
   <title>StockerTV — Pipeline</title>
+  <!-- Apply persisted theme synchronously BEFORE the stylesheet loads. -->
+  <script>
+    (function(){try{var t=localStorage.getItem('stv-theme')||'dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='dark';}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap">
@@ -27,6 +32,24 @@
     </div>
     <a class="fleet-link" href="./index.html" title="Back to Fleet View">FLEET</a>
     <span class="meta-pill meta-pill--ghost" id="meta-clock">00:00.0</span>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark mode">
+      <svg class="theme-toggle-icon theme-toggle-icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 12.5A8.5 8.5 0 1 1 11.5 4a6.5 6.5 0 0 0 8.5 8.5z" fill="currentColor"/>
+      </svg>
+      <svg class="theme-toggle-icon theme-toggle-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        <g stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none">
+          <line x1="12" y1="2.5" x2="12" y2="5"/>
+          <line x1="12" y1="19" x2="12" y2="21.5"/>
+          <line x1="2.5" y1="12" x2="5" y2="12"/>
+          <line x1="19" y1="12" x2="21.5" y2="12"/>
+          <line x1="5.2" y1="5.2" x2="7" y2="7"/>
+          <line x1="17" y1="17" x2="18.8" y2="18.8"/>
+          <line x1="5.2" y1="18.8" x2="7" y2="17"/>
+          <line x1="17" y1="7" x2="18.8" y2="5.2"/>
+        </g>
+      </svg>
+    </button>
     <button class="sound-toggle" id="sound-toggle" type="button" data-state="on" aria-label="Toggle sound" title="Toggle sound">
       <svg class="sound-toggle-icon sound-toggle-icon--on" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M11 5L6 9H3v6h3l5 4V5z" fill="currentColor"/>

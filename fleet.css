@@ -4,16 +4,30 @@
    ────────────────────────────────────────────────────────────────────────── */
 
 :root {
+  color-scheme: dark;
+
   /* Foundation */
-  --bg:           #0a0a0f;
+  --bg:           #0A0B0F;
   --bg-elev:      #0e0e16;
-  --surface:      #12121a;
+  --surface:      #111318;
   --surface-2:    #181826;
   --border:       #1e1e2e;
   --border-soft:  #2a2a3d;
   --text:         #e6e6ee;
   --text-2:       #9e9eb4;
   --text-3:       #6b6b80;
+
+  /* Abstract surface tokens — flip per theme */
+  --hairline:       rgba(255, 255, 255, 0.06);
+  --hairline-bold:  rgba(255, 255, 255, 0.12);
+  --lit-edge-color: rgba(255, 255, 255, 0.1);
+  --glass-bg:       rgba(12, 12, 20, 0.65);
+  --glass-bg-deep:  rgba(8, 8, 12, 0.5);
+  --scrim:          rgba(6, 6, 10, 0.78);
+  --vignette-inner: rgba(255, 122, 89, 0.07);
+  --vignette-outer: rgba(0, 0, 0, 0.55);
+  --body-grad-1:    rgba(255, 122, 89, 0.03);
+  --body-grad-2:    rgba(52, 211, 153, 0.02);
 
   /* Editorial salmon — the identity color. Used sparingly, for interactive + emphasis.
      Blue remains available as a regional/informational cue on the map only. */
@@ -24,7 +38,7 @@
 
   /* Map/regional blue — scoped to geographic signal, not brand */
   --map-blue:     #4a9eff;
-  --map-blue-2:   #FFA68C;
+  --map-blue-2:   #6db4ff;
 
   /* Lit palette — softer, richer than Tailwind defaults */
   --green:        #34D399;
@@ -86,6 +100,74 @@
   --ticker-h:          38px;
 }
 
+/* ── Light mode — editorial paper palette ───────────────────────────────
+   Activated via <html data-theme="light">. Accent + gold darken to meet
+   WCAG AA against paper; hairlines flip to black-at-low-alpha; glass
+   surfaces become near-white with soft warmth. The salmon identity is
+   preserved (deeper salmon for contrast). */
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Foundation — paper tones, not pure white */
+  --bg:           #FAF7F2;
+  --bg-elev:      #FFFFFF;
+  --surface:      #FFFFFF;
+  --surface-2:    #F5F0E8;
+  --border:       #E6DFD3;
+  --border-soft:  #D6CEBE;
+  --text:         #1A1815;
+  --text-2:       #5A5550;
+  --text-3:       #8C857E;
+
+  /* Abstract tokens */
+  --hairline:       rgba(26, 24, 21, 0.08);
+  --hairline-bold:  rgba(26, 24, 21, 0.16);
+  --lit-edge-color: rgba(26, 24, 21, 0.06);
+  --glass-bg:       rgba(255, 253, 250, 0.82);
+  --glass-bg-deep:  rgba(250, 247, 242, 0.88);
+  --scrim:          rgba(26, 24, 21, 0.38);
+  --vignette-inner: rgba(209, 79, 43, 0.05);
+  --vignette-outer: rgba(26, 24, 21, 0.06);
+  --body-grad-1:    rgba(209, 79, 43, 0.02);
+  --body-grad-2:    rgba(13, 156, 110, 0.015);
+
+  /* Accent: deeper salmon for contrast on paper (4.8:1 on #FAF7F2 AA) */
+  --accent:       #C74B28;
+  --accent-2:     #FF7A59;
+  --accent-soft:  rgba(199, 75, 40, 0.1);
+  --accent-glow:  rgba(199, 75, 40, 0.32);
+
+  /* Semantic — darker for AA on paper */
+  --green:        #0D9C6E;
+  --green-soft:   rgba(13, 156, 110, 0.12);
+  --green-glow:   rgba(13, 156, 110, 0.35);
+
+  --red:          #D93030;
+  --red-soft:     rgba(217, 48, 48, 0.12);
+  --red-glow:     rgba(217, 48, 48, 0.35);
+
+  /* Amber darkened from #B5770A (4.29:1) to #9D6700 (5.4:1) to pass AA
+     for the small 11px threshold labels in stage-12 dual-reveal-pass */
+  --amber:        #9D6700;
+  --amber-soft:   rgba(157, 103, 0, 0.14);
+
+  /* Gold bronze on paper — 6:1 on #FAF7F2 for eyebrows and achievement text */
+  --gold:         #8A5E2B;
+  --warm-white:   #2A2520;  /* on light, this means "warm dark headline" */
+
+  /* Reporter palette — darker variants for contrast */
+  --reporter-gerardo: #2563EB;
+  --reporter-liam:    #0D9C6E;
+  --reporter-annie:   #B5770A;
+  --reporter-sophia:  #7E3FD6;
+  --reporter-maya:    #C4257A;
+
+  /* Shadow scale — on light we use softer, cooler shadows, not big blacks */
+  --shadow-l1: 0 1px 2px rgba(26, 24, 21, 0.06);
+  --shadow-l2: 0 2px 8px rgba(26, 24, 21, 0.06), 0 1px 3px rgba(26, 24, 21, 0.04);
+  --shadow-l3: 0 16px 48px rgba(26, 24, 21, 0.12), 0 0 0 1px rgba(26, 24, 21, 0.05);
+}
+
 * { box-sizing: border-box; }
 
 /* ── Utility: editorial lit-edge hairline ──────────────────────────────
@@ -99,7 +181,7 @@
   inset: 0 1px auto 1px;
   height: 1px;
   border-radius: inherit;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 18%, rgba(255, 255, 255, 0.1) 82%, transparent);
+  background: linear-gradient(90deg, transparent, var(--lit-edge-color) 18%, var(--lit-edge-color) 82%, transparent);
   pointer-events: none;
 }
 
@@ -171,22 +253,29 @@ body::before {
   from { background-position: 0% 100%, 100% 0%; }
   to   { background-position: 8% 92%, 92% 8%; }
 }
-/* Vignette — dark edges above content */
+/* Vignette — edge darken above content. Dark theme only; in light mode
+   this becomes a very subtle warm edge instead of a dark vignette. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 200;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 55%, var(--vignette-outer) 100%);
 }
 
-/* Reusable brand wordmark — subtle gradient in place of flat white */
+/* Reusable brand wordmark — subtle gradient in place of flat text.
+   Dark: white→gray. Light: editorial dark headline tone. */
 .brand-wordmark {
   background: linear-gradient(180deg, #ffffff 0%, #c4c4d0 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+}
+[data-theme="light"] .brand-wordmark {
+  background: linear-gradient(180deg, #1A1815 0%, #3A3530 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 /* ── Topbar — glass morphism (L2) ──────────────────────────────────────── */
@@ -194,14 +283,14 @@ body::after {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: rgba(12, 12, 20, 0.65);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 122, 89, 0.15);
+  border-bottom: 1px solid var(--accent-soft);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 var(--lit-edge-color),
     0 1px 0 rgba(255, 122, 89, 0.12),
-    0 8px 32px rgba(0, 0, 0, 0.45);
+    var(--shadow-l2);
   height: var(--topbar-h);
   z-index: 30;
 }
@@ -218,8 +307,8 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-  background: rgba(8, 8, 12, 0.5);
+  border-top: 1px solid var(--hairline);
+  background: var(--glass-bg-deep);
   font-family: var(--mono);
   font-size: 11px;
   color: var(--text-2);
@@ -344,24 +433,26 @@ body::after {
     transform 160ms var(--ease-enter);
 }
 .audit-toggle,
-.sound-toggle {
+.sound-toggle,
+.theme-toggle {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
     var(--surface-2);
   border: 1px solid var(--border-soft);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 var(--lit-edge-color),
     var(--shadow-l1);
 }
 .audit-toggle:hover,
-.sound-toggle:hover {
+.sound-toggle:hover,
+.theme-toggle:hover {
   color: var(--accent-2);
   border-color: var(--accent);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%),
     var(--surface-2);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 1px 0 var(--hairline-bold),
     0 4px 12px rgba(0, 0, 0, 0.4);
   transform: translateY(-1px) scale(1.02);
 }
@@ -383,11 +474,30 @@ body::after {
   transform: translateY(-1px) scale(1.02);
 }
 
-.sound-toggle { width: 32px; padding: 0; border-radius: 50%; color: var(--text-2); }
+.sound-toggle { width: 32px; padding: 0; border-radius: 50%; color: var(--text-2); cursor: pointer; }
 .sound-toggle-icon { width: 16px; height: 16px; display: block; }
 .sound-toggle[data-state="on"]  .sound-toggle-icon--off,
 .sound-toggle[data-state="off"] .sound-toggle-icon--on { display: none; }
 .sound-toggle[data-state="off"] { color: var(--text-3); }
+
+/* Theme toggle — mirrors sound-toggle shape; shows moon in dark, sun in light */
+.theme-toggle {
+  width: 32px; height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  color: var(--text-2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle-icon { width: 15px; height: 15px; display: block; }
+/* Dark mode: show moon. Light mode: show sun. No state attribute needed —
+   the [data-theme] on html flips visibility. */
+:root[data-theme="dark"]  .theme-toggle-icon--sun,
+:root                     .theme-toggle-icon--sun   { display: none; }
+:root[data-theme="light"] .theme-toggle-icon--moon  { display: none; }
+:root[data-theme="light"] .theme-toggle-icon--sun   { display: block; }
 
 .audit-toggle[aria-pressed="true"] {
   color: var(--amber);
@@ -836,13 +946,13 @@ body::after {
 .rail {
   width: var(--rail-width);
   flex-shrink: 0;
-  background: rgba(12, 12, 20, 0.65);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 1px solid var(--hairline);
   box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.06),
-    -8px 0 32px rgba(0, 0, 0, 0.35);
+    inset 1px 0 0 var(--lit-edge-color),
+    var(--shadow-l2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -873,6 +983,28 @@ body::after {
   gap: 10px;
   overflow: hidden;
   flex: 1;
+  position: relative;
+}
+/* Empty state — shows before the first completion arrives. Uses :empty
+   so it self-dismisses automatically the moment any <li> is injected. */
+.feed-list:empty::before {
+  content: "Awaiting first completion…";
+  display: block;
+  padding: 14px 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  opacity: 0.6;
+}
+.feed-list:empty::after {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 1px;
+  margin: 4px 4px 0;
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 .feed-list li {
   font-family: var(--mono);
@@ -977,6 +1109,16 @@ body::after {
   flex-direction: column;
   gap: 8px;
 }
+.reporters-list:empty::before {
+  content: "Reporter rankings populate after first script…";
+  display: block;
+  padding: 8px 4px 0;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  opacity: 0.5;
+}
 .reporter-row {
   display: grid;
   grid-template-columns: 56px 1fr auto;
@@ -1000,13 +1142,13 @@ body::after {
 /* Newsroom ticker — promoted to editorial hero element (Bloomberg-style type mix) */
 .news-ticker {
   height: var(--ticker-h);
-  background: rgba(12, 12, 20, 0.72);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--hairline);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 -4px 20px rgba(0, 0, 0, 0.3);
+    inset 0 1px 0 var(--lit-edge-color),
+    var(--shadow-l1);
   overflow: hidden;
   position: relative;
   z-index: 30;
@@ -1018,7 +1160,7 @@ body::after {
   position: absolute;
   inset: 0 0 auto 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent);
+  background: linear-gradient(90deg, transparent, var(--hairline-bold) 20%, var(--hairline-bold) 80%, transparent);
   pointer-events: none;
 }
 .news-ticker-track {
@@ -1075,7 +1217,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: rgba(6, 6, 10, 0.78);
+  background: var(--scrim);
   backdrop-filter: blur(10px);
   display: grid;
   place-items: center;
@@ -1404,7 +1546,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 500;
-  background: #0a0a0f;
+  background: var(--bg);
   display: grid;
   place-items: center;
   pointer-events: auto;
@@ -1707,3 +1849,44 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
   .bell-lockup-name { font-size: 24px; }
   .bell-lockup-verb { font-size: 15px; }
 }
+
+/* ── Light-mode specific overrides ──────────────────────────────────────
+   Elements whose hardcoded values don't flip cleanly via token substitution.
+   Kept in one block so future token passes have a single place to audit. */
+[data-theme="light"] body::before {
+  /* Dark ambient gradient disappears into paper — a much lighter warm wash */
+  background-image:
+    radial-gradient(ellipse 600px 400px at 0% 100%, rgba(199, 75, 40, 0.04), transparent 70%),
+    radial-gradient(ellipse 500px 350px at 100% 0%, rgba(13, 156, 110, 0.025), transparent 70%);
+}
+[data-theme="light"] .splash-nebula,
+[data-theme="light"] .splash-grid,
+[data-theme="light"] .splash-beam {
+  /* Decorative dark-mode atmosphere — invisible/unhelpful on paper */
+  opacity: 0 !important;
+}
+[data-theme="light"] .map-continents path {
+  fill: rgba(199, 75, 40, 0.08);
+  stroke: rgba(26, 24, 21, 0.22);
+}
+[data-theme="light"] .map-grid line { stroke: rgba(26, 24, 21, 0.08); }
+[data-theme="light"] .map-region-label { fill: rgba(26, 24, 21, 0.35); }
+[data-theme="light"] .map-label { fill: rgba(26, 24, 21, 0.65); stroke: rgba(255, 255, 255, 0.85); }
+[data-theme="light"] .map-hero-sub { color: rgba(26, 24, 21, 0.55); }
+[data-theme="light"] .map-legend { color: rgba(26, 24, 21, 0.45); }
+[data-theme="light"] .map-legend .legend-sep { color: rgba(26, 24, 21, 0.25); }
+[data-theme="light"] .brand-mark {
+  /* Keep white-on-salmon for brand recognition even on paper */
+  color: #FFFFFF;
+}
+[data-theme="light"] .tb-v { color: var(--text); }
+[data-theme="light"] .tb-v--green { color: var(--green); }
+[data-theme="light"] .news-item-text,
+[data-theme="light"] .map-hero-title {
+  /* On paper these are near-dark editorial tone via --warm-white override */
+  color: var(--warm-white);
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(26, 24, 21, 0.12); }
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(26, 24, 21, 0.24); }
+[data-theme="light"] ::selection { background: rgba(199, 75, 40, 0.18); color: var(--text); }
+/* Theme toggle button colors handled inline in its own rule via tokens */

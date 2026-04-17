@@ -1260,6 +1260,30 @@
     kbdHelpTimer = setTimeout(() => toast.classList.remove("kbd-help-toast--shown"), 4000);
   }
 
+  // ── Theme toggle — light/dark, localStorage-persisted ──────────────────
+  // Pre-paint script in <head> has already applied the persisted theme.
+  (function wireThemeToggle() {
+    const btn = $("#theme-toggle");
+    if (!btn) return;
+    const htmlEl = document.documentElement;
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const syncLabel = () => {
+      const t = htmlEl.dataset.theme || "dark";
+      btn.setAttribute(
+        "aria-label",
+        t === "light" ? "Switch to dark mode" : "Switch to light mode"
+      );
+    };
+    syncLabel();
+    btn.addEventListener("click", () => {
+      const next = (htmlEl.dataset.theme === "light") ? "dark" : "light";
+      htmlEl.dataset.theme = next;
+      if (metaTheme) metaTheme.setAttribute("content", next === "light" ? "#FAF7F2" : "#0A0B0F");
+      try { localStorage.setItem("stv-theme", next); } catch (e) {}
+      syncLabel();
+    });
+  })();
+
   // ── Sound toggle (topbar) ───────────────────────────────────────────────
   const soundToggle = $("#sound-toggle");
   if (soundToggle) {
