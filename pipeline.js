@@ -18,6 +18,12 @@
   const EASE_EXIT  = "cubic-bezier(.4,0,1,1)";
   const EASE_PULSE = "cubic-bezier(.45,0,.55,1)";
 
+  // ── Reduced motion — matches the CSS media query ────────────────────
+  // Used to gate confetti, spring overshoot, and the internal wait() so the
+  // demo still runs end-to-end under reduced motion but with snapped pacing.
+  const reducedMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function shouldAnimate() { return !reducedMotionMQ.matches; }
+
   // ── SoundFX — shared module, loaded via ./soundfx.js ───────────────────
   // Exposes window.SoundFX. Shared with the Fleet View. We explicitly set
   // the master volume here in case another page has changed it previously.
@@ -42,8 +48,16 @@
     const num   = parseInt(stage.dataset.stage, 10);
     const name  = stage.querySelector(".stage-title")?.textContent || "";
     updateStageTracker({ state: "running", num, name });
+    // Screen-reader announcement — the only way a non-sighted reviewer
+    // experiences stage progression. Polite + atomic so the whole phrase
+    // reads as one announcement.
+    const announcer = $("#stage-announcer");
+    if (announcer) announcer.textContent = `Stage ${num} of 15: ${name}`;
     SoundFX.playTick();
-    stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    stage.scrollIntoView({
+      behavior: shouldAnimate() ? "smooth" : "auto",
+      block: "start"
+    });
   }
   function completeStage(stage) {
     stage.classList.remove("stage--active");
@@ -93,8 +107,13 @@
 
   // Spring-physics count-up for the stage-12 hero reveal. Cubic ease-out for
   // the main reach plus a small sinusoidal overshoot in the final 18%, giving
-  // the numerals a "land-settle" feel rather than a flat asymptote.
+  // the numerals a "land-settle" feel rather than a flat asymptote. Under
+  // reduced motion, snap directly to the target value.
   async function countUpSpring(el, target, durationMs = 1200) {
+    if (!shouldAnimate()) {
+      el.textContent = String(Math.round(target));
+      return;
+    }
     const start = performance.now();
     const from = 0;
     return new Promise((resolve) => {
@@ -799,6 +818,8 @@
 
   // ── Confetti (lightweight, no library) ──────────────────────────────────
   function confettiBurst() {
+    // Celebratory only; skip entirely under reduced motion
+    if (!shouldAnimate()) return;
     const canvas = $("#confetti");
     const ctx = canvas.getContext("2d");
     canvas.width  = window.innerWidth;
@@ -1175,9 +1196,69 @@
     if (!modalStage.contains(e.target)) closeAvatarModal();
   });
 
+  // ── Keyboard shortcuts ──────────────────────────────────────────────
+  // Esc: close avatar modal if open
+  // W:   start the demo (same as Watch Demo button)
+  // R:   replay when demo has completed
+  // M:   toggle sound
+  // ?:   show help toast (bottom-right, auto-dismiss)
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.hidden) closeAvatarModal();
+    // Don't swallow keys when typing into form fields
+    const tag = (e.target && e.target.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) return;
+
+    if (e.key === "Escape") {
+      if (!modal.hidden) closeAvatarModal();
+      return;
+    }
+    if (e.key === "w" || e.key === "W") {
+      const cta = $("#btn-watch-demo");
+      if (cta && !cta.disabled) cta.click();
+      return;
+    }
+    if (e.key === "r" || e.key === "R") {
+      const replay = $("#replay-btn");
+      const fab = $("#replay-fab");
+      if (replay && fab && !fab.hidden) replay.click();
+      return;
+    }
+    if (e.key === "m" || e.key === "M") {
+      const st = $("#sound-toggle");
+      if (st) st.click();
+      return;
+    }
+    if (e.key === "?") {
+      showKbdHelp();
+      return;
+    }
   });
+
+  // ── Keyboard help toast — minimal, auto-dismiss ─────────────────────
+  let kbdHelpTimer = null;
+  function showKbdHelp() {
+    let toast = $("#kbd-help-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "kbd-help-toast";
+      toast.className = "kbd-help-toast";
+      toast.setAttribute("role", "dialog");
+      toast.setAttribute("aria-label", "Keyboard shortcuts");
+      toast.innerHTML = `
+        <div class="kbd-help-title">Keyboard shortcuts</div>
+        <dl class="kbd-help-list">
+          <dt>W</dt><dd>Watch demo</dd>
+          <dt>R</dt><dd>Replay</dd>
+          <dt>M</dt><dd>Toggle sound</dd>
+          <dt>?</dt><dd>Show this help</dd>
+          <dt>Esc</dt><dd>Close video</dd>
+        </dl>
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.classList.add("kbd-help-toast--shown");
+    if (kbdHelpTimer) clearTimeout(kbdHelpTimer);
+    kbdHelpTimer = setTimeout(() => toast.classList.remove("kbd-help-toast--shown"), 4000);
+  }
 
   // ── Sound toggle (topbar) ───────────────────────────────────────────────
   const soundToggle = $("#sound-toggle");

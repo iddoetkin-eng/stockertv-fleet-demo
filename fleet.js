@@ -24,6 +24,14 @@
   const EASE_EXIT  = "cubic-bezier(.4,0,1,1)";
   const EASE_PULSE = "cubic-bezier(.45,0,.55,1)";
 
+  // ── Reduced motion ───────────────────────────────────────────────────
+  // Single source of truth for prefers-reduced-motion. All procedural JS
+  // animations (Web Animations API, timed loops, confetti) must route
+  // through shouldAnimate() — CSS @media (prefers-reduced-motion) handles
+  // declarative animations/transitions separately.
+  const reducedMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function shouldAnimate() { return !reducedMotionMQ.matches; }
+
   // ── Constants ─────────────────────────────────────────────────────────
   const MAP_VB_W = 360;
   const MAP_VB_H = 180;
@@ -916,6 +924,8 @@
   let heartbeatTimer = null;
   function startHeartbeat() {
     if (heartbeatTimer) clearInterval(heartbeatTimer);
+    // Ambient, purely decorative motion — skip entirely under reduced motion
+    if (!shouldAnimate()) return;
     heartbeatTimer = setInterval(runHeartbeat, 60000);
     setTimeout(runHeartbeat, 18000); // fire once early so viewers see it
   }
@@ -1074,6 +1084,9 @@
   function startKioskWatch() {
     if (kioskTimer) clearInterval(kioskTimer);
     lastInteractionAt = performance.now();
+    // Kiosk auto-drills modals unattended — disable under reduced motion,
+    // since unexpected modal pop-ins are a classic accessibility offender.
+    if (!shouldAnimate()) return;
     kioskTimer = setInterval(kioskTick, 3000);
   }
   function noteInteraction() {
@@ -1168,6 +1181,17 @@
   async function runSplash() {
     const splash = $("#splash");
     if (!splash) return;
+    // Under reduced motion, collapse the 7s cold open to a ~900ms fade.
+    // All declarative animation/transition inside is already snapped to
+    // ~0ms by the CSS media query, so the splash content is visible
+    // briefly then exits.
+    if (!shouldAnimate()) {
+      await wait(600);
+      splash.classList.add("splash--exit");
+      await wait(300);
+      splash.remove();
+      return;
+    }
     await wait(6000);
     splash.classList.add("splash--reveal-map");
     await wait(500);

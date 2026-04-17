@@ -114,7 +114,30 @@
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 122, 89, 0.35);
+  box-shadow: 0 0 0 3px rgba(255, 122, 89, 0.55);
+}
+
+/* ── Reduced motion — WCAG 2.3.3 ─────────────────────────────────────────
+   Aggressive snap: any user with prefers-reduced-motion: reduce sees every
+   CSS animation and transition collapse to ~0ms, which leaves the UI in
+   its final state. Procedural JS animations (flight arcs, confetti, etc.)
+   are guarded separately in fleet.js via shouldAnimate(). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Ensure splash reveal end-states are visible even when animation is killed */
+  .splash-headline-line { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .splash-eyebrow, .splash-sub, .splash-footnote { opacity: 1 !important; transform: none !important; }
+  .splash-accent-line { width: 240px !important; opacity: 1 !important; }
+  .splash-beam, .splash-grid, .splash-nebula { animation: none !important; opacity: 0 !important; }
+  /* Bell + kiosk ambient effects off */
+  .dot-idle-breath, .ex-halo, .halo-breathe { animation: none !important; }
 }
 
 html, body {
@@ -1610,4 +1633,77 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
   }
   .tb-v { font-size: 34px; }
   .tb-k { font-size: 11px; }
+}
+
+/* ── Responsive breakpoints ────────────────────────────────────────────
+   Design-system scale: 480 / 768 / 1024. The fleet view is map-first, so
+   the map stays visible at every width — the right rail collapses below
+   it on tablets, some topbar metrics hide on phones, and the splash
+   headline scales down. The map is tight on phones but readable. */
+
+/* Tablet landscape + small laptops */
+@media (max-width: 1024px) {
+  .stage { flex-direction: column; height: auto; min-height: 0; }
+  .map-wrap { min-height: 62vh; flex: 0 0 auto; }
+  .rail {
+    width: 100%;
+    flex: 0 0 auto;
+    max-height: 40vh;
+    min-height: 260px;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .tb-metrics { gap: 18px; }
+  .tb-v { font-size: 22px; }
+  .tb-k { font-size: 10px; }
+  .bell-lockup-name { font-size: 36px; }
+}
+
+/* Tablet portrait + phones landscape */
+@media (max-width: 768px) {
+  .topbar-row--primary { padding: 0 12px; gap: 10px; flex-wrap: wrap; }
+  .brand { min-width: 0; gap: 8px; }
+  .brand-mark { width: 30px; height: 30px; font-size: 11px; }
+  .brand-title { font-size: 14px; }
+  .brand-sub { font-size: 10px; letter-spacing: 1px; }
+  /* Hide the wide metrics row on phones — LIVE + clock + toggles still visible */
+  .tb-metrics { display: none; }
+  .topbar-meta { gap: 6px; flex-wrap: wrap; }
+  .demo-link, .audit-toggle { padding: 4px 10px; font-size: 10px; }
+  .meta-pill { font-size: 10px; padding: 4px 8px; }
+  .map-wrap { min-height: 58vh; }
+  .rail { max-height: 42vh; }
+  .rail-section { padding: 12px; }
+  .news-ticker-track { font-size: 12px; gap: 24px; padding: 0 16px; }
+  .news-item { gap: 8px; }
+  .news-item-ticker { font-size: 10px; padding: 2px 5px; }
+  .news-item-text { font-size: 13px; }
+  .map-hero-title { font-size: 28px; }
+  .map-hero-sub { font-size: 11px; }
+  .map-legend { font-size: 10px; gap: 10px; }
+  .bell-lockup { top: calc(var(--topbar-h) + 10px); }
+  .bell-lockup-name { font-size: 30px; }
+  .bell-lockup-verb { font-size: 18px; }
+  .bell-lockup-time { font-size: 10px; letter-spacing: 0.18em; }
+  .splash-footnote { flex-wrap: wrap; justify-content: center; }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .splash-headline { font-size: 36px; line-height: 1.12; padding: 0 16px; }
+  .splash-eyebrow { letter-spacing: 0.22em; font-size: 10px; }
+  .splash-footnote { font-size: 9.5px; gap: 8px; }
+  .map-hero { top: 12px; left: 14px; }
+  .map-hero-title { font-size: 22px; }
+  .map-legend {
+    bottom: 8px; left: 12px; right: 12px;
+    flex-wrap: wrap;
+    font-size: 9.5px;
+    gap: 8px;
+  }
+  .legend-sep { display: none; }
+  .topbar-row--health { font-size: 10px; padding: 0 8px; }
+  .bell-lockup-name { font-size: 24px; }
+  .bell-lockup-verb { font-size: 15px; }
 }
