@@ -24,6 +24,14 @@
   const EASE_EXIT  = "cubic-bezier(.4,0,1,1)";
   const EASE_PULSE = "cubic-bezier(.45,0,.55,1)";
 
+  // ── Reduced motion ───────────────────────────────────────────────────
+  // Single source of truth for prefers-reduced-motion. All procedural JS
+  // animations (Web Animations API, timed loops, confetti) must route
+  // through shouldAnimate() — CSS @media (prefers-reduced-motion) handles
+  // declarative animations/transitions separately.
+  const reducedMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function shouldAnimate() { return !reducedMotionMQ.matches; }
+
   // ── Constants ─────────────────────────────────────────────────────────
   const MAP_VB_W = 360;
   const MAP_VB_H = 180;
@@ -800,6 +808,8 @@
   }
 
   // ── Clock (UTC) ──────────────────────────────────────────────────────
+  // Also freezes the boot-time timestamp into the splash footnote — it reads
+  // "14:32:07 UTC · 17 APR 2026" and anchors the cold open to a real moment.
   function startClock() {
     const clockEl = $("#meta-clock");
     const tick = () => {
@@ -811,6 +821,19 @@
     };
     tick();
     setInterval(tick, 1000);
+
+    // One-shot splash timestamp (frozen at boot)
+    const splashTs = $("#splash-timestamp");
+    if (splashTs) {
+      const d = new Date();
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mm = String(d.getUTCMinutes()).padStart(2, "0");
+      const ss = String(d.getUTCSeconds()).padStart(2, "0");
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const mon = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"][d.getUTCMonth()];
+      const yyyy = d.getUTCFullYear();
+      splashTs.textContent = `${hh}:${mm}:${ss} UTC · ${dd} ${mon} ${yyyy}`;
+    }
   }
 
   // ── Event wiring ─────────────────────────────────────────────────────
@@ -834,6 +857,30 @@
       soundToggle.dataset.state = now ? "off" : "on";
       if (!now) window.SoundFX.playClick();
     });
+
+    // Theme toggle — light/dark, persisted to localStorage. Pre-paint script
+    // in <head> has already applied the persisted theme; we just wire the
+    // click to flip and update meta theme-color.
+    const themeBtn = $("#theme-toggle");
+    if (themeBtn) {
+      const htmlEl = document.documentElement;
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      const syncLabel = () => {
+        const t = htmlEl.dataset.theme || "dark";
+        themeBtn.setAttribute(
+          "aria-label",
+          t === "light" ? "Switch to dark mode" : "Switch to light mode"
+        );
+      };
+      syncLabel();
+      themeBtn.addEventListener("click", () => {
+        const next = (htmlEl.dataset.theme === "light") ? "dark" : "light";
+        htmlEl.dataset.theme = next;
+        if (metaTheme) metaTheme.setAttribute("content", next === "light" ? "#FAF7F2" : "#0A0B0F");
+        try { localStorage.setItem("stv-theme", next); } catch (e) {}
+        syncLabel();
+      });
+    }
 
     // Audit toggle — dims map/rail/ticker; highlights in-flight cards
     // (red alarm pulse) and feed entries that were flagged as rewritten.
@@ -901,6 +948,8 @@
   let heartbeatTimer = null;
   function startHeartbeat() {
     if (heartbeatTimer) clearInterval(heartbeatTimer);
+    // Ambient, purely decorative motion — skip entirely under reduced motion
+    if (!shouldAnimate()) return;
     heartbeatTimer = setInterval(runHeartbeat, 60000);
     setTimeout(runHeartbeat, 18000); // fire once early so viewers see it
   }
@@ -983,30 +1032,64 @@
       }
     }
   }
+  // The bell is the site's single time-aware beat — it fires every time a
+  // real UTC trading session flips state. The upgrade turns a 1.4s audio cue
+  // into a 2.5s narrative: map dims, Fraunces lockup resolves below topbar,
+  // radar triples in reach, chime plays, then the map re-saturates.
   function ringBell(ex, verb) {
     const { x, y } = latLngToMap(ex.lat, ex.lng);
-    // Big pulse + trail
+    const mapWrap = $("#map-wrap");
+    const lockup = $("#bell-lockup");
+
+    // Dim the map — everything else recedes
+    if (mapWrap) mapWrap.classList.add("map-wrap--bell-dim");
+
+    // Editorial lockup — NYSE [italic]opened[/italic] · 13:30 UTC · New York
+    if (lockup) {
+      const now = new Date();
+      const hh = String(now.getUTCHours()).padStart(2, "0");
+      const mm = String(now.getUTCMinutes()).padStart(2, "0");
+      const city = ex.city || "";
+      lockup.innerHTML = `
+        <span class="bell-lockup-name">${escapeHtml(ex.name || ex.code)}</span>
+        <span class="bell-lockup-verb">${escapeHtml(verb)}</span>
+        <span class="bell-lockup-time">${hh}:${mm} UTC${city ? " · " + escapeHtml(city) : ""}</span>
+      `;
+      lockup.hidden = false;
+      // Trigger reflow so the opacity transition fires
+      void lockup.offsetWidth;
+      lockup.classList.add("bell-lockup--shown");
+    }
+
+    // Bigger radar — 3× reach, longer duration, one more pulse in the stack
     for (let i = 0; i < 4; i++) {
       setTimeout(() => {
         const p = svgEl("circle", { cx: x, cy: y, r: 1.5, class: "pulse pulse--bell" });
         $("#map-pulses").appendChild(p);
         p.animate(
-          [{ r: 1.5, opacity: 0.8, strokeWidth: 0.45 }, { r: 18, opacity: 0, strokeWidth: 0.1 }],
-          { duration: 1600, easing: EASE_ENTER }
+          [{ r: 1.5, opacity: 0.95, strokeWidth: 0.55 }, { r: 54, opacity: 0, strokeWidth: 0.1 }],
+          { duration: 2000, easing: EASE_ENTER }
         ).onfinish = () => p.remove();
       }, i * 180);
     }
-    if (window.SoundFX) {
-      // Distinct 3-note descending bell — differentiates open/close moments
-      window.SoundFX.playBell();
-    }
-    // Toast-style message in health bar briefly
+    if (window.SoundFX) window.SoundFX.playBell();
+
+    // Keep the existing health bar toast as the secondary readout
     const hb = $("#health-bar");
     if (hb) {
       const prev = hb.innerHTML;
       hb.innerHTML = `<span class="hf-dot">●</span> <strong>${escapeHtml(ex.name || ex.code)}</strong> ${verb} · ${escapeHtml(ex.city || "")}`;
       setTimeout(() => { if (hb.innerHTML.includes(ex.code)) hb.innerHTML = prev; }, 6000);
     }
+
+    // Release the dim + dismiss lockup after ~2.5s total
+    setTimeout(() => {
+      if (mapWrap) mapWrap.classList.remove("map-wrap--bell-dim");
+      if (lockup) {
+        lockup.classList.remove("bell-lockup--shown");
+        setTimeout(() => { lockup.hidden = true; }, 520);
+      }
+    }, 2500);
   }
   // Force-fire The Bell via B key (updates previous single-radar stub)
   function forceBell() {
@@ -1025,6 +1108,9 @@
   function startKioskWatch() {
     if (kioskTimer) clearInterval(kioskTimer);
     lastInteractionAt = performance.now();
+    // Kiosk auto-drills modals unattended — disable under reduced motion,
+    // since unexpected modal pop-ins are a classic accessibility offender.
+    if (!shouldAnimate()) return;
     kioskTimer = setInterval(kioskTick, 3000);
   }
   function noteInteraction() {
@@ -1119,6 +1205,17 @@
   async function runSplash() {
     const splash = $("#splash");
     if (!splash) return;
+    // Under reduced motion, collapse the 7s cold open to a ~900ms fade.
+    // All declarative animation/transition inside is already snapped to
+    // ~0ms by the CSS media query, so the splash content is visible
+    // briefly then exits.
+    if (!shouldAnimate()) {
+      await wait(600);
+      splash.classList.add("splash--exit");
+      await wait(300);
+      splash.remove();
+      return;
+    }
     await wait(6000);
     splash.classList.add("splash--reveal-map");
     await wait(500);

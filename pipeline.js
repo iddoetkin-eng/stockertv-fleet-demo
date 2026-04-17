@@ -18,6 +18,12 @@
   const EASE_EXIT  = "cubic-bezier(.4,0,1,1)";
   const EASE_PULSE = "cubic-bezier(.45,0,.55,1)";
 
+  // ── Reduced motion — matches the CSS media query ────────────────────
+  // Used to gate confetti, spring overshoot, and the internal wait() so the
+  // demo still runs end-to-end under reduced motion but with snapped pacing.
+  const reducedMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function shouldAnimate() { return !reducedMotionMQ.matches; }
+
   // ── SoundFX — shared module, loaded via ./soundfx.js ───────────────────
   // Exposes window.SoundFX. Shared with the Fleet View. We explicitly set
   // the master volume here in case another page has changed it previously.
@@ -42,8 +48,16 @@
     const num   = parseInt(stage.dataset.stage, 10);
     const name  = stage.querySelector(".stage-title")?.textContent || "";
     updateStageTracker({ state: "running", num, name });
+    // Screen-reader announcement — the only way a non-sighted reviewer
+    // experiences stage progression. Polite + atomic so the whole phrase
+    // reads as one announcement.
+    const announcer = $("#stage-announcer");
+    if (announcer) announcer.textContent = `Stage ${num} of 15: ${name}`;
     SoundFX.playTick();
-    stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    stage.scrollIntoView({
+      behavior: shouldAnimate() ? "smooth" : "auto",
+      block: "start"
+    });
   }
   function completeStage(stage) {
     stage.classList.remove("stage--active");
@@ -86,6 +100,31 @@
         el.textContent = String(Math.round(from + (target - from) * eased));
         if (p < 1) requestAnimationFrame(step);
         else resolve();
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Spring-physics count-up for the stage-12 hero reveal. Cubic ease-out for
+  // the main reach plus a small sinusoidal overshoot in the final 18%, giving
+  // the numerals a "land-settle" feel rather than a flat asymptote. Under
+  // reduced motion, snap directly to the target value.
+  async function countUpSpring(el, target, durationMs = 1200) {
+    if (!shouldAnimate()) {
+      el.textContent = String(Math.round(target));
+      return;
+    }
+    const start = performance.now();
+    const from = 0;
+    return new Promise((resolve) => {
+      function step(t) {
+        const p = Math.min(1, (t - start) / durationMs);
+        const base = 1 - Math.pow(1 - p, 3);
+        const overshoot = p > 0.82 ? Math.sin((p - 0.82) * Math.PI / 0.18) * 0.018 : 0;
+        const eased = Math.min(1, base + overshoot);
+        el.textContent = String(Math.round(from + (target - from) * eased));
+        if (p < 1) requestAnimationFrame(step);
+        else { el.textContent = String(Math.round(target)); resolve(); }
       }
       requestAnimationFrame(step);
     });
@@ -612,7 +651,9 @@
       await wait(600);
     }
 
-    // Dual gate
+    // Dual gate → hero reveal. The plan's single largest lift: the
+    // compliance verdict reads as Fraunces numerals between hairline rules,
+    // not a filling bar. Peripheral UI dims so the numbers land.
     await wait(200);
     const q = Number(data.qualityScore) || 0;
     const c = Number(data.complianceScore) || 0;
@@ -620,18 +661,33 @@
     const cBar = $("[data-slot='complianceBar']", stage);
     qBar.style.width = Math.min(100, (q / 110) * 100) + "%";
     cBar.style.width = Math.min(100, c) + "%";
+
+    stage.classList.add("stage--reveal-peripheral-dim");
+    await wait(280);
+    stage.classList.add("stage--reveal-fire");
+
+    const qRevealEl = $("[data-slot='qualityReveal']", stage);
+    const cRevealEl = $("[data-slot='complianceReveal']", stage);
     await Promise.all([
-      countUp($("[data-slot='qualityScore']", stage), q, 800),
-      countUp($("[data-slot='complianceScore']", stage), c, 800),
+      countUpSpring(qRevealEl, q, 1200),
+      countUpSpring(cRevealEl, c, 1200),
+      countUp($("[data-slot='qualityScore']", stage), q, 1200),
+      countUp($("[data-slot='complianceScore']", stage), c, 1200),
     ]);
+    qRevealEl.classList.add("dual-reveal-number--settle");
+    cRevealEl.classList.add("dual-reveal-number--settle");
+
+    await wait(220);
     const verdict = $("#dual-verdict");
-    verdict.textContent = "Dual gate: passed";
+    verdict.textContent = "Passed";
     verdict.classList.add("dual-verdict--passed");
-    await wait(300);
+    await wait(260);
     const exceeds = $("#dual-exceeds");
     if (exceeds) exceeds.classList.add("dual-exceeds--shown");
     SoundFX.playSuccess();
-    await wait(500);
+    await wait(460);
+    stage.classList.remove("stage--reveal-peripheral-dim");
+    await wait(200);
   }
 
   // ── Stage 13: MULTI-LANGUAGE ────────────────────────────────────────────
@@ -762,11 +818,13 @@
 
   // ── Confetti (lightweight, no library) ──────────────────────────────────
   function confettiBurst() {
+    // Celebratory only; skip entirely under reduced motion
+    if (!shouldAnimate()) return;
     const canvas = $("#confetti");
     const ctx = canvas.getContext("2d");
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-    const colors = ["#22c55e", "#4a9eff", "#f59e0b", "#e6e6ee"];
+    const colors = ["#22c55e", "#FF7A59", "#D4A574", "#e6e6ee"];
     const N = 120;
     const parts = Array.from({ length: N }, () => ({
       x: window.innerWidth / 2 + (Math.random() - 0.5) * 200,
@@ -994,9 +1052,16 @@
     const cVal = document.querySelector('[data-slot="complianceScore"]');
     if (qVal) qVal.textContent = "0";
     if (cVal) cVal.textContent = "0";
+    // Stage 12 hero reveal — reset numerals + dim classes for replay
+    const qReveal = document.querySelector('[data-slot="qualityReveal"]');
+    const cReveal = document.querySelector('[data-slot="complianceReveal"]');
+    if (qReveal) { qReveal.textContent = "0"; qReveal.classList.remove("dual-reveal-number--settle"); }
+    if (cReveal) { cReveal.textContent = "0"; cReveal.classList.remove("dual-reveal-number--settle"); }
+    const stage12 = document.querySelector('.stage[data-stage="12"]');
+    if (stage12) stage12.classList.remove("stage--reveal-fire", "stage--reveal-peripheral-dim");
     const verdict = $("#dual-verdict");
     verdict.classList.remove("dual-verdict--passed");
-    verdict.textContent = "awaiting";
+    verdict.textContent = "Awaiting verdict";
     const exceeds = $("#dual-exceeds");
     if (exceeds) exceeds.classList.remove("dual-exceeds--shown");
 
@@ -1131,9 +1196,93 @@
     if (!modalStage.contains(e.target)) closeAvatarModal();
   });
 
+  // ── Keyboard shortcuts ──────────────────────────────────────────────
+  // Esc: close avatar modal if open
+  // W:   start the demo (same as Watch Demo button)
+  // R:   replay when demo has completed
+  // M:   toggle sound
+  // ?:   show help toast (bottom-right, auto-dismiss)
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.hidden) closeAvatarModal();
+    // Don't swallow keys when typing into form fields
+    const tag = (e.target && e.target.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) return;
+
+    if (e.key === "Escape") {
+      if (!modal.hidden) closeAvatarModal();
+      return;
+    }
+    if (e.key === "w" || e.key === "W") {
+      const cta = $("#btn-watch-demo");
+      if (cta && !cta.disabled) cta.click();
+      return;
+    }
+    if (e.key === "r" || e.key === "R") {
+      const replay = $("#replay-btn");
+      const fab = $("#replay-fab");
+      if (replay && fab && !fab.hidden) replay.click();
+      return;
+    }
+    if (e.key === "m" || e.key === "M") {
+      const st = $("#sound-toggle");
+      if (st) st.click();
+      return;
+    }
+    if (e.key === "?") {
+      showKbdHelp();
+      return;
+    }
   });
+
+  // ── Keyboard help toast — minimal, auto-dismiss ─────────────────────
+  let kbdHelpTimer = null;
+  function showKbdHelp() {
+    let toast = $("#kbd-help-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "kbd-help-toast";
+      toast.className = "kbd-help-toast";
+      toast.setAttribute("role", "dialog");
+      toast.setAttribute("aria-label", "Keyboard shortcuts");
+      toast.innerHTML = `
+        <div class="kbd-help-title">Keyboard shortcuts</div>
+        <dl class="kbd-help-list">
+          <dt>W</dt><dd>Watch demo</dd>
+          <dt>R</dt><dd>Replay</dd>
+          <dt>M</dt><dd>Toggle sound</dd>
+          <dt>?</dt><dd>Show this help</dd>
+          <dt>Esc</dt><dd>Close video</dd>
+        </dl>
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.classList.add("kbd-help-toast--shown");
+    if (kbdHelpTimer) clearTimeout(kbdHelpTimer);
+    kbdHelpTimer = setTimeout(() => toast.classList.remove("kbd-help-toast--shown"), 4000);
+  }
+
+  // ── Theme toggle — light/dark, localStorage-persisted ──────────────────
+  // Pre-paint script in <head> has already applied the persisted theme.
+  (function wireThemeToggle() {
+    const btn = $("#theme-toggle");
+    if (!btn) return;
+    const htmlEl = document.documentElement;
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const syncLabel = () => {
+      const t = htmlEl.dataset.theme || "dark";
+      btn.setAttribute(
+        "aria-label",
+        t === "light" ? "Switch to dark mode" : "Switch to light mode"
+      );
+    };
+    syncLabel();
+    btn.addEventListener("click", () => {
+      const next = (htmlEl.dataset.theme === "light") ? "dark" : "light";
+      htmlEl.dataset.theme = next;
+      if (metaTheme) metaTheme.setAttribute("content", next === "light" ? "#FAF7F2" : "#0A0B0F");
+      try { localStorage.setItem("stv-theme", next); } catch (e) {}
+      syncLabel();
+    });
+  })();
 
   // ── Sound toggle (topbar) ───────────────────────────────────────────────
   const soundToggle = $("#sound-toggle");

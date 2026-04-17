@@ -4,34 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0A0B0F" id="theme-color-meta">
   <title>StockerTV — Live Operations</title>
+  <!-- Apply persisted theme synchronously BEFORE the stylesheet loads to
+       prevent a flash of the wrong theme. Must not throw on storage-blocked
+       contexts (private mode, embedded frames) — all access is try/catch. -->
+  <script>
+    (function(){try{var t=localStorage.getItem('stv-theme')||'dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='dark';}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./fleet.css">
 </head>
 <body>
 
-<!-- Welcome splash — cinematic title card before the map comes online -->
+<!-- Editorial cold open — Fraunces display line with blur-lift reveal, 7s runtime -->
 <div class="splash" id="splash">
   <div class="splash-nebula" aria-hidden="true"></div>
   <div class="splash-grid" aria-hidden="true"></div>
   <div class="splash-beam" aria-hidden="true"></div>
   <div class="splash-content">
-    <div class="splash-eyebrow">WELCOME TO</div>
-    <div class="splash-title">
-      <span class="splash-word splash-word--stocker">
-        <span style="--i:0">S</span><span style="--i:1">t</span><span style="--i:2">o</span><span style="--i:3">c</span><span style="--i:4">k</span><span style="--i:5">e</span><span style="--i:6">r</span>
-      </span><span class="splash-word splash-word--tv">
-        <span style="--i:7">T</span><span style="--i:8">V</span>
-      </span><span class="splash-word splash-word--demo">
-        <span style="--i:9">D</span><span style="--i:10">e</span><span style="--i:11">m</span><span style="--i:12">o</span>
-      </span>
-    </div>
+    <div class="splash-eyebrow">STOCKERTV · LIVE OPERATIONS</div>
+    <h1 class="splash-headline">
+      <span class="splash-headline-line">Where the market's news</span>
+      <span class="splash-headline-line splash-headline-line--accent">becomes <em>broadcast.</em></span>
+    </h1>
     <div class="splash-accent-line" aria-hidden="true"></div>
     <div class="splash-sub">
       <span class="splash-sub-dot" aria-hidden="true"></span>
-      Live Operations · 89 Exchanges · 32,190 Companies
+      89 Exchanges · 32,190 Companies · Live
+    </div>
+    <div class="splash-footnote">
+      <span class="splash-footnote-ts" id="splash-timestamp">—</span>
+      <span class="splash-footnote-sep">·</span>
+      <span class="splash-footnote-label">Pre-market intelligence active</span>
     </div>
   </div>
 </div>
@@ -64,6 +72,24 @@
       <a class="demo-link" href="./pipeline.html" target="_blank" rel="noopener noreferrer" title="Open the single-pipeline demo in a new tab">DEMO</a>
       <button class="audit-toggle" id="audit-toggle" type="button" aria-pressed="false" title="Compliance audit overlay (hold A or click)">AUDIT</button>
       <span class="meta-pill meta-pill--ghost" id="meta-clock">00:00:00 UTC</span>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark mode">
+        <svg class="theme-toggle-icon theme-toggle-icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 12.5A8.5 8.5 0 1 1 11.5 4a6.5 6.5 0 0 0 8.5 8.5z" fill="currentColor"/>
+        </svg>
+        <svg class="theme-toggle-icon theme-toggle-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" fill="currentColor"/>
+          <g stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none">
+            <line x1="12" y1="2.5" x2="12" y2="5"/>
+            <line x1="12" y1="19" x2="12" y2="21.5"/>
+            <line x1="2.5" y1="12" x2="5" y2="12"/>
+            <line x1="19" y1="12" x2="21.5" y2="12"/>
+            <line x1="5.2" y1="5.2" x2="7" y2="7"/>
+            <line x1="17" y1="17" x2="18.8" y2="18.8"/>
+            <line x1="5.2" y1="18.8" x2="7" y2="17"/>
+            <line x1="17" y1="7" x2="18.8" y2="5.2"/>
+          </g>
+        </svg>
+      </button>
       <button class="sound-toggle" id="sound-toggle" type="button" data-state="on" aria-label="Toggle sound" title="Toggle sound">
         <svg class="sound-toggle-icon sound-toggle-icon--on" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M11 5L6 9H3v6h3l5 4V5z" fill="currentColor"/>
@@ -80,6 +106,9 @@
   </div>
   <div class="topbar-row topbar-row--health" id="health-bar">● System healthy · 0 pipelines in flight · exchanges 89/89 online</div>
 </header>
+
+<!-- Bell event lockup — overlay below topbar, populated + shown by ringBell() -->
+<div class="bell-lockup" id="bell-lockup" aria-live="polite" hidden></div>
 
 <!-- Main stage: world map on left, right rail on right -->
 <main class="stage">
