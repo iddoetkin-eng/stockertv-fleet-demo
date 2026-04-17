@@ -998,30 +998,64 @@
       }
     }
   }
+  // The bell is the site's single time-aware beat — it fires every time a
+  // real UTC trading session flips state. The upgrade turns a 1.4s audio cue
+  // into a 2.5s narrative: map dims, Fraunces lockup resolves below topbar,
+  // radar triples in reach, chime plays, then the map re-saturates.
   function ringBell(ex, verb) {
     const { x, y } = latLngToMap(ex.lat, ex.lng);
-    // Big pulse + trail
+    const mapWrap = $("#map-wrap");
+    const lockup = $("#bell-lockup");
+
+    // Dim the map — everything else recedes
+    if (mapWrap) mapWrap.classList.add("map-wrap--bell-dim");
+
+    // Editorial lockup — NYSE [italic]opened[/italic] · 13:30 UTC · New York
+    if (lockup) {
+      const now = new Date();
+      const hh = String(now.getUTCHours()).padStart(2, "0");
+      const mm = String(now.getUTCMinutes()).padStart(2, "0");
+      const city = ex.city || "";
+      lockup.innerHTML = `
+        <span class="bell-lockup-name">${escapeHtml(ex.name || ex.code)}</span>
+        <span class="bell-lockup-verb">${escapeHtml(verb)}</span>
+        <span class="bell-lockup-time">${hh}:${mm} UTC${city ? " · " + escapeHtml(city) : ""}</span>
+      `;
+      lockup.hidden = false;
+      // Trigger reflow so the opacity transition fires
+      void lockup.offsetWidth;
+      lockup.classList.add("bell-lockup--shown");
+    }
+
+    // Bigger radar — 3× reach, longer duration, one more pulse in the stack
     for (let i = 0; i < 4; i++) {
       setTimeout(() => {
         const p = svgEl("circle", { cx: x, cy: y, r: 1.5, class: "pulse pulse--bell" });
         $("#map-pulses").appendChild(p);
         p.animate(
-          [{ r: 1.5, opacity: 0.8, strokeWidth: 0.45 }, { r: 18, opacity: 0, strokeWidth: 0.1 }],
-          { duration: 1600, easing: EASE_ENTER }
+          [{ r: 1.5, opacity: 0.95, strokeWidth: 0.55 }, { r: 54, opacity: 0, strokeWidth: 0.1 }],
+          { duration: 2000, easing: EASE_ENTER }
         ).onfinish = () => p.remove();
       }, i * 180);
     }
-    if (window.SoundFX) {
-      // Distinct 3-note descending bell — differentiates open/close moments
-      window.SoundFX.playBell();
-    }
-    // Toast-style message in health bar briefly
+    if (window.SoundFX) window.SoundFX.playBell();
+
+    // Keep the existing health bar toast as the secondary readout
     const hb = $("#health-bar");
     if (hb) {
       const prev = hb.innerHTML;
       hb.innerHTML = `<span class="hf-dot">●</span> <strong>${escapeHtml(ex.name || ex.code)}</strong> ${verb} · ${escapeHtml(ex.city || "")}`;
       setTimeout(() => { if (hb.innerHTML.includes(ex.code)) hb.innerHTML = prev; }, 6000);
     }
+
+    // Release the dim + dismiss lockup after ~2.5s total
+    setTimeout(() => {
+      if (mapWrap) mapWrap.classList.remove("map-wrap--bell-dim");
+      if (lockup) {
+        lockup.classList.remove("bell-lockup--shown");
+        setTimeout(() => { lockup.hidden = true; }, 520);
+      }
+    }, 2500);
   }
   // Force-fire The Bell via B key (updates previous single-radar stub)
   function forceBell() {

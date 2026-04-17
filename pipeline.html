@@ -381,6 +381,32 @@
           </div>
         </div>
         <div class="dual-gate" id="dual-gate">
+          <!-- Hero reveal — Fraunces numerals, the editorial verdict. No aria-live
+               here: countUp updates at 60Hz and would spam assistive tech. The
+               final "Passed" verdict is announced via #dual-verdict role below. -->
+          <div class="dual-reveal" id="dual-reveal">
+            <div class="dual-reveal-col" data-metric="quality">
+              <div class="dual-reveal-eyebrow">Quality</div>
+              <div class="dual-reveal-number" data-slot="qualityReveal">0</div>
+              <div class="dual-reveal-scale">
+                <span class="dual-reveal-pass">Pass 35</span>
+                <span class="dual-reveal-dot" aria-hidden="true">·</span>
+                <span class="dual-reveal-max">of 110</span>
+              </div>
+            </div>
+            <div class="dual-reveal-divider" aria-hidden="true"></div>
+            <div class="dual-reveal-col" data-metric="compliance">
+              <div class="dual-reveal-eyebrow">Compliance</div>
+              <div class="dual-reveal-number" data-slot="complianceReveal">0</div>
+              <div class="dual-reveal-scale">
+                <span class="dual-reveal-pass">Pass 60</span>
+                <span class="dual-reveal-dot" aria-hidden="true">·</span>
+                <span class="dual-reveal-max">of 100</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supporting bars — retained as subordinate evidence -->
           <div class="dual-row">
             <div class="dual-label">Quality Score</div>
             <div class="dual-bar">
@@ -397,8 +423,8 @@
             </div>
             <div class="dual-value"><span data-slot="complianceScore">0</span><span class="dual-of">/100</span></div>
           </div>
-          <div class="dual-verdict" id="dual-verdict">awaiting</div>
-          <div class="dual-exceeds" id="dual-exceeds">EXCEEDS COMPLIANCE THRESHOLD</div>
+          <div class="dual-verdict" id="dual-verdict" role="status" aria-live="polite">Awaiting verdict</div>
+          <div class="dual-exceeds" id="dual-exceeds">Exceeds compliance threshold</div>
         </div>
       </div>
     </div>

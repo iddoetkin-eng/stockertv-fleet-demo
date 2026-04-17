@@ -1312,6 +1312,70 @@ body::after {
   box-shadow: 0 0 12px var(--green-glow);
 }
 
+/* ── Bell event — editorial announcement on UTC open/close ────────────────
+   ~2.5s sequence: map dims, Fraunces lockup slides in below topbar, radar
+   expands 3×, chime plays, then the map re-saturates and the lockup exits. */
+.bell-lockup {
+  position: fixed;
+  top: calc(var(--topbar-h) + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  z-index: 25;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-enter), transform 500ms var(--ease-enter);
+  text-align: center;
+  min-width: 320px;
+}
+.bell-lockup[hidden] { display: none; }
+.bell-lockup--shown { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.bell-lockup-name {
+  display: block;
+  font-family: var(--display);
+  font-size: 44px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--warm-white);
+  line-height: 1;
+  font-variation-settings: "opsz" 96, "SOFT" 50;
+  text-shadow: 0 0 60px rgba(255, 122, 89, 0.3);
+}
+.bell-lockup-verb {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  font-variation-settings: "opsz" 48, "SOFT" 100;
+}
+.bell-lockup-time {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Map dim during bell — peripheral UI recedes, the bell is the only signal */
+.map-svg { transition: opacity 600ms var(--ease-enter), filter 600ms var(--ease-enter); }
+.map-hero,
+.map-legend { transition: opacity 600ms var(--ease-enter); }
+.map-wrap.map-wrap--bell-dim .map-svg {
+  opacity: 0.5;
+  filter: saturate(0.6);
+}
+.map-wrap.map-wrap--bell-dim .map-hero,
+.map-wrap.map-wrap--bell-dim .map-legend {
+  opacity: 0.3;
+}
+
 /* ── Welcome splash — cinematic opening ────────────────────────────────── */
 .splash {
   position: fixed;

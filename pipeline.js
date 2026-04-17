@@ -91,6 +91,26 @@
     });
   }
 
+  // Spring-physics count-up for the stage-12 hero reveal. Cubic ease-out for
+  // the main reach plus a small sinusoidal overshoot in the final 18%, giving
+  // the numerals a "land-settle" feel rather than a flat asymptote.
+  async function countUpSpring(el, target, durationMs = 1200) {
+    const start = performance.now();
+    const from = 0;
+    return new Promise((resolve) => {
+      function step(t) {
+        const p = Math.min(1, (t - start) / durationMs);
+        const base = 1 - Math.pow(1 - p, 3);
+        const overshoot = p > 0.82 ? Math.sin((p - 0.82) * Math.PI / 0.18) * 0.018 : 0;
+        const eased = Math.min(1, base + overshoot);
+        el.textContent = String(Math.round(from + (target - from) * eased));
+        if (p < 1) requestAnimationFrame(step);
+        else { el.textContent = String(Math.round(target)); resolve(); }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
   async function flashPopulate(el) {
     el.classList.remove("populate-pop");
     void el.offsetWidth;
@@ -612,7 +632,9 @@
       await wait(600);
     }
 
-    // Dual gate
+    // Dual gate → hero reveal. The plan's single largest lift: the
+    // compliance verdict reads as Fraunces numerals between hairline rules,
+    // not a filling bar. Peripheral UI dims so the numbers land.
     await wait(200);
     const q = Number(data.qualityScore) || 0;
     const c = Number(data.complianceScore) || 0;
@@ -620,18 +642,33 @@
     const cBar = $("[data-slot='complianceBar']", stage);
     qBar.style.width = Math.min(100, (q / 110) * 100) + "%";
     cBar.style.width = Math.min(100, c) + "%";
+
+    stage.classList.add("stage--reveal-peripheral-dim");
+    await wait(280);
+    stage.classList.add("stage--reveal-fire");
+
+    const qRevealEl = $("[data-slot='qualityReveal']", stage);
+    const cRevealEl = $("[data-slot='complianceReveal']", stage);
     await Promise.all([
-      countUp($("[data-slot='qualityScore']", stage), q, 800),
-      countUp($("[data-slot='complianceScore']", stage), c, 800),
+      countUpSpring(qRevealEl, q, 1200),
+      countUpSpring(cRevealEl, c, 1200),
+      countUp($("[data-slot='qualityScore']", stage), q, 1200),
+      countUp($("[data-slot='complianceScore']", stage), c, 1200),
     ]);
+    qRevealEl.classList.add("dual-reveal-number--settle");
+    cRevealEl.classList.add("dual-reveal-number--settle");
+
+    await wait(220);
     const verdict = $("#dual-verdict");
-    verdict.textContent = "Dual gate: passed";
+    verdict.textContent = "Passed";
     verdict.classList.add("dual-verdict--passed");
-    await wait(300);
+    await wait(260);
     const exceeds = $("#dual-exceeds");
     if (exceeds) exceeds.classList.add("dual-exceeds--shown");
     SoundFX.playSuccess();
-    await wait(500);
+    await wait(460);
+    stage.classList.remove("stage--reveal-peripheral-dim");
+    await wait(200);
   }
 
   // ── Stage 13: MULTI-LANGUAGE ────────────────────────────────────────────
@@ -994,9 +1031,16 @@
     const cVal = document.querySelector('[data-slot="complianceScore"]');
     if (qVal) qVal.textContent = "0";
     if (cVal) cVal.textContent = "0";
+    // Stage 12 hero reveal — reset numerals + dim classes for replay
+    const qReveal = document.querySelector('[data-slot="qualityReveal"]');
+    const cReveal = document.querySelector('[data-slot="complianceReveal"]');
+    if (qReveal) { qReveal.textContent = "0"; qReveal.classList.remove("dual-reveal-number--settle"); }
+    if (cReveal) { cReveal.textContent = "0"; cReveal.classList.remove("dual-reveal-number--settle"); }
+    const stage12 = document.querySelector('.stage[data-stage="12"]');
+    if (stage12) stage12.classList.remove("stage--reveal-fire", "stage--reveal-peripheral-dim");
     const verdict = $("#dual-verdict");
     verdict.classList.remove("dual-verdict--passed");
-    verdict.textContent = "awaiting";
+    verdict.textContent = "Awaiting verdict";
     const exceeds = $("#dual-exceeds");
     if (exceeds) exceeds.classList.remove("dual-exceeds--shown");
 

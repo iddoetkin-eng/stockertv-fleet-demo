@@ -82,6 +82,9 @@
   <div class="topbar-row topbar-row--health" id="health-bar">● System healthy · 0 pipelines in flight · exchanges 89/89 online</div>
 </header>
 
+<!-- Bell event lockup — overlay below topbar, populated + shown by ringBell() -->
+<div class="bell-lockup" id="bell-lockup" aria-live="polite" hidden></div>
+
 <!-- Main stage: world map on left, right rail on right -->
 <main class="stage">
   <!-- Map region — a single SVG hosts continents, dots, radar pulses, flight arcs -->
