@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#0A0B0F" id="theme-color-meta">
+  <title>StockerTV — Specimen · Fraunces, Inter, JetBrains Mono</title>
+  <script>
+    (function(){try{var t=localStorage.getItem('stv-theme')||'dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='dark';}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0B0F;
+      --surface: #111318;
+      --text: #e6e6ee;
+      --text-2: #9e9eb4;
+      --text-3: #6b6b80;
+      --accent: #FF7A59;
+      --hairline: rgba(255,255,255,0.1);
+      --rule: rgba(255,255,255,0.18);
+      color-scheme: dark;
+    }
+    [data-theme="light"] {
+      --bg: #FAF7F2;
+      --surface: #FFFFFF;
+      --text: #1A1815;
+      --text-2: #5A5550;
+      --text-3: #8C857E;
+      --accent: #C74B28;
+      --hairline: rgba(26,24,21,0.1);
+      --rule: rgba(26,24,21,0.35);
+      color-scheme: light;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    .spec-topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px; border-bottom: 1px solid var(--hairline);
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3);
+    }
+    .spec-topbar a { color: var(--text-2); text-decoration: none; transition: color 200ms; }
+    .spec-topbar a:hover { color: var(--accent); }
+    main { max-width: 1100px; margin: 0 auto; padding: 80px 40px 120px; }
+    .spec-masthead {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 120px;
+      font-variation-settings: "opsz" 144;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin: 0 0 24px;
+      color: var(--text);
+    }
+    .spec-masthead em {
+      font-style: italic; color: var(--accent);
+      font-variation-settings: "opsz" 144;
+    }
+    .spec-dek {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 22px; line-height: 1.5; max-width: 680px;
+      color: var(--text-2); margin: 0 0 80px;
+      font-variation-settings: "opsz" 36;
+    }
+    .spec-section { margin: 0 0 88px; }
+    .spec-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 1.8px; color: var(--text-3);
+      padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 28px;
+      display: flex; justify-content: space-between;
+    }
+    .spec-row {
+      display: grid; grid-template-columns: 140px 1fr;
+      gap: 32px; padding: 18px 0;
+      border-bottom: 1px solid var(--hairline);
+      align-items: baseline;
+    }
+    .spec-row-meta {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--text-3); letter-spacing: 0.5px;
+    }
+    .spec-sample { font-family: 'Fraunces', serif; line-height: 1; color: var(--text); }
+    .s-9   { font-size: 12px;  font-variation-settings: "opsz" 9;   }
+    .s-16  { font-size: 18px;  font-variation-settings: "opsz" 18;  }
+    .s-24  { font-size: 28px;  font-variation-settings: "opsz" 24;  font-weight: 500; }
+    .s-36  { font-size: 42px;  font-variation-settings: "opsz" 36;  font-weight: 500; letter-spacing: -0.005em; }
+    .s-56  { font-size: 64px;  font-variation-settings: "opsz" 72;  font-weight: 600; letter-spacing: -0.012em; }
+    .s-96  { font-size: 108px; font-variation-settings: "opsz" 96;  font-weight: 600; letter-spacing: -0.02em;  }
+    .s-144 { font-size: 168px; font-variation-settings: "opsz" 144; font-weight: 700; letter-spacing: -0.028em; line-height: 0.9; }
+    .italic { font-style: italic; color: var(--accent); }
+    .spec-italic .spec-sample { font-style: italic; }
+
+    .spec-weights { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .wt {
+      font-family: 'Fraunces', serif; font-size: 56px;
+      font-variation-settings: "opsz" 72; line-height: 1;
+      padding: 24px 0; border-top: 1px solid var(--hairline);
+    }
+    .wt-meta {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-3);
+      margin-top: 10px;
+    }
+    .wt-400 { font-weight: 400; }
+    .wt-500 { font-weight: 500; }
+    .wt-600 { font-weight: 600; }
+    .wt-700 { font-weight: 700; }
+
+    .spec-pairings { font-family: 'Fraunces', serif; padding: 40px 0; border-top: 1px solid var(--hairline); }
+    .pp-eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 2px; color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .pp-headline {
+      font-size: 64px; font-weight: 600; line-height: 1.05;
+      font-variation-settings: "opsz" 96; letter-spacing: -0.015em;
+      margin: 0 0 18px;
+    }
+    .pp-headline em { font-style: italic; color: var(--accent); }
+    .pp-dek {
+      font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6;
+      color: var(--text-2); max-width: 620px; font-weight: 400;
+    }
+
+    .spec-footer {
+      margin-top: 120px; padding: 40px 0;
+      border-top: 1px solid var(--rule);
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-3);
+      display: flex; justify-content: space-between;
+    }
+    .spec-footer a { color: var(--text-2); text-decoration: none; }
+    .spec-footer a:hover { color: var(--accent); }
+
+    @media (max-width: 720px) {
+      main { padding: 40px 20px 80px; }
+      .spec-masthead { font-size: 72px; }
+      .spec-row { grid-template-columns: 100px 1fr; gap: 16px; }
+      .spec-weights { grid-template-columns: repeat(2, 1fr); }
+      .pp-headline { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="spec-topbar">
+    <span>StockerTV · Type Specimen</span>
+    <span><a href="./index.html">Fleet</a> &nbsp;·&nbsp; <a href="./pipeline.html">Pipeline</a> &nbsp;·&nbsp; <a href="./colophon.html">Colophon</a></span>
+  </header>
+  <main>
+    <h1 class="spec-masthead">Where the market's news <br>becomes <em>broadcast.</em></h1>
+    <p class="spec-dek">This page exists for the curious. Fraunces variable (opsz 9–144, wght 400–700, roman &amp; italic) carries our editorial voice. Inter handles UI. JetBrains Mono handles data. Everything below is live — no images, no substitutes, just the file you already downloaded.</p>
+
+    <section class="spec-section">
+      <div class="spec-label"><span>Fraunces · Optical Size Axis</span><span>ital=0 · wght=500–700</span></div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 9 · 12px</span>
+        <span class="spec-sample s-9">Where the market's news becomes broadcast.</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 18 · 18px</span>
+        <span class="spec-sample s-16">Where the market's news becomes broadcast.</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 24 · 28px</span>
+        <span class="spec-sample s-24">Where the market's news becomes broadcast.</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 36 · 42px</span>
+        <span class="spec-sample s-36">Where the market's news becomes broadcast.</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 72 · 64px</span>
+        <span class="spec-sample s-56">Becomes <span class="italic">broadcast.</span></span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 96 · 108px</span>
+        <span class="spec-sample s-96">Becomes <span class="italic">broadcast.</span></span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 144 · 168px</span>
+        <span class="spec-sample s-144">97<span class="italic" style="font-size:0.5em; opacity:0.55;">/100</span></span>
+      </div>
+    </section>
+
+    <section class="spec-section spec-italic">
+      <div class="spec-label"><span>Fraunces Italic · The editorial voice</span><span>ital=1</span></div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 36 · 42px</span>
+        <span class="spec-sample s-36">Every story passes through the eye of the needle.</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-row-meta">opsz 72 · 64px</span>
+        <span class="spec-sample s-56">No story leaves the newsroom unchecked. Twice.</span>
+      </div>
+    </section>
+
+    <section class="spec-section">
+      <div class="spec-label"><span>Fraunces · Weight Axis</span><span>opsz=72 · 56px</span></div>
+      <div class="spec-weights">
+        <div><div class="wt wt-400">Stocker</div><div class="wt-meta">wght 400 · Light</div></div>
+        <div><div class="wt wt-500">Stocker</div><div class="wt-meta">wght 500 · Regular</div></div>
+        <div><div class="wt wt-600">Stocker</div><div class="wt-meta">wght 600 · SemiBold</div></div>
+        <div><div class="wt wt-700">Stocker</div><div class="wt-meta">wght 700 · Bold</div></div>
+      </div>
+    </section>
+
+    <section class="spec-section">
+      <div class="spec-label"><span>Type pairings · Editorial spread</span><span>Fraunces + Inter + JetBrains Mono</span></div>
+      <div class="spec-pairings">
+        <div class="pp-eyebrow">Q4 FY25 · NVIDIA Corporation · 2025-02-26</div>
+        <h2 class="pp-headline">Data-center revenue climbs to <em>$35.6B</em>, setting a new quarterly record.</h2>
+        <p class="pp-dek">Net income of $22.091B matches the prior quarter's slope but meaningfully outruns consensus. Consumer Gaming retreats to $3.3B. The Blackwell ramp anchors the next four quarters of guidance. <span style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--text-3);">[source: EDGAR 10-K]</span></p>
+      </div>
+    </section>
+
+    <footer class="spec-footer">
+      <span>Fraunces by Undercase Type · Inter by Rasmus Andersson · JetBrains Mono by JetBrains</span>
+      <span><a href="./colophon.html">Colophon →</a></span>
+    </footer>
+  </main>
+</body>
+</html>
