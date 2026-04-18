@@ -2690,3 +2690,40 @@ body::before {
   pointer-events: none;
 }
 .w5-bell-flash.is-active { opacity: 0.95; transform: translateY(0) scale(1); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 9 — Precision pass (G5) + editorial byline (G6)
+   ────────────────────────────────────────────────────────────────────────── */
+
+html, body, button, input, select, textarea {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+.launch-title,
+.stage-title,
+.dual-reveal-number,
+.w5-ceremony-masthead,
+.w5-pullquote-text {
+  letter-spacing: -0.012em;
+  font-kerning: normal;
+}
+
+.w5-byline {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--w5-issue-meta);
+}
+.w5-byline-reporter {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  font-variation-settings: "opsz" 24;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--accent-2);
+}

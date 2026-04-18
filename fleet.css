@@ -2394,3 +2394,46 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
     font-variation-settings: "opsz" 144, "wght" 700;
   }
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 9 — Precision pass (G5) + editorial byline (G6)
+   Global opentype features, tightened display letter-spacing, refined
+   shadow opacities. Individually invisible; collectively the difference
+   between polished and expensive.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* G5 · Global OpenType features — kerning, ligatures, contextual alternates */
+html, body, button, input, select, textarea {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+/* G5 · Display-scale letter-spacing refinement */
+.splash-headline-line,
+.w5-ceremony-masthead,
+.map-hero-title,
+.w5-pullquote-text,
+.w5-curator-text {
+  letter-spacing: -0.012em;
+  font-kerning: normal;
+}
+
+/* G6 · Editorial byline — applied to any pull-quote attribution slot */
+.w5-byline {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--w5-issue-meta);
+}
+.w5-byline-reporter {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  font-variation-settings: "opsz" 24;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--accent-2);
+}
