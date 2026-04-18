@@ -2086,3 +2086,97 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
   opacity: 0.7;
   margin: 0 1px;
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 5 — Data visualization (D3 crosshair, D6 sparklines)
+   D1 Nightingale rose lives at /today.html (self-contained).
+   D2 telemetry rail, D4 reporter polylines, D5 heat-grid are scaffolded
+   here; actual wiring into the map + pipeline renders deferred.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* D3 · Shift-hold Bloomberg crosshair */
+.w5-crosshair {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0;
+  transition: opacity 160ms var(--ease-enter);
+}
+.w5-crosshair.is-armed { opacity: 1; }
+.w5-ch-line {
+  position: absolute;
+  background: var(--accent);
+  opacity: 0.5;
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+.w5-ch-line--h { left: 0; right: 0; height: 1px; top: 50%; }
+.w5-ch-line--v { top: 0; bottom: 0; width: 1px; left: 50%; }
+.w5-ch-readout {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+  background: rgba(12, 12, 20, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--accent-soft);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+}
+.w5-ch-readout--lat  { left: 18px; }
+.w5-ch-readout--lng  { top: 24px; }
+.w5-ch-readout--utc  { bottom: 24px; right: 24px; }
+.w5-ch-readout--near { top: 24px; right: 24px; }
+[data-theme="light"] .w5-ch-readout { background: rgba(255, 253, 250, 0.92); border-color: var(--accent); }
+
+/* D6 · Topbar sparklines — render BEFORE the label inside each .tb-metric */
+.w5-sparkline-wrap {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  color: var(--text-3);
+  opacity: 0.65;
+  flex: 0 0 48px;
+  transition: color 260ms var(--ease-enter), opacity 260ms var(--ease-enter);
+}
+.w5-sparkline { display: block; }
+.tb-metric:hover .w5-sparkline-wrap { color: var(--accent); opacity: 1; }
+[data-theme="light"] .w5-sparkline-wrap { color: var(--text-2); }
+[data-theme="light"] .tb-metric:hover .w5-sparkline-wrap { color: var(--accent); }
+
+/* D2 · Pipeline telemetry rail (scaffold — consumer: pipeline page only).
+   Defined here for symmetry; no-op on fleet. */
+.w5-telemetry-rail {
+  position: fixed;
+  top: var(--topbar-h, 100px);
+  left: 12px;
+  width: 88px;
+  bottom: 24px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  padding: 8px 6px;
+  display: none; /* opt-in via .has-w5-telemetry on root */
+}
+.has-w5-telemetry .w5-telemetry-rail { display: flex; flex-direction: column; gap: 6px; }
+
+/* D5 · Stage-14 compliance heat-grid (scaffold) */
+.w5-heat-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+  padding: 16px 0;
+}
+.w5-heat-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--surface-2);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 260ms var(--ease-enter), transform 260ms var(--ease-enter);
+}
+.w5-heat-cell.is-in   { opacity: 1; transform: scale(1); }
+.w5-heat-cell--pass   { background: var(--green-soft); }
+.w5-heat-cell--warn   { background: var(--amber-soft); }
+.w5-heat-cell--fail   { background: var(--red-soft); }

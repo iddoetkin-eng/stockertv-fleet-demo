@@ -2587,3 +2587,38 @@ body::before {
 .w5-build-lockup .w5-registered {
   font-size: 7px; vertical-align: super; opacity: 0.7; margin: 0 1px;
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 5 — Data visualization (D2, D5 scaffolds for pipeline page)
+   ────────────────────────────────────────────────────────────────────────── */
+.w5-telemetry-rail {
+  position: fixed;
+  top: 100px;
+  left: 12px;
+  width: 88px;
+  bottom: 24px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  padding: 8px 6px;
+  display: none;
+}
+.has-w5-telemetry .w5-telemetry-rail { display: flex; flex-direction: column; gap: 6px; }
+
+.w5-heat-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+  padding: 16px 0;
+}
+.w5-heat-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--surface-2);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 260ms var(--ease-enter), transform 260ms var(--ease-enter);
+}
+.w5-heat-cell.is-in   { opacity: 1; transform: scale(1); }
+.w5-heat-cell--pass   { background: var(--green-soft); }
+.w5-heat-cell--warn   { background: var(--amber-soft); }
+.w5-heat-cell--fail   { background: var(--red-soft); }
