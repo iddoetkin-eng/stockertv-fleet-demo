@@ -98,6 +98,21 @@
   --topbar-health-h:   24px;
   --topbar-h:          calc(var(--topbar-primary-h) + var(--topbar-health-h));
   --ticker-h:          38px;
+
+  /* ── Wave 5 foundation tokens ──────────────────────────────────────────
+     Shared by grain overlay (G1), watermark ticker (C4), mastheads (A2/C5),
+     Market Open Ceremony (F1), editorial bylines (G6), issue lockups (G3).
+     Per-batch specific tokens live alongside their consumers further down. */
+  --w5-hairline-thin:   rgba(255, 255, 255, 0.09);
+  --w5-grain-base-freq: 0.82;
+  --w5-grain-opacity:   0.035;
+  --w5-grain-blend:     overlay;
+  --w5-watermark-color: rgba(255, 255, 255, 0.045);
+  --w5-ceremony-scrim:  rgba(6, 6, 10, 0.86);
+  --w5-ceremony-accent: var(--accent);
+  --w5-issue-meta:      rgba(158, 158, 180, 0.55);
+  --w5-masthead-rule:   rgba(255, 255, 255, 0.22);
+  --w5-pullquote-color: rgba(230, 230, 238, 0.92);
 }
 
 /* ── Light mode — editorial paper palette ───────────────────────────────
@@ -166,6 +181,17 @@
   --shadow-l1: 0 1px 2px rgba(26, 24, 21, 0.06);
   --shadow-l2: 0 2px 8px rgba(26, 24, 21, 0.06), 0 1px 3px rgba(26, 24, 21, 0.04);
   --shadow-l3: 0 16px 48px rgba(26, 24, 21, 0.12), 0 0 0 1px rgba(26, 24, 21, 0.05);
+
+  /* Wave 5 overrides for paper mode */
+  --w5-hairline-thin:   rgba(26, 24, 21, 0.1);
+  --w5-grain-base-freq: 0.94;
+  --w5-grain-opacity:   0.022;
+  --w5-grain-blend:     multiply;
+  --w5-watermark-color: rgba(26, 24, 21, 0.045);
+  --w5-ceremony-scrim:  rgba(250, 247, 242, 0.92);
+  --w5-issue-meta:      rgba(26, 24, 21, 0.48);
+  --w5-masthead-rule:   rgba(26, 24, 21, 0.35);
+  --w5-pullquote-color: rgba(26, 24, 21, 0.9);
 }
 
 * { box-sizing: border-box; }
