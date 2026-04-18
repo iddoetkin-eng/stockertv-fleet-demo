@@ -1918,25 +1918,10 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
 /* Theme toggle button colors handled inline in its own rule via tokens */
 
 /* ──────────────────────────────────────────────────────────────────────────
-   Wave 5 · Batch 2 — Iconography (A2 masthead, A3 reporter, A4 dingbats)
+   Wave 5 · Batch 2 — Iconography (A3 reporter, A4 dingbats)
    Stage glyphs (A1) only live on the pipeline page; not included here.
    All glyphs use currentColor and inherit from theme tokens.
    ────────────────────────────────────────────────────────────────────────── */
-
-/* A2 · Masthead monogram — overrides gradient brand-mark chip */
-.brand-mark--w5 {
-  width: auto !important;
-  min-width: 48px;
-  height: 32px !important;
-  background: none !important;
-  box-shadow: none !important;
-  color: var(--accent);
-  padding: 0 !important;
-  display: flex;
-  align-items: center;
-}
-.brand-mark--w5 .w5-masthead-mark { display: block; width: auto; height: 100%; }
-[data-theme="light"] .brand-mark--w5 { color: var(--accent); }
 
 /* A3 · Reporter marks — framed Fraunces italic monograms. Used in feed rail,
    drill modal byline, stage 7 (pipeline only). Styled generically here so
@@ -2049,46 +2034,8 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
 }
 [data-theme="light"] .w5-paper-fiber { opacity: 0.08; }
 
-/* G3 · Edition / issue lockup — fixed bottom-right */
-.w5-edition-lockup {
-  position: fixed;
-  bottom: calc(var(--ticker-h) + 12px);
-  right: 16px;
-  z-index: 99;
-  display: flex; gap: 6px; align-items: baseline;
-  font-size: 10px;
-  color: var(--w5-issue-meta);
-  pointer-events: none;
-  opacity: 0.85;
-}
-.w5-edition-pub  { font-family: var(--serif); font-style: italic; font-variation-settings: "opsz" 18; font-size: 11px; }
-.w5-edition-issue,
-.w5-edition-vol,
-.w5-edition-date { font-family: var(--mono); letter-spacing: 0.5px; font-size: 9px; text-transform: uppercase; }
-.w5-edition-sep  { opacity: 0.5; }
-
-/* G7 · Build / version lockup — fixed bottom-left */
-.w5-build-lockup {
-  position: fixed;
-  bottom: calc(var(--ticker-h) + 12px);
-  left: 16px;
-  z-index: 99;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.6px;
-  color: var(--text-3);
-  opacity: 0.55;
-  pointer-events: none;
-}
-.w5-build-lockup .w5-registered {
-  font-size: 7px;
-  vertical-align: super;
-  opacity: 0.7;
-  margin: 0 1px;
-}
-
 /* ──────────────────────────────────────────────────────────────────────────
-   Wave 5 · Batch 5 — Data visualization (D3 crosshair, D6 sparklines)
+   Wave 5 · Batch 5 — Data visualization (D3 crosshair)
    D1 Nightingale rose lives at /today.html (self-contained).
    D2 telemetry rail, D4 reporter polylines, D5 heat-grid are scaffolded
    here; actual wiring into the map + pipeline renders deferred.
@@ -2130,21 +2077,6 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
 .w5-ch-readout--utc  { bottom: 24px; right: 24px; }
 .w5-ch-readout--near { top: 24px; right: 24px; }
 [data-theme="light"] .w5-ch-readout { background: rgba(255, 253, 250, 0.92); border-color: var(--accent); }
-
-/* D6 · Topbar sparklines — render BEFORE the label inside each .tb-metric */
-.w5-sparkline-wrap {
-  display: inline-flex;
-  align-items: center;
-  margin-right: 8px;
-  color: var(--text-3);
-  opacity: 0.65;
-  flex: 0 0 48px;
-  transition: color 260ms var(--ease-enter), opacity 260ms var(--ease-enter);
-}
-.w5-sparkline { display: block; }
-.tb-metric:hover .w5-sparkline-wrap { color: var(--accent); opacity: 1; }
-[data-theme="light"] .w5-sparkline-wrap { color: var(--text-2); }
-[data-theme="light"] .tb-metric:hover .w5-sparkline-wrap { color: var(--accent); }
 
 /* D2 · Pipeline telemetry rail (scaffold — consumer: pipeline page only).
    Defined here for symmetry; no-op on fleet. */

@@ -128,18 +128,6 @@
       + SVG_CLOSE
   };
 
-  // ── A2: StockerTV masthead monogram ───────────────────────────────────
-  // An "S" whose middle horizontal tracks upward like a price spike, locked
-  // inside a hairline rule. Replaces the "STV" text brand-mark. Sits on a
-  // fill-bg chip, stroke/fill uses currentColor.
-  const MASTHEAD_MONOGRAM =
-    '<svg class="w5-masthead-mark" viewBox="0 0 48 32" width="48" height="32" aria-hidden="true">'
-    + '<path d="M10 23 C10 26, 13 27, 16 27 L22 27 C25 27, 28 26, 28 23 C28 20, 25 19, 22 19 L14 19 C11 19, 8 18, 8 15 C8 12, 11 11, 14 11 L22 11 C25 11, 28 12, 28 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
-    + '<polyline points="30,18 34,12 38,16 44,8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>'
-    + '<circle cx="44" cy="8" r="1.3" fill="currentColor"/>'
-    + '<line x1="6" y1="30" x2="46" y2="30" stroke="currentColor" stroke-width="0.75" opacity="0.45"/>'
-    + '</svg>';
-
   // ── A3: Five reporter monograms, one per reporter, each with a framing
   // device. Used in drill modal byline, feed items, stage 7 reporter pick.
   // Fill uses the reporter's token color; framing uses currentColor for
@@ -187,7 +175,6 @@
   // Public API
   window.W5_GLYPHS = {
     stage:   STAGE_GLYPHS,
-    masthead: MASTHEAD_MONOGRAM,
     reporter: REPORTER_MARKS,
     region:   REGIONAL_DINGBATS
   };
@@ -212,29 +199,12 @@
     });
   }
 
-  // Replace topbar brand-mark text ("STV") with the masthead monogram on
-  // both fleet and pipeline pages.
-  function injectMasthead() {
-    const marks = document.querySelectorAll('.brand-mark');
-    marks.forEach((el) => {
-      if (el.dataset.w5Mastheaded === '1') return;
-      el.innerHTML = MASTHEAD_MONOGRAM;
-      el.dataset.w5Mastheaded = '1';
-      el.classList.add('brand-mark--w5');
-    });
-  }
-
-  // On DOM ready, run both injections.
+  // On DOM ready, inject stage glyphs.
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      injectStageGlyphs();
-      injectMasthead();
-    });
+    document.addEventListener('DOMContentLoaded', injectStageGlyphs);
   } else {
     injectStageGlyphs();
-    injectMasthead();
   }
 
   window.W5_GLYPHS.injectStageGlyphs = injectStageGlyphs;
-  window.W5_GLYPHS.injectMasthead = injectMasthead;
 })();

@@ -2372,21 +2372,6 @@ body::before {
 [data-theme="light"] .stage--active .w5-stage-glyph   { color: var(--accent); }
 [data-theme="light"] .stage--complete .w5-stage-glyph { color: var(--green); }
 
-/* A2 · Masthead monogram in topbar brand-mark — overrides gradient chip */
-.brand-mark--w5 {
-  width: auto !important;
-  min-width: 48px;
-  height: 32px !important;
-  background: none !important;
-  box-shadow: none !important;
-  color: var(--accent);
-  padding: 0 !important;
-  display: flex;
-  align-items: center;
-}
-.brand-mark--w5 .w5-masthead-mark { display: block; width: auto; height: 100%; }
-[data-theme="light"] .brand-mark--w5 { color: var(--accent); }
-
 /* A3 · Reporter marks — framed Fraunces italic monograms. Sized for byline. */
 .w5-reporter-mark {
   display: inline-flex;
@@ -2556,37 +2541,6 @@ body::before {
   background-size: 480px 480px;
 }
 [data-theme="light"] .w5-paper-fiber { opacity: 0.08; }
-
-.w5-edition-lockup {
-  position: fixed;
-  bottom: 12px; right: 16px;
-  z-index: 99;
-  display: flex; gap: 6px; align-items: baseline;
-  font-size: 10px;
-  color: var(--w5-issue-meta);
-  pointer-events: none;
-  opacity: 0.85;
-}
-.w5-edition-pub  { font-family: var(--serif); font-style: italic; font-variation-settings: "opsz" 18; font-size: 11px; }
-.w5-edition-issue,
-.w5-edition-vol,
-.w5-edition-date { font-family: var(--mono); letter-spacing: 0.5px; font-size: 9px; text-transform: uppercase; }
-.w5-edition-sep  { opacity: 0.5; }
-
-.w5-build-lockup {
-  position: fixed;
-  bottom: 12px; left: 16px;
-  z-index: 99;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.6px;
-  color: var(--text-3);
-  opacity: 0.55;
-  pointer-events: none;
-}
-.w5-build-lockup .w5-registered {
-  font-size: 7px; vertical-align: super; opacity: 0.7; margin: 0 1px;
-}
 
 /* ──────────────────────────────────────────────────────────────────────────
    Wave 5 · Batch 5 — Data visualization (D2, D5 scaffolds for pipeline page)

@@ -158,25 +158,11 @@
     io.observe(dual);
   }
 
-  // ── Batch 4 · populate G3 edition lockup + G7 build lockup ─────────────
-  function populateSignals() {
-    const now = new Date();
-    const issue = issueNumber(now);
-    const pad = (n) => String(n).padStart(2, '0');
-    const dateStr = `${now.getUTCFullYear()}-${pad(now.getUTCMonth()+1)}-${pad(now.getUTCDate())}`;
-    document.querySelectorAll('[data-w5-issue]').forEach(el => el.textContent = issue);
-    document.querySelectorAll('[data-w5-date]').forEach(el => el.textContent = dateStr);
-    // Build number is day-of-year + year offset for incrementing deterministic feel
-    const buildNum = 2000 + parseInt(issue, 10);
-    document.querySelectorAll('[data-w5-build]').forEach(el => el.textContent = String(buildNum));
-  }
-
   function boot() {
     injectPullQuotes();
     injectStageMastheads();
     hookDrillModalDropcap();
     hookComplianceHero();
-    populateSignals();
   }
 
   if (document.readyState === 'loading') {

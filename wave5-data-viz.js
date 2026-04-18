@@ -116,65 +116,8 @@
     });
   }
 
-  // ── D6 · Topbar sparklines replacing raw counters ──────────────────────
-  // Prepends a micro 48x14 SVG sparkline to each .tb-metric using a
-  // deterministic 12-point curve derived from the metric's current value.
-  // Re-renders on data change via MutationObserver on the [data-slot] span.
-  function makeSparkline(key, currentStr) {
-    // Deterministic seed per metric key + value → 12 points
-    let seed = 0;
-    const src = key + '::' + currentStr;
-    for (let i = 0; i < src.length; i++) seed = (seed * 31 + src.charCodeAt(i)) >>> 0;
-    function rnd() {
-      seed = (seed * 1664525 + 1013904223) >>> 0;
-      return (seed & 0xffff) / 0xffff;
-    }
-    const pts = [];
-    let v = 0.4 + rnd() * 0.2;
-    for (let i = 0; i < 12; i++) {
-      v += (rnd() - 0.5) * 0.22;
-      v = Math.max(0.08, Math.min(0.92, v));
-      pts.push(v);
-    }
-    // Last point anchors near the "current" reading (visual continuity)
-    const parsed = parseFloat((currentStr || '0').replace(/[^\d.-]/g, ''));
-    if (!isNaN(parsed) && parsed > 0) pts[11] = 0.78;
-    const w = 48, h = 14;
-    const poly = pts.map((p, i) => {
-      const x = (i / 11) * (w - 2) + 1;
-      const y = h - p * (h - 2) - 1;
-      return x.toFixed(1) + ',' + y.toFixed(1);
-    }).join(' ');
-    return ''
-      + '<svg class="w5-sparkline" viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '" aria-hidden="true">'
-      + '<polyline fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" points="' + poly + '"/>'
-      + '</svg>';
-  }
-
-  function hydrateSparklines() {
-    const metrics = document.querySelectorAll('.tb-metric');
-    metrics.forEach((m) => {
-      if (m.querySelector('.w5-sparkline-wrap')) return;
-      const key = m.getAttribute('data-metric') || '';
-      const slot = m.querySelector('[data-slot]');
-      const value = slot ? slot.textContent : '';
-      const wrap = document.createElement('span');
-      wrap.className = 'w5-sparkline-wrap';
-      wrap.innerHTML = makeSparkline(key, value);
-      // Insert before the label (tb-k) so layout is: [spark] [k] [v]
-      m.insertBefore(wrap, m.firstChild);
-      if (slot) {
-        const mo = new MutationObserver(() => {
-          wrap.innerHTML = makeSparkline(key, slot.textContent || '');
-        });
-        mo.observe(slot, { childList: true, characterData: true, subtree: true });
-      }
-    });
-  }
-
   function boot() {
     armCrosshair();
-    hydrateSparklines();
   }
 
   if (document.readyState === 'loading') {
