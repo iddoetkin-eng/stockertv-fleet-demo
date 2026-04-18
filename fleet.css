@@ -2180,3 +2180,106 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
 .w5-heat-cell--pass   { background: var(--green-soft); }
 .w5-heat-cell--warn   { background: var(--amber-soft); }
 .w5-heat-cell--fail   { background: var(--red-soft); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 6 — Motion (B1 curator, B2 magnetic dots, B6 elastic, B7 shimmer)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* B1 · Curator idle mode — full-viewport Fraunces pull-quote overlay */
+.w5-curator {
+  position: fixed; inset: 0;
+  z-index: 9500;
+  display: flex; justify-content: center; align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-enter);
+  background: radial-gradient(circle at center, rgba(10,11,15,0.35), rgba(10,11,15,0));
+}
+.w5-curator.is-active { opacity: 1; }
+.w5-curator-quote {
+  max-width: 880px;
+  padding: 0 48px;
+  text-align: center;
+}
+.w5-curator-mark {
+  display: block;
+  font-family: var(--serif); font-style: italic;
+  font-size: 96px; line-height: 0.6;
+  color: var(--accent); opacity: 0.75;
+  font-variation-settings: "opsz" 144;
+  margin-bottom: -18px;
+}
+.w5-curator-text {
+  display: block;
+  font-family: var(--serif); font-style: italic;
+  font-size: 64px; line-height: 1.14;
+  font-variation-settings: "opsz" 96;
+  font-weight: 500; letter-spacing: -0.012em;
+  color: var(--w5-pullquote-color);
+}
+.w5-curator-attr {
+  display: block; margin-top: 36px;
+  font-family: var(--mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 2px;
+  color: var(--w5-issue-meta);
+}
+/* Map slow-orbits during curator mode. 90° sweep over 120s, cosmetic only. */
+.w5-curator-active .map-svg {
+  animation: w5-curator-orbit 120s linear infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes w5-curator-orbit {
+  0%   { filter: hue-rotate(0deg) saturate(0.88); }
+  50%  { filter: hue-rotate(6deg)  saturate(0.8); }
+  100% { filter: hue-rotate(0deg) saturate(0.88); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w5-curator { display: none !important; }
+  .w5-curator-active .map-svg { animation: none; }
+}
+
+/* B2 · Magnetic dot transition (JS drives transform, CSS owns the spring) */
+.ex-dot, .map-dot {
+  transition: transform 320ms cubic-bezier(.2, 1.4, .3, 1);
+}
+
+/* B6 · Elastic modal close/open */
+.drill-modal.w5-elastic-opening,
+.stage-modal.w5-elastic-opening,
+.avatar-modal.w5-elastic-opening {
+  animation: w5-elastic-in 240ms cubic-bezier(.2, 1.4, .3, 1);
+}
+.drill-modal.w5-elastic-closing,
+.stage-modal.w5-elastic-closing,
+.avatar-modal.w5-elastic-closing {
+  animation: w5-elastic-out 280ms cubic-bezier(.5, 1.8, .55, .95);
+}
+@keyframes w5-elastic-in {
+  0%   { transform: scale(0.96) translateY(8px); opacity: 0; }
+  70%  { transform: scale(1.02) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes w5-elastic-out {
+  0%   { transform: scale(1) translateY(0); opacity: 1; }
+  30%  { transform: scale(1.01) translateY(-4px); }
+  100% { transform: scale(0.92) translateY(8px); opacity: 0; }
+}
+
+/* B7 · Metric shimmer — chromatic aberration on digit change */
+.w5-shimmer {
+  position: relative;
+  animation: w5-shimmer-ca 140ms linear;
+}
+@keyframes w5-shimmer-ca {
+  0%   { text-shadow: 0 0 0 transparent; color: inherit; }
+  50%  { text-shadow: -0.5px 0 0 rgba(255, 122, 89, 0.7), 0.5px 0 0 rgba(74, 158, 255, 0.6); }
+  100% { text-shadow: 0 0 0 transparent; color: inherit; }
+}
+[data-theme="light"] .w5-shimmer {
+  animation-name: w5-shimmer-ca-light;
+}
+@keyframes w5-shimmer-ca-light {
+  0%   { text-shadow: 0 0 0 transparent; }
+  50%  { text-shadow: -0.5px 0 0 rgba(199, 75, 40, 0.65), 0.5px 0 0 rgba(37, 99, 235, 0.55); }
+  100% { text-shadow: 0 0 0 transparent; }
+}
