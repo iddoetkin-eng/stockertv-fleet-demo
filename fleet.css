@@ -1916,3 +1916,52 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
 [data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(26, 24, 21, 0.24); }
 [data-theme="light"] ::selection { background: rgba(199, 75, 40, 0.18); color: var(--text); }
 /* Theme toggle button colors handled inline in its own rule via tokens */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 2 — Iconography (A2 masthead, A3 reporter, A4 dingbats)
+   Stage glyphs (A1) only live on the pipeline page; not included here.
+   All glyphs use currentColor and inherit from theme tokens.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* A2 · Masthead monogram — overrides gradient brand-mark chip */
+.brand-mark--w5 {
+  width: auto !important;
+  min-width: 48px;
+  height: 32px !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: var(--accent);
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+.brand-mark--w5 .w5-masthead-mark { display: block; width: auto; height: 100%; }
+[data-theme="light"] .brand-mark--w5 { color: var(--accent); }
+
+/* A3 · Reporter marks — framed Fraunces italic monograms. Used in feed rail,
+   drill modal byline, stage 7 (pipeline only). Styled generically here so
+   either page's byline patterns can consume them. */
+.w5-reporter-mark {
+  display: inline-flex;
+  width: 36px;
+  height: 28px;
+  color: var(--text-3);
+  vertical-align: middle;
+  flex: 0 0 auto;
+  margin-right: 6px;
+}
+.w5-reporter-mark svg { display: block; width: 100%; height: 100%; }
+[data-theme="light"] .w5-reporter-mark { color: var(--text-2); }
+
+/* A4 · Regional dingbats — Fraunces italic glyphs positioned at arc apexes.
+   Rendered by fleet.js map layer (wired in Batch 5 data-viz pass). */
+.w5-region-dingbat {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  font-variation-settings: "opsz" 24;
+  opacity: 0.7;
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}

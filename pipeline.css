@@ -2346,3 +2346,55 @@ body::before {
 /* Stage 12 reveal — ensure threshold amber ticks and scale labels read on paper */
 [data-theme="light"] .dual-reveal-pass { color: var(--amber); }
 [data-theme="light"] .dual-threshold { box-shadow: 0 0 6px rgba(181, 119, 10, 0.35); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 2 — Iconography (A1 stage glyphs, A2 masthead, A3 reporter)
+   All glyphs use currentColor so they inherit the parent text color and swap
+   automatically with the theme.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* A1 · Stage glyphs — injected by wave5-glyphs.js into .stage-header */
+.w5-stage-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 2px;
+  color: var(--text-3);
+  transition: color 260ms var(--ease-enter), transform 260ms var(--ease-enter);
+  flex: 0 0 auto;
+}
+.w5-stage-glyph svg { display: block; width: 100%; height: 100%; }
+.stage--active .w5-stage-glyph   { color: var(--accent);   transform: scale(1.03); }
+.stage--complete .w5-stage-glyph { color: var(--green); opacity: 0.85; }
+[data-theme="light"] .w5-stage-glyph { color: var(--text-2); }
+[data-theme="light"] .stage--active .w5-stage-glyph   { color: var(--accent); }
+[data-theme="light"] .stage--complete .w5-stage-glyph { color: var(--green); }
+
+/* A2 · Masthead monogram in topbar brand-mark — overrides gradient chip */
+.brand-mark--w5 {
+  width: auto !important;
+  min-width: 48px;
+  height: 32px !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: var(--accent);
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+.brand-mark--w5 .w5-masthead-mark { display: block; width: auto; height: 100%; }
+[data-theme="light"] .brand-mark--w5 { color: var(--accent); }
+
+/* A3 · Reporter marks — framed Fraunces italic monograms. Sized for byline. */
+.w5-reporter-mark {
+  display: inline-flex;
+  width: 36px;
+  height: 28px;
+  color: var(--text-3);
+  vertical-align: middle;
+  flex: 0 0 auto;
+}
+.w5-reporter-mark svg { display: block; width: 100%; height: 100%; }
+[data-theme="light"] .w5-reporter-mark { color: var(--text-2); }
