@@ -76,45 +76,6 @@
     resetIdle();
   }
 
-  // ── B2 · Magnetic exchange dots ────────────────────────────────────────
-  // Dots within 60px of cursor translate up to 4px toward the cursor.
-  // Spring-back on leave via CSS transition. Uses transform-origin updates.
-  function armMagneticDots() {
-    const dots = document.querySelectorAll('.ex-dot, .map-dot');
-    if (!dots.length || !shouldAnimate()) return;
-
-    const RADIUS = 60;
-    const MAX_PULL = 4;
-
-    let lastX = -1, lastY = -1;
-    let frame = null;
-
-    function update() {
-      frame = null;
-      dots.forEach((dot) => {
-        const r = dot.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-        const dx = lastX - cx;
-        const dy = lastY - cy;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < RADIUS) {
-          const pull = (1 - d / RADIUS) * MAX_PULL;
-          const ux = dx / (d || 1);
-          const uy = dy / (d || 1);
-          dot.style.transform = `translate(${(ux * pull).toFixed(2)}px, ${(uy * pull).toFixed(2)}px)`;
-        } else if (dot.style.transform) {
-          dot.style.transform = '';
-        }
-      });
-    }
-
-    document.addEventListener('mousemove', (e) => {
-      lastX = e.clientX; lastY = e.clientY;
-      if (!frame) frame = requestAnimationFrame(update);
-    }, { passive: true });
-  }
-
   // ── B6 · Elastic modal close ───────────────────────────────────────────
   // Applied to .drill-modal and any .stage-modal — adds .w5-elastic-close
   // class on close, letting CSS drive the overshoot.
@@ -158,7 +119,6 @@
 
   function boot() {
     armCurator();
-    armMagneticDots();
     armElasticClose();
     armMetricShimmer();
   }

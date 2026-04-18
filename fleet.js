@@ -186,6 +186,8 @@
       });
       dot.addEventListener("mouseenter", () => showTooltipForExchange(ex));
       dot.addEventListener("mouseleave", hideTooltip);
+      dot.addEventListener("click", (e) => { e.stopPropagation(); openExchangeModal(ex); });
+      dot.style.cursor = "pointer";
       group.appendChild(dot);
       g.appendChild(group);
     }
@@ -622,6 +624,35 @@
     if (tt) tt.hidden = true;
   }
 
+  // ── Exchange info modal (click any dot → opens this) ────────────────
+  function openExchangeModal(ex) {
+    hideTooltip();
+    const modal = $("#exchange-modal");
+    const stage = $("#exchange-modal-stage");
+    if (!modal || !stage) return;
+    const open = isExOpen(ex);
+    const companyCount = showcase.companies.filter((c) => c.exchange === ex.code).length;
+    const tierLabel = ex.tier === 0
+      ? "Major Exchange"
+      : ex.tier === 1 ? "Regional Exchange" : "Minor Exchange";
+    const locale = (ex.city || "") + (ex.country ? ", " + ex.country : "");
+    stage.innerHTML = `
+      <div class="em-eyebrow">${escapeHtml(ex.code || "")} · ${open ? "Open" : "After hours"}</div>
+      <h2 class="em-title" id="exchange-modal-title">${escapeHtml(ex.name || ex.code || "")}</h2>
+      <div class="em-sub">${escapeHtml(locale)}</div>
+      <div class="em-meta">
+        <div><div class="em-k">Tier</div><div class="em-v">${tierLabel}</div></div>
+        <div><div class="em-k">Companies tracked</div><div class="em-v">${companyCount}</div></div>
+      </div>
+    `;
+    modal.hidden = false;
+    try { window.SoundFX && window.SoundFX.playClick && window.SoundFX.playClick(); } catch {}
+  }
+  function closeExchangeModal() {
+    const modal = $("#exchange-modal");
+    if (modal) modal.hidden = true;
+  }
+
   // ── Drill-down modal (compressed ~25s replay with per-stage content) ─
   const DRILL_TOTAL_MS = 25000;
   let drillController = null;
@@ -843,8 +874,20 @@
     $("#drill-modal").addEventListener("click", (e) => {
       if (!$("#drill-modal-stage").contains(e.target)) closeDrill();
     });
+
+    // Exchange info modal close
+    const emClose = $("#exchange-modal-close");
+    if (emClose) emClose.addEventListener("click", closeExchangeModal);
+    const em = $("#exchange-modal");
+    if (em) em.addEventListener("click", (e) => {
+      if (!$("#exchange-modal-stage").contains(e.target)) closeExchangeModal();
+    });
+
+    // Esc closes whichever modal is open (exchange-modal takes priority)
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !$("#drill-modal").hidden) closeDrill();
+      if (e.key !== "Escape") return;
+      if (!$("#exchange-modal").hidden) { closeExchangeModal(); return; }
+      if (!$("#drill-modal").hidden) closeDrill();
     });
 
     // Sound toggle
