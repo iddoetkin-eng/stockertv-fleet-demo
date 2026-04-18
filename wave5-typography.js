@@ -58,51 +58,6 @@
     document.querySelectorAll('.w5-pullquote').forEach(el => io.observe(el));
   }
 
-  // ── C5 · Issue/stage mastheads on every pipeline stage ────────────────
-  // Inserts a three-line lockup below the stage-header:
-  //   ISSUE №xxxx · VOL II            (Fraunces italic, 11pt)
-  //   STAGE 04 / FACT EXTRACTION      (Inter caps, 13pt)
-  //   2026-04-18 · 14:22:07 UTC       (JetBrains Mono, 10pt)
-  function issueNumber(date) {
-    // Day-of-year based issue number for deterministic daily numbering
-    const start = new Date(date.getFullYear(), 0, 0);
-    const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
-    const oneDay = 1000 * 60 * 60 * 24;
-    const doy = Math.floor(diff / oneDay);
-    return String(doy).padStart(4, '0');
-  }
-
-  function formatUTC(date) {
-    const pad = (n) => String(n).padStart(2, '0');
-    const d = `${date.getUTCFullYear()}-${pad(date.getUTCMonth()+1)}-${pad(date.getUTCDate())}`;
-    const t = `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
-    return `${d} · ${t} UTC`;
-  }
-
-  function injectStageMastheads() {
-    const stages = document.querySelectorAll('.stage[data-stage]');
-    if (!stages.length) return;
-    const now = new Date();
-    const issue = issueNumber(now);
-    const timestampStr = formatUTC(now);
-    stages.forEach((sec) => {
-      const num = sec.getAttribute('data-stage');
-      const name = (sec.querySelector('.stage-title')?.textContent || '').trim().toUpperCase();
-      const header = sec.querySelector('.stage-header');
-      if (!header || header.nextElementSibling?.classList.contains('w5-stage-masthead')) return;
-      const m = document.createElement('div');
-      m.className = 'w5-stage-masthead';
-      m.setAttribute('aria-hidden', 'true');
-      m.innerHTML =
-          '<span class="w5-sm-issue">Issue №' + issue + ' · Vol II</span>'
-        + '<span class="w5-sm-rule" aria-hidden="true"></span>'
-        + '<span class="w5-sm-stage">Stage ' + String(num).padStart(2, '0') + ' / ' + name + '</span>'
-        + '<span class="w5-sm-rule" aria-hidden="true"></span>'
-        + '<span class="w5-sm-time">' + timestampStr + '</span>';
-      header.parentNode.insertBefore(m, header.nextSibling);
-    });
-  }
-
   // ── C3 · Drop-cap in drill modal ──────────────────────────────────────
   // Observes the drill modal for its "hidden" attribute. When it opens,
   // injects a drop-cap into the first paragraph of the drill-modal-stage
@@ -160,7 +115,6 @@
 
   function boot() {
     injectPullQuotes();
-    injectStageMastheads();
     hookDrillModalDropcap();
     hookComplianceHero();
   }
@@ -170,6 +124,4 @@
   } else {
     boot();
   }
-
-  window.W5_TYPOGRAPHY = { issueNumber, formatUTC };
 })();

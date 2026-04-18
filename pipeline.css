@@ -2433,37 +2433,6 @@ body::before {
   color: var(--w5-issue-meta);
 }
 
-/* C5 · Issue / stage masthead lockup — three-line, sits above stage content */
-.w5-stage-masthead {
-  display: flex; align-items: center;
-  gap: 12px; flex-wrap: wrap;
-  margin: -6px 0 18px;
-  padding-bottom: 12px;
-  border-bottom: 1px dashed var(--hairline);
-  font-size: 10px;
-  color: var(--w5-issue-meta);
-  letter-spacing: 0.4px;
-}
-.w5-sm-issue {
-  font-family: var(--serif); font-style: italic; font-size: 12px;
-  font-variation-settings: "opsz" 24;
-  color: var(--accent-2);
-}
-.w5-sm-stage {
-  font-family: var(--sans); font-weight: 600; font-size: 11px;
-  text-transform: uppercase; letter-spacing: 1.6px;
-  color: var(--text-2);
-}
-.w5-sm-time {
-  font-family: var(--mono); font-size: 10px;
-  color: var(--text-3);
-}
-.w5-sm-rule {
-  flex: 0 0 18px; height: 1px;
-  background: var(--w5-masthead-rule); opacity: 0.6;
-}
-[data-theme="light"] .w5-stage-masthead { color: var(--text-3); }
-
 /* C2 · Compliance hero — when .w5-hero-mode is on stage 12, scale the number */
 .stage[data-stage="12"] .dual-reveal-number {
   transition: font-size 420ms var(--ease-enter), letter-spacing 420ms var(--ease-enter);
