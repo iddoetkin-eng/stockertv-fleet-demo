@@ -2283,3 +2283,114 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
   50%  { text-shadow: -0.5px 0 0 rgba(199, 75, 40, 0.65), 0.5px 0 0 rgba(37, 99, 235, 0.55); }
   100% { text-shadow: 0 0 0 transparent; }
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 8 — Wow moments (F1 ceremony, F1b minor flash, F3 cold open)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* F1 · Market Open Ceremony — full-screen 3.2s scrim + 180pt masthead */
+.w5-ceremony {
+  position: fixed; inset: 0; z-index: 9900;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-enter);
+}
+.w5-ceremony.is-active { opacity: 1; }
+.w5-ceremony-scrim {
+  position: absolute; inset: 0;
+  background: var(--w5-ceremony-scrim);
+  backdrop-filter: blur(6px);
+  transition: backdrop-filter 500ms;
+}
+.w5-ceremony-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 0 48px; text-align: center;
+}
+.w5-ceremony-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.w5-ceremony-masthead {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(80px, 14vw, 180px);
+  font-variation-settings: "opsz" 144;
+  line-height: 0.95;
+  letter-spacing: -0.028em;
+  color: var(--text);
+  max-width: 1200px;
+}
+.w5-ceremony-sub {
+  margin-top: 28px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  font-variation-settings: "opsz" 36;
+  color: var(--text-2);
+  max-width: 640px;
+}
+.w5-ceremony.is-reduced .w5-ceremony-masthead { font-size: clamp(48px, 8vw, 96px); }
+@media (prefers-reduced-motion: reduce) {
+  .w5-ceremony { transition: opacity 200ms linear; }
+}
+
+/* F1b · Minor bell flash — compact top-right lockup, 700ms */
+.w5-bell-flash {
+  position: fixed;
+  top: calc(var(--topbar-h, 100px) + 24px);
+  right: 24px;
+  z-index: 9850;
+  font-family: var(--serif);
+  font-size: 60px;
+  font-weight: 600;
+  font-variation-settings: "opsz" 96;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  transition: opacity 260ms var(--ease-enter), transform 260ms var(--ease-enter);
+  pointer-events: none;
+}
+.w5-bell-flash.is-active {
+  opacity: 0.95;
+  transform: translateY(0) scale(1);
+}
+.w5-bell-flash-label { display: block; }
+
+/* F3 · Letter-flight cold open — per-letter flight path + variable-font land */
+.w5-lf-letter {
+  display: inline-block;
+  opacity: 0;
+  font-variation-settings: "opsz" 9, "wght" 400;
+  transform: translate(
+    calc(var(--w5-lf-from-x, 0px) - 50vw),
+    calc(var(--w5-lf-from-y, 0px) - 50vh)
+  ) scale(0.6);
+  filter: blur(6px);
+  transition:
+    opacity 720ms cubic-bezier(.22, .94, .3, 1) var(--w5-lf-delay, 0ms),
+    transform 820ms cubic-bezier(.18, .9, .25, 1.05) var(--w5-lf-delay, 0ms),
+    filter 520ms cubic-bezier(.22, .94, .3, 1) var(--w5-lf-delay, 0ms),
+    font-variation-settings 720ms cubic-bezier(.22, .94, .3, 1) var(--w5-lf-delay, 0ms);
+}
+.splash-headline-line--accent .w5-lf-letter.w5-lf-flying {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  filter: blur(0);
+  font-variation-settings: "opsz" 144, "wght" 700;
+}
+@media (prefers-reduced-motion: reduce) {
+  .w5-lf-letter {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    font-variation-settings: "opsz" 144, "wght" 700;
+  }
+}

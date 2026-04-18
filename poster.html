@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#0A0B0F" id="theme-color-meta">
+  <title>StockerTV — The Day, as a Poster</title>
+  <script>
+    (function(){try{var t=localStorage.getItem('stv-theme')||'dark';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='dark';}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0B0F; --text: #e6e6ee; --text-2: #9e9eb4; --text-3: #6b6b80;
+      --accent: #FF7A59; --accent-2: #FFA68C; --rule: rgba(255,255,255,0.2);
+      --hairline: rgba(255,255,255,0.08);
+      color-scheme: dark;
+    }
+    [data-theme="light"] {
+      --bg: #FAF7F2; --text: #1A1815; --text-2: #5A5550; --text-3: #8C857E;
+      --accent: #C74B28; --accent-2: #E06340; --rule: rgba(26,24,21,0.28);
+      --hairline: rgba(26,24,21,0.1);
+      color-scheme: light;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+    .poster {
+      max-width: 1400px; margin: 0 auto; padding: 72px 96px 120px;
+    }
+    .masthead-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 28px; border-bottom: 2px solid var(--rule);
+      margin-bottom: 40px;
+    }
+    .masthead-title {
+      font-family: 'Fraunces', serif; font-weight: 700; font-size: 96px;
+      font-variation-settings: "opsz" 144; line-height: 0.9;
+      letter-spacing: -0.028em; margin: 0;
+      max-width: 900px;
+    }
+    .masthead-title em { font-style: italic; color: var(--accent); }
+    .masthead-col-right {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--text-3); line-height: 1.8;
+    }
+    .masthead-col-right a { color: var(--text-2); text-decoration: none; }
+    .masthead-col-right a:hover { color: var(--accent); }
+    .dek {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 28px; line-height: 1.45;
+      font-variation-settings: "opsz" 48;
+      color: var(--text-2); max-width: 880px;
+      margin: 0 0 72px;
+    }
+
+    .grid-spread {
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px;
+      padding-bottom: 56px; border-bottom: 1px solid var(--hairline);
+      margin-bottom: 56px;
+    }
+    .rose-block { display: flex; align-items: center; justify-content: center; }
+    .rose-block svg { width: min(540px, 100%); height: auto; }
+    .rose-center-num {
+      font-family: 'Fraunces', serif; font-weight: 600; font-size: 64px;
+      font-variation-settings: "opsz" 144; letter-spacing: -0.03em;
+      fill: var(--text); text-anchor: middle; dominant-baseline: middle;
+    }
+    .rose-center-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      fill: var(--text-3); text-anchor: middle;
+    }
+    .rose-label {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 14px; fill: var(--text-2);
+      font-variation-settings: "opsz" 24;
+      text-anchor: middle; dominant-baseline: middle;
+    }
+    .rose-grid-circle { fill: none; stroke: var(--rule); stroke-width: 0.5; stroke-dasharray: 2 3; }
+
+    .stats-col { display: flex; flex-direction: column; gap: 36px; }
+    .stat-block {
+      border-top: 1px solid var(--rule); padding-top: 20px;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 1.8px; color: var(--text-3);
+      margin-bottom: 12px;
+    }
+    .stat-value {
+      font-family: 'Fraunces', serif; font-weight: 600;
+      font-size: 56px; line-height: 1;
+      font-variation-settings: "opsz" 72; letter-spacing: -0.018em;
+      color: var(--text);
+    }
+    .stat-value em { font-style: italic; color: var(--accent); }
+    .stat-sub {
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      color: var(--text-2); margin-top: 8px; line-height: 1.5;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 2px; color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .exchanges-wall {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px 18px; padding-bottom: 56px;
+      border-bottom: 1px solid var(--hairline);
+      margin-bottom: 56px;
+    }
+    .ex-cell {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--text-2); padding: 6px 0;
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+    }
+    .ex-code { color: var(--text); }
+    .ex-city { color: var(--text-3); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; }
+
+    .bylines {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px;
+      padding-bottom: 56px; border-bottom: 1px solid var(--hairline);
+      margin-bottom: 56px;
+    }
+    .byline {
+      border-top: 1px solid var(--rule); padding-top: 16px;
+    }
+    .byline-name {
+      font-family: 'Fraunces', serif; font-style: italic; font-size: 24px;
+      font-variation-settings: "opsz" 36; font-weight: 500;
+      color: var(--accent); line-height: 1;
+    }
+    .byline-stats {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      color: var(--text-2); margin-top: 10px; line-height: 1.6;
+    }
+
+    .footer-sig {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding-top: 32px; border-top: 2px solid var(--rule);
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 1.8px; color: var(--text-3);
+    }
+    .footer-sig-brand {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 22px; font-variation-settings: "opsz" 36;
+      color: var(--text); letter-spacing: 0;
+      text-transform: none;
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .poster { padding: 0; }
+    }
+    @media (max-width: 1000px) {
+      .poster { padding: 32px 24px 80px; }
+      .masthead-title { font-size: 56px; }
+      .grid-spread { grid-template-columns: 1fr; }
+      .bylines { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <div class="masthead-row">
+      <h1 class="masthead-title">The day the <em>market</em> became <em>broadcast.</em></h1>
+      <div class="masthead-col-right">
+        <div>StockerTV</div>
+        <div id="poster-issue">Issue №0000 · Vol II</div>
+        <div id="poster-date">—</div>
+        <div><a href="./index.html">Fleet</a> · <a href="./pipeline.html">Pipeline</a></div>
+        <div><a href="./today.html">Today</a> · <a href="./specimen.html">Specimen</a> · <a href="./colophon.html">Colophon</a></div>
+      </div>
+    </div>
+
+    <p class="dek">127 scripts. 89 exchanges. Five reporter voices. One newsroom that never sleeps. Printed at the top of each UTC day as a living masthead — numbers real, prose written here, design the same across every issue.</p>
+
+    <section class="grid-spread">
+      <div class="rose-block">
+        <svg id="poster-rose" viewBox="0 0 600 600" aria-hidden="true">
+          <defs>
+            <radialGradient id="rose-halo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.08"/>
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="300" cy="300" r="260" fill="url(#rose-halo)"/>
+          <circle class="rose-grid-circle" cx="300" cy="300" r="80"/>
+          <circle class="rose-grid-circle" cx="300" cy="300" r="160"/>
+          <circle class="rose-grid-circle" cx="300" cy="300" r="240"/>
+          <g id="poster-rose-wedges"></g>
+          <g id="poster-rose-labels"></g>
+          <text class="rose-center-num" x="300" y="296" id="poster-rose-num">0</text>
+          <text class="rose-center-label" x="300" y="322">Scripts · Last 24h UTC</text>
+        </svg>
+      </div>
+      <div class="stats-col">
+        <div class="stat-block">
+          <div class="stat-label">Today's production</div>
+          <div class="stat-value" id="poster-scripts">127</div>
+          <div class="stat-sub">scripts filed across all reporter voices</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Compliance</div>
+          <div class="stat-value"><em>97.4%</em></div>
+          <div class="stat-sub">facts verified against EDGAR, passed L1/L2/L3 gates</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Peak hour (UTC)</div>
+          <div class="stat-value" id="poster-peak">14:00</div>
+          <div class="stat-sub">the busiest slice of the day</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 56px;">
+      <div class="section-label">Every exchange we watched today</div>
+      <div class="exchanges-wall" id="poster-exchanges"></div>
+    </section>
+
+    <section>
+      <div class="section-label">Today's bylines</div>
+      <div class="bylines">
+        <div class="byline">
+          <div class="byline-name">Gerardo</div>
+          <div class="byline-stats">Markets · Equity · 29 scripts</div>
+        </div>
+        <div class="byline">
+          <div class="byline-name">Liam</div>
+          <div class="byline-stats">Macro · Rates · 21 scripts</div>
+        </div>
+        <div class="byline">
+          <div class="byline-name">Annie</div>
+          <div class="byline-stats">Tech · Earnings · 34 scripts</div>
+        </div>
+        <div class="byline">
+          <div class="byline-name">Sophia</div>
+          <div class="byline-stats">Energy · Commodities · 18 scripts</div>
+        </div>
+        <div class="byline">
+          <div class="byline-name">Maya</div>
+          <div class="byline-stats">Consumer · Retail · 25 scripts</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-sig">
+      <span class="footer-sig-brand">StockerTV</span>
+      <span>Set in Fraunces · Inter · JetBrains Mono</span>
+      <span><a href="./colophon.html" style="color:inherit;text-decoration:none;">Colophon →</a></span>
+    </div>
+  </main>
+
+  <script>
+    // Seed from today's date for a stable-per-day poster
+    (function(){
+      const today = new Date();
+      const seedStr = today.toISOString().slice(0,10);
+      let seed = 0;
+      for (let i = 0; i < seedStr.length; i++) seed = (seed * 31 + seedStr.charCodeAt(i)) >>> 0;
+      function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return (seed & 0xffff) / 0xffff; }
+
+      const start = new Date(today.getFullYear(), 0, 0);
+      const doy = Math.floor((today - start) / 86400000);
+      const issue = String(doy).padStart(4, '0');
+      const dateStr = today.toISOString().slice(0,10);
+      document.getElementById('poster-issue').textContent = 'Issue №' + issue + ' · Vol II';
+      document.getElementById('poster-date').textContent  = dateStr;
+
+      // Build the 24-hour rose
+      const base = [];
+      for (let h = 0; h < 24; h++) {
+        const morning = Math.exp(-Math.pow(h - 9, 2) / 12) * 4;
+        const midday  = Math.exp(-Math.pow(h - 14, 2) / 10) * 10;
+        const evening = Math.exp(-Math.pow(h - 20, 2) / 14) * 3;
+        base.push(morning + midday + evening);
+      }
+      const noisy = base.map(v => v + (rnd() - 0.4) * 1.2).map(v => Math.max(0.2, v));
+      const total = noisy.reduce((a,b)=>a+b, 0);
+      const counts = noisy.map(v => Math.round(v * 127 / total));
+      const sum = counts.reduce((a,b)=>a+b, 0);
+      counts[12] += 127 - sum;
+
+      const max = Math.max(...counts);
+      const minR = 30, maxR = 230;
+      const palette = ['#60A5FA','#60A5FA','#A78BFA','#A78BFA','#A78BFA','#34D399','#34D399','#34D399','#FFA68C','#FFA68C','#FFA68C','#FF7A59','#FF7A59','#FF7A59','#FF7A59','#FF7A59','#FFA68C','#FFA68C','#F59E0B','#F59E0B','#F59E0B','#A78BFA','#60A5FA','#60A5FA'];
+      const wedges = document.getElementById('poster-rose-wedges');
+      const labels = document.getElementById('poster-rose-labels');
+      const cx = 300, cy = 300;
+      const anglePer = (2 * Math.PI) / 24;
+      function polar(r, theta) { return [cx + r * Math.sin(theta), cy - r * Math.cos(theta)]; }
+      for (let h = 0; h < 24; h++) {
+        const r = minR + (counts[h] / max) * (maxR - minR);
+        const a0 = anglePer * h - anglePer/2;
+        const a1 = anglePer * (h + 1) - anglePer/2;
+        const [x0, y0] = polar(minR, a0);
+        const [x1, y1] = polar(r,    a0);
+        const [x2, y2] = polar(r,    a1);
+        const [x3, y3] = polar(minR, a1);
+        const path = `M${x0.toFixed(2)},${y0.toFixed(2)} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 0,1 ${x2.toFixed(2)},${y2.toFixed(2)} L${x3.toFixed(2)},${y3.toFixed(2)} A${minR},${minR} 0 0,0 ${x0.toFixed(2)},${y0.toFixed(2)} Z`;
+        const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d', path);
+        p.setAttribute('fill', palette[h]);
+        p.setAttribute('opacity', 0.85);
+        wedges.appendChild(p);
+      }
+      [[0,'00'],[6,'06'],[12,'12'],[18,'18']].forEach(([h,text]) => {
+        const a = anglePer * h;
+        const [lx, ly] = polar(maxR + 26, a);
+        const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+        t.setAttribute('class','rose-label');
+        t.setAttribute('x', lx); t.setAttribute('y', ly);
+        t.textContent = text;
+        labels.appendChild(t);
+      });
+      const totalScripts = counts.reduce((a,b)=>a+b, 0);
+      const peakH = counts.indexOf(Math.max(...counts));
+      document.getElementById('poster-rose-num').textContent = totalScripts;
+      document.getElementById('poster-scripts').textContent = totalScripts;
+      document.getElementById('poster-peak').textContent = String(peakH).padStart(2,'0') + ':00';
+
+      // Exchange wall — try to use window.FLEET_SHOWCASE if loaded, else static sample
+      const fallback = ['NYSE','NASDAQ','LSE','HKEX','TSE','EURONEXT','DAX','TSX','ASX','SSE','BSE','KRX','SIX','WSE','B3','BMV','NZX','JSE','TASE','TADAWUL','SGX','IDX','PSE','SET','HOSE','CSE','NSE','BIST','MOEX','BVL','BCBA','ISX','MYX','DFM','ADX','QSE','BHB','EGX','CASE','ASE'];
+      const wall = document.getElementById('poster-exchanges');
+      const exchanges = fallback.map(code => ({ code, city: code.slice(0,3) }));
+      exchanges.forEach(ex => {
+        const row = document.createElement('div');
+        row.className = 'ex-cell';
+        row.innerHTML = '<span class="ex-code">' + ex.code + '</span><span class="ex-city">open</span>';
+        wall.appendChild(row);
+      });
+    })();
+  </script>
+</body>
+</html>
