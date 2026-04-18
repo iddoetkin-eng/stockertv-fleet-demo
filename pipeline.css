@@ -2398,3 +2398,133 @@ body::before {
 }
 .w5-reporter-mark svg { display: block; width: 100%; height: 100%; }
 [data-theme="light"] .w5-reporter-mark { color: var(--text-2); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 3 — Typography (C1, C2, C3, C5, C7)
+   Editorial pull-quotes between stages, stage mastheads, 240pt compliance
+   hero, drill-modal drop-cap, fact pull-out scaffolding.
+   C4 (ticker watermark) lives on the fleet page only.
+   C6 (specimen) is its own /specimen.html page.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* C1 · Editorial pull-quotes */
+.w5-pullquote {
+  display: flex; justify-content: center; align-items: center;
+  padding: 96px 48px;
+  margin: 40px auto;
+  max-width: 960px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 800ms var(--ease-enter), transform 800ms var(--ease-enter);
+}
+.w5-pullquote.is-visible { opacity: 1; transform: translateY(0); }
+.w5-pullquote-body {
+  margin: 0;
+  text-align: center;
+  max-width: 780px;
+}
+.w5-pullquote-mark {
+  font-family: var(--serif); font-style: italic;
+  font-size: 96px; line-height: 0.6;
+  color: var(--accent); opacity: 0.7;
+  font-variation-settings: "opsz" 144;
+  display: block;
+  margin-bottom: -20px;
+}
+.w5-pullquote-text {
+  display: block;
+  font-family: var(--serif); font-style: italic;
+  font-size: 56px; line-height: 1.18;
+  font-variation-settings: "opsz" 96;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  color: var(--w5-pullquote-color);
+}
+.w5-pullquote-attribution {
+  display: block;
+  margin-top: 36px;
+  font-family: var(--mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 1.8px;
+  color: var(--w5-issue-meta);
+}
+
+/* C5 · Issue / stage masthead lockup — three-line, sits above stage content */
+.w5-stage-masthead {
+  display: flex; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+  margin: -6px 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--hairline);
+  font-size: 10px;
+  color: var(--w5-issue-meta);
+  letter-spacing: 0.4px;
+}
+.w5-sm-issue {
+  font-family: var(--serif); font-style: italic; font-size: 12px;
+  font-variation-settings: "opsz" 24;
+  color: var(--accent-2);
+}
+.w5-sm-stage {
+  font-family: var(--sans); font-weight: 600; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 1.6px;
+  color: var(--text-2);
+}
+.w5-sm-time {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-3);
+}
+.w5-sm-rule {
+  flex: 0 0 18px; height: 1px;
+  background: var(--w5-masthead-rule); opacity: 0.6;
+}
+[data-theme="light"] .w5-stage-masthead { color: var(--text-3); }
+
+/* C2 · Compliance hero — when .w5-hero-mode is on stage 12, scale the number */
+.stage[data-stage="12"] .dual-reveal-number {
+  transition: font-size 420ms var(--ease-enter), letter-spacing 420ms var(--ease-enter);
+}
+.stage.w5-hero-mode[data-stage="12"] .dual-reveal {
+  transform: scale(1.0);
+  transition: transform 420ms var(--ease-enter);
+}
+.stage.w5-hero-mode[data-stage="12"] .dual-reveal-number {
+  font-size: 240px;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144;
+  color: var(--accent);
+}
+.stage.w5-hero-mode[data-stage="12"] .dual-reveal-eyebrow,
+.stage.w5-hero-mode[data-stage="12"] .dual-reveal-scale {
+  opacity: 0.45;
+  transition: opacity 420ms var(--ease-enter);
+}
+
+/* C3 · Drill-modal drop cap (scaffold — drill modal is on fleet page) */
+.w5-dropcap {
+  font-family: var(--serif);
+  float: left;
+  font-size: 80px;
+  line-height: 0.86;
+  font-weight: 700;
+  font-variation-settings: "opsz" 144;
+  color: var(--accent);
+  padding: 6px 12px 0 0;
+  font-style: italic;
+}
+.w5-has-dropcap { clear: both; }
+
+/* C7 · Fraunces italic fact pull-out (scaffold class, applied by pipeline.js) */
+.w5-fact-pullout {
+  font-family: var(--serif); font-style: italic;
+  font-size: 64px; line-height: 1.18;
+  font-variation-settings: "opsz" 96;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--w5-pullquote-color);
+  padding: 32px 0;
+  opacity: 0;
+  transition: opacity 520ms var(--ease-enter);
+}
+.w5-fact-pullout.is-visible { opacity: 1; }

@@ -1965,3 +1965,55 @@ body.fleet-loading.fleet-rail-in .news-ticker { opacity: 1; }
   text-anchor: middle;
   dominant-baseline: middle;
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Wave 5 · Batch 3 — Typography (C3, C4 on fleet page)
+   C1/C2/C5/C7 live on the pipeline page.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* C3 · Drill-modal drop cap — applied by wave5-typography.js on modal open */
+.w5-dropcap {
+  font-family: var(--serif);
+  float: left;
+  font-size: 80px;
+  line-height: 0.86;
+  font-weight: 700;
+  font-variation-settings: "opsz" 144;
+  color: var(--accent);
+  padding: 6px 12px 0 0;
+  font-style: italic;
+}
+.w5-has-dropcap { clear: both; }
+
+/* C4 · Watermark Fraunces italic behind the news ticker */
+.w5-ticker-watermark {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.w5-ticker-watermark-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 220px;
+  line-height: 1;
+  font-weight: 500;
+  font-variation-settings: "opsz" 144;
+  color: var(--w5-watermark-color);
+  letter-spacing: -0.03em;
+  animation: w5-watermark-scroll 800s linear infinite;
+}
+@keyframes w5-watermark-scroll {
+  0%   { transform: translate(0%, -50%); }
+  100% { transform: translate(-50%, -50%); }
+}
+.news-ticker { position: relative; }
+.news-ticker-track { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .w5-ticker-watermark-track { animation: none; }
+}
