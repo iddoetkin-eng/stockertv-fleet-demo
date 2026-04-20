@@ -5,6 +5,8 @@
     "logoUrl": null,
     "primaryColor": "#FF7A59",
     "accentColor": "#34D399",
+    "accentDeep": "#FF6040",
+    "accent2": "#FFA68C",
     "pageTitle": "StockerTV — Pipeline"
   },
   "hero": {

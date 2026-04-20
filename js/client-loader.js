@@ -120,11 +120,13 @@
   function applyBranding(b) {
     if (!b) return;
     const html = document.documentElement;
-    // Only override --accent; leave --accent-2 to the stylesheet's lighter variant
-    // so the 2-tone accent isn't flattened. Clients that need a custom second
-    // tone can add a branding.primaryColor2 field in a future revision.
-    if (b.primaryColor) html.style.setProperty("--accent", b.primaryColor);
-    if (b.accentColor)  html.style.setProperty("--green",  b.accentColor);
+    // Full 4-slot brand palette: primary + success + CTA-gradient-top + hover-top.
+    // pipeline-template.css wraps the hardcoded gradient hexes in var() with hex
+    // fallbacks, so if any of these are missing the stylesheet still renders.
+    if (b.primaryColor) html.style.setProperty("--accent",      b.primaryColor);
+    if (b.accentColor)  html.style.setProperty("--green",       b.accentColor);
+    if (b.accentDeep)   html.style.setProperty("--accent-deep", b.accentDeep);
+    if (b.accent2)      html.style.setProperty("--accent-2",    b.accent2);
     if (b.pageTitle) document.title = b.pageTitle;
     // clientName / logoUrl reserved for future use.
   }
