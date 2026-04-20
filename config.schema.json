@@ -1,0 +1,184 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://iddoetkin-eng.github.io/stockertv-fleet-demo/config.schema.json",
+  "title": "StockerTV Pipeline Template Client Config",
+  "description": "Per-client configuration loaded by js/client-loader.js for pipeline-template.html. One JSON file per client (e.g. config/nvidia.json, config/etoro.json).",
+  "$comment": "Known v1 limitations: (1) Flag library is finite — countryCode enum lists the supported set; adding a flag requires editing js/client-loader.js. (2) multilang.languages supports 2-5 entries; 1 or 6+ may cause layout issues. (3) Default fallback client is hardcoded to 'nvidia' in client-loader.js. (4) config files fetched with cache:'no-store' but GitHub Pages CDN may cache for up to ~10 minutes after deploy.",
+  "type": "object",
+  "required": [
+    "branding",
+    "hero",
+    "chart",
+    "audit",
+    "multilang",
+    "final",
+    "thumbnail_brand_mark",
+    "avatar_video_url",
+    "showcase"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "$schema": { "type": "string", "description": "Optional path to this schema file for editor tooling." },
+    "branding": {
+      "type": "object",
+      "description": "Client identity and color palette. Colors override CSS custom properties on <html>.",
+      "required": ["clientName", "logoUrl", "primaryColor", "accentColor", "pageTitle"],
+      "additionalProperties": false,
+      "properties": {
+        "clientName": { "type": "string", "description": "Display name used where clientName is referenced (logo fallback, etc.)." },
+        "logoUrl": { "type": ["string", "null"], "description": "Optional path to a client logo. Null = use textual brand." },
+        "primaryColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Hex color; overrides CSS --accent." },
+        "accentColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Hex color; overrides CSS --green (success/completion color)." },
+        "pageTitle": { "type": "string", "description": "Applied to <title> on load." }
+      }
+    },
+    "hero": {
+      "type": "object",
+      "description": "Launch panel above the fold.",
+      "required": ["eyebrow", "titleHtml", "ctaLabel", "ctaSub", "stats"],
+      "additionalProperties": false,
+      "properties": {
+        "eyebrow": { "type": "string", "description": "Small tagline above the hero headline." },
+        "titleHtml": { "type": "string", "description": "Hero headline. HTML allowed (brand spans, <br/>). Rendered via innerHTML." },
+        "ctaLabel": { "type": "string", "description": "Primary button label, e.g. 'Watch Demo'." },
+        "ctaSub": { "type": "string", "description": "Subtitle under the CTA, e.g. 'Curated NVIDIA story · 47 sec'." },
+        "stats": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 6,
+          "description": "Launch stats row — 2 to 6 items.",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "value": { "type": "string", "description": "The large number or figure, e.g. '32,190'." },
+              "label": { "type": "string", "description": "Short label after the value, e.g. 'companies'." }
+            }
+          }
+        }
+      }
+    },
+    "chart": {
+      "type": "object",
+      "required": ["yAxisLabels"],
+      "additionalProperties": false,
+      "properties": {
+        "yAxisLabels": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "description": "Exactly 5 Y-axis labels, top-to-bottom (max value → zero). Must fit chart.series[] max in showcase stage 9.",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "description": "Stage 14 audit document header.",
+      "required": ["docTitle", "docSubtitle", "docId"],
+      "additionalProperties": false,
+      "properties": {
+        "docTitle": { "type": "string", "description": "Large title at top of audit doc, usually 'Audit Trail'." },
+        "docSubtitle": { "type": "string", "description": "Subtitle line, e.g. 'NVIDIA · Q4 FY2025 Financial Update'." },
+        "docId": { "type": "string", "description": "Document identifier, e.g. 'DOC-NVDA-2026-0415'." }
+      }
+    },
+    "multilang": {
+      "type": "object",
+      "description": "Stage 13 — dynamic multi-language panel.",
+      "required": ["combinedCapHeadline", "languages"],
+      "additionalProperties": false,
+      "properties": {
+        "combinedCapHeadline": { "type": "string", "description": "Bold phrase after 'Same script, three markets —', e.g. '$27T combined market cap reached'." },
+        "languages": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "description": "2 to 5 language columns. Layout CSS grid auto-adjusts via --lang-cols custom property.",
+          "items": {
+            "type": "object",
+            "required": ["id", "countryCode", "heading", "marketCaption"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z]{2}$", "description": "ISO 639-1 language code. Used as #lang-{id} DOM id and as the id key inside showcase.stages[12].data.languages[]." },
+              "countryCode": {
+                "type": "string",
+                "enum": ["US", "GB", "DE", "IT", "ES", "BR", "AE", "FR", "JP", "AU", "CA", "NL", "IL"],
+                "description": "ISO 3166-1 alpha-2. Picks a flag from the built-in library in js/client-loader.js. v1 supports exactly this list; adding a country requires editing the loader."
+              },
+              "heading": { "type": "string", "description": "Column heading, e.g. 'English', 'Português', 'Español'." },
+              "marketCaption": { "type": "string", "description": "Line under the flag, e.g. 'NYSE · $24T market cap'." }
+            }
+          }
+        }
+      }
+    },
+    "final": {
+      "type": "object",
+      "required": ["ctaLabel", "runtimeNote"],
+      "additionalProperties": false,
+      "properties": {
+        "ctaLabel": { "type": "string", "description": "Final stage button label, e.g. 'Generate Avatar Video →'." },
+        "runtimeNote": { "type": "string", "description": "Small grey text under the big runtime number, e.g. 'Pipeline runtime: 47 seconds · Demo replay slowed for visibility'." }
+      }
+    },
+    "thumbnail_brand_mark": {
+      "type": "string",
+      "description": "Brand text shown on every thumbnail card in Stage 10. Replaces the hardcoded 'NVIDIA' in pipeline-template.js."
+    },
+    "avatar_video_url": {
+      "type": ["string", "null"],
+      "description": "URL of the avatar-reveal video played when Stage 15 CTA fires. Null skips the modal. Replaces hardcoded Supabase URL in pipeline-template.js."
+    },
+    "showcase": {
+      "type": "object",
+      "description": "Payload assigned to window.PIPELINE_SHOWCASE — consumed by pipeline-template.js exactly like the current pipeline-showcase.js global.",
+      "required": ["meta", "stages"],
+      "additionalProperties": false,
+      "properties": {
+        "meta": {
+          "type": "object",
+          "required": ["company", "ticker", "exchange", "articleSource", "totalDurationMs", "sourceFiling"],
+          "additionalProperties": false,
+          "properties": {
+            "company": { "type": "string" },
+            "ticker": { "type": "string" },
+            "exchange": { "type": "string" },
+            "articleSource": { "type": "string" },
+            "totalDurationMs": { "type": "integer", "minimum": 1 },
+            "sourceFiling": { "type": "string" }
+          }
+        },
+        "stages": {
+          "type": "array",
+          "minItems": 15,
+          "maxItems": 15,
+          "description": "Exactly 15 stage objects, in order. See per-stage shape in the stage items.",
+          "items": {
+            "type": "object",
+            "required": ["stage", "name", "delayMs", "data"],
+            "additionalProperties": false,
+            "properties": {
+              "stage": { "type": "integer", "minimum": 1, "maximum": 15 },
+              "name": {
+                "type": "string",
+                "enum": [
+                  "article_input", "watcher_detection", "company_enrichment", "fact_extraction",
+                  "sec_validation", "cross_reference", "reporter_selection", "script_generation",
+                  "chart_suggestion", "thumbnail_generation", "compliance_red_pass",
+                  "compliance_gates", "multilanguage", "audit_trail", "final_output"
+                ]
+              },
+              "delayMs": { "type": "integer", "minimum": 0, "description": "Time offset from demo start when this stage activates." },
+              "data": {
+                "type": "object",
+                "description": "Stage-specific payload. Shape depends on 'name' — see pipeline-template.js renderers for the contract. Key shapes: article_input {title,source,publishedAt,wordCount,fullText}; watcher_detection {source,publishedAt,ticker,exchange,noveltyScore,noveltyReason}; company_enrichment {name,ticker,sector,industry,ceo,headquarters,foundedYear,marketCap,lastPrice,week52High,week52Low,keyProducts,competitors,description,dbSize,dbExchanges}; fact_extraction {facts[{text,sourceSpan}],totalWords,fullText}; sec_validation {validations[{fact,status,source}]}; cross_reference {center,nodes[{name,ticker,relation}],note}; reporter_selection {selected,reasoning}; script_generation {model,wordCount,script[]}; chart_suggestion {type,series[{q,v}]}; thumbnail_generation {options[{headline,number,foot,recommended?}]}; compliance_red_pass {draftScript,violations[{phrase,ruleId,ruleName,severity,spanStart,spanEnd}],rewrittenScript,rewrites[{from,to}]}; compliance_gates {l1/l2/l3 each {ms,passed,msg}, qualityScore, complianceScore}; multilanguage {languages[{id,script[]}],driftPct}; audit_trail {steps,durationSec,humanInterventions}; final_output {reporter,reporterRole,finalScript,qualityScore,complianceScore,ticker,exchange,source,totalSeconds}."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

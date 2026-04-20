@@ -1,0 +1,510 @@
+{
+  "$schema": "./config.schema.json",
+  "branding": {
+    "clientName": "StockerTV",
+    "logoUrl": null,
+    "primaryColor": "#FF7A59",
+    "accentColor": "#34D399",
+    "pageTitle": "StockerTV — Pipeline"
+  },
+  "hero": {
+    "eyebrow": "Article → Script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns SEC filings<br/>into broadcast-ready video, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated NVIDIA story · 47 sec",
+    "stats": [
+      {
+        "value": "32,190",
+        "label": "companies"
+      },
+      {
+        "value": "53",
+        "label": "exchanges"
+      },
+      {
+        "value": "30",
+        "label": "AI agents"
+      },
+      {
+        "value": "22",
+        "label": "compliance rules"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "$40B",
+      "$30B",
+      "$20B",
+      "$10B",
+      "$0"
+    ]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "NVIDIA · Q4 FY2025 Financial Update",
+    "docId": "DOC-NVDA-2026-0415"
+  },
+  "multilang": {
+    "combinedCapHeadline": "$27T combined market cap reached",
+    "languages": [
+      {
+        "id": "en",
+        "countryCode": "US",
+        "heading": "English",
+        "marketCaption": "NYSE · $24T market cap"
+      },
+      {
+        "id": "pt",
+        "countryCode": "BR",
+        "heading": "Português",
+        "marketCaption": "B3 · $1.2T market cap"
+      },
+      {
+        "id": "es",
+        "countryCode": "ES",
+        "heading": "Español",
+        "marketCaption": "BME · $1.6T market cap"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "NVIDIA",
+  "avatar_video_url": "https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4",
+  "showcase": {
+    "meta": {
+      "company": "NVIDIA",
+      "ticker": "NVDA",
+      "exchange": "NASDAQ",
+      "articleSource": "Reuters",
+      "totalDurationMs": 90000,
+      "sourceFiling": "10-K, FY2025, filed 2025-02-26"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "NVIDIA posts $39.3 billion fourth quarter as data-center sales climb 93%",
+          "source": "Reuters",
+          "publishedAt": "47 min ago",
+          "wordCount": 355,
+          "fullText": "SANTA CLARA, Calif. — NVIDIA Corp. reported fourth-quarter revenue of $39.3 billion on Wednesday, exceeding Wall Street estimates as accelerating data-center demand from hyperscale cloud customers continued to drive the chipmaker's growth.\n\nThe quarterly figure represented a 78% increase from the year-ago period and capped a fiscal year in which the Santa Clara company more than doubled its top line. Full-year revenue reached $130.5 billion, up 114%, with data-center sales accounting for $115.2 billion of that total.\n\nData-center revenue in the fourth quarter alone climbed 93% to $35.6 billion, a quarterly record. The segment, which includes NVIDIA's Hopper-generation H100 and H200 accelerators and the newer Blackwell architecture, now represents roughly 91% of the company's revenue mix, underscoring how completely the AI-infrastructure buildout has reshaped its business.\n\nGAAP gross margin came in at 73.0%, broadly in line with the prior quarter. GAAP earnings per diluted share were $0.89, compared with $0.49 a year earlier. Operating income reached $24.0 billion under GAAP measures.\n\n\"Demand for Blackwell is amazing as reasoning AI adds another scaling law,\" Chief Executive Jensen Huang said in a statement. \"We've successfully ramped up the massive-scale production of Blackwell AI supercomputers, achieving billions of dollars in sales in its first quarter.\"\n\nThe company's gaming segment, once its largest, posted revenue of $2.5 billion, down 11% from a year earlier as discrete-GPU demand softened. Professional visualization revenue rose 10% to $511 million, while automotive sales nearly doubled to $570 million as advanced driver-assistance and autonomous-vehicle programs ramped.\n\nNVIDIA continued to rely on Taiwan Semiconductor Manufacturing Co. for the foundry production of its leading-edge GPUs, and on SK Hynix and Micron for the high-bandwidth memory used in its data-center products. Competing GPU vendor Advanced Micro Devices reported its own data-center segment grew 69% in its most recent quarter, while Intel's data-center business posted modest growth amid sustained share losses.\n\nHyperscale customers including Microsoft, Meta Platforms, Amazon Web Services, Google Cloud and Oracle remain the largest buyers of NVIDIA's H100, H200 and Blackwell-generation systems, with several disclosing multi-billion-dollar annual capital-expenditure plans tied substantially to AI infrastructure.\n\nNVIDIA shares were little changed in after-hours trading after the release."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "Reuters",
+          "publishedAt": "47 min ago",
+          "ticker": "NVDA",
+          "exchange": "NASDAQ",
+          "noveltyScore": 94,
+          "noveltyReason": "New story — not covered in the last 7 days (94% unique)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "NVIDIA Corporation",
+          "ticker": "NVDA",
+          "sector": "Technology",
+          "industry": "Semiconductors",
+          "ceo": "Jensen Huang",
+          "headquarters": "Santa Clara, California",
+          "foundedYear": "1993",
+          "marketCap": "$3.0T",
+          "lastPrice": "$124.65",
+          "week52High": "$153.13",
+          "week52Low": "$75.61",
+          "keyProducts": "H100, H200, Blackwell B100/B200, GeForce RTX 50-series, DGX systems, CUDA platform",
+          "competitors": "AMD, Intel, Broadcom, Marvell",
+          "description": "Designs accelerated computing platforms, GPUs and networking systems for AI training and inference, scientific computing, professional visualization, gaming and automotive.",
+          "dbSize": "32,190",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "Q4 revenue: $39.3 billion (up 78% YoY)",
+              "sourceSpan": [
+                70,
+                83
+              ]
+            },
+            {
+              "text": "Q4 data-center revenue: $35.6 billion (up 93% YoY)",
+              "sourceSpan": [
+                587,
+                600
+              ]
+            },
+            {
+              "text": "Full-year FY2025 revenue: $130.5 billion (up 114% YoY)",
+              "sourceSpan": [
+                430,
+                444
+              ]
+            },
+            {
+              "text": "FY2025 data-center revenue: $115.2 billion",
+              "sourceSpan": [
+                493,
+                507
+              ]
+            },
+            {
+              "text": "Q4 gaming revenue: $2.5 billion (down 11% YoY)",
+              "sourceSpan": [
+                1449,
+                1461
+              ]
+            },
+            {
+              "text": "Q4 automotive revenue: $570 million (up ~100%)",
+              "sourceSpan": [
+                1627,
+                1639
+              ]
+            },
+            {
+              "text": "Q4 GAAP diluted EPS: $0.89 (vs $0.49 prior year)",
+              "sourceSpan": [
+                999,
+                1004
+              ]
+            },
+            {
+              "text": "Q4 GAAP gross margin: 73.0%",
+              "sourceSpan": [
+                915,
+                920
+              ]
+            }
+          ],
+          "totalWords": 355,
+          "fullText": "SANTA CLARA, Calif. — NVIDIA Corp. reported fourth-quarter revenue of $39.3 billion on Wednesday, exceeding Wall Street estimates as accelerating data-center demand from hyperscale cloud customers continued to drive the chipmaker's growth.\n\nThe quarterly figure represented a 78% increase from the year-ago period and capped a fiscal year in which the Santa Clara company more than doubled its top line. Full-year revenue reached $130.5 billion, up 114%, with data-center sales accounting for $115.2 billion of that total.\n\nData-center revenue in the fourth quarter alone climbed 93% to $35.6 billion, a quarterly record. The segment, which includes NVIDIA's Hopper-generation H100 and H200 accelerators and the newer Blackwell architecture, now represents roughly 91% of the company's revenue mix, underscoring how completely the AI-infrastructure buildout has reshaped its business.\n\nGAAP gross margin came in at 73.0%, broadly in line with the prior quarter. GAAP earnings per diluted share were $0.89, compared with $0.49 a year earlier. Operating income reached $24.0 billion under GAAP measures.\n\n\"Demand for Blackwell is amazing as reasoning AI adds another scaling law,\" Chief Executive Jensen Huang said in a statement. \"We've successfully ramped up the massive-scale production of Blackwell AI supercomputers, achieving billions of dollars in sales in its first quarter.\"\n\nThe company's gaming segment, once its largest, posted revenue of $2.5 billion, down 11% from a year earlier as discrete-GPU demand softened. Professional visualization revenue rose 10% to $511 million, while automotive sales nearly doubled to $570 million as advanced driver-assistance and autonomous-vehicle programs ramped.\n\nNVIDIA continued to rely on Taiwan Semiconductor Manufacturing Co. for the foundry production of its leading-edge GPUs, and on SK Hynix and Micron for the high-bandwidth memory used in its data-center products. Competing GPU vendor Advanced Micro Devices reported its own data-center segment grew 69% in its most recent quarter, while Intel's data-center business posted modest growth amid sustained share losses.\n\nHyperscale customers including Microsoft, Meta Platforms, Amazon Web Services, Google Cloud and Oracle remain the largest buyers of NVIDIA's H100, H200 and Blackwell-generation systems, with several disclosing multi-billion-dollar annual capital-expenditure plans tied substantially to AI infrastructure.\n\nNVIDIA shares were little changed in after-hours trading after the release."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            {
+              "fact": "Q4 revenue: $39.3 billion (up 78% YoY)",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "Q4 data-center revenue: $35.6 billion (up 93% YoY)",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "Full-year FY2025 revenue: $130.5 billion (up 114% YoY)",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "FY2025 data-center revenue: $115.2 billion",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "Q4 gaming revenue: $2.5 billion (down 11% YoY)",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "Q4 automotive revenue: $570 million (up ~100%)",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "Q4 GAAP diluted EPS: $0.89 (vs $0.49 prior year)",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            },
+            {
+              "fact": "Q4 GAAP gross margin: 73.0%",
+              "status": "verified",
+              "source": "Matches 10-K, FY2025, filed 2025-02-26"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "NVIDIA",
+          "nodes": [
+            {
+              "name": "TSMC",
+              "ticker": "TSM",
+              "relation": "supplier"
+            },
+            {
+              "name": "SK Hynix",
+              "ticker": "000660.KS",
+              "relation": "supplier"
+            },
+            {
+              "name": "AMD",
+              "ticker": "AMD",
+              "relation": "competitor"
+            },
+            {
+              "name": "Intel",
+              "ticker": "INTC",
+              "relation": "competitor"
+            },
+            {
+              "name": "Microsoft",
+              "ticker": "MSFT",
+              "relation": "customer"
+            },
+            {
+              "name": "Meta",
+              "ticker": "META",
+              "relation": "customer"
+            }
+          ],
+          "note": "6 related companies identified · AMD reported data-center growth in its most recent quarter"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "Financial data detected (revenue, EPS, gross margin) → Gerardo selected"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.5",
+          "wordCount": 87,
+          "script": [
+            "Hi, I'm Gerardo. NVIDIA reported fourth-quarter revenue of 39.3 billion dollars, up 78 percent from a year earlier. Data center revenue hit 35.6 billion dollars, accounting for nearly 91 percent of the quarter's total. Full-year revenue more than doubled to 130.5 billion dollars. Gaming revenue slipped 11 percent to 2.5 billion dollars, while automotive nearly doubled to 570 million. The company's potential growth in data center workloads could rise further as hyperscalers expand AI capacity. Investors should consider the strength of these results. That's NVIDIA's fourth-quarter snapshot."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "Bar Chart — quarterly revenue, FY2025",
+          "series": [
+            {
+              "q": "Q1",
+              "v": 26
+            },
+            {
+              "q": "Q2",
+              "v": 30
+            },
+            {
+              "q": "Q3",
+              "v": 35.1
+            },
+            {
+              "q": "Q4",
+              "v": 39.3
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "Q4 Revenue Record",
+              "number": "$39.3B",
+              "foot": "NVIDIA · 10-K",
+              "recommended": true
+            },
+            {
+              "headline": "Data-Center Surge",
+              "number": "+93%",
+              "foot": "NVDA · NASDAQ"
+            },
+            {
+              "headline": "Full-Year Doubles",
+              "number": "$130.5B",
+              "foot": "FY2025 · 10-K"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "Hi, I'm Gerardo. NVIDIA reported fourth-quarter revenue of 39.3 billion dollars, up 78 percent from a year earlier. Data center revenue hit 35.6 billion dollars, accounting for nearly 91 percent of the quarter's total. Full-year revenue more than doubled to 130.5 billion dollars. Gaming revenue slipped 11 percent to 2.5 billion dollars, while automotive nearly doubled to 570 million. The company's potential growth in data center workloads could rise further as hyperscalers expand AI capacity. Investors should consider the strength of these results. That's NVIDIA's fourth-quarter snapshot.",
+          "violations": [
+            {
+              "phrase": "potential growth",
+              "ruleId": "FWD-001",
+              "ruleName": "Forward-looking language prohibited",
+              "severity": "high",
+              "spanStart": 401,
+              "spanEnd": 417
+            },
+            {
+              "phrase": "could rise",
+              "ruleId": "SPC-002",
+              "ruleName": "Speculative phrasing prohibited",
+              "severity": "high",
+              "spanStart": 443,
+              "spanEnd": 453
+            },
+            {
+              "phrase": "should consider",
+              "ruleId": "ADV-001",
+              "ruleName": "Investment advice prohibited",
+              "severity": "critical",
+              "spanStart": 508,
+              "spanEnd": 523
+            }
+          ],
+          "rewrittenScript": "Hi, I'm Gerardo. NVIDIA reported fourth-quarter revenue of 39.3 billion dollars, up 78 percent from a year earlier. Data center revenue hit 35.6 billion dollars, accounting for nearly 91 percent of the quarter's total. Full-year revenue more than doubled to 130.5 billion dollars. Gaming revenue slipped 11 percent to 2.5 billion dollars, while automotive nearly doubled to 570 million. The company's reported increase in data center revenue reflects expanded hyperscaler AI capacity spending. These results document a record fiscal year. That's NVIDIA's fourth-quarter snapshot.",
+          "rewrites": [
+            {
+              "from": "The company's potential growth in data center workloads could rise further as hyperscalers expand AI capacity.",
+              "to": "The company's reported increase in data center revenue reflects expanded hyperscaler AI capacity spending."
+            },
+            {
+              "from": "Investors should consider the strength of these results.",
+              "to": "These results document a record fiscal year."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 15,
+            "passed": true,
+            "msg": "0 forbidden phrases"
+          },
+          "l2": {
+            "ms": 812,
+            "passed": true,
+            "msg": "No implied guarantees"
+          },
+          "l3": {
+            "ms": 2104,
+            "passed": true,
+            "msg": "Balanced tone confirmed"
+          },
+          "qualityScore": 95,
+          "complianceScore": 100
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "NVIDIA reported fourth-quarter revenue of 39.3 billion dollars, up 78 percent from a year earlier.",
+                "Data center revenue hit 35.6 billion dollars, accounting for nearly 91 percent of the quarter's total.",
+                "Full-year revenue more than doubled to 130.5 billion dollars.",
+                "Gaming revenue slipped 11 percent to 2.5 billion dollars, while automotive nearly doubled to 570 million.",
+                "The company's reported increase in data center revenue reflects expanded hyperscaler AI capacity spending.",
+                "These results document a record fiscal year.",
+                "That's NVIDIA's fourth-quarter snapshot."
+              ]
+            },
+            {
+              "id": "pt",
+              "script": [
+                "Oi, eu sou o Gerardo.",
+                "A NVIDIA reportou receita do quarto trimestre de 39,3 bilhões de dólares, alta de 78 por cento em relação ao mesmo período do ano anterior.",
+                "A receita de data center atingiu 35,6 bilhões de dólares, representando cerca de 91 por cento do total do trimestre.",
+                "A receita anual mais do que dobrou, chegando a 130,5 bilhões de dólares.",
+                "A receita de games caiu 11 por cento, para 2,5 bilhões de dólares, enquanto a área automotiva quase dobrou, alcançando 570 milhões.",
+                "O aumento da receita de data center reflete o maior gasto dos hiperescaladores em capacidade de IA.",
+                "Esses resultados marcam um ano fiscal recorde.",
+                "Essa é a fotografia do quarto trimestre da NVIDIA."
+              ]
+            },
+            {
+              "id": "es",
+              "script": [
+                "Hola, soy Gerardo.",
+                "NVIDIA reportó ingresos del cuarto trimestre de 39.300 millones de dólares, un alza del 78 por ciento frente al mismo período del año anterior.",
+                "Los ingresos del segmento de centros de datos alcanzaron 35.600 millones de dólares, lo que representa cerca del 91 por ciento del total del trimestre.",
+                "Los ingresos anuales más que se duplicaron, hasta 130.500 millones de dólares.",
+                "Los ingresos de gaming cayeron un 11 por ciento, hasta 2.500 millones de dólares, mientras que el negocio automotriz casi se duplicó, alcanzando 570 millones.",
+                "El aumento registrado en los ingresos de centros de datos refleja el mayor gasto de los hiperescaladores en capacidad de IA.",
+                "Estos resultados marcan un año fiscal récord.",
+                "Esta es la instantánea del cuarto trimestre de NVIDIA."
+              ]
+            }
+          ],
+          "driftPct": 2.1
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "Financial Update",
+          "finalScript": "Hi, I'm Gerardo. NVIDIA reported fourth-quarter revenue of 39.3 billion dollars, up 78 percent from a year earlier. Data center revenue hit 35.6 billion dollars, accounting for nearly 91 percent of the quarter's total. Full-year revenue more than doubled to 130.5 billion dollars. Gaming revenue slipped 11 percent to 2.5 billion dollars, while automotive nearly doubled to 570 million. The company's reported increase in data center revenue reflects expanded hyperscaler AI capacity spending. These results document a record fiscal year. That's NVIDIA's fourth-quarter snapshot.",
+          "qualityScore": 95,
+          "complianceScore": 100,
+          "ticker": "NVDA",
+          "exchange": "NASDAQ",
+          "source": "Reuters",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}

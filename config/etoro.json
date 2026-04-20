@@ -1,0 +1,264 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "Skeleton config for eToro. Replace every FILL_ME_* value with real copy. countryCode hints (GB/DE/IT/ES/AE) are placeholders — override if wrong. Do NOT invent numbers; lift real eToro figures from marketing or filings before showing this to a prospect.",
+
+  "branding": {
+    "clientName": "FILL_ME_clientName",
+    "logoUrl": null,
+    "primaryColor": "FILL_ME_primaryColor_hex",
+    "accentColor": "FILL_ME_accentColor_hex",
+    "pageTitle": "FILL_ME_pageTitle"
+  },
+
+  "hero": {
+    "eyebrow": "FILL_ME_hero_eyebrow",
+    "titleHtml": "FILL_ME_hero_titleHtml",
+    "ctaLabel": "FILL_ME_hero_ctaLabel",
+    "ctaSub": "FILL_ME_hero_ctaSub",
+    "stats": [
+      { "value": "FILL_ME_stat1_value", "label": "FILL_ME_stat1_label" },
+      { "value": "FILL_ME_stat2_value", "label": "FILL_ME_stat2_label" },
+      { "value": "FILL_ME_stat3_value", "label": "FILL_ME_stat3_label" },
+      { "value": "FILL_ME_stat4_value", "label": "FILL_ME_stat4_label" }
+    ]
+  },
+
+  "chart": {
+    "yAxisLabels": [
+      "FILL_ME_yaxis_top",
+      "FILL_ME_yaxis_4",
+      "FILL_ME_yaxis_3",
+      "FILL_ME_yaxis_2",
+      "FILL_ME_yaxis_bottom"
+    ]
+  },
+
+  "audit": {
+    "docTitle": "FILL_ME_audit_docTitle",
+    "docSubtitle": "FILL_ME_audit_docSubtitle",
+    "docId": "FILL_ME_audit_docId"
+  },
+
+  "multilang": {
+    "combinedCapHeadline": "FILL_ME_multilang_combinedCapHeadline",
+    "languages": [
+      { "id": "en", "countryCode": "GB", "heading": "FILL_ME_lang1_heading", "marketCaption": "FILL_ME_lang1_marketCaption" },
+      { "id": "de", "countryCode": "DE", "heading": "FILL_ME_lang2_heading", "marketCaption": "FILL_ME_lang2_marketCaption" },
+      { "id": "it", "countryCode": "IT", "heading": "FILL_ME_lang3_heading", "marketCaption": "FILL_ME_lang3_marketCaption" },
+      { "id": "es", "countryCode": "ES", "heading": "FILL_ME_lang4_heading", "marketCaption": "FILL_ME_lang4_marketCaption" },
+      { "id": "ar", "countryCode": "AE", "heading": "FILL_ME_lang5_heading", "marketCaption": "FILL_ME_lang5_marketCaption" }
+    ]
+  },
+
+  "final": {
+    "ctaLabel": "FILL_ME_final_ctaLabel",
+    "runtimeNote": "FILL_ME_final_runtimeNote"
+  },
+
+  "thumbnail_brand_mark": "FILL_ME_thumbnail_brand_mark",
+  "avatar_video_url": "FILL_ME_avatar_video_url",
+
+  "showcase": {
+    "meta": {
+      "company": "FILL_ME_showcase_meta_company",
+      "ticker": "FILL_ME_showcase_meta_ticker",
+      "exchange": "FILL_ME_showcase_meta_exchange",
+      "articleSource": "FILL_ME_showcase_meta_articleSource",
+      "totalDurationMs": 90000,
+      "sourceFiling": "FILL_ME_showcase_meta_sourceFiling"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "FILL_ME_stage1_title",
+          "source": "FILL_ME_stage1_source",
+          "publishedAt": "FILL_ME_stage1_publishedAt",
+          "wordCount": 0,
+          "fullText": "FILL_ME_stage1_fullText"
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "FILL_ME_stage2_source",
+          "publishedAt": "FILL_ME_stage2_publishedAt",
+          "ticker": "FILL_ME_stage2_ticker",
+          "exchange": "FILL_ME_stage2_exchange",
+          "noveltyScore": 0,
+          "noveltyReason": "FILL_ME_stage2_noveltyReason"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "FILL_ME_stage3_name",
+          "ticker": "FILL_ME_stage3_ticker",
+          "sector": "FILL_ME_stage3_sector",
+          "industry": "FILL_ME_stage3_industry",
+          "ceo": "FILL_ME_stage3_ceo",
+          "headquarters": "FILL_ME_stage3_headquarters",
+          "foundedYear": "FILL_ME_stage3_foundedYear",
+          "marketCap": "FILL_ME_stage3_marketCap",
+          "lastPrice": "FILL_ME_stage3_lastPrice",
+          "week52High": "FILL_ME_stage3_week52High",
+          "week52Low": "FILL_ME_stage3_week52Low",
+          "keyProducts": "FILL_ME_stage3_keyProducts",
+          "competitors": "FILL_ME_stage3_competitors",
+          "description": "FILL_ME_stage3_description",
+          "dbSize": "FILL_ME_stage3_dbSize",
+          "dbExchanges": "FILL_ME_stage3_dbExchanges"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            { "text": "FILL_ME_stage4_fact1_text", "sourceSpan": [0, 0], "_note": "add more entries as needed; sourceSpan is [startIdx, endIdx] into fullText" }
+          ],
+          "totalWords": 0,
+          "fullText": "FILL_ME_stage4_fullText"
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            { "fact": "FILL_ME_stage5_validation1_fact", "status": "verified", "source": "FILL_ME_stage5_validation1_source", "_note": "status ∈ verified|ambiguous|blocked; add more entries as needed" }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "FILL_ME_stage6_center",
+          "nodes": [
+            { "name": "FILL_ME_stage6_node1_name", "ticker": "FILL_ME_stage6_node1_ticker", "relation": "supplier", "_note": "relation ∈ supplier|competitor|customer|partner; add more entries" }
+          ],
+          "note": "FILL_ME_stage6_note"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "FILL_ME_stage7_selected",
+          "reasoning": "FILL_ME_stage7_reasoning"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "FILL_ME_stage8_model",
+          "wordCount": 0,
+          "script": ["FILL_ME_stage8_script_paragraph1"]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "FILL_ME_stage9_type",
+          "series": [
+            { "q": "FILL_ME_stage9_q1_label", "v": 0, "_note": "add exactly 4 entries for Q1-Q4; max value must fit chart.yAxisLabels top label" }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            { "headline": "FILL_ME_stage10_thumb1_headline", "number": "FILL_ME_stage10_thumb1_number", "foot": "FILL_ME_stage10_thumb1_foot", "recommended": true, "_note": "exactly 3 entries; mark one with recommended:true" }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "FILL_ME_stage11_draftScript",
+          "violations": [
+            { "phrase": "FILL_ME_stage11_violation1_phrase", "ruleId": "FILL_ME_stage11_violation1_ruleId", "ruleName": "FILL_ME_stage11_violation1_ruleName", "severity": "high", "spanStart": 0, "spanEnd": 0, "_note": "severity ∈ high|critical; phrase MUST be a literal substring of draftScript; add more entries as needed" }
+          ],
+          "rewrittenScript": "FILL_ME_stage11_rewrittenScript",
+          "rewrites": [
+            { "from": "FILL_ME_stage11_rewrite1_from", "to": "FILL_ME_stage11_rewrite1_to", "_note": "from must be a literal substring of draftScript; to must be a literal substring of rewrittenScript" }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": { "ms": 0, "passed": true, "msg": "FILL_ME_stage12_l1_msg" },
+          "l2": { "ms": 0, "passed": true, "msg": "FILL_ME_stage12_l2_msg" },
+          "l3": { "ms": 0, "passed": true, "msg": "FILL_ME_stage12_l3_msg" },
+          "qualityScore": 0,
+          "complianceScore": 0
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            { "id": "en", "script": ["FILL_ME_stage13_en_sentence1"] },
+            { "id": "de", "script": ["FILL_ME_stage13_de_sentence1"] },
+            { "id": "it", "script": ["FILL_ME_stage13_it_sentence1"] },
+            { "id": "es", "script": ["FILL_ME_stage13_es_sentence1"] },
+            { "id": "ar", "script": ["FILL_ME_stage13_ar_sentence1"] }
+          ],
+          "driftPct": 0,
+          "_note": "language ids must match multilang.languages[].id above"
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "FILL_ME_stage15_reporter",
+          "reporterRole": "FILL_ME_stage15_reporterRole",
+          "finalScript": "FILL_ME_stage15_finalScript",
+          "qualityScore": 0,
+          "complianceScore": 0,
+          "ticker": "FILL_ME_stage15_ticker",
+          "exchange": "FILL_ME_stage15_exchange",
+          "source": "FILL_ME_stage15_source",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}
