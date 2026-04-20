@@ -1,0 +1,556 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "Plus500 config v2 assembled 2026-04-21. Stage 1 article is the 2026-02-03 US Prediction Markets launch (LeapRate coverage, verified zero negative framing, no paragraph excluded). Company basics / Stage 9 chart / languages / branding UNCHANGED from v1. Compliance scores 95/98 are demo values per spec.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive; user will add later",
+    "avatar_video_url — intentionally FILL_ME per user directive; HeyGen URL to be added later",
+    "Stage 1 article: all 8 paragraphs are verbatim from LeapRate 'Plus500 Launches US Prediction Markets Platform' (https://www.leaprate.com/forex/brokers/plus500-launches-us-prediction-markets-platform/), prefixed with a standard dateline. Article audited sentence-by-sentence: zero negative framing, zero paragraphs excluded, no curation risk. The original Q1 2026 Trading Update article was rejected because its Finance Magnates coverage included a Q3 2025 revenue-decline paragraph, creating selective-editing risk if exposed to Plus500 review.",
+    "Stage 9 chart — 4-year FY revenue history chosen in v1 (reasoning unchanged): asset-class split not publicly disclosed in extractable form; geographic segment split only partial; 4-quarter progression violates single-source rule. FY revenue values $832.6M/$726.2M/$768.3M/$792.4M verified from Plus500's Preliminary Results series.",
+    "Per-country user counts: Plus500 does not publicly disclose customer breakdowns by country. All 5 language-panel captions use verified regulatory-license milestones (UK LSE-listing, CySEC 250/14, MiFID II passport, JFSA #156, DFSA F005651).",
+    "Stock price GBP £41.64 captured 2026-04-21; market cap £2.96B; 52-week range £28.78 – £49.74. Sources: CNBC + Yahoo Finance + kalkine.com. Will stale within days.",
+    "Plus500 FY2025 Annual Report (full) — preliminary results were released 2026-02-17 per RNS; full annual report typically follows in late March/April but exact 2026 filing date not verified in this research cycle."
+  ],
+  "branding": {
+    "clientName": "Plus500",
+    "logoUrl": null,
+    "primaryColor": "#0C2780",
+    "accentColor": "#10B981",
+    "accentDeep": "#1E3A8A",
+    "accent2": "#3B82F6",
+    "pageTitle": "StockerTV — Pipeline · Plus500 Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated Plus500 story · 47 sec",
+    "stats": [
+      {
+        "value": "32,190",
+        "label": "companies"
+      },
+      {
+        "value": "53",
+        "label": "exchanges"
+      },
+      {
+        "value": "30",
+        "label": "AI agents"
+      },
+      {
+        "value": "22",
+        "label": "compliance rules"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "$900M",
+      "$675M",
+      "$450M",
+      "$225M",
+      "$0"
+    ]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "Plus500 · US Prediction Markets Launch",
+    "docId": "DOC-PLUS-2026-0203"
+  },
+  "multilang": {
+    "combinedCapHeadline": "Plus500 · 15+ regulatory licences worldwide",
+    "languages": [
+      {
+        "id": "en",
+        "countryCode": "GB",
+        "heading": "English",
+        "marketCaption": "UK · LSE-listed since July 2013"
+      },
+      {
+        "id": "de",
+        "countryCode": "DE",
+        "heading": "Deutsch",
+        "marketCaption": "Europe · CySEC Licence 250/14"
+      },
+      {
+        "id": "it",
+        "countryCode": "IT",
+        "heading": "Italiano",
+        "marketCaption": "Italy · MiFID II passported"
+      },
+      {
+        "id": "ja",
+        "countryCode": "JP",
+        "heading": "日本語",
+        "marketCaption": "Japan · JFSA Licence #156"
+      },
+      {
+        "id": "ar",
+        "countryCode": "AE",
+        "heading": "العربية",
+        "marketCaption": "UAE · DFSA Licence F005651"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "Plus500",
+  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "showcase": {
+    "meta": {
+      "company": "Plus500",
+      "ticker": "PLUS",
+      "exchange": "LSE",
+      "articleSource": "LeapRate",
+      "totalDurationMs": 90000,
+      "sourceFiling": "Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "Plus500 Launches US Prediction Markets Platform",
+          "source": "LeapRate",
+          "publishedAt": "2 months ago",
+          "wordCount": 194,
+          "fullText": "LONDON, February 3, 2026 — Plus500 has expanded into the U.S. retail prediction-markets segment with the launch of event-based contracts on its domestic B2C platform, Plus500 Futures.\n\nThe move introduces products from Kalshi, the first regulated event-based contracts exchange in the United States, marking a strategic step for the multi-asset fintech group.\n\nPrediction markets, which allow traders to express views on real-world outcomes, have gained momentum among retail and institutional users as a transparent and regulated alternative to traditional derivatives.\n\nPlus500 said its entry into the sector aligns with its focus on technology-driven product expansion and customer-centric innovation.\n\nThe company will offer U.S. retail clients access to a wide range of regulated markets tied to economic indicators, financial events, geopolitical developments and other measurable outcomes.\n\nTrades will be cleared using Plus500's full clearing membership with Kalshi Klear LLC, leveraging the group's existing risk-management infrastructure.\n\nThe launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform.\n\nPlus500 added that combining its B2C product development with its established B2B clearing capabilities leaves the group well placed to capture opportunities as prediction markets grow in regulatory clarity and investor adoption."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "LeapRate",
+          "publishedAt": "2 months ago",
+          "ticker": "PLUS",
+          "exchange": "LSE",
+          "noveltyScore": 93,
+          "noveltyReason": "New story — not covered in the last 7 days (93% unique)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "Plus500 Ltd.",
+          "ticker": "PLUS",
+          "sector": "Financial Services",
+          "industry": "Capital Markets",
+          "ceo": "David Zruia",
+          "headquarters": "Haifa, Israel",
+          "foundedYear": "2008",
+          "marketCap": "£2.96B",
+          "lastPrice": "£41.64",
+          "week52High": "£49.74",
+          "week52Low": "£28.78",
+          "keyProducts": "Plus500 Trader (OTC CFDs across 2,500+ instruments), Plus500 Futures, Plus500 Invest, Prediction Markets (via Kalshi partnership), Mehta Equities (India)",
+          "competitors": "eToro, IG Group, CMC Markets, Interactive Brokers, Robinhood",
+          "description": "London-listed CFD broker serving retail investors globally. Multi-asset OTC platform covering equities, indices, forex, commodities, options, ETFs, and cryptocurrency across 2,500+ instruments. Headquartered in Haifa, Israel; founded 2008 by six Technion alumni. FTSE 250 constituent.",
+          "dbSize": "32,190",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "Plus500 launched US prediction markets platform on Plus500 Futures",
+              "sourceSpan": [
+                105,
+                182
+              ]
+            },
+            {
+              "text": "Event contracts from Kalshi — first regulated US exchange",
+              "sourceSpan": [
+                219,
+                298
+              ]
+            },
+            {
+              "text": "Strategic step for multi-asset fintech group",
+              "sourceSpan": [
+                333,
+                358
+              ]
+            },
+            {
+              "text": "Prediction markets cover economic indicators, financial events, geopolitical developments",
+              "sourceSpan": [
+                801,
+                895
+              ]
+            },
+            {
+              "text": "Trades cleared via Plus500's membership with Kalshi Klear LLC",
+              "sourceSpan": [
+                927,
+                983
+              ]
+            },
+            {
+              "text": "Leverages Plus500's existing risk-management infrastructure",
+              "sourceSpan": [
+                985,
+                1047
+              ]
+            },
+            {
+              "text": "Launch follows Dec 2025 FanDuel/CME clearing partner appointment",
+              "sourceSpan": [
+                1079,
+                1183
+              ]
+            },
+            {
+              "text": "Combines B2C product development with B2B clearing capabilities",
+              "sourceSpan": [
+                1205,
+                1289
+              ]
+            }
+          ],
+          "totalWords": 194,
+          "fullText": "LONDON, February 3, 2026 — Plus500 has expanded into the U.S. retail prediction-markets segment with the launch of event-based contracts on its domestic B2C platform, Plus500 Futures.\n\nThe move introduces products from Kalshi, the first regulated event-based contracts exchange in the United States, marking a strategic step for the multi-asset fintech group.\n\nPrediction markets, which allow traders to express views on real-world outcomes, have gained momentum among retail and institutional users as a transparent and regulated alternative to traditional derivatives.\n\nPlus500 said its entry into the sector aligns with its focus on technology-driven product expansion and customer-centric innovation.\n\nThe company will offer U.S. retail clients access to a wide range of regulated markets tied to economic indicators, financial events, geopolitical developments and other measurable outcomes.\n\nTrades will be cleared using Plus500's full clearing membership with Kalshi Klear LLC, leveraging the group's existing risk-management infrastructure.\n\nThe launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform.\n\nPlus500 added that combining its B2C product development with its established B2B clearing capabilities leaves the group well placed to capture opportunities as prediction markets grow in regulatory clarity and investor adoption."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            {
+              "fact": "Plus500 launched US prediction markets platform on Plus500 Futures",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Event contracts from Kalshi — first regulated US exchange",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Strategic step for multi-asset fintech group",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Prediction markets cover economic indicators, financial events, geopolitical developments",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Trades cleared via Plus500's membership with Kalshi Klear LLC",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Leverages Plus500's existing risk-management infrastructure",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Launch follows Dec 2025 FanDuel/CME clearing partner appointment",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            },
+            {
+              "fact": "Combines B2C product development with B2B clearing capabilities",
+              "status": "verified",
+              "source": "Matches Plus500 RNS Announcement (2026-02-03) — US Prediction Markets Launch"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "Plus500",
+          "nodes": [
+            {
+              "name": "eToro",
+              "ticker": "ETOR",
+              "relation": "competitor"
+            },
+            {
+              "name": "IG Group",
+              "ticker": "IGG.L",
+              "relation": "competitor"
+            },
+            {
+              "name": "CMC Markets",
+              "ticker": "CMCX.L",
+              "relation": "competitor"
+            },
+            {
+              "name": "Robinhood",
+              "ticker": "HOOD",
+              "relation": "competitor"
+            },
+            {
+              "name": "Kalshi",
+              "ticker": "PRIVATE",
+              "relation": "partner"
+            },
+            {
+              "name": "CME Group",
+              "ticker": "CME",
+              "relation": "partner"
+            }
+          ],
+          "note": "6 related companies identified · Kalshi issues the event contracts distributed via Plus500 Futures; CME Group clearing partner for futures/prediction markets"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "Financial product launch detected (US prediction markets, clearing infrastructure) → Gerardo selected"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.6",
+          "wordCount": 131,
+          "script": [
+            "Hi, I'm Gerardo. LSE-listed Plus500 has launched a regulated US prediction markets platform, bringing event-based contracts from Kalshi — the first regulated event-based contracts exchange in the United States — to retail clients of Plus500 Futures. Trades are cleared directly through Plus500's full clearing membership with Kalshi Klear, leveraging the group's existing risk-management infrastructure. The platform covers economic indicators, financial events, geopolitical developments and other measurable outcomes. The move could drive further growth as Plus500 expands beyond its core OTC offering. The potential upside from combining B2C product development with established B2B clearing capabilities could reshape retail derivatives. Investors should consider whether prediction markets position Plus500 for long-term expansion. The launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform. That's today's Plus500 snapshot."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "Bar Chart — FY revenue, 2022–2025",
+          "series": [
+            {
+              "q": "2022",
+              "v": 832.6
+            },
+            {
+              "q": "2023",
+              "v": 726.2
+            },
+            {
+              "q": "2024",
+              "v": 768.3
+            },
+            {
+              "q": "2025",
+              "v": 792.4
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "US Prediction Markets",
+              "number": "Plus500 Futures",
+              "foot": "Plus500 · 2026-02-03",
+              "recommended": true
+            },
+            {
+              "headline": "Kalshi Partnership",
+              "number": "Regulated",
+              "foot": "PLUS · LSE"
+            },
+            {
+              "headline": "Multi-Asset Expansion",
+              "number": "CFTC",
+              "foot": "Q1 2026 · product launch"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "Hi, I'm Gerardo. LSE-listed Plus500 has launched a regulated US prediction markets platform, bringing event-based contracts from Kalshi — the first regulated event-based contracts exchange in the United States — to retail clients of Plus500 Futures. Trades are cleared directly through Plus500's full clearing membership with Kalshi Klear, leveraging the group's existing risk-management infrastructure. The platform covers economic indicators, financial events, geopolitical developments and other measurable outcomes. The move could drive further growth as Plus500 expands beyond its core OTC offering. The potential upside from combining B2C product development with established B2B clearing capabilities could reshape retail derivatives. Investors should consider whether prediction markets position Plus500 for long-term expansion. The launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform. That's today's Plus500 snapshot.",
+          "violations": [
+            {
+              "phrase": "could drive further growth",
+              "ruleId": "FWD-001",
+              "ruleName": "Forward-looking language prohibited",
+              "severity": "high",
+              "spanStart": 529,
+              "spanEnd": 555
+            },
+            {
+              "phrase": "potential upside",
+              "ruleId": "SPC-002",
+              "ruleName": "Speculative phrasing prohibited",
+              "severity": "high",
+              "spanStart": 609,
+              "spanEnd": 625
+            },
+            {
+              "phrase": "should consider",
+              "ruleId": "ADV-001",
+              "ruleName": "Investment advice prohibited",
+              "severity": "critical",
+              "spanStart": 752,
+              "spanEnd": 767
+            }
+          ],
+          "rewrittenScript": "Hi, I'm Gerardo. LSE-listed Plus500 has launched a regulated US prediction markets platform, bringing event-based contracts from Kalshi — the first regulated event-based contracts exchange in the United States — to retail clients of Plus500 Futures. Trades are cleared directly through Plus500's full clearing membership with Kalshi Klear, leveraging the group's existing risk-management infrastructure. The platform covers economic indicators, financial events, geopolitical developments and other measurable outcomes. Plus500 said the launch aligns with its focus on technology-driven product expansion and customer-centric innovation. The company combines B2C product development with its established B2B clearing capabilities. The launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform. That's today's Plus500 snapshot.",
+          "rewrites": [
+            {
+              "from": "The move could drive further growth as Plus500 expands beyond its core OTC offering. The potential upside from combining B2C product development with established B2B clearing capabilities could reshape retail derivatives. Investors should consider whether prediction markets position Plus500 for long-term expansion.",
+              "to": "Plus500 said the launch aligns with its focus on technology-driven product expansion and customer-centric innovation. The company combines B2C product development with its established B2B clearing capabilities."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 15,
+            "passed": true,
+            "msg": "0 forbidden phrases"
+          },
+          "l2": {
+            "ms": 812,
+            "passed": true,
+            "msg": "No implied guarantees"
+          },
+          "l3": {
+            "ms": 2104,
+            "passed": true,
+            "msg": "Balanced tone confirmed"
+          },
+          "qualityScore": 95,
+          "complianceScore": 98
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "LSE-listed Plus500 has launched a regulated US prediction markets platform, bringing event-based contracts from Kalshi — the first regulated event-based contracts exchange in the United States — to retail clients of Plus500 Futures.",
+                "Trades are cleared directly through Plus500's full clearing membership with Kalshi Klear, leveraging the group's existing risk-management infrastructure.",
+                "The platform covers economic indicators, financial events, geopolitical developments and other measurable outcomes.",
+                "Plus500 said the launch aligns with its focus on technology-driven product expansion and customer-centric innovation.",
+                "The company combines B2C product development with its established B2B clearing capabilities.",
+                "The launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform.",
+                "That's today's Plus500 snapshot."
+              ]
+            },
+            {
+              "id": "de",
+              "script": [
+                "Hallo, ich bin Gerardo.",
+                "Der an der LSE notierte Broker Plus500 hat eine regulierte Prediction-Markets-Plattform in den USA gestartet und bietet Privatkunden von Plus500 Futures Event-Kontrakte von Kalshi an — der ersten regulierten Event-Kontrakt-Börse in den Vereinigten Staaten.",
+                "Die Abwicklung erfolgt direkt über Plus500 im Rahmen der vollständigen Clearing-Mitgliedschaft bei Kalshi Klear und nutzt die bestehende Risikomanagement-Infrastruktur der Gruppe.",
+                "Die Plattform deckt Wirtschaftsindikatoren, Finanzereignisse, geopolitische Entwicklungen und weitere messbare Ereignisse ab.",
+                "Plus500 erklärte, der Start stehe im Einklang mit dem Fokus auf technologiegetriebener Produkterweiterung und kundenzentrierter Innovation.",
+                "Das Unternehmen verbindet seine B2C-Produktentwicklung mit den etablierten B2B-Clearing-Fähigkeiten.",
+                "Der Start folgt auf die Ernennung von Plus500 im Dezember 2025 zum Clearing-Partner für die Event-Kontrakt-Plattform von FanDuel und CME Group.",
+                "Das war der heutige Plus500-Schnappschuss."
+              ]
+            },
+            {
+              "id": "it",
+              "script": [
+                "Ciao, sono Gerardo.",
+                "Plus500, quotata al LSE, ha lanciato una piattaforma regolamentata di prediction markets negli Stati Uniti, portando contratti event-based di Kalshi — la prima borsa regolamentata di contratti event-based negli Stati Uniti — ai clienti retail di Plus500 Futures.",
+                "Le negoziazioni vengono regolate direttamente attraverso l'adesione di Plus500 al clearing di Kalshi Klear, sfruttando l'infrastruttura di risk management esistente del gruppo.",
+                "La piattaforma copre indicatori economici, eventi finanziari, sviluppi geopolitici e altri eventi misurabili.",
+                "Plus500 ha dichiarato che il lancio è in linea con il focus su espansione di prodotto guidata dalla tecnologia e innovazione customer-centric.",
+                "L'azienda combina lo sviluppo di prodotti B2C con le capacità di clearing B2B consolidate.",
+                "Il lancio segue la nomina di Plus500 a dicembre 2025 come clearing partner per la piattaforma di contratti event-based di FanDuel e CME Group.",
+                "Questa è l'istantanea di Plus500 di oggi."
+              ]
+            },
+            {
+              "id": "ja",
+              "script": [
+                "こんにちは、ジェラルドです。",
+                "LSE上場のPlus500は、米国で規制されたプレディクション・マーケット・プラットフォームを立ち上げ、Plus500 Futuresのリテール顧客向けに、米国で初めて規制されたイベント契約取引所であるKalshiのイベント契約を提供します。",
+                "取引はPlus500のKalshi Klearクリアリング・メンバーシップを通じて直接清算され、グループの既存のリスク管理インフラが活用されます。",
+                "このプラットフォームは、経済指標、金融イベント、地政学的動向、その他の測定可能な事象をカバーします。",
+                "Plus500は、今回のローンチが、テクノロジー主導の製品拡大と顧客中心のイノベーションへの注力と一致すると述べました。",
+                "同社はB2C製品開発と確立されたB2Bクリアリング能力を組み合わせています。",
+                "今回のローンチは、Plus500が2025年12月にFanDuelおよびCMEグループのイベント契約プラットフォームのクリアリング・パートナーに任命されたことに続くものです。",
+                "以上、本日のPlus500スナップショットでした。"
+              ]
+            },
+            {
+              "id": "ar",
+              "script": [
+                "مرحباً، أنا جيراردو.",
+                "أطلقت شركة Plus500 المدرجة في بورصة لندن منصة أسواق تنبؤ منظّمة في الولايات المتحدة، لتقدّم لعملاء Plus500 Futures عقوداً مرتبطة بالأحداث من Kalshi — أول بورصة منظّمة للعقود المرتبطة بالأحداث في الولايات المتحدة.",
+                "تُقاصّ الصفقات مباشرة عبر عضوية Plus500 الكاملة في Kalshi Klear، مستفيدة من البنية التحتية القائمة لإدارة المخاطر لدى المجموعة.",
+                "تغطّي المنصة المؤشرات الاقتصادية والأحداث المالية والتطورات الجيوسياسية وسائر الأحداث القابلة للقياس.",
+                "قالت Plus500 إن الإطلاق يتماشى مع تركيزها على توسيع المنتجات المدفوع بالتكنولوجيا والابتكار الموجّه نحو العميل.",
+                "تجمع الشركة بين تطوير منتجات B2C وقدرات المقاصة B2B الراسخة.",
+                "يأتي هذا الإطلاق بعد تعيين Plus500 في ديسمبر 2025 شريكاً للمقاصة في منصة العقود المرتبطة بالأحداث لـ FanDuel ومجموعة CME.",
+                "تلك كانت لقطة Plus500 لليوم."
+              ]
+            }
+          ],
+          "driftPct": 2.1
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "Product Launch",
+          "finalScript": "Hi, I'm Gerardo. LSE-listed Plus500 has launched a regulated US prediction markets platform, bringing event-based contracts from Kalshi — the first regulated event-based contracts exchange in the United States — to retail clients of Plus500 Futures. Trades are cleared directly through Plus500's full clearing membership with Kalshi Klear, leveraging the group's existing risk-management infrastructure. The platform covers economic indicators, financial events, geopolitical developments and other measurable outcomes. Plus500 said the launch aligns with its focus on technology-driven product expansion and customer-centric innovation. The company combines B2C product development with its established B2B clearing capabilities. The launch follows Plus500's December 2025 appointment as clearing partner for FanDuel and CME Group's event-based contracts platform. That's today's Plus500 snapshot.",
+          "qualityScore": 95,
+          "complianceScore": 98,
+          "ticker": "PLUS",
+          "exchange": "LSE",
+          "source": "LeapRate",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}
