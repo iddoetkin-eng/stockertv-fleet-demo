@@ -1,0 +1,566 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "BAC config (Merrill Edge focus) assembled 2026-04-21. Stage 1 article is GWIM-SEGMENT-ONLY excerpt from BAC Q1 2026 earnings release (2026-04-15), following the same Option A approach as JPM cycle. Section-scoped title + source attribution explicitly signal AWM-style section-only treatment. Merrill Edge sits within Consumer Investments, one of three sub-segments of GWIM alongside Merrill Lynch Wealth Management and Bank of America Private Bank. Stage 9 chart: 4 GWIM YoY growth metrics from same Q1 release. Compliance scores 95/98 are demo values per spec.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive",
+    "avatar_video_url — intentionally FILL_ME per user directive",
+    "Stage 1 approach: GWIM-SEGMENT-ONLY excerpt of BAC Q1 2026 earnings release per Step 3 of the 4-step decision tree. The Step 1 (Merrill Edge-specific news) hunt surfaced rankings (StockBrokers.com 2026 #1 Bank Brokerage, NerdWallet review, Kiplinger recognition) but no clean press-release-style Merrill Edge announcement within 90 days — the only Merrill Edge milestone press release was January 2025 ($500B consumer investments) which is 15+ months old. Step 2 (GWIM umbrella) yielded the Q1 2026 release. Step 3 GWIM-section-only approach chosen, with zero-curation rule applied WITHIN the GWIM section (verified clean — no negative framing paragraphs in GWIM section). Broader BAC Q1 coverage did contain negative framing ('partially offset by the impact of lower interest rates') — this is one reason we went section-only.",
+    "Merrill Edge / Consumer Investments segment structure: Merrill Edge is part of Consumer Investments, which is one of three sub-segments of GWIM alongside Merrill Lynch Wealth Management and Bank of America Private Bank. Per BAC's own Q1 2026 disclosure: 'client balances across Merrill, Private Bank, and Consumer Investments'. Stage 3 description makes this hierarchy explicit.",
+    "Merrill Edge leadership: Aron Levine (historical head of Preferred Banking / Merrill Edge) LEFT BAC in April 2025 for BMO. Current BAC retail leadership: Holly O'Neill as President of Consumer, Retail and Preferred (oversight), David Tyrie leading the specialized consumer client solutions group that houses Merrill Edge alongside employee banking/investments and consumer lending. Stage 3 description cites Holly O'Neill as the senior verifiable leader with oversight of Merrill Edge.",
+    "Merrill Edge scale data (4M accounts, $500B+ consumer investments): from BAC's January 10, 2025 press release (15 months old). Cited in Stage 3 description as year-end 2024 reference — explicitly flagged as 2024 year-end figure to avoid staleness confusion. More recent figures not disclosed publicly.",
+    "Stage 9 chart: 4 GWIM YoY growth metrics (Revenue +12%, Net Income +32%, AUM +14%, Client Balances +10%) — all from BAC Q1 2026 GWIM segment, single reporting period. Variance 10-32% (range 22 ppts) makes this the highest-variance growth chart in the fleet. Rejected alternatives: (a) Merrill Edge-specific quarterly metrics — not publicly disclosed standalone; (c) trailing 4 quarters GWIM revenue — requires multiple earnings releases; (d) parent BAC 4-year revenue — last-resort, less specific to Merrill Edge narrative.",
+    "Stage 13 soft-match flags: Merrill Edge is US-RESIDENTS-ONLY (same as JPM Self-Directed and Schwab's Self-Directed analog). The 4 non-US captions (zh/HK, de/DE, ja/JP, pt/BR) cite BAC / Merrill Lynch global wealth/institutional presence as PROXY facts for BAC's international footprint, NOT for Merrill Edge availability. Same soft-match pattern as Schwab and JPM.",
+    "BAC founding date '1904' cited in Stage 3 description per user framing. BAC's actual history is complex: Bank of Italy (1904, Amadeo Giannini) → Bank of America (1930), then NationsBank (1874 predecessor) + BankAmerica (1998 merger) retaining the Bank of America name. User directive used 1904.",
+    "Stock price $53.91 captured 2026-04-19; market cap ~$390B; 52-week range $36.50 - $57.55. Sources: Yahoo Finance BAC + companiesmarketcap.com.",
+    "Brand palette per user spec: #012169 navy (Pantone 281) primary, #E31837 red for accent2 hover-pop. #1E3A8A Tailwind blue-900 chosen for accentDeep (between primary and brightest blues) to give default CTA a smooth navy gradient; hover shifts to red. Distinctive navy-with-red-pop signature for BAC fleet identity.",
+    "thumbnail_brand_mark: 'Merrill Edge' (12 chars) — longest mark in the fleet (prior marks 3-7 chars). Per user directive, try this first during browser verification. If visual chip crowds/wraps, fall back to 'Merrill' (7 chars, matches Plus500/Schwab visual rhythm) and document the choice."
+  ],
+  "branding": {
+    "clientName": "Merrill Edge",
+    "logoUrl": null,
+    "primaryColor": "#012169",
+    "accentColor": "#10B981",
+    "accentDeep": "#1E3A8A",
+    "accent2": "#E31837",
+    "pageTitle": "StockerTV — Pipeline · Merrill Edge Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated Merrill Edge story · 47 sec",
+    "stats": [
+      {
+        "value": "32,190",
+        "label": "companies"
+      },
+      {
+        "value": "53",
+        "label": "exchanges"
+      },
+      {
+        "value": "30",
+        "label": "AI agents"
+      },
+      {
+        "value": "22",
+        "label": "compliance rules"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "35%",
+      "26.25%",
+      "17.5%",
+      "8.75%",
+      "0%"
+    ]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "BAC · GWIM Q1 2026 Segment",
+    "docId": "DOC-BAC-2026-0415"
+  },
+  "multilang": {
+    "combinedCapHeadline": "Merrill Edge · $500B+ in consumer investments, 4M+ accounts (YE 2024)",
+    "languages": [
+      {
+        "id": "en",
+        "countryCode": "US",
+        "heading": "English",
+        "marketCaption": "US · Merrill Edge (US residents only)"
+      },
+      {
+        "id": "zh",
+        "countryCode": "HK",
+        "heading": "中文",
+        "marketCaption": "Hong Kong · BAC / Merrill Lynch APAC presence"
+      },
+      {
+        "id": "de",
+        "countryCode": "DE",
+        "heading": "Deutsch",
+        "marketCaption": "Germany · BAC Frankfurt EU operations hub"
+      },
+      {
+        "id": "ja",
+        "countryCode": "JP",
+        "heading": "日本語",
+        "marketCaption": "Japan · Merrill Lynch Tokyo institutional presence"
+      },
+      {
+        "id": "pt",
+        "countryCode": "BR",
+        "heading": "Português",
+        "marketCaption": "Brazil · BAC LatAm corporate banking"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "Merrill Edge",
+  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "showcase": {
+    "meta": {
+      "company": "Bank of America",
+      "ticker": "BAC",
+      "exchange": "NYSE",
+      "articleSource": "Bank of America Q1 2026 Earnings Release — Global Wealth & Investment Management Segment",
+      "totalDurationMs": 90000,
+      "sourceFiling": "Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "Bank of America Q1 2026 — Global Wealth & Investment Management Segment Highlights",
+          "source": "Bank of America Q1 2026 Earnings Release — Global Wealth & Investment Management Segment",
+          "publishedAt": "6 days ago",
+          "wordCount": 191,
+          "fullText": "CHARLOTTE, N.C., April 15, 2026 — Bank of America Corporation (NYSE: BAC) reported first-quarter 2026 results for its Global Wealth & Investment Management (GWIM) segment, posting net income of $1.3 billion — up 32 percent year-over-year — on revenue of $6.7 billion, a 12 percent year-over-year increase.\n\nGWIM revenue growth was driven primarily by higher asset management fees, which rose 15 percent to $4.2 billion, reflecting higher market valuations and strong AUM flows across the segment.\n\nAssets under management balances reached $2.1 trillion, up 14 percent year-over-year, while total client balances grew 10 percent to $4.6 trillion — reflecting higher market levels and sustained net inflows across Merrill, Private Bank, and Consumer Investments.\n\nThe segment reported $20 billion of AUM flows in the first quarter and added approximately 4,000 net new $500,000-plus relationships across Merrill and Private Bank.\n\nGWIM average loans and leases rose 13 percent to $262 billion, while average deposits reached $287 billion, supporting the segment's integrated wealth and banking platform.\n\nGWIM delivered a pretax margin of 26 percent and a return on average allocated capital of 24 percent in the first quarter, reflecting operating discipline alongside top-line growth."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "Bank of America Q1 2026 Earnings Release — Global Wealth & Investment Management Segment",
+          "publishedAt": "6 days ago",
+          "ticker": "BAC",
+          "exchange": "NYSE",
+          "noveltyScore": 94,
+          "noveltyReason": "New GWIM-segment story — not covered in the last 7 days (94% unique)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "Bank of America Corporation",
+          "ticker": "BAC",
+          "sector": "Financial Services",
+          "industry": "Banks — Diversified",
+          "ceo": "Brian Moynihan",
+          "headquarters": "Charlotte, North Carolina, USA",
+          "foundedYear": "1904",
+          "marketCap": "$390B",
+          "lastPrice": "$53.91",
+          "week52High": "$57.55",
+          "week52Low": "$36.50",
+          "keyProducts": "Merrill Edge Self-Directed (commission-free stocks, ETFs, options), Merrill Guided Investing (robo-advisory), Bank of America mobile banking integration, Preferred Rewards program, Merrill Lynch Wealth Management, Bank of America Private Bank",
+          "competitors": "Charles Schwab, Fidelity, Robinhood, Interactive Brokers, J.P. Morgan Self-Directed, E*TRADE, Webull",
+          "description": "Merrill Edge is Bank of America's self-directed retail trading platform, offering commission-free stock, ETF, and options trading with integrated Bank of America mobile banking and Preferred Rewards benefits. Merrill Edge sits within Consumer Investments, one of three sub-segments of BAC's Global Wealth & Investment Management (GWIM) — alongside Merrill Lynch Wealth Management (full-service advisors, led by Lindsay Hans and Eric Schimpf) and Bank of America Private Bank. As of year-end 2024, Consumer Investments held more than $500 billion in client assets across approximately 4 million accounts, including Merrill Edge Self-Directed and Merrill Guided Investing. Holly O'Neill serves as President of Consumer, Retail and Preferred at BAC, with oversight of the consumer divisions that house Merrill Edge. Parent Bank of America Corporation (NYSE: BAC) is among the largest U.S. banks by assets — founded 1904 via the predecessor Bank of Italy, headquartered in Charlotte, North Carolina, led by Chairman and CEO Brian Moynihan.",
+          "dbSize": "32,190",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "GWIM Q1 2026 net income $1.3B, up 32% YoY",
+              "sourceSpan": [
+                180,
+                237
+              ]
+            },
+            {
+              "text": "GWIM Q1 2026 revenue $6.7B, up 12% YoY",
+              "sourceSpan": [
+                254,
+                304
+              ]
+            },
+            {
+              "text": "GWIM asset management fees $4.2B, up 15% YoY",
+              "sourceSpan": [
+                358,
+                418
+              ]
+            },
+            {
+              "text": "GWIM AUM $2.1T, up 14% YoY",
+              "sourceSpan": [
+                539,
+                582
+              ]
+            },
+            {
+              "text": "GWIM total client balances $4.6T, up 10% YoY",
+              "sourceSpan": [
+                631,
+                644
+              ]
+            },
+            {
+              "text": "$20B AUM flows in Q1 2026",
+              "sourceSpan": [
+                783,
+                828
+              ]
+            },
+            {
+              "text": "~4,000 net new $500K+ relationships across Merrill and Private Bank",
+              "sourceSpan": [
+                853,
+                926
+              ]
+            },
+            {
+              "text": "GWIM pretax margin 26%, ROAC 24%",
+              "sourceSpan": [
+                1120,
+                1203
+              ]
+            }
+          ],
+          "totalWords": 191,
+          "fullText": "CHARLOTTE, N.C., April 15, 2026 — Bank of America Corporation (NYSE: BAC) reported first-quarter 2026 results for its Global Wealth & Investment Management (GWIM) segment, posting net income of $1.3 billion — up 32 percent year-over-year — on revenue of $6.7 billion, a 12 percent year-over-year increase.\n\nGWIM revenue growth was driven primarily by higher asset management fees, which rose 15 percent to $4.2 billion, reflecting higher market valuations and strong AUM flows across the segment.\n\nAssets under management balances reached $2.1 trillion, up 14 percent year-over-year, while total client balances grew 10 percent to $4.6 trillion — reflecting higher market levels and sustained net inflows across Merrill, Private Bank, and Consumer Investments.\n\nThe segment reported $20 billion of AUM flows in the first quarter and added approximately 4,000 net new $500,000-plus relationships across Merrill and Private Bank.\n\nGWIM average loans and leases rose 13 percent to $262 billion, while average deposits reached $287 billion, supporting the segment's integrated wealth and banking platform.\n\nGWIM delivered a pretax margin of 26 percent and a return on average allocated capital of 24 percent in the first quarter, reflecting operating discipline alongside top-line growth."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            {
+              "fact": "GWIM Q1 2026 net income $1.3B, up 32% YoY",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "GWIM Q1 2026 revenue $6.7B, up 12% YoY",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "GWIM asset management fees $4.2B, up 15% YoY",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "GWIM AUM $2.1T, up 14% YoY",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "GWIM total client balances $4.6T, up 10% YoY",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "$20B AUM flows in Q1 2026",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "~4,000 net new $500K+ relationships across Merrill and Private Bank",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            },
+            {
+              "fact": "GWIM pretax margin 26%, ROAC 24%",
+              "status": "verified",
+              "source": "Matches Bank of America Q1 2026 Earnings Release (2026-04-15) — GWIM Segment"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "BAC",
+          "nodes": [
+            {
+              "name": "Charles Schwab",
+              "ticker": "SCHW",
+              "relation": "competitor"
+            },
+            {
+              "name": "Fidelity",
+              "ticker": "PRIVATE",
+              "relation": "competitor"
+            },
+            {
+              "name": "Robinhood",
+              "ticker": "HOOD",
+              "relation": "competitor"
+            },
+            {
+              "name": "Interactive Brokers",
+              "ticker": "IBKR",
+              "relation": "competitor"
+            },
+            {
+              "name": "J.P. Morgan Chase",
+              "ticker": "JPM",
+              "relation": "competitor"
+            },
+            {
+              "name": "eToro",
+              "ticker": "ETOR",
+              "relation": "competitor"
+            }
+          ],
+          "note": "6 related companies identified · key competitors to Merrill Edge across integrated bank-and-broker platforms, pure-play online brokerages, and social-trading peers"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "Financial earnings report detected (GWIM segment revenue, net income, AUM, client balances) → Gerardo selected"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.6",
+          "wordCount": 134,
+          "script": [
+            "Hi, I'm Gerardo. Bank of America's first-quarter 2026 results showcased strong momentum at Merrill Edge — the self-directed retail trading platform within BAC's Global Wealth and Investment Management segment. The broader GWIM segment posted net income of 1.3 billion dollars, up 32 percent year over year, on revenue of 6.7 billion, up 12 percent. Asset management fees grew 15 percent to 4.2 billion, and assets under management rose 14 percent to 2.1 trillion. Client balances reached 4.6 trillion across Merrill, Private Bank, and Consumer Investments. The momentum could drive further growth as retail investors turn to integrated bank-and-broker platforms. The potential upside from unifying self-directed trading with advisor-led wealth services could reshape retail finance. Investors should consider whether 32 percent GWIM net income growth positions BAC for sustained retail leadership. That's today's BAC snapshot."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "Bar Chart — GWIM Q1 2026 YoY growth",
+          "series": [
+            {
+              "q": "Client Balances",
+              "v": 10
+            },
+            {
+              "q": "Revenue",
+              "v": 12
+            },
+            {
+              "q": "AUM",
+              "v": 14
+            },
+            {
+              "q": "Net Income",
+              "v": 32
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "GWIM Record Results",
+              "number": "+32% NI",
+              "foot": "BAC · Q1 2026",
+              "recommended": true
+            },
+            {
+              "headline": "Client Balances Grow",
+              "number": "$4.6T",
+              "foot": "BAC GWIM · +10% YoY"
+            },
+            {
+              "headline": "AUM Expansion",
+              "number": "$2.1T",
+              "foot": "BAC GWIM · +14% YoY"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "Hi, I'm Gerardo. Bank of America's first-quarter 2026 results showcased strong momentum at Merrill Edge — the self-directed retail trading platform within BAC's Global Wealth and Investment Management segment. The broader GWIM segment posted net income of 1.3 billion dollars, up 32 percent year over year, on revenue of 6.7 billion, up 12 percent. Asset management fees grew 15 percent to 4.2 billion, and assets under management rose 14 percent to 2.1 trillion. Client balances reached 4.6 trillion across Merrill, Private Bank, and Consumer Investments. The momentum could drive further growth as retail investors turn to integrated bank-and-broker platforms. The potential upside from unifying self-directed trading with advisor-led wealth services could reshape retail finance. Investors should consider whether 32 percent GWIM net income growth positions BAC for sustained retail leadership. That's today's BAC snapshot.",
+          "violations": [
+            {
+              "phrase": "could drive further growth",
+              "ruleId": "FWD-001",
+              "ruleName": "Forward-looking language prohibited",
+              "severity": "high",
+              "spanStart": 570,
+              "spanEnd": 596
+            },
+            {
+              "phrase": "potential upside",
+              "ruleId": "SPC-002",
+              "ruleName": "Speculative phrasing prohibited",
+              "severity": "high",
+              "spanStart": 667,
+              "spanEnd": 683
+            },
+            {
+              "phrase": "should consider",
+              "ruleId": "ADV-001",
+              "ruleName": "Investment advice prohibited",
+              "severity": "critical",
+              "spanStart": 793,
+              "spanEnd": 808
+            }
+          ],
+          "rewrittenScript": "Hi, I'm Gerardo. Bank of America's first-quarter 2026 results showcased strong momentum at Merrill Edge — the self-directed retail trading platform within BAC's Global Wealth and Investment Management segment. The broader GWIM segment posted net income of 1.3 billion dollars, up 32 percent year over year, on revenue of 6.7 billion, up 12 percent. Asset management fees grew 15 percent to 4.2 billion, and assets under management rose 14 percent to 2.1 trillion. Client balances reached 4.6 trillion across Merrill, Private Bank, and Consumer Investments. The GWIM segment reported 20 billion dollars of AUM flows in the quarter. The firm added approximately 4,000 net new 500,000-plus relationships across Merrill and Private Bank. Results were driven by higher asset management fees, market valuations, and strong AUM flows. That's today's BAC snapshot.",
+          "rewrites": [
+            {
+              "from": "The momentum could drive further growth as retail investors turn to integrated bank-and-broker platforms. The potential upside from unifying self-directed trading with advisor-led wealth services could reshape retail finance. Investors should consider whether 32 percent GWIM net income growth positions BAC for sustained retail leadership.",
+              "to": "The GWIM segment reported 20 billion dollars of AUM flows in the quarter. The firm added approximately 4,000 net new 500,000-plus relationships across Merrill and Private Bank. Results were driven by higher asset management fees, market valuations, and strong AUM flows."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 15,
+            "passed": true,
+            "msg": "0 forbidden phrases"
+          },
+          "l2": {
+            "ms": 812,
+            "passed": true,
+            "msg": "No implied guarantees"
+          },
+          "l3": {
+            "ms": 2104,
+            "passed": true,
+            "msg": "Balanced tone confirmed"
+          },
+          "qualityScore": 95,
+          "complianceScore": 98
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "Bank of America's first-quarter 2026 results showcased strong momentum at Merrill Edge — the self-directed retail trading platform within BAC's Global Wealth and Investment Management segment.",
+                "The broader GWIM segment posted net income of 1.3 billion dollars, up 32 percent year over year, on revenue of 6.7 billion, up 12 percent.",
+                "Asset management fees grew 15 percent to 4.2 billion, and assets under management rose 14 percent to 2.1 trillion.",
+                "Client balances reached 4.6 trillion across Merrill, Private Bank, and Consumer Investments.",
+                "The GWIM segment reported 20 billion dollars of AUM flows in the quarter.",
+                "The firm added approximately 4,000 net new 500,000-plus relationships across Merrill and Private Bank.",
+                "Results were driven by higher asset management fees, market valuations, and strong AUM flows.",
+                "That's today's BAC snapshot."
+              ]
+            },
+            {
+              "id": "zh",
+              "script": [
+                "大家好,我是杰拉多。",
+                "美国银行 2026 年第一季度业绩显示,美林投资 (Merrill Edge) 势头强劲 —— 这是美国银行全球财富与投资管理 (GWIM) 部门内的自主零售交易平台。",
+                "更广泛的 GWIM 部门录得净利润 13 亿美元,同比增长 32%,营收 67 亿美元,同比增长 12%。",
+                "资产管理费增长 15% 至 42 亿美元,管理资产同比增长 14% 至 2.1 万亿美元。",
+                "客户资产达到 4.6 万亿美元,覆盖 Merrill、Private Bank 和 Consumer Investments 三个子部门。",
+                "GWIM 部门本季度录得 200 亿美元的管理资产净流入。",
+                "公司在 Merrill 和 Private Bank 中新增约 4,000 个 50 万美元以上的客户关系。",
+                "业绩由更高的资产管理费、市场估值和强劲的管理资产流入驱动。",
+                "以上就是今天的 BAC 快讯。"
+              ]
+            },
+            {
+              "id": "de",
+              "script": [
+                "Hallo, ich bin Gerardo.",
+                "Die Ergebnisse der Bank of America für das erste Quartal 2026 zeigten starken Schwung bei Merrill Edge — der Self-Directed-Retail-Handelsplattform innerhalb des Geschäftsbereichs Global Wealth and Investment Management von BAC.",
+                "Das übergeordnete GWIM-Segment erzielte einen Nettogewinn von 1,3 Milliarden US-Dollar, ein Plus von 32 Prozent gegenüber dem Vorjahr, bei einem Umsatz von 6,7 Milliarden, ein Plus von 12 Prozent.",
+                "Die Vermögensverwaltungsgebühren stiegen um 15 Prozent auf 4,2 Milliarden, und das verwaltete Vermögen wuchs um 14 Prozent auf 2,1 Billionen US-Dollar.",
+                "Das Kundenvermögen erreichte 4,6 Billionen US-Dollar und verteilt sich auf Merrill, Private Bank und Consumer Investments.",
+                "Das GWIM-Segment meldete 20 Milliarden US-Dollar an AUM-Nettozuflüssen im Quartal.",
+                "Das Unternehmen gewann rund 4.000 Netto-Neubeziehungen mit einem Volumen von mindestens 500.000 US-Dollar bei Merrill und Private Bank hinzu.",
+                "Die Ergebnisse wurden durch höhere Vermögensverwaltungsgebühren, Marktbewertungen und starke AUM-Zuflüsse getragen.",
+                "Das war der heutige BAC-Schnappschuss."
+              ]
+            },
+            {
+              "id": "ja",
+              "script": [
+                "こんにちは、ジェラルドです。",
+                "バンク・オブ・アメリカの 2026 年第 1 四半期決算は、メリル・エッジ (Merrill Edge) ― BAC のグローバル・ウェルス・アンド・インベストメント・マネジメント (GWIM) 部門内のセルフダイレクト・リテール取引プラットフォーム ― の力強い成長を示しました。",
+                "より広範な GWIM 部門は、純利益 13 億ドル(前年同期比 32% 増)、売上高 67 億ドル(12% 増)を計上しました。",
+                "資産運用手数料は 15% 増の 42 億ドル、運用資産は 14% 増の 2.1 兆ドルとなりました。",
+                "顧客資産は、メリル、プライベート・バンク、コンシューマー・インベストメンツ全体で 4.6 兆ドルに達しました。",
+                "GWIM 部門は、当四半期に 200 億ドルの運用資産純流入を報告しました。",
+                "同社は、メリルとプライベート・バンクで約 4,000 件の 50 万ドル以上の新規顧客関係を純増しました。",
+                "業績は、資産運用手数料の増加、市場評価額の上昇、そして堅調な運用資産流入によって牽引されました。",
+                "以上、本日の BAC スナップショットでした。"
+              ]
+            },
+            {
+              "id": "pt",
+              "script": [
+                "Olá, eu sou o Gerardo.",
+                "Os resultados do primeiro trimestre de 2026 do Bank of America mostraram um forte impulso no Merrill Edge — a plataforma de trading self-directed de varejo dentro do segmento Global Wealth and Investment Management do BAC.",
+                "O segmento GWIM mais amplo registrou lucro líquido de 1,3 bilhão de dólares, um aumento de 32 por cento em relação ao ano anterior, com receita de 6,7 bilhões, um aumento de 12 por cento.",
+                "As taxas de gestão de ativos cresceram 15 por cento, atingindo 4,2 bilhões, e os ativos sob gestão aumentaram 14 por cento, chegando a 2,1 trilhões de dólares.",
+                "Os ativos dos clientes atingiram 4,6 trilhões de dólares em Merrill, Private Bank e Consumer Investments.",
+                "O segmento GWIM registrou 20 bilhões de dólares em entradas líquidas de AUM no trimestre.",
+                "A empresa adicionou aproximadamente 4.000 novos relacionamentos líquidos de 500 mil dólares ou mais em Merrill e Private Bank.",
+                "Os resultados foram impulsionados por taxas de gestão de ativos mais altas, valorizações de mercado e fortes entradas de AUM.",
+                "Esse é o panorama de hoje do BAC."
+              ]
+            }
+          ],
+          "driftPct": 2.1
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "GWIM Segment Update",
+          "finalScript": "Hi, I'm Gerardo. Bank of America's first-quarter 2026 results showcased strong momentum at Merrill Edge — the self-directed retail trading platform within BAC's Global Wealth and Investment Management segment. The broader GWIM segment posted net income of 1.3 billion dollars, up 32 percent year over year, on revenue of 6.7 billion, up 12 percent. Asset management fees grew 15 percent to 4.2 billion, and assets under management rose 14 percent to 2.1 trillion. Client balances reached 4.6 trillion across Merrill, Private Bank, and Consumer Investments. The GWIM segment reported 20 billion dollars of AUM flows in the quarter. The firm added approximately 4,000 net new 500,000-plus relationships across Merrill and Private Bank. Results were driven by higher asset management fees, market valuations, and strong AUM flows. That's today's BAC snapshot.",
+          "qualityScore": 95,
+          "complianceScore": 98,
+          "ticker": "BAC",
+          "exchange": "NYSE",
+          "source": "Bank of America Q1 2026 Earnings Release — Global Wealth & Investment Management Segment",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}
