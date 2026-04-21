@@ -84,6 +84,34 @@
       '<rect y="3" width="30" height="2" fill="#0038B8"/>' +
       '<rect y="15" width="30" height="2" fill="#0038B8"/>' +
       '<polygon points="15,7 16.3,9.2 18.8,9.2 16.8,10.6 17.6,13 15,11.6 12.4,13 13.2,10.6 11.2,9.2 13.7,9.2" fill="none" stroke="#0038B8" stroke-width="0.6"/>',
+    HK:
+      '<rect width="30" height="20" fill="#DE2910"/>' +
+      '<circle cx="15" cy="7" r="1.4" fill="#fff"/>' +
+      '<circle cx="18.3" cy="8.9" r="1.4" fill="#fff"/>' +
+      '<circle cx="17" cy="12.4" r="1.4" fill="#fff"/>' +
+      '<circle cx="13" cy="12.4" r="1.4" fill="#fff"/>' +
+      '<circle cx="11.7" cy="8.9" r="1.4" fill="#fff"/>',
+    CN:
+      '<rect width="30" height="20" fill="#DE2910"/>' +
+      '<polygon points="7,4 7.7,6 10,6 8.1,7.2 8.9,9.3 7,8 5.1,9.3 5.9,7.2 4,6 6.3,6" fill="#FFDE00"/>' +
+      '<circle cx="11" cy="3.5" r="0.55" fill="#FFDE00"/>' +
+      '<circle cx="12.5" cy="5" r="0.55" fill="#FFDE00"/>' +
+      '<circle cx="12.5" cy="7" r="0.55" fill="#FFDE00"/>' +
+      '<circle cx="11" cy="8.5" r="0.55" fill="#FFDE00"/>',
+    KR:
+      '<rect width="30" height="20" fill="#fff"/>' +
+      '<path d="M15 6 A 4 4 0 0 1 15 14 Z" fill="#CD2E3A"/>' +
+      '<path d="M15 6 A 4 4 0 0 0 15 14 Z" fill="#003478"/>',
+    SG:
+      '<rect width="30" height="10" fill="#ED2939"/>' +
+      '<rect y="10" width="30" height="10" fill="#fff"/>' +
+      '<circle cx="7" cy="5" r="2.5" fill="#fff"/>' +
+      '<circle cx="8.6" cy="5" r="2" fill="#ED2939"/>',
+    IN:
+      '<rect width="30" height="6.67" fill="#FF9933"/>' +
+      '<rect y="6.67" width="30" height="6.67" fill="#fff"/>' +
+      '<rect y="13.33" width="30" height="6.67" fill="#138808"/>' +
+      '<circle cx="15" cy="10" r="1.5" fill="none" stroke="#000080" stroke-width="0.3"/>',
   };
 
   const NEUTRAL_FLAG = '<rect width="30" height="20" fill="#555"/>';

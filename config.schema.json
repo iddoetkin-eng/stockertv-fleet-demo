@@ -106,7 +106,7 @@
               "id": { "type": "string", "pattern": "^[a-z]{2}$", "description": "ISO 639-1 language code. Used as #lang-{id} DOM id and as the id key inside showcase.stages[12].data.languages[]." },
               "countryCode": {
                 "type": "string",
-                "enum": ["US", "GB", "DE", "IT", "ES", "BR", "AE", "FR", "JP", "AU", "CA", "NL", "IL"],
+                "enum": ["US", "GB", "DE", "IT", "ES", "BR", "AE", "FR", "JP", "AU", "CA", "NL", "IL", "HK", "CN", "KR", "SG", "IN"],
                 "description": "ISO 3166-1 alpha-2. Picks a flag from the built-in library in js/client-loader.js. v1 supports exactly this list; adding a country requires editing the loader."
               },
               "heading": { "type": "string", "description": "Column heading, e.g. 'English', 'Português', 'Español'." },

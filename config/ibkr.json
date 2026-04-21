@@ -1,0 +1,557 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "IBKR config assembled 2026-04-21. Stage 1 article is the 2026-03-31 EEA Crypto-Asset Trading Launch (BusinessWire press release, all 8 paragraphs verbatim). IBKR Q1 2026 earnings release scheduled for 2026-04-21 after market close — not yet published at research time, so Lock 2 skipped silently to Step 3. Compliance scores 95/98 are demo values per spec.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive; user will add later",
+    "avatar_video_url — intentionally FILL_ME per user directive; HeyGen URL to be added later",
+    "Stage 1 article: all 8 paragraphs verbatim from IBKR BusinessWire press release (mirrored at crypto-reporter.com). Zero negative framing audited sentence-by-sentence. Rejected alternative Yahoo Finance / Zacks coverage because it contained a 'Zacks Rank #3 (Hold)' line — neutral rating counts as not-strictly-positive under the zero-curation rule.",
+    "Lock 2 Step 1 (Q1 2026 earnings): skipped silently per Lock 2 rules. IBKR Q1 2026 release was scheduled for today 2026-04-21 at ~4:00 PM ET (after market close); research conducted earlier in the day. If you want to revisit with Q1 data once published, I can regenerate.",
+    "Stage 9 chart — 4-year FY revenue (2022-2025) chosen. Asset-class commission breakdown attempted but could not extract cleanly: IBKR's 10-K segment tables are in PDF that my tooling can't parse, and public secondaries only cite total commission ($582M Q4 2025) without asset-class split. 4-year revenue shows dramatic growth story ($3.07B → $6.21B, nearly double) with high variance (102% increase) — strong sales-demo narrative. Single-source: Macrotrends aggregation of IBKR annual reports.",
+    "Per-country customer counts: IBKR publishes global account totals (4.65M as of Feb 2026) but does NOT break down by country publicly. All 5 language captions use verified regulatory/market milestones (same fallback as Plus500).",
+    "Stock price $81.15 captured 2026-04-20; market cap $36.41B; 52-week range $38.10 – $82.88. Sources: Yahoo Finance IBKR + CNBC. Intraday changes possible as IBKR Q1 report drops today.",
+    "IBKR Q1 2026 earnings call: Tuesday 2026-04-21, 4:30 PM ET. After today's release, analyst coverage and any downgrades would trigger Lock 2 Step 1 filter for a potential future article refresh."
+  ],
+  "branding": {
+    "clientName": "IBKR",
+    "logoUrl": null,
+    "primaryColor": "#DB1222",
+    "accentColor": "#10B981",
+    "accentDeep": "#EF4444",
+    "accent2": "#F87171",
+    "pageTitle": "StockerTV — Pipeline · IBKR Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated IBKR story · 47 sec",
+    "stats": [
+      {
+        "value": "32,190",
+        "label": "companies"
+      },
+      {
+        "value": "53",
+        "label": "exchanges"
+      },
+      {
+        "value": "30",
+        "label": "AI agents"
+      },
+      {
+        "value": "22",
+        "label": "compliance rules"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "$7B",
+      "$5.25B",
+      "$3.5B",
+      "$1.75B",
+      "$0"
+    ]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "IBKR · EEA Crypto-Asset Trading Launch",
+    "docId": "DOC-IBKR-2026-0331"
+  },
+  "multilang": {
+    "combinedCapHeadline": "IBKR · 4.65M+ client accounts across 170+ markets",
+    "languages": [
+      {
+        "id": "en",
+        "countryCode": "US",
+        "heading": "English",
+        "marketCaption": "US · Nasdaq-listed since May 2007"
+      },
+      {
+        "id": "de",
+        "countryCode": "DE",
+        "heading": "Deutsch",
+        "marketCaption": "Europe · IBKR Ireland CBI C423427"
+      },
+      {
+        "id": "ja",
+        "countryCode": "JP",
+        "heading": "日本語",
+        "marketCaption": "Japan · JFSA-registered broker"
+      },
+      {
+        "id": "zh",
+        "countryCode": "HK",
+        "heading": "中文",
+        "marketCaption": "Hong Kong · SFC-regulated"
+      },
+      {
+        "id": "hi",
+        "countryCode": "IN",
+        "heading": "हिन्दी",
+        "marketCaption": "India · SEBI-registered (IBKR India)"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "IBKR",
+  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "showcase": {
+    "meta": {
+      "company": "IBKR",
+      "ticker": "IBKR",
+      "exchange": "NASDAQ",
+      "articleSource": "Business Wire",
+      "totalDurationMs": 90000,
+      "sourceFiling": "Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "Interactive Brokers Launches Crypto-Asset Trading for Individual Investors in the European Economic Area",
+          "source": "Business Wire",
+          "publishedAt": "3 weeks ago",
+          "wordCount": 390,
+          "fullText": "GREENWICH, Conn., March 31, 2026 — Interactive Brokers (Nasdaq: IBKR), an automated global broker, today announced the launch of crypto-asset trading for eligible individual investors in the EEA through Interactive Brokers Ireland Limited, which is an authorised crypto-asset service provider in the EEA.\n\nMany European investors face challenges managing multiple crypto apps, understanding unclear fees, or navigating security concerns. Interactive Brokers now offers a solution. Starting today, eligible individual investors in the EEA can trade 11 leading crypto-assets directly on the same platform they already use for stocks, options, futures, currencies, bonds, and mutual funds.\n\nThis integrated approach gives clients a unified view of their entire portfolio. With one login, they can manage both traditional and crypto-assets, backed by the control, low pricing, and global reach that Interactive Brokers is known for.\n\n\"Our clients want the flexibility to diversify into crypto-assets while maintaining the tools, pricing, and trust they rely on Interactive Brokers for,\" said Milan Galik, Chief Executive Officer of Interactive Brokers. \"By offering crypto alongside traditional assets on a single platform, clients can manage risk, liquidity, and capital more efficiently across their entire portfolio.\"\n\nClients trading crypto-assets through the Interactive Brokers platform can trade 24 hours a day, 7 days a week; access simple, transparent pricing with commissions starting at 0.12%-0.18% of trade value; avoid hidden spreads, markups, or custody fees; and place limit orders to control trade execution prices.\n\nThrough a secure integration with zerohash, Interactive Brokers provides access to 11 leading crypto-assets: Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Bitcoin Cash (BCH), Chainlink (LINK), Solana (SOL), Cardano (ADA), Ripple (XRP), Dogecoin (DOGE), Avalanche (AVAX) and Sui (SUI).\n\nCrypto-assets trading is available through IBKR's platform suite, including Trader Workstation, IBKR Desktop, Client Portal, IBKR Mobile, and IBKR GlobalTrader. Clients can access crypto-assets using the same tools and technology they already know and trust. This launch reflects Interactive Brokers' commitment to helping investors manage their portfolios more efficiently, whether they are trading equities, exploring crypto-assets, or investing across global markets.\n\n\"Interactive Brokers has built one of the most sophisticated global brokerage platforms in the world,\" said Edward Woodford, Founder & CEO of zerohash. \"We are pleased to be broadening our global collaboration to now include customers from the EEA, unlocking a market of ~450 million people.\" zerohash is a regulated digital asset and stablecoin infrastructure provider for financial institutions."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "Business Wire",
+          "publishedAt": "3 weeks ago",
+          "ticker": "IBKR",
+          "exchange": "NASDAQ",
+          "noveltyScore": 91,
+          "noveltyReason": "New story — not covered in the last 7 days (91% unique)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "Interactive Brokers Group, Inc.",
+          "ticker": "IBKR",
+          "sector": "Financial Services",
+          "industry": "Capital Markets",
+          "ceo": "Milan Galik",
+          "headquarters": "Greenwich, Connecticut, USA",
+          "foundedYear": "1993",
+          "marketCap": "$36.4B",
+          "lastPrice": "$81.15",
+          "week52High": "$82.88",
+          "week52Low": "$38.10",
+          "keyProducts": "Trader Workstation (TWS), IBKR Desktop, IBKR Mobile, IBKR GlobalTrader, Client Portal, Multi-asset brokerage across 170+ markets, crypto via zerohash/Paxos",
+          "competitors": "Charles Schwab, Robinhood, eToro, Saxo Bank, Plus500",
+          "description": "Nasdaq-listed automated global broker offering stocks, options, futures, currencies, bonds, mutual funds and crypto-assets to institutional and professional retail clients in 170+ markets worldwide. Founded 1993 by Thomas Peterffy (Chairman); Milan Galik serves as CEO since 2019. 4.65 million client accounts with $820B in client equity as of February 2026. Headquartered in Greenwich, Connecticut.",
+          "dbSize": "32,190",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "IBKR launched EEA crypto-asset trading on 2026-03-31",
+              "sourceSpan": [
+                119,
+                194
+              ]
+            },
+            {
+              "text": "Operated via Interactive Brokers Ireland Limited (authorised CASP)",
+              "sourceSpan": [
+                203,
+                303
+              ]
+            },
+            {
+              "text": "11 leading crypto-assets including BTC, ETH, SOL, XRP",
+              "sourceSpan": [
+                548,
+                572
+              ]
+            },
+            {
+              "text": "Commissions 0.12%-0.18% of trade value, no hidden spreads or custody fees",
+              "sourceSpan": [
+                1470,
+                1520
+              ]
+            },
+            {
+              "text": "24/7 crypto trading availability",
+              "sourceSpan": [
+                1399,
+                1428
+              ]
+            },
+            {
+              "text": "CEO Milan Galik cites client demand for flexibility",
+              "sourceSpan": [
+                931,
+                995
+              ]
+            },
+            {
+              "text": "Integration via zerohash (regulated digital-asset infrastructure provider)",
+              "sourceSpan": [
+                1639,
+                1671
+              ]
+            },
+            {
+              "text": "EEA market reach of approximately 450 million people",
+              "sourceSpan": [
+                2637,
+                2678
+              ]
+            }
+          ],
+          "totalWords": 390,
+          "fullText": "GREENWICH, Conn., March 31, 2026 — Interactive Brokers (Nasdaq: IBKR), an automated global broker, today announced the launch of crypto-asset trading for eligible individual investors in the EEA through Interactive Brokers Ireland Limited, which is an authorised crypto-asset service provider in the EEA.\n\nMany European investors face challenges managing multiple crypto apps, understanding unclear fees, or navigating security concerns. Interactive Brokers now offers a solution. Starting today, eligible individual investors in the EEA can trade 11 leading crypto-assets directly on the same platform they already use for stocks, options, futures, currencies, bonds, and mutual funds.\n\nThis integrated approach gives clients a unified view of their entire portfolio. With one login, they can manage both traditional and crypto-assets, backed by the control, low pricing, and global reach that Interactive Brokers is known for.\n\n\"Our clients want the flexibility to diversify into crypto-assets while maintaining the tools, pricing, and trust they rely on Interactive Brokers for,\" said Milan Galik, Chief Executive Officer of Interactive Brokers. \"By offering crypto alongside traditional assets on a single platform, clients can manage risk, liquidity, and capital more efficiently across their entire portfolio.\"\n\nClients trading crypto-assets through the Interactive Brokers platform can trade 24 hours a day, 7 days a week; access simple, transparent pricing with commissions starting at 0.12%-0.18% of trade value; avoid hidden spreads, markups, or custody fees; and place limit orders to control trade execution prices.\n\nThrough a secure integration with zerohash, Interactive Brokers provides access to 11 leading crypto-assets: Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Bitcoin Cash (BCH), Chainlink (LINK), Solana (SOL), Cardano (ADA), Ripple (XRP), Dogecoin (DOGE), Avalanche (AVAX) and Sui (SUI).\n\nCrypto-assets trading is available through IBKR's platform suite, including Trader Workstation, IBKR Desktop, Client Portal, IBKR Mobile, and IBKR GlobalTrader. Clients can access crypto-assets using the same tools and technology they already know and trust. This launch reflects Interactive Brokers' commitment to helping investors manage their portfolios more efficiently, whether they are trading equities, exploring crypto-assets, or investing across global markets.\n\n\"Interactive Brokers has built one of the most sophisticated global brokerage platforms in the world,\" said Edward Woodford, Founder & CEO of zerohash. \"We are pleased to be broadening our global collaboration to now include customers from the EEA, unlocking a market of ~450 million people.\" zerohash is a regulated digital asset and stablecoin infrastructure provider for financial institutions."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            {
+              "fact": "IBKR launched EEA crypto-asset trading on 2026-03-31",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "Operated via Interactive Brokers Ireland Limited (authorised CASP)",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "11 leading crypto-assets including BTC, ETH, SOL, XRP",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "Commissions 0.12%-0.18% of trade value, no hidden spreads or custody fees",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "24/7 crypto trading availability",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "CEO Milan Galik cites client demand for flexibility",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "Integration via zerohash (regulated digital-asset infrastructure provider)",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            },
+            {
+              "fact": "EEA market reach of approximately 450 million people",
+              "status": "verified",
+              "source": "Matches Interactive Brokers press release (BusinessWire, 2026-03-31) — EEA Crypto-Asset Trading Launch"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "IBKR",
+          "nodes": [
+            {
+              "name": "Charles Schwab",
+              "ticker": "SCHW",
+              "relation": "competitor"
+            },
+            {
+              "name": "Robinhood",
+              "ticker": "HOOD",
+              "relation": "competitor"
+            },
+            {
+              "name": "eToro",
+              "ticker": "ETOR",
+              "relation": "competitor"
+            },
+            {
+              "name": "Plus500",
+              "ticker": "PLUS.L",
+              "relation": "competitor"
+            },
+            {
+              "name": "zerohash",
+              "ticker": "PRIVATE",
+              "relation": "partner"
+            },
+            {
+              "name": "Coinbase",
+              "ticker": "COIN",
+              "relation": "partner"
+            }
+          ],
+          "note": "6 related companies identified · zerohash provides the crypto infrastructure for IBKR's EEA and US crypto services; Coinbase Derivatives provides nano Bitcoin/Ether futures cleared on IBKR"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "Financial product launch detected (EEA crypto trading, zerohash integration) → Gerardo selected"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.6",
+          "wordCount": 128,
+          "script": [
+            "Hi, I'm Gerardo. Nasdaq-listed Interactive Brokers — IBKR — has launched crypto-asset trading for eligible individual investors across the European Economic Area, operating through its Central Bank of Ireland-authorised subsidiary. The service offers 11 leading crypto-assets, including Bitcoin, Ethereum, Solana and Ripple, on the same platform clients use for stocks, options, futures and bonds. Commissions start at 0.12 to 0.18 percent of trade value, with no hidden spreads or custody fees. CEO Milan Galik said the launch could drive further growth as clients manage risk, liquidity and capital more efficiently across their portfolios. The potential upside from unlocking a 450-million-person EEA market could reshape European retail brokerage. Investors should consider whether combining crypto and traditional assets on one login positions IBKR for long-term expansion. That's today's IBKR snapshot."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "Bar Chart — FY revenue, 2022–2025",
+          "series": [
+            {
+              "q": "2022",
+              "v": 3.07
+            },
+            {
+              "q": "2023",
+              "v": 4.34
+            },
+            {
+              "q": "2024",
+              "v": 5.19
+            },
+            {
+              "q": "2025",
+              "v": 6.205
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "EEA Crypto Launch",
+              "number": "11 assets",
+              "foot": "IBKR · 2026-03-31",
+              "recommended": true
+            },
+            {
+              "headline": "450M Reach",
+              "number": "EEA market",
+              "foot": "IBKR · Ireland CBI"
+            },
+            {
+              "headline": "Unified Platform",
+              "number": "One login",
+              "foot": "IBKR · zerohash"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "Hi, I'm Gerardo. Nasdaq-listed Interactive Brokers — IBKR — has launched crypto-asset trading for eligible individual investors across the European Economic Area, operating through its Central Bank of Ireland-authorised subsidiary. The service offers 11 leading crypto-assets, including Bitcoin, Ethereum, Solana and Ripple, on the same platform clients use for stocks, options, futures and bonds. Commissions start at 0.12 to 0.18 percent of trade value, with no hidden spreads or custody fees. CEO Milan Galik said the launch could drive further growth as clients manage risk, liquidity and capital more efficiently across their portfolios. The potential upside from unlocking a 450-million-person EEA market could reshape European retail brokerage. Investors should consider whether combining crypto and traditional assets on one login positions IBKR for long-term expansion. That's today's IBKR snapshot.",
+          "violations": [
+            {
+              "phrase": "could drive further growth",
+              "ruleId": "FWD-001",
+              "ruleName": "Forward-looking language prohibited",
+              "severity": "high",
+              "spanStart": 528,
+              "spanEnd": 554
+            },
+            {
+              "phrase": "potential upside",
+              "ruleId": "SPC-002",
+              "ruleName": "Speculative phrasing prohibited",
+              "severity": "high",
+              "spanStart": 647,
+              "spanEnd": 663
+            },
+            {
+              "phrase": "should consider",
+              "ruleId": "ADV-001",
+              "ruleName": "Investment advice prohibited",
+              "severity": "critical",
+              "spanStart": 762,
+              "spanEnd": 777
+            }
+          ],
+          "rewrittenScript": "Hi, I'm Gerardo. Nasdaq-listed Interactive Brokers — IBKR — has launched crypto-asset trading for eligible individual investors across the European Economic Area, operating through its Central Bank of Ireland-authorised subsidiary. The service offers 11 leading crypto-assets, including Bitcoin, Ethereum, Solana and Ripple, on the same platform clients use for stocks, options, futures and bonds. Commissions start at 0.12 to 0.18 percent of trade value, with no hidden spreads or custody fees. CEO Milan Galik said the integrated approach lets clients manage risk, liquidity and capital across their entire portfolio. The launch extends IBKR's reach to an EEA market of approximately 450 million people via its zerohash integration. The offering is available on Trader Workstation, IBKR Desktop, IBKR Mobile and the broader IBKR platform suite. That's today's IBKR snapshot.",
+          "rewrites": [
+            {
+              "from": "CEO Milan Galik said the launch could drive further growth as clients manage risk, liquidity and capital more efficiently across their portfolios. The potential upside from unlocking a 450-million-person EEA market could reshape European retail brokerage. Investors should consider whether combining crypto and traditional assets on one login positions IBKR for long-term expansion.",
+              "to": "CEO Milan Galik said the integrated approach lets clients manage risk, liquidity and capital across their entire portfolio. The launch extends IBKR's reach to an EEA market of approximately 450 million people via its zerohash integration. The offering is available on Trader Workstation, IBKR Desktop, IBKR Mobile and the broader IBKR platform suite."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 15,
+            "passed": true,
+            "msg": "0 forbidden phrases"
+          },
+          "l2": {
+            "ms": 812,
+            "passed": true,
+            "msg": "No implied guarantees"
+          },
+          "l3": {
+            "ms": 2104,
+            "passed": true,
+            "msg": "Balanced tone confirmed"
+          },
+          "qualityScore": 95,
+          "complianceScore": 98
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "Nasdaq-listed Interactive Brokers — IBKR — has launched crypto-asset trading for eligible individual investors across the European Economic Area, operating through its Central Bank of Ireland-authorised subsidiary.",
+                "The service offers 11 leading crypto-assets, including Bitcoin, Ethereum, Solana and Ripple, on the same platform clients use for stocks, options, futures and bonds.",
+                "Commissions start at 0.12 to 0.18 percent of trade value, with no hidden spreads or custody fees.",
+                "CEO Milan Galik said the integrated approach lets clients manage risk, liquidity and capital across their entire portfolio.",
+                "The launch extends IBKR's reach to an EEA market of approximately 450 million people via its zerohash integration.",
+                "The offering is available on Trader Workstation, IBKR Desktop, IBKR Mobile and the broader IBKR platform suite.",
+                "That's today's IBKR snapshot."
+              ]
+            },
+            {
+              "id": "de",
+              "script": [
+                "Hallo, ich bin Gerardo.",
+                "Der an der Nasdaq notierte Broker Interactive Brokers — IBKR — hat den Handel mit Krypto-Assets für berechtigte Privatanleger im Europäischen Wirtschaftsraum gestartet, betrieben durch seine von der irischen Zentralbank zugelassene Tochtergesellschaft.",
+                "Das Angebot umfasst 11 führende Krypto-Assets, darunter Bitcoin, Ethereum, Solana und Ripple, auf derselben Plattform, die Kunden für Aktien, Optionen, Futures und Anleihen nutzen.",
+                "Die Provisionen beginnen bei 0,12 bis 0,18 Prozent des Handelswerts — ohne versteckte Spreads oder Verwahrgebühren.",
+                "CEO Milan Galik erklärte, der integrierte Ansatz ermögliche es Kunden, Risiko, Liquidität und Kapital über ihr gesamtes Portfolio hinweg effizient zu steuern.",
+                "Die Einführung erweitert die Reichweite von IBKR über seine Integration mit zerohash auf einen EWR-Markt von rund 450 Millionen Menschen.",
+                "Das Angebot ist über Trader Workstation, IBKR Desktop, IBKR Mobile und die übrige IBKR-Plattformsuite verfügbar.",
+                "Das war der heutige IBKR-Schnappschuss."
+              ]
+            },
+            {
+              "id": "ja",
+              "script": [
+                "こんにちは、ジェラルドです。",
+                "Nasdaq上場のインタラクティブ・ブローカーズ(IBKR)は、アイルランド中央銀行認可の子会社を通じて、欧州経済領域の適格個人投資家向けに暗号資産取引を開始しました。",
+                "サービスは、ビットコイン、イーサリアム、ソラナ、リップルを含む11の主要暗号資産を、株式、オプション、先物、債券と同じプラットフォーム上で提供します。",
+                "取引手数料は取引額の0.12〜0.18パーセントから始まり、隠れたスプレッドや保管手数料は一切ありません。",
+                "ミラン・ガリクCEOは、統合型アプローチにより顧客はポートフォリオ全体にわたりリスク、流動性、資本を効率的に管理できると述べました。",
+                "今回のローンチは、zerohashとの連携を通じて、IBKRのリーチを約4億5000万人のEEA市場へと拡大します。",
+                "同サービスは、Trader Workstation、IBKR Desktop、IBKR Mobile、そしてIBKRプラットフォームスイート全体で利用可能です。",
+                "以上、本日のIBKRスナップショットでした。"
+              ]
+            },
+            {
+              "id": "zh",
+              "script": [
+                "大家好,我是杰拉多。",
+                "在纳斯达克上市的盈透证券 (IBKR) 已通过其爱尔兰央行授权的子公司,向欧洲经济区的符合条件的个人投资者推出加密资产交易服务。",
+                "该服务提供包括比特币、以太坊、索拉纳和瑞波币在内的 11 种主流加密资产,与客户交易股票、期权、期货和债券的平台相同。",
+                "佣金从交易金额的 0.12% 至 0.18% 起计,无隐藏点差或托管费。",
+                "首席执行官 Milan Galik 表示,这种一体化方式让客户能够在整个投资组合中高效地管理风险、流动性与资本。",
+                "此次推出通过与 zerohash 的合作,将 IBKR 的覆盖范围扩展至约 4.5 亿人的欧洲经济区市场。",
+                "该服务可通过 Trader Workstation、IBKR Desktop、IBKR Mobile 以及更广泛的 IBKR 平台套件访问。",
+                "以上就是今天的 IBKR 快讯。"
+              ]
+            },
+            {
+              "id": "hi",
+              "script": [
+                "नमस्ते, मैं गेराल्डो हूँ।",
+                "Nasdaq पर सूचीबद्ध Interactive Brokers (IBKR) ने अपनी आयरिश केंद्रीय बैंक द्वारा अधिकृत सहायक कंपनी के माध्यम से, यूरोपीय आर्थिक क्षेत्र के पात्र व्यक्तिगत निवेशकों के लिए क्रिप्टो-परिसंपत्ति व्यापार की शुरुआत की है।",
+                "यह सेवा Bitcoin, Ethereum, Solana और Ripple सहित 11 प्रमुख क्रिप्टो-परिसंपत्तियाँ प्रदान करती है, उसी मंच पर जिसका ग्राहक स्टॉक, विकल्प, वायदा और बॉन्ड के लिए उपयोग करते हैं।",
+                "कमीशन व्यापार मूल्य का 0.12 से 0.18 प्रतिशत से शुरू होता है, और कोई छिपे स्प्रेड या अभिरक्षा शुल्क नहीं हैं।",
+                "CEO Milan Galik ने कहा कि एकीकृत दृष्टिकोण ग्राहकों को अपने पूरे पोर्टफोलियो में जोखिम, तरलता और पूंजी को कुशलतापूर्वक प्रबंधित करने देता है।",
+                "इस शुरुआत से IBKR की पहुँच zerohash के साथ एकीकरण के माध्यम से लगभग 45 करोड़ लोगों के EEA बाज़ार तक बढ़ जाती है।",
+                "यह सेवा Trader Workstation, IBKR Desktop, IBKR Mobile और व्यापक IBKR मंच सुइट पर उपलब्ध है।",
+                "यह था आज का IBKR स्नैपशॉट।"
+              ]
+            }
+          ],
+          "driftPct": 2.1
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "Product Launch",
+          "finalScript": "Hi, I'm Gerardo. Nasdaq-listed Interactive Brokers — IBKR — has launched crypto-asset trading for eligible individual investors across the European Economic Area, operating through its Central Bank of Ireland-authorised subsidiary. The service offers 11 leading crypto-assets, including Bitcoin, Ethereum, Solana and Ripple, on the same platform clients use for stocks, options, futures and bonds. Commissions start at 0.12 to 0.18 percent of trade value, with no hidden spreads or custody fees. CEO Milan Galik said the integrated approach lets clients manage risk, liquidity and capital across their entire portfolio. The launch extends IBKR's reach to an EEA market of approximately 450 million people via its zerohash integration. The offering is available on Trader Workstation, IBKR Desktop, IBKR Mobile and the broader IBKR platform suite. That's today's IBKR snapshot.",
+          "qualityScore": 95,
+          "complianceScore": 98,
+          "ticker": "IBKR",
+          "exchange": "NASDAQ",
+          "source": "Business Wire",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}
