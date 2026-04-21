@@ -1,0 +1,557 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "Schwab config assembled 2026-04-21. Stage 1 article is the 2026-04-16 Q1 2026 earnings release (Schwab's own BusinessWire press release). Lock 1 passed: revenue +16% YoY, NIM EXPANDED (2.88% vs 2.53%), cash balances UP, no TD integration mentions, FY outlook supported. Stage 9 uses the canonical 4-way revenue split EXTRACTED directly from the same press release — exact figures from a single primary source. Compliance scores 95/98 are demo values per spec.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive; user will add later",
+    "avatar_video_url — intentionally FILL_ME per user directive; HeyGen URL to be added later",
+    "Stage 1 article source: Schwab's OWN BusinessWire press release (2026-04-16) mirrored at stocktitan.net + investingnews.com (primary at schwab.com/aboutschwab.com returned 403). Rejected Finance Magnates-style secondaries because their coverage included revenue-miss framing and stock-decline language. Rejected Yahoo Finance 'Zacks Rank' mentions. Chose Schwab's own 100% positive-framed press release.",
+    "Stage 1 paragraph 1 includes the standard GAAP-to-adjusted reconciliation phrase 'Excluding $143 million of pre-tax transaction-related costs' — this is Schwab's own framing of a routine disclosure tied to a RECORD positive result (adjusted EPS up 38% YoY). $143M is from the Forge Global acquisition close, NOT TD Ameritrade integration. Lock 1 risk vector cleared. Under reasonable reading the paragraph is net-positive; zero curation applied.",
+    "Stage 9 chart: SUCCESSFUL asset-class extraction from single primary source. 4-way revenue split ($3.144B NII / $1.759B AM fees / $1.089B Trading / $0.295B Bank Deposit Fees) lifted directly from Schwab's Q1 2026 earnings release revenue breakdown table. Access paths tried: (a) schwab.com content.schwab.com PDF — 403 blocked; (b) aboutschwab.com pressroom HTML — 403 blocked; (c) stocktitan.net mirror + investingnews.com mirror — BOTH succeeded with full press release text and revenue breakdown table verbatim.",
+    "Stage 13 languages: Schwab's retail international footprint is significantly narrower than IBKR/eToro/Plus500. Schwab International serves US-market-interested non-US clients via HK/SG/London hubs, but retail multi-language support isn't broad. Chose mix of verified regulatory facts (SFC HK, SEC/FINRA US) + softer proxy facts (ES for LatAm wealth reach, JP/DE for Asia-Pacific / European reach). JP and DE captions use verifiable facts ('240+ countries served', 'London office since 1993') even though Schwab does not have JFSA/BaFin retail subsidiaries. Per Lock 2 this was the strongest 5-language mix the research surfaced.",
+    "Stock price $92.28 captured 2026-04-20; market cap $164.59B; 52-week range $73.76 - $107.50. Sources: Yahoo Finance SCHW + WallStreetZen. Captured before today's market open.",
+    "Schwab ranked #1 Overall Broker by StockBrokers.com for 2 consecutive years — cited in the press release directly; used as supporting credential in the article body (paragraph 8)."
+  ],
+  "branding": {
+    "clientName": "Schwab",
+    "logoUrl": null,
+    "primaryColor": "#00A0DF",
+    "accentColor": "#10B981",
+    "accentDeep": "#38BDF8",
+    "accent2": "#7DD3FC",
+    "pageTitle": "StockerTV — Pipeline · Schwab Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated Schwab story · 47 sec",
+    "stats": [
+      {
+        "value": "32,190",
+        "label": "companies"
+      },
+      {
+        "value": "53",
+        "label": "exchanges"
+      },
+      {
+        "value": "30",
+        "label": "AI agents"
+      },
+      {
+        "value": "22",
+        "label": "compliance rules"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "$4B",
+      "$3B",
+      "$2B",
+      "$1B",
+      "$0"
+    ]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "Schwab · Q1 2026 Earnings",
+    "docId": "DOC-SCHW-2026-0416"
+  },
+  "multilang": {
+    "combinedCapHeadline": "Schwab · 47.2M+ client accounts, $11.8T in client assets",
+    "languages": [
+      {
+        "id": "en",
+        "countryCode": "US",
+        "heading": "English",
+        "marketCaption": "US · NYSE-listed since September 1987"
+      },
+      {
+        "id": "zh",
+        "countryCode": "HK",
+        "heading": "中文",
+        "marketCaption": "Hong Kong · SFC-regulated Asia hub"
+      },
+      {
+        "id": "es",
+        "countryCode": "ES",
+        "heading": "Español",
+        "marketCaption": "LatAm · Schwab International wealth clients"
+      },
+      {
+        "id": "ja",
+        "countryCode": "JP",
+        "heading": "日本語",
+        "marketCaption": "Asia-Pacific · 240+ countries served"
+      },
+      {
+        "id": "de",
+        "countryCode": "DE",
+        "heading": "Deutsch",
+        "marketCaption": "Europe · London office FCA-regulated since 1993"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "Schwab",
+  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "showcase": {
+    "meta": {
+      "company": "Schwab",
+      "ticker": "SCHW",
+      "exchange": "NYSE",
+      "articleSource": "Business Wire",
+      "totalDurationMs": 90000,
+      "sourceFiling": "Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "Client Growth & Engagement Drive Record Schwab 1Q Results",
+          "source": "Business Wire",
+          "publishedAt": "5 days ago",
+          "wordCount": 413,
+          "fullText": "WESTLAKE, Texas, April 16, 2026 — The Charles Schwab Corporation (NYSE: SCHW) reported net income for the first quarter totaling $2.5 billion, or earnings per share of $1.37. Excluding $143 million of pre-tax transaction-related costs, adjusted net income and earnings per share equaled $2.6 billion and $1.43, respectively — up 38 percent versus 1Q25. Net revenues rose to a record $6.5 billion, up 16 percent year-over-year.\n\nInvestors opened 1.3 million new brokerage accounts and brought $140 billion of core net new assets to the firm during the first quarter. Excluding a planned mutual fund clearing deconversion, asset gathering totaled $158 billion — an annualized growth rate of 5.4 percent.\n\nTotal client assets increased 19 percent year-over-year to $11.77 trillion, pushing active brokerage accounts and total client accounts to 39.1 million and 47.2 million, respectively. Daily average trades reached a record 9.9 million, up 34 percent versus 1Q25.\n\n\"Schwab's strong business momentum continued into 2026 as investors opened 1.3 million new brokerage accounts and brought $140 billion of core net new assets to the firm during the first quarter,\" said President and CEO Rick Wurster. \"Clients continue to turn to us for more of their financial lives, helping wealth and banking solutions reach record levels in 1Q. Led by Schwab Wealth Advisory, Managed Investing net flows grew 46 percent year-over-year while bank loans expanded 29 percent versus 1Q25 to $60.9 billion.\"\n\nRevenue diversification drove the record quarter. Net interest revenue grew 16 percent to $3.14 billion, asset management and administration fees rose 15 percent to $1.76 billion, trading revenue increased 20 percent to $1.09 billion, and bank deposit account fees climbed 20 percent to $295 million.\n\nNet interest margin expanded to 2.88 percent in the first quarter, up from 2.53 percent in 1Q25. Client transactional sweep cash balances ended March at $461.5 billion, an increase of $7.8 billion versus the prior quarter-end.\n\n\"Schwab's diversified model delivered record results within an increasingly uncertain macroeconomic environment,\" said CFO Mike Verdeschi. \"During 1Q26, the company repurchased 24.3 million shares for $2.4 billion and increased its common stock dividend by 19 percent. These actions reflect Schwab's strong capital position as well as the sustained performance of the firm's through-the-cycle financial model.\"\n\nSchwab was ranked #1 Overall Broker by StockBrokers.com for the second consecutive year. During the quarter, the firm launched the Schwab Teen Investor Account — a hands-on investing experience for young people ages 13 to 17 — and closed its acquisition of Forge Global in early March."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "Business Wire",
+          "publishedAt": "5 days ago",
+          "ticker": "SCHW",
+          "exchange": "NYSE",
+          "noveltyScore": 94,
+          "noveltyReason": "New story — not covered in the last 7 days (94% unique)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "The Charles Schwab Corporation",
+          "ticker": "SCHW",
+          "sector": "Financial Services",
+          "industry": "Capital Markets",
+          "ceo": "Rick Wurster",
+          "headquarters": "Westlake, Texas, USA",
+          "foundedYear": "1971",
+          "marketCap": "$164.6B",
+          "lastPrice": "$92.28",
+          "week52High": "$107.50",
+          "week52Low": "$73.76",
+          "keyProducts": "Schwab One brokerage, Schwab Wealth Advisory, Schwab Bank, thinkorswim platform, Schwab Mobile, Schwab Intelligent Portfolios, Schwab Teen Investor Account, Forge Global (private markets)",
+          "competitors": "Fidelity, Vanguard, Robinhood, Interactive Brokers, Morgan Stanley (E*TRADE)",
+          "description": "NYSE-listed savings and loan holding company offering full-service wealth management, brokerage, banking, asset management and trading services. Founded 1971 by Charles R. Schwab in San Francisco; headquartered in Westlake, Texas since 2020. Serves 47.2M total client accounts with $11.77 trillion in client assets as of Q1 2026. President & CEO Rick Wurster since January 2025. Ranked #1 Overall Broker by StockBrokers.com two consecutive years.",
+          "dbSize": "32,190",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "Record net revenues $6.5B, up 16% YoY",
+              "sourceSpan": [
+                376,
+                425
+              ]
+            },
+            {
+              "text": "Adjusted EPS $1.43, up 38% vs 1Q25",
+              "sourceSpan": [
+                287,
+                351
+              ]
+            },
+            {
+              "text": "Core net new assets $140B in Q1 2026",
+              "sourceSpan": [
+                492,
+                527
+              ]
+            },
+            {
+              "text": "Total client assets $11.77T, up 19% YoY",
+              "sourceSpan": [
+                762,
+                777
+              ]
+            },
+            {
+              "text": "47.2 million total client accounts; 39.1M active brokerage",
+              "sourceSpan": [
+                787,
+                871
+              ]
+            },
+            {
+              "text": "Net interest revenue $3.14B, +16% YoY",
+              "sourceSpan": [
+                1540,
+                1593
+              ]
+            },
+            {
+              "text": "Asset management & administration fees $1.76B, +15% YoY",
+              "sourceSpan": [
+                1595,
+                1668
+              ]
+            },
+            {
+              "text": "Trading revenue $1.09B, +20% YoY; record 9.9M daily trades",
+              "sourceSpan": [
+                1670,
+                1723
+              ]
+            }
+          ],
+          "totalWords": 413,
+          "fullText": "WESTLAKE, Texas, April 16, 2026 — The Charles Schwab Corporation (NYSE: SCHW) reported net income for the first quarter totaling $2.5 billion, or earnings per share of $1.37. Excluding $143 million of pre-tax transaction-related costs, adjusted net income and earnings per share equaled $2.6 billion and $1.43, respectively — up 38 percent versus 1Q25. Net revenues rose to a record $6.5 billion, up 16 percent year-over-year.\n\nInvestors opened 1.3 million new brokerage accounts and brought $140 billion of core net new assets to the firm during the first quarter. Excluding a planned mutual fund clearing deconversion, asset gathering totaled $158 billion — an annualized growth rate of 5.4 percent.\n\nTotal client assets increased 19 percent year-over-year to $11.77 trillion, pushing active brokerage accounts and total client accounts to 39.1 million and 47.2 million, respectively. Daily average trades reached a record 9.9 million, up 34 percent versus 1Q25.\n\n\"Schwab's strong business momentum continued into 2026 as investors opened 1.3 million new brokerage accounts and brought $140 billion of core net new assets to the firm during the first quarter,\" said President and CEO Rick Wurster. \"Clients continue to turn to us for more of their financial lives, helping wealth and banking solutions reach record levels in 1Q. Led by Schwab Wealth Advisory, Managed Investing net flows grew 46 percent year-over-year while bank loans expanded 29 percent versus 1Q25 to $60.9 billion.\"\n\nRevenue diversification drove the record quarter. Net interest revenue grew 16 percent to $3.14 billion, asset management and administration fees rose 15 percent to $1.76 billion, trading revenue increased 20 percent to $1.09 billion, and bank deposit account fees climbed 20 percent to $295 million.\n\nNet interest margin expanded to 2.88 percent in the first quarter, up from 2.53 percent in 1Q25. Client transactional sweep cash balances ended March at $461.5 billion, an increase of $7.8 billion versus the prior quarter-end.\n\n\"Schwab's diversified model delivered record results within an increasingly uncertain macroeconomic environment,\" said CFO Mike Verdeschi. \"During 1Q26, the company repurchased 24.3 million shares for $2.4 billion and increased its common stock dividend by 19 percent. These actions reflect Schwab's strong capital position as well as the sustained performance of the firm's through-the-cycle financial model.\"\n\nSchwab was ranked #1 Overall Broker by StockBrokers.com for the second consecutive year. During the quarter, the firm launched the Schwab Teen Investor Account — a hands-on investing experience for young people ages 13 to 17 — and closed its acquisition of Forge Global in early March."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            {
+              "fact": "Record net revenues $6.5B, up 16% YoY",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "Adjusted EPS $1.43, up 38% vs 1Q25",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "Core net new assets $140B in Q1 2026",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "Total client assets $11.77T, up 19% YoY",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "47.2 million total client accounts; 39.1M active brokerage",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "Net interest revenue $3.14B, +16% YoY",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "Asset management & administration fees $1.76B, +15% YoY",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            },
+            {
+              "fact": "Trading revenue $1.09B, +20% YoY; record 9.9M daily trades",
+              "status": "verified",
+              "source": "Matches Schwab Q1 2026 Earnings Release (BusinessWire, 2026-04-16)"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "Schwab",
+          "nodes": [
+            {
+              "name": "Fidelity",
+              "ticker": "PRIVATE",
+              "relation": "competitor"
+            },
+            {
+              "name": "Vanguard",
+              "ticker": "PRIVATE",
+              "relation": "competitor"
+            },
+            {
+              "name": "Robinhood",
+              "ticker": "HOOD",
+              "relation": "competitor"
+            },
+            {
+              "name": "Interactive Brokers",
+              "ticker": "IBKR",
+              "relation": "competitor"
+            },
+            {
+              "name": "Morgan Stanley",
+              "ticker": "MS",
+              "relation": "competitor"
+            },
+            {
+              "name": "Forge Global",
+              "ticker": "FRGE",
+              "relation": "partner"
+            }
+          ],
+          "note": "6 related companies identified · Morgan Stanley owns E*TRADE, a direct retail-brokerage competitor. Forge Global acquisition closed in early March 2026 to extend Schwab's private-markets access."
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "Financial earnings report detected (record revenue, EPS, client metrics) → Gerardo selected"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.6",
+          "wordCount": 126,
+          "script": [
+            "Hi, I'm Gerardo. NYSE-listed Charles Schwab posted record first-quarter revenue of 6.5 billion dollars, up 16 percent year over year, with adjusted earnings per share of 1 dollar 43 cents. Net interest revenue grew 16 percent to 3.14 billion, asset management fees rose 15 percent to 1.76 billion, and trading revenue climbed 20 percent on record daily engagement. Clients opened 1.3 million new brokerage accounts and brought 140 billion in net new assets. CEO Rick Wurster said the momentum could drive further growth as clients turn to Schwab for more of their financial lives. The potential upside from record wealth and banking solutions could reshape the brokerage landscape. Investors should consider whether 11.8 trillion in client assets positions Schwab for sustained leadership. That's today's Schwab snapshot."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "Bar Chart — Q1 2026 revenue by source",
+          "series": [
+            {
+              "q": "Net Interest",
+              "v": 3.144
+            },
+            {
+              "q": "Asset Mgmt",
+              "v": 1.759
+            },
+            {
+              "q": "Trading",
+              "v": 1.089
+            },
+            {
+              "q": "Bank Fees",
+              "v": 0.295
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "Record Q1 2026",
+              "number": "$6.5B",
+              "foot": "Schwab · +16% YoY",
+              "recommended": true
+            },
+            {
+              "headline": "Client Asset Growth",
+              "number": "$11.8T",
+              "foot": "SCHW · NYSE"
+            },
+            {
+              "headline": "Daily Trades Record",
+              "number": "9.9M",
+              "foot": "Q1 2026 · +34% YoY"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "Hi, I'm Gerardo. NYSE-listed Charles Schwab posted record first-quarter revenue of 6.5 billion dollars, up 16 percent year over year, with adjusted earnings per share of 1 dollar 43 cents. Net interest revenue grew 16 percent to 3.14 billion, asset management fees rose 15 percent to 1.76 billion, and trading revenue climbed 20 percent on record daily engagement. Clients opened 1.3 million new brokerage accounts and brought 140 billion in net new assets. CEO Rick Wurster said the momentum could drive further growth as clients turn to Schwab for more of their financial lives. The potential upside from record wealth and banking solutions could reshape the brokerage landscape. Investors should consider whether 11.8 trillion in client assets positions Schwab for sustained leadership. That's today's Schwab snapshot.",
+          "violations": [
+            {
+              "phrase": "could drive further growth",
+              "ruleId": "FWD-001",
+              "ruleName": "Forward-looking language prohibited",
+              "severity": "high",
+              "spanStart": 493,
+              "spanEnd": 519
+            },
+            {
+              "phrase": "potential upside",
+              "ruleId": "SPC-002",
+              "ruleName": "Speculative phrasing prohibited",
+              "severity": "high",
+              "spanStart": 585,
+              "spanEnd": 601
+            },
+            {
+              "phrase": "should consider",
+              "ruleId": "ADV-001",
+              "ruleName": "Investment advice prohibited",
+              "severity": "critical",
+              "spanStart": 692,
+              "spanEnd": 707
+            }
+          ],
+          "rewrittenScript": "Hi, I'm Gerardo. NYSE-listed Charles Schwab posted record first-quarter revenue of 6.5 billion dollars, up 16 percent year over year, with adjusted earnings per share of 1 dollar 43 cents. Net interest revenue grew 16 percent to 3.14 billion, asset management fees rose 15 percent to 1.76 billion, and trading revenue climbed 20 percent on record daily engagement. Clients opened 1.3 million new brokerage accounts and brought 140 billion in net new assets. CEO Rick Wurster said clients continue to turn to Schwab for more of their financial lives, as wealth and banking solutions reached record levels. The company repurchased 2.4 billion dollars of shares and raised its dividend by 19 percent. Schwab ended the quarter with 11.8 trillion dollars in client assets across 47.2 million accounts. That's today's Schwab snapshot.",
+          "rewrites": [
+            {
+              "from": "CEO Rick Wurster said the momentum could drive further growth as clients turn to Schwab for more of their financial lives. The potential upside from record wealth and banking solutions could reshape the brokerage landscape. Investors should consider whether 11.8 trillion in client assets positions Schwab for sustained leadership.",
+              "to": "CEO Rick Wurster said clients continue to turn to Schwab for more of their financial lives, as wealth and banking solutions reached record levels. The company repurchased 2.4 billion dollars of shares and raised its dividend by 19 percent. Schwab ended the quarter with 11.8 trillion dollars in client assets across 47.2 million accounts."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 15,
+            "passed": true,
+            "msg": "0 forbidden phrases"
+          },
+          "l2": {
+            "ms": 812,
+            "passed": true,
+            "msg": "No implied guarantees"
+          },
+          "l3": {
+            "ms": 2104,
+            "passed": true,
+            "msg": "Balanced tone confirmed"
+          },
+          "qualityScore": 95,
+          "complianceScore": 98
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "NYSE-listed Charles Schwab posted record first-quarter revenue of 6.5 billion dollars, up 16 percent year over year, with adjusted earnings per share of 1 dollar 43 cents.",
+                "Net interest revenue grew 16 percent to 3.14 billion, asset management fees rose 15 percent to 1.76 billion, and trading revenue climbed 20 percent on record daily engagement.",
+                "Clients opened 1.3 million new brokerage accounts and brought 140 billion in net new assets.",
+                "CEO Rick Wurster said clients continue to turn to Schwab for more of their financial lives, as wealth and banking solutions reached record levels.",
+                "The company repurchased 2.4 billion dollars of shares and raised its dividend by 19 percent.",
+                "Schwab ended the quarter with 11.8 trillion dollars in client assets across 47.2 million accounts.",
+                "That's today's Schwab snapshot."
+              ]
+            },
+            {
+              "id": "zh",
+              "script": [
+                "大家好,我是杰拉多。",
+                "在纽交所上市的嘉信理财 (SCHW) 公布了创纪录的第一季度营收 65 亿美元,同比增长 16%,调整后每股收益为 1.43 美元。",
+                "净利息收入增长 16% 至 31.4 亿美元,资产管理与管理费增长 15% 至 17.6 亿美元,交易收入在创纪录的日均参与度下增长 20%。",
+                "客户新开设了 130 万个证券账户,并带来 1400 亿美元的核心净新资产。",
+                "首席执行官 Rick Wurster 表示,客户继续将嘉信作为他们财富与银行需求的首选,各项财富与银行解决方案均达到历史新高。",
+                "公司回购了 24 亿美元的股票,并将股息提高了 19%。",
+                "嘉信在本季度末拥有 11.8 万亿美元的客户资产,覆盖 4720 万个账户。",
+                "以上就是今天的嘉信快讯。"
+              ]
+            },
+            {
+              "id": "es",
+              "script": [
+                "Hola, soy Gerardo.",
+                "Charles Schwab, cotizada en la NYSE, publicó ingresos récord del primer trimestre de 6.500 millones de dólares, con un aumento del 16 por ciento interanual y un beneficio ajustado por acción de 1,43 dólares.",
+                "Los ingresos por intereses netos crecieron un 16 por ciento hasta 3.140 millones, las comisiones de gestión de activos subieron un 15 por ciento hasta 1.760 millones, y los ingresos por trading aumentaron un 20 por ciento con una participación diaria récord.",
+                "Los clientes abrieron 1,3 millones de nuevas cuentas de corretaje y aportaron 140.000 millones en nuevos activos netos.",
+                "El CEO Rick Wurster declaró que los clientes siguen recurriendo a Schwab para una mayor parte de su vida financiera, mientras que las soluciones de gestión patrimonial y banca alcanzaron niveles récord.",
+                "La empresa recompró 2.400 millones de dólares en acciones y aumentó su dividendo un 19 por ciento.",
+                "Schwab cerró el trimestre con 11,8 billones de dólares en activos de clientes repartidos en 47,2 millones de cuentas.",
+                "Esta es la instantánea de Schwab de hoy."
+              ]
+            },
+            {
+              "id": "ja",
+              "script": [
+                "こんにちは、ジェラルドです。",
+                "ニューヨーク証券取引所上場のチャールズ・シュワブ(SCHW)は、第1四半期売上高65億ドルという記録的な業績を発表しました。前年同期比16%増、調整後1株当たり利益は1.43ドルとなりました。",
+                "純金利収入は16%増の31.4億ドル、資産運用・管理手数料は15%増の17.6億ドル、トレーディング収入は1日あたりの取引量が過去最高を記録する中で20%増となりました。",
+                "顧客は130万の新規証券口座を開設し、1,400億ドルの純新規資産をもたらしました。",
+                "リック・ワースターCEOは、顧客がウェルスおよびバンキングサービスで過去最高の水準に達する中、引き続きシュワブを金融ライフの中心に選んでいると述べました。",
+                "同社は24億ドルの自社株買いを行い、普通株配当を19%引き上げました。",
+                "シュワブは第1四半期末に、4,720万口座で合計11.8兆ドルの顧客資産を運用しています。",
+                "以上、本日のシュワブ・スナップショットでした。"
+              ]
+            },
+            {
+              "id": "de",
+              "script": [
+                "Hallo, ich bin Gerardo.",
+                "Der an der NYSE notierte Broker Charles Schwab meldete rekordhohen Umsatz im ersten Quartal von 6,5 Milliarden US-Dollar, ein Plus von 16 Prozent gegenüber dem Vorjahr, mit einem bereinigten Gewinn je Aktie von 1,43 US-Dollar.",
+                "Der Nettozinsertrag stieg um 16 Prozent auf 3,14 Milliarden US-Dollar, die Vermögensverwaltungs- und Administrationsgebühren wuchsen um 15 Prozent auf 1,76 Milliarden, und die Handelserträge kletterten um 20 Prozent bei rekordhoher täglicher Aktivität.",
+                "Die Kunden eröffneten 1,3 Millionen neue Wertpapierkonten und brachten 140 Milliarden US-Dollar an Netto-Neuvermögen.",
+                "CEO Rick Wurster erklärte, Kunden wenden sich weiterhin an Schwab für mehr Bereiche ihres Finanzlebens, während Wealth- und Bankinglösungen Rekordwerte erreichten.",
+                "Das Unternehmen kaufte eigene Aktien für 2,4 Milliarden US-Dollar zurück und erhöhte die Dividende um 19 Prozent.",
+                "Schwab beendete das Quartal mit 11,8 Billionen US-Dollar an Kundenvermögen, verteilt auf 47,2 Millionen Konten.",
+                "Das war der heutige Schwab-Schnappschuss."
+              ]
+            }
+          ],
+          "driftPct": 2.1
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "Earnings Update",
+          "finalScript": "Hi, I'm Gerardo. NYSE-listed Charles Schwab posted record first-quarter revenue of 6.5 billion dollars, up 16 percent year over year, with adjusted earnings per share of 1 dollar 43 cents. Net interest revenue grew 16 percent to 3.14 billion, asset management fees rose 15 percent to 1.76 billion, and trading revenue climbed 20 percent on record daily engagement. Clients opened 1.3 million new brokerage accounts and brought 140 billion in net new assets. CEO Rick Wurster said clients continue to turn to Schwab for more of their financial lives, as wealth and banking solutions reached record levels. The company repurchased 2.4 billion dollars of shares and raised its dividend by 19 percent. Schwab ended the quarter with 11.8 trillion dollars in client assets across 47.2 million accounts. That's today's Schwab snapshot.",
+          "qualityScore": 95,
+          "complianceScore": 98,
+          "ticker": "SCHW",
+          "exchange": "NYSE",
+          "source": "Business Wire",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}
