@@ -1,0 +1,564 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "JPM config (J.P. Morgan Self-Directed Investing focus) assembled 2026-04-21. Stage 1 article is AWM-SEGMENT-ONLY excerpt from JPM Q1 2026 earnings release (2026-04-14). Title + source attribution explicitly signal section scope. The Self-Directed narrative hook uses the CCB-section 'record net inflows in self-directed investing' sentence quoted ONCE in Stage 8 with explicit CCB attribution; all other script content is AWM-derived. Stage 9 chart uses 4 AWM YoY growth metrics from the same Q1 release. Compliance scores 95/98 are demo values per spec.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive",
+    "avatar_video_url — intentionally FILL_ME per user directive",
+    "Stage 1 approach: AWM-SEGMENT-ONLY excerpt of JPM Q1 2026 press release per user's Option A approval (filed in Step 3 fallback report). Article body contains 6 paragraphs verbatim from the AWM segment discussion — zero mixing with CCB/CIB/company-wide commentary, zero negative framing in the AWM section. Title 'J.P. Morgan Chase Q1 2026 — Asset & Wealth Management Segment Highlights' and source 'JPMorgan Chase Q1 2026 Earnings Release — Asset & Wealth Management Segment' explicitly signal section scope.",
+    "Self-Directed narrative: the 'record net inflows in self-directed investing' line appears in the CCB section of the Q1 release, NOT in the AWM section. Per user directive, it is quoted ONCE in Stage 8 draft script with explicit 'Consumer and Community Banking segment' attribution, and does NOT appear in Stage 1 fullText. This satisfies both the 'no curation within fullText' rule and the 'lead Stage 8 with the Self-Directed hook' rule.",
+    "Stage 9 chart: 4 AWM YoY growth metrics (Net Revenue +11%, Net Income +12%, AUM +16%, Client Assets +18%). All four from the SAME JPM Q1 2026 press release AWM section, all same reporting period (Q1 2026 vs Q1 2025). Rejected alternatives: (a) AWM quarterly revenue trailing 4 quarters — would require Q2/Q3 2025 data from different earnings releases; (b) AWM 4-year history — same multi-source problem; (c) Self-Directed-specific metrics — JPM does not publicly disclose Self-Directed standalone AUM or account count.",
+    "Stage 13 soft-match flags: Self-Directed Investing is US-RESIDENTS-ONLY. The 4 non-US language captions (zh/HK, de/DE, ja/JP, pt/BR) cite JPM Wealth Management / JPM Private Bank global footprint (HK = APAC HQ, DE = Frankfurt presence, JP = Tokyo presence, BR = São Paulo regional HQ) as PROXY facts for JPM's global retail/private-wealth reach, NOT for Self-Directed availability. This is the same soft-match pattern used in the Schwab JP/DE captions.",
+    "Stage 3 description is 60% Self-Directed / 40% parent context per user directive, with explicit callout that Self-Directed sits within J.P. Morgan Wealth Management (led by Kristin Lemkau, CEO since Dec 2019), which operates under the AWM segment.",
+    "Stock price $310.29 captured 2026-04-18; market cap ~$850B; 52-week range $226.34 - $337.25. Sources: Yahoo Finance JPM + capital.com + companiesmarketcap.com.",
+    "Brand color: Chase Blue #117ACA (retail-facing brand, Pantone ~285 C). Used instead of JPM Navy #004B87 because Self-Directed is a Chase-app-integrated retail product — Chase Blue matches the visual identity a prospect would see in their own app."
+  ],
+  "branding": {
+    "clientName": "JPM Self-Directed",
+    "logoUrl": null,
+    "primaryColor": "#117ACA",
+    "accentColor": "#10B981",
+    "accentDeep": "#3B82F6",
+    "accent2": "#93C5FD",
+    "pageTitle": "StockerTV — Pipeline · J.P. Morgan Self-Directed Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated JPM Self-Directed story · 47 sec",
+    "stats": [
+      {
+        "value": "32,190",
+        "label": "companies"
+      },
+      {
+        "value": "53",
+        "label": "exchanges"
+      },
+      {
+        "value": "30",
+        "label": "AI agents"
+      },
+      {
+        "value": "22",
+        "label": "compliance rules"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "20%",
+      "15%",
+      "10%",
+      "5%",
+      "0%"
+    ]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "JPM · AWM Q1 2026 Segment",
+    "docId": "DOC-JPM-2026-0414"
+  },
+  "multilang": {
+    "combinedCapHeadline": "J.P. Morgan Wealth Management · $1T+ in client assets, 6,000+ advisors",
+    "languages": [
+      {
+        "id": "en",
+        "countryCode": "US",
+        "heading": "English",
+        "marketCaption": "US · J.P. Morgan Self-Directed (US residents only)"
+      },
+      {
+        "id": "zh",
+        "countryCode": "HK",
+        "heading": "中文",
+        "marketCaption": "Hong Kong · J.P. Morgan APAC headquarters"
+      },
+      {
+        "id": "de",
+        "countryCode": "DE",
+        "heading": "Deutsch",
+        "marketCaption": "Germany · J.P. Morgan Frankfurt European hub"
+      },
+      {
+        "id": "ja",
+        "countryCode": "JP",
+        "heading": "日本語",
+        "marketCaption": "Japan · J.P. Morgan Tokyo institutional presence"
+      },
+      {
+        "id": "pt",
+        "countryCode": "BR",
+        "heading": "Português",
+        "marketCaption": "Brazil · J.P. Morgan São Paulo regional HQ"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "JPM",
+  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "showcase": {
+    "meta": {
+      "company": "JPMorgan Chase",
+      "ticker": "JPM",
+      "exchange": "NYSE",
+      "articleSource": "JPMorgan Chase Q1 2026 Earnings Release — Asset & Wealth Management Segment",
+      "totalDurationMs": 90000,
+      "sourceFiling": "JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "J.P. Morgan Chase Q1 2026 — Asset & Wealth Management Segment Highlights",
+          "source": "JPMorgan Chase Q1 2026 Earnings Release — Asset & Wealth Management Segment",
+          "publishedAt": "1 week ago",
+          "wordCount": 196,
+          "fullText": "NEW YORK, April 14, 2026 — JPMorgan Chase & Co. (NYSE: JPM) reported first-quarter 2026 results for its Asset & Wealth Management (AWM) segment, posting net income of $1.8 billion, up 12 percent year-over-year, on net revenue of $6.4 billion — an 11 percent year-over-year increase.\n\nAWM net revenue growth was predominantly driven by growth in management fees on strong net inflows and higher average market levels, as well as higher brokerage activity within the platform.\n\nAssets under management reached $4.8 trillion, up 16 percent year-over-year, while client assets grew 18 percent to $7.1 trillion — both driven by higher market levels and continued net inflows across the segment.\n\nThe AWM segment reported $54 billion of long-term AUM net inflows in the first quarter, reflecting sustained client engagement across equity, fixed income, and multi-asset strategies.\n\nAWM noninterest expense was $4.2 billion, up 12 percent, largely driven by higher compensation — primarily revenue-related compensation — and continued growth in private banking advisor teams, alongside higher distribution fees.\n\n\"In AWM, revenue increased 11 percent, and flows remained healthy with $54 billion of long-term AUM net inflows,\" Chairman and Chief Executive Officer Jamie Dimon said in the earnings commentary."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "JPMorgan Chase Q1 2026 Earnings Release — Asset & Wealth Management Segment",
+          "publishedAt": "1 week ago",
+          "ticker": "JPM",
+          "exchange": "NYSE",
+          "noveltyScore": 95,
+          "noveltyReason": "New AWM-segment story — not covered in the last 7 days (95% unique)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "JPMorgan Chase & Co.",
+          "ticker": "JPM",
+          "sector": "Financial Services",
+          "industry": "Banks — Diversified",
+          "ceo": "Jamie Dimon",
+          "headquarters": "New York, New York, USA",
+          "foundedYear": "1799",
+          "marketCap": "$850B",
+          "lastPrice": "$310.29",
+          "week52High": "$337.25",
+          "week52Low": "$226.34",
+          "keyProducts": "J.P. Morgan Self-Directed Investing (commission-free stocks, ETFs, options, fractional shares from $5), J.P. Morgan Personal Advisors (remote advice), J.P. Morgan Private Client Advisors (branch-based), J.P. Morgan Private Bank, integrated Chase mobile banking ecosystem",
+          "competitors": "Charles Schwab, Fidelity, Robinhood, Interactive Brokers, eToro, Merrill Edge, E*TRADE, Webull",
+          "description": "J.P. Morgan Self-Directed Investing is JPMorgan Chase's commission-free retail trading platform, offering stocks, ETFs, options, and fractional shares from $5, integrated with Chase mobile banking. Self-Directed sits within J.P. Morgan Wealth Management (led by CEO Kristin Lemkau since December 2019), which operates under the firm's Asset & Wealth Management segment — JPM Wealth Management holds more than $1 trillion in client assets across 6,000+ advisors and 4,800+ Chase branches nationwide. Parent JPMorgan Chase & Co. (NYSE: JPM) is the largest U.S. bank by assets — founded 1799, headquartered in New York, led by Chairman and CEO Jamie Dimon.",
+          "dbSize": "32,190",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "AWM Q1 2026 net income $1.8B, up 12% YoY",
+              "sourceSpan": [
+                167,
+                209
+              ]
+            },
+            {
+              "text": "AWM Q1 2026 net revenue $6.4B, up 11% YoY",
+              "sourceSpan": [
+                229,
+                281
+              ]
+            },
+            {
+              "text": "AWM AUM $4.8T, up 16% YoY",
+              "sourceSpan": [
+                508,
+                551
+              ]
+            },
+            {
+              "text": "AWM client assets $7.1T, up 18% YoY",
+              "sourceSpan": [
+                592,
+                605
+              ]
+            },
+            {
+              "text": "AWM long-term AUM net inflows $54B in Q1 2026",
+              "sourceSpan": [
+                716,
+                777
+              ]
+            },
+            {
+              "text": "Revenue driven by management fees, net inflows, brokerage activity",
+              "sourceSpan": [
+                335,
+                453
+              ]
+            },
+            {
+              "text": "AWM noninterest expense $4.2B, up 12% YoY",
+              "sourceSpan": [
+                904,
+                931
+              ]
+            },
+            {
+              "text": "CEO Dimon commentary on AWM flows",
+              "sourceSpan": [
+                1149,
+                1217
+              ]
+            }
+          ],
+          "totalWords": 196,
+          "fullText": "NEW YORK, April 14, 2026 — JPMorgan Chase & Co. (NYSE: JPM) reported first-quarter 2026 results for its Asset & Wealth Management (AWM) segment, posting net income of $1.8 billion, up 12 percent year-over-year, on net revenue of $6.4 billion — an 11 percent year-over-year increase.\n\nAWM net revenue growth was predominantly driven by growth in management fees on strong net inflows and higher average market levels, as well as higher brokerage activity within the platform.\n\nAssets under management reached $4.8 trillion, up 16 percent year-over-year, while client assets grew 18 percent to $7.1 trillion — both driven by higher market levels and continued net inflows across the segment.\n\nThe AWM segment reported $54 billion of long-term AUM net inflows in the first quarter, reflecting sustained client engagement across equity, fixed income, and multi-asset strategies.\n\nAWM noninterest expense was $4.2 billion, up 12 percent, largely driven by higher compensation — primarily revenue-related compensation — and continued growth in private banking advisor teams, alongside higher distribution fees.\n\n\"In AWM, revenue increased 11 percent, and flows remained healthy with $54 billion of long-term AUM net inflows,\" Chairman and Chief Executive Officer Jamie Dimon said in the earnings commentary."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "validations": [
+            {
+              "fact": "AWM Q1 2026 net income $1.8B, up 12% YoY",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "AWM Q1 2026 net revenue $6.4B, up 11% YoY",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "AWM AUM $4.8T, up 16% YoY",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "AWM client assets $7.1T, up 18% YoY",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "AWM long-term AUM net inflows $54B in Q1 2026",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "Revenue driven by management fees, net inflows, brokerage activity",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "AWM noninterest expense $4.2B, up 12% YoY",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            },
+            {
+              "fact": "CEO Dimon commentary on AWM flows",
+              "status": "verified",
+              "source": "Matches JPMorgan Chase Q1 2026 Earnings Release (2026-04-14) — AWM Segment"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "JPM",
+          "nodes": [
+            {
+              "name": "Charles Schwab",
+              "ticker": "SCHW",
+              "relation": "competitor"
+            },
+            {
+              "name": "Fidelity",
+              "ticker": "PRIVATE",
+              "relation": "competitor"
+            },
+            {
+              "name": "Robinhood",
+              "ticker": "HOOD",
+              "relation": "competitor"
+            },
+            {
+              "name": "Interactive Brokers",
+              "ticker": "IBKR",
+              "relation": "competitor"
+            },
+            {
+              "name": "Morgan Stanley (E*TRADE)",
+              "ticker": "MS",
+              "relation": "competitor"
+            },
+            {
+              "name": "eToro",
+              "ticker": "ETOR",
+              "relation": "competitor"
+            }
+          ],
+          "note": "6 related companies identified · key competitors to J.P. Morgan Self-Directed Investing across online brokerage, integrated bank-and-broker platforms, and social-trading peers"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "Financial earnings report detected (AWM segment revenue, net income, client assets) → Gerardo selected"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.6",
+          "wordCount": 133,
+          "script": [
+            "Hi, I'm Gerardo. JPMorgan Chase's first-quarter 2026 results showcased strong momentum at J.P. Morgan Self-Directed Investing — the retail trading platform within the firm's Asset and Wealth Management division. In his commentary, CEO Jamie Dimon noted the Consumer and Community Banking segment achieved record net inflows in self-directed investing. The broader AWM segment posted net revenue of 6.4 billion dollars, up 11 percent year over year, with net income up 12 percent to 1.8 billion. Assets under management reached 4.8 trillion dollars, up 16 percent. The momentum could drive further growth as retail investors turn to integrated bank-and-broker platforms. The potential upside from unifying self-directed, advisory, and banking experiences could reshape retail wealth. Investors should consider whether 11 percent AWM revenue growth positions the firm for sustained retail leadership. That's today's JPM snapshot."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "Bar Chart — AWM Q1 2026 YoY growth",
+          "series": [
+            {
+              "q": "Net Revenue",
+              "v": 11
+            },
+            {
+              "q": "Net Income",
+              "v": 12
+            },
+            {
+              "q": "AUM",
+              "v": 16
+            },
+            {
+              "q": "Client Assets",
+              "v": 18
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "AWM Record Results",
+              "number": "$6.4B",
+              "foot": "JPM · Q1 2026 · +11% YoY",
+              "recommended": true
+            },
+            {
+              "headline": "Self-Directed Inflows",
+              "number": "Record",
+              "foot": "JPM · CCB segment"
+            },
+            {
+              "headline": "Client Assets Growth",
+              "number": "$7.1T",
+              "foot": "JPM AWM · +18% YoY"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "Hi, I'm Gerardo. JPMorgan Chase's first-quarter 2026 results showcased strong momentum at J.P. Morgan Self-Directed Investing — the retail trading platform within the firm's Asset and Wealth Management division. In his commentary, CEO Jamie Dimon noted the Consumer and Community Banking segment achieved record net inflows in self-directed investing. The broader AWM segment posted net revenue of 6.4 billion dollars, up 11 percent year over year, with net income up 12 percent to 1.8 billion. Assets under management reached 4.8 trillion dollars, up 16 percent. The momentum could drive further growth as retail investors turn to integrated bank-and-broker platforms. The potential upside from unifying self-directed, advisory, and banking experiences could reshape retail wealth. Investors should consider whether 11 percent AWM revenue growth positions the firm for sustained retail leadership. That's today's JPM snapshot.",
+          "violations": [
+            {
+              "phrase": "could drive further growth",
+              "ruleId": "FWD-001",
+              "ruleName": "Forward-looking language prohibited",
+              "severity": "high",
+              "spanStart": 577,
+              "spanEnd": 603
+            },
+            {
+              "phrase": "potential upside",
+              "ruleId": "SPC-002",
+              "ruleName": "Speculative phrasing prohibited",
+              "severity": "high",
+              "spanStart": 674,
+              "spanEnd": 690
+            },
+            {
+              "phrase": "should consider",
+              "ruleId": "ADV-001",
+              "ruleName": "Investment advice prohibited",
+              "severity": "critical",
+              "spanStart": 793,
+              "spanEnd": 808
+            }
+          ],
+          "rewrittenScript": "Hi, I'm Gerardo. JPMorgan Chase's first-quarter 2026 results showcased strong momentum at J.P. Morgan Self-Directed Investing — the retail trading platform within the firm's Asset and Wealth Management division. In his commentary, CEO Jamie Dimon noted the Consumer and Community Banking segment achieved record net inflows in self-directed investing. The broader AWM segment posted net revenue of 6.4 billion dollars, up 11 percent year over year, with net income up 12 percent to 1.8 billion. Assets under management reached 4.8 trillion dollars, up 16 percent. The AWM segment reported 54 billion dollars of long-term AUM net inflows in the quarter. Client assets grew 18 percent to 7.1 trillion dollars. Results were driven by management fees, net inflows, and higher brokerage activity. That's today's JPM snapshot.",
+          "rewrites": [
+            {
+              "from": "The momentum could drive further growth as retail investors turn to integrated bank-and-broker platforms. The potential upside from unifying self-directed, advisory, and banking experiences could reshape retail wealth. Investors should consider whether 11 percent AWM revenue growth positions the firm for sustained retail leadership.",
+              "to": "The AWM segment reported 54 billion dollars of long-term AUM net inflows in the quarter. Client assets grew 18 percent to 7.1 trillion dollars. Results were driven by management fees, net inflows, and higher brokerage activity."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 15,
+            "passed": true,
+            "msg": "0 forbidden phrases"
+          },
+          "l2": {
+            "ms": 812,
+            "passed": true,
+            "msg": "No implied guarantees"
+          },
+          "l3": {
+            "ms": 2104,
+            "passed": true,
+            "msg": "Balanced tone confirmed"
+          },
+          "qualityScore": 95,
+          "complianceScore": 98
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "JPMorgan Chase's first-quarter 2026 results showcased strong momentum at J.P.",
+                "Morgan Self-Directed Investing — the retail trading platform within the firm's Asset and Wealth Management division.",
+                "In his commentary, CEO Jamie Dimon noted the Consumer and Community Banking segment achieved record net inflows in self-directed investing.",
+                "The broader AWM segment posted net revenue of 6.4 billion dollars, up 11 percent year over year, with net income up 12 percent to 1.8 billion.",
+                "Assets under management reached 4.8 trillion dollars, up 16 percent.",
+                "The AWM segment reported 54 billion dollars of long-term AUM net inflows in the quarter.",
+                "Client assets grew 18 percent to 7.1 trillion dollars.",
+                "Results were driven by management fees, net inflows, and higher brokerage activity.",
+                "That's today's JPM snapshot."
+              ]
+            },
+            {
+              "id": "zh",
+              "script": [
+                "大家好,我是杰拉多。",
+                "摩根大通 2026 年第一季度业绩显示,摩根大通自主投资 (J.P. Morgan Self-Directed Investing) 势头强劲 —— 这是该公司资产与财富管理 (AWM) 部门旗下的零售交易平台。",
+                "首席执行官 Jamie Dimon 在评论中指出,消费者与社区银行业务部门在自主投资业务方面实现了创纪录的净资产流入。",
+                "更广泛的 AWM 部门录得净营收 64 亿美元,同比增长 11%,净利润上升 12% 至 18 亿美元。",
+                "管理资产达到 4.8 万亿美元,同比增长 16%。",
+                "AWM 部门本季度录得 540 亿美元的长期 AUM 净资产流入。",
+                "客户资产增长 18% 至 7.1 万亿美元。",
+                "业绩由管理费、净流入和更高的经纪活动驱动。",
+                "以上就是今天的 JPM 快讯。"
+              ]
+            },
+            {
+              "id": "de",
+              "script": [
+                "Hallo, ich bin Gerardo.",
+                "Die Ergebnisse von JPMorgan Chase für das erste Quartal 2026 zeigten starken Schwung bei J.P. Morgan Self-Directed Investing — der Retail-Trading-Plattform innerhalb der Asset- and-Wealth-Management-Sparte des Unternehmens.",
+                "CEO Jamie Dimon erklärte in seinem Kommentar, der Bereich Consumer and Community Banking habe rekordhohe Netto-Zuflüsse im Self-Directed-Investing-Geschäft erzielt.",
+                "Das übergeordnete AWM-Segment erzielte Nettoerträge von 6,4 Milliarden US-Dollar, ein Plus von 11 Prozent gegenüber dem Vorjahr, bei einem um 12 Prozent höheren Nettogewinn von 1,8 Milliarden US-Dollar.",
+                "Das verwaltete Vermögen erreichte 4,8 Billionen US-Dollar, ein Plus von 16 Prozent.",
+                "Das AWM-Segment meldete 54 Milliarden US-Dollar an langfristigen AUM-Nettozuflüssen im Quartal.",
+                "Das Kundenvermögen wuchs um 18 Prozent auf 7,1 Billionen US-Dollar.",
+                "Die Ergebnisse wurden durch Management-Gebühren, Nettozuflüsse und eine höhere Brokerage-Aktivität getragen.",
+                "Das war der heutige JPM-Schnappschuss."
+              ]
+            },
+            {
+              "id": "ja",
+              "script": [
+                "こんにちは、ジェラルドです。",
+                "JPモルガン・チェースの 2026 年第 1 四半期決算は、J.P. モルガン・セルフダイレクト・インベスティング(同社の資産・ウェルス・マネジメント部門内のリテール取引プラットフォーム)の力強い成長を示しました。",
+                "ジェイミー・ダイモン CEO はコメントで、コンシューマー・アンド・コミュニティ・バンキング部門でセルフダイレクト投資の純資金流入が過去最高を記録したと述べました。",
+                "より広範な AWM 部門は、純収益 64 億ドル、前年同期比 11% 増、純利益は 12% 増加して 18 億ドルとなりました。",
+                "運用資産は 4.8 兆ドルに達し、16% 増加しました。",
+                "AWM 部門は、当四半期に 540 億ドルの長期 AUM 純資金流入を報告しました。",
+                "顧客資産は 18% 増加して 7.1 兆ドルになりました。",
+                "業績は、運用手数料、純資金流入、そしてブローカレッジ活動の増加によって牽引されました。",
+                "以上、本日の JPM スナップショットでした。"
+              ]
+            },
+            {
+              "id": "pt",
+              "script": [
+                "Olá, eu sou o Gerardo.",
+                "Os resultados do primeiro trimestre de 2026 da JPMorgan Chase mostraram um forte impulso na J.P. Morgan Self-Directed Investing — a plataforma de trading de varejo dentro da divisão Asset and Wealth Management da empresa.",
+                "O CEO Jamie Dimon observou em seu comentário que o segmento Consumer and Community Banking alcançou entradas líquidas recordes no self-directed investing.",
+                "O segmento AWM mais amplo registrou receita líquida de 6,4 bilhões de dólares, um aumento de 11 por cento em relação ao ano anterior, com lucro líquido 12 por cento maior, totalizando 1,8 bilhões.",
+                "Os ativos sob gestão atingiram 4,8 trilhões de dólares, um aumento de 16 por cento.",
+                "O segmento AWM registrou 54 bilhões de dólares em entradas líquidas de AUM de longo prazo no trimestre.",
+                "Os ativos dos clientes cresceram 18 por cento, chegando a 7,1 trilhões de dólares.",
+                "Os resultados foram impulsionados por taxas de gestão, entradas líquidas e maior atividade de brokerage.",
+                "Esse é o panorama de hoje do JPM."
+              ]
+            }
+          ],
+          "driftPct": 2.1
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "AWM Segment Update",
+          "finalScript": "Hi, I'm Gerardo. JPMorgan Chase's first-quarter 2026 results showcased strong momentum at J.P. Morgan Self-Directed Investing — the retail trading platform within the firm's Asset and Wealth Management division. In his commentary, CEO Jamie Dimon noted the Consumer and Community Banking segment achieved record net inflows in self-directed investing. The broader AWM segment posted net revenue of 6.4 billion dollars, up 11 percent year over year, with net income up 12 percent to 1.8 billion. Assets under management reached 4.8 trillion dollars, up 16 percent. The AWM segment reported 54 billion dollars of long-term AUM net inflows in the quarter. Client assets grew 18 percent to 7.1 trillion dollars. Results were driven by management fees, net inflows, and higher brokerage activity. That's today's JPM snapshot.",
+          "qualityScore": 95,
+          "complianceScore": 98,
+          "ticker": "JPM",
+          "exchange": "NYSE",
+          "source": "JPMorgan Chase Q1 2026 Earnings Release — Asset & Wealth Management Segment",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}
