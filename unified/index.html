@@ -2535,19 +2535,38 @@
     @media (min-width: 720px) {
       .pipeline-stages { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
+    /* Pipeline stage card — Round 2 Phase B5 reworked as a clickable button */
     .pipeline-stage-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 0.75rem 0.75rem 0.6rem;
       text-align: left;
-      transition: border-color 220ms ease, transform 220ms ease;
+      transition: border-color 220ms ease, transform 220ms ease, background 220ms ease, box-shadow 220ms ease;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
+      font: inherit;
+      width: 100%;
+      display: block;
+    }
+    .pipeline-stage-card:hover {
+      border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    .pipeline-stage-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
     .pipeline-stage-card[data-wow='true'] {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .pipeline-stage-card[data-expanded='true'] {
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
     }
     .pipeline-stage-card[data-wow='true']::after {
       content: 'WOW';
@@ -2558,6 +2577,9 @@
       letter-spacing: 0.2em;
       color: var(--accent);
       font-weight: 700;
+    }
+    .pipeline-stage-card[data-wow='true'][data-expanded='true']::after {
+      display: none;
     }
     .pipeline-stage-num {
       font-family: 'JetBrains Mono', monospace;
@@ -2574,6 +2596,127 @@
       color: var(--text-primary);
       line-height: 1.3;
     }
+    .pipeline-stage-expand {
+      position: absolute;
+      bottom: 6px; right: 8px;
+      width: 14px; height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1;
+      color: var(--text-muted);
+      opacity: 0.7;
+      transition: color 200ms ease, opacity 200ms ease;
+    }
+    .pipeline-stage-card:hover .pipeline-stage-expand,
+    .pipeline-stage-card[data-expanded='true'] .pipeline-stage-expand {
+      color: var(--accent);
+      opacity: 1;
+    }
+
+    /* Expanded panel below stage grid (one at a time) */
+    .pipeline-stage-panel {
+      width: 100%;
+      max-width: 920px;
+      margin: 1rem auto 0;
+      padding: 1.25rem 1.5rem 1.4rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 28%, transparent) 0%, var(--border) 60%, color-mix(in srgb, var(--accent) 8%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 10%, transparent);
+      animation: stv-stage-panel-in 320ms cubic-bezier(0.25, 0.1, 0.25, 1);
+      text-align: left;
+    }
+    @keyframes stv-stage-panel-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .pipeline-stage-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+    .pipeline-stage-panel-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .pipeline-stage-panel-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 0;
+      flex: 1;
+      letter-spacing: -0.018em;
+      line-height: 1.2;
+    }
+    .pipeline-stage-panel-wow {
+      display: inline-block;
+      margin-left: 0.5rem;
+      padding: 2px 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      border-radius: 999px;
+      vertical-align: middle;
+      font-weight: 600;
+    }
+    .pipeline-stage-panel-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 200ms ease, color 200ms ease;
+    }
+    .pipeline-stage-panel-close:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .pipeline-stage-panel-detail {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-primary);
+      margin: 0 0 0.9rem;
+      max-width: 64ch;
+    }
+    .pipeline-stage-panel-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .pipeline-stage-panel-meta-pill {
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
     .pipeline-callout {
       margin-top: 2.5rem;
       padding: 1.25rem 1.5rem;
@@ -6159,22 +6302,70 @@
   // The wow moment lives in Stage 13 (multi-language reveal) inside the
   // linked pipeline; this scene previews and launches it.
   // ============================================================================
+  // Round 2 Phase B5 — each stage has a plain-language explanation
+  // (~3 sentences, educational, jargon-light) + meta pills (model/latency/output).
+  // Click any card to expand the explanation in a panel below the grid.
   const PIPELINE_STAGES = [
-    { num: 1,  name: 'Article input' },
-    { num: 2,  name: 'Story detection' },
-    { num: 3,  name: 'Company enrichment' },
-    { num: 4,  name: 'Fact extraction' },
-    { num: 5,  name: 'SEC EDGAR validation' },
-    { num: 6,  name: 'Cross-reference' },
-    { num: 7,  name: 'Reporter selection' },
-    { num: 8,  name: 'Script generation' },
-    { num: 9,  name: 'Chart suggestion' },
-    { num: 10, name: 'Thumbnail generation' },
-    { num: 11, name: 'Integrity red-pass' },
-    { num: 12, name: 'Integrity gates' },
-    { num: 13, name: 'Multi-language', wow: true },
-    { num: 14, name: 'Audit trail' },
-    { num: 15, name: 'Final output' },
+    { num: 1,  name: 'Article input',
+      detail: "The story arrives as raw text — usually a wire article, an issuer press release, or a regulator filing. Before anything else happens, the system normalizes its structure (headline, body, byline, date, source domain) so every later stage is reading the same shape. No script generation begins until the input is complete and parseable.",
+      meta: ['Wire / press release / filing', 'Domain whitelist enforced', '< 100ms'],
+    },
+    { num: 2,  name: 'Story detection',
+      detail: "A small classifier looks at the article and asks one question: is this newsworthy enough to warrant a script? It checks novelty against the last 7 days of content, scores the impact (price-moving, regulatory, structural), and routes the story to the right desk. Most input never makes it past this stage — and that's the point.",
+      meta: ['Haiku 4.5 · 92% novelty score', '7-day dedup window', '< 400ms'],
+    },
+    { num: 3,  name: 'Company enrichment',
+      detail: "Once a story is selected, the system pulls together everything it knows about the entities involved — ticker, exchange, sector, market cap, recent earnings, peer set. This context grounds the script in the company's actual market position. Without enrichment, you get scripts that sound plausible but drift from the real entity.",
+      meta: ['Internal DB · 32,000+ companies', '53 exchanges', '~600ms'],
+    },
+    { num: 4,  name: 'Fact extraction',
+      detail: "Every numeric, dated, or attributed claim in the article is pulled out as a structured fact. Each fact gets a span back to where it appeared in the source text. This is the system's working memory for the rest of the pipeline — every later stage works against these facts, not the original prose.",
+      meta: ['Sonnet 4.6', '~6 facts per article', 'Sources tagged inline'],
+    },
+    { num: 5,  name: 'SEC EDGAR validation',
+      detail: "Every extracted fact that touches a public company is matched against the SEC's EDGAR filings — earnings releases, 8-Ks, 10-Qs, issuer statements. If the article claims revenue of $X, EDGAR has to back it. Facts that fail validation are flagged and not used in the script.",
+      meta: ['EDGAR API · live filings', 'Regulator-side ground truth', '~1.2s'],
+    },
+    { num: 6,  name: 'Cross-reference',
+      detail: "Validated facts are tied back to a network of related entities, peer companies, and prior reporting. This stage gives the script context — what's the precedent, what's the comparison, what's the broader story arc. It's how a one-line earnings beat becomes a story with depth.",
+      meta: ['Knowledge graph traversal', 'Peer + sector linkage', '~800ms'],
+    },
+    { num: 7,  name: 'Reporter selection',
+      detail: "Five reporters cover different beats — financial earnings, macro, crypto, structural news, and breaking. A classifier picks the one whose voice and beat fit the story. For all client demos, Gerardo (financial anchor) is locked as the on-camera voice — same face, same delivery, every time.",
+      meta: ['5 reporters · 1 selected', 'Beat classifier 0.94 conf', 'Locked: Gerardo (demo)'],
+    },
+    { num: 8,  name: 'Script generation',
+      detail: "Given the validated facts, the chosen reporter's voice, and a 47-second target runtime, Sonnet 4.6 writes the script. Output is roughly 110-130 words. The model is constrained to use only the validated facts — no embellishment, no ad-libbing, no numbers that didn't come through validation.",
+      meta: ['Sonnet 4.6', '110-130 words · 47s target', '~3.5s'],
+    },
+    { num: 9,  name: 'Chart suggestion',
+      detail: "If the story has a quantitative spine — a price move, an earnings trajectory, an inflow trend — the system proposes the chart that best illustrates it. The chart type, time window, and series are inferred from the facts. The producer can override; defaults are usually right.",
+      meta: ['Inferred from facts', 'Type · window · series', '~400ms'],
+    },
+    { num: 10, name: 'Thumbnail generation',
+      detail: "A still frame for the broadcast — headline phrase, key number, brand mark. Multiple options are generated; the highest-scoring one is recommended. Brand colors and typography come from the active client config so the thumbnail matches the rest of the surface.",
+      meta: ['3-5 candidates per story', 'Brand-locked palette', '~800ms'],
+    },
+    { num: 11, name: 'Integrity red-pass',
+      detail: "A first-pass review specifically tuned for high-risk language: implied performance promises, unattributed predictions, regulatory boilerplate gaps. Anything flagged is rewritten in place. The red-pass is aggressive — it would rather over-correct than let a single problem line through.",
+      meta: ['Sonnet 4.6 reviewer', 'Auto-rewrite enabled', '~2s'],
+    },
+    { num: 12, name: 'Integrity gates',
+      detail: "Three independent gates run in sequence. L1 (forbidden phrases) is a fast regex pass — milliseconds. L2 (semantic meaning) reads the script with a different model and asks 'would a regulator object?' L3 (tone & balance) is the holistic check. All three must pass; if any blocks, the script returns to red-pass for rework.",
+      meta: ['L1 15ms · L2 812ms · L3 2.1s', '24 rules · 0 violations', 'All independent models'],
+    },
+    { num: 13, name: 'Multi-language', wow: true,
+      detail: "The cleared English script is rendered into native variants for each market the client serves — typically 5 European languages plus English; up to 15 supported. These are not translations. Each variant carries its own regulatory context (CONSOB, CNMV, BaFin-aligned) and the words a native viewer expects from a financial broadcast in their language.",
+      meta: ['Up to 15 languages live', 'Native (not translated)', 'Per-market regulatory context'],
+    },
+    { num: 14, name: 'Audit trail',
+      detail: "Every input, every facto, every model call, every reviewer decision is signed and written to a permanent audit document. The doc has a unique ID (DOC-XXX-YYYY-MM-DD-N) that ties to the script forever. Three months from now, regulators can ask for the trail of any specific script and get it in one query.",
+      meta: ['SHA-256 chain', 'DOC-ID per script', 'Supabase archive · forever'],
+    },
+    { num: 15, name: 'Final output',
+      detail: "The approved script, the chart, the thumbnail, the multi-language variants, the audit document — all delivered to the broadcast surface. The reporter's avatar speaks the script in 47 seconds. From article input to broadcast-ready video: end-to-end, the whole pipeline runs in under a minute.",
+      meta: ['Reporter avatar (Gerardo)', '47-second runtime', 'Broadcast-ready'],
+    },
   ];
 
   // ============================================================================
@@ -6221,13 +6412,24 @@
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
 
+    // Round 2 Phase B5 — click-to-expand a single stage's plain-language explanation
+    const [expandedStageNum, setExpandedStageNum] = useState(null);
+    const expandedStage = expandedStageNum != null
+      ? PIPELINE_STAGES.find((s) => s.num === expandedStageNum)
+      : null;
+    const toggleStage = useCallback((num) => {
+      setExpandedStageNum((prev) => prev === num ? null : num);
+      audioState.play('click');
+    }, []);
+
     const buildPipelineUrl = useCallback(() => {
       try {
         const u = new URL('../pipeline-template.html', location.href);
         u.searchParams.set('client', brandSlug);
+        u.searchParams.set('from', 'unified'); // signals the return CTA in pipeline-template
         return u.toString();
       } catch (e) {
-        return `../pipeline-template.html?client=${encodeURIComponent(brandSlug)}`;
+        return `../pipeline-template.html?client=${encodeURIComponent(brandSlug)}&from=unified`;
       }
     }, [brandSlug]);
 
@@ -6266,14 +6468,55 @@
 
         <IllustrationStageMap />
 
-        <div className="pipeline-stages" role="list" aria-label="15 pipeline stages">
-          {PIPELINE_STAGES.map((s) => (
-            <div className="pipeline-stage-card" data-wow={!!s.wow} role="listitem" key={s.num}>
-              <div className="pipeline-stage-num">Stage {String(s.num).padStart(2, '0')}</div>
-              <div className="pipeline-stage-name">{s.name}</div>
-            </div>
-          ))}
+        <div className="pipeline-stages" role="list" aria-label="15 pipeline stages — click any stage to expand">
+          {PIPELINE_STAGES.map((s) => {
+            const isExpanded = expandedStageNum === s.num;
+            return (
+              <button
+                type="button"
+                className="pipeline-stage-card"
+                data-wow={!!s.wow}
+                data-expanded={isExpanded}
+                role="listitem"
+                key={s.num}
+                onClick={() => toggleStage(s.num)}
+                aria-expanded={isExpanded}
+                aria-controls="pipeline-stage-panel"
+                title={`Click to expand: ${s.name}`}
+              >
+                <div className="pipeline-stage-num">Stage {String(s.num).padStart(2, '0')}</div>
+                <div className="pipeline-stage-name">{s.name}</div>
+                <span className="pipeline-stage-expand" aria-hidden="true">{isExpanded ? '−' : '+'}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Round 2 Phase B5 — expanded stage explanation panel (one at a time) */}
+        {expandedStage && (
+          <div className="pipeline-stage-panel" id="pipeline-stage-panel" role="region" aria-label={`Stage ${expandedStage.num} detail`}>
+            <div className="pipeline-stage-panel-head">
+              <div className="pipeline-stage-panel-num">Stage {String(expandedStage.num).padStart(2, '0')}</div>
+              <h3 className="pipeline-stage-panel-name">
+                {expandedStage.name}
+                {expandedStage.wow && <span className="pipeline-stage-panel-wow">Wow moment</span>}
+              </h3>
+              <button
+                className="pipeline-stage-panel-close"
+                onClick={() => setExpandedStageNum(null)}
+                aria-label="Close stage detail"
+              >×</button>
+            </div>
+            <p className="pipeline-stage-panel-detail">{expandedStage.detail}</p>
+            {expandedStage.meta && expandedStage.meta.length > 0 && (
+              <div className="pipeline-stage-panel-meta">
+                {expandedStage.meta.map((m, i) => (
+                  <span className="pipeline-stage-panel-meta-pill" key={i}>{m}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 4.6 — Inline Stage 13 multi-language preview (the WOW moment, in-flow) */}
         <div className="stage13-wrap">
@@ -6621,8 +6864,20 @@
   // App — top-level state machine
   // ============================================================================
   function App() {
-    const [booted, setBooted] = useState(false);
-    const [activeBeat, setActiveBeat] = useState(BEATS.HOOK);
+    // Round 2 Phase B5 — `?beat=N` URL param (1-indexed) auto-advances on mount.
+    // Used by pipeline-template return CTA to land back on Beat 5.
+    const initialBeatFromUrl = (() => {
+      try {
+        const param = new URLSearchParams(location.search).get('beat');
+        const n = parseInt(param, 10);
+        if (Number.isFinite(n) && n >= 1 && n <= BEAT_ORDER.length) {
+          return BEAT_ORDER[n - 1];
+        }
+      } catch (e) {}
+      return null;
+    })();
+    const [booted, setBooted] = useState(() => initialBeatFromUrl !== null);
+    const [activeBeat, setActiveBeat] = useState(initialBeatFromUrl || BEATS.HOOK);
     const [theme, setTheme] = useState(() => {
       try { return document.documentElement.dataset.theme || 'light'; }
       catch (e) { return 'light'; }
