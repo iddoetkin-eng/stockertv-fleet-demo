@@ -15,8 +15,8 @@
     { text: "Every story passes through the eye of the needle.",    attr: "Editorial note" },
     { text: "The market is always news. We are always listening.",  attr: "Editorial note" },
     { text: "Broadcast is the last mile. Accuracy is the first.",   attr: "Editorial note" },
-    { text: "89 exchanges. One newsroom. No approximation.",        attr: "Editorial note" },
-    { text: "Compliance is not a gate. It is a craft.",             attr: "Editorial note" }
+    { text: "53 exchanges. One newsroom. No approximation.",        attr: "Editorial note" },
+    { text: "Integrity is not a gate. It is a craft.",              attr: "Editorial note" }
   ];
 
   function armCurator() {
