@@ -15,8 +15,11 @@
   <!-- Editorial typography per Beat 3.A -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Editorial fonts (Fraunces/Inter/JetBrains Mono) + native-language flavor fonts (E5):
+       Bitter (DE) · Cormorant Garamond (IT/PT/ES) · Marcellus (FR) · Noto Serif JP (JP).
+       font-display: swap so they don't block paint. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Bitter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&family=Noto+Serif+JP:wght@400;500&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Bitter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Locked CDN versions per Beat 5.A. No @latest. -->
   <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
@@ -1006,13 +1009,42 @@
       font-style: italic;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .scale-stats {
+    /* 4.1 — Scale tower: primary big stat + 4 supporting */
+    .scale-tower {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .scale-tower-primary {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 500;
+      line-height: 1;
+      color: var(--text-primary);
+      letter-spacing: -0.035em;
+      font-feature-settings: 'liga', 'dlig', 'onum', 'tnum';
+      font-variation-settings: 'opsz' 144;
+      position: relative;
+    }
+    .scale-tower-primary-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .scale-tower-row {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1.25rem 2.25rem;
+      gap: 1.5rem 2.5rem;
       max-width: 720px;
-      margin: 1.75rem 0 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
     }
     .scale-stat {
       display: flex;
@@ -1022,11 +1054,12 @@
     }
     .scale-stat-value {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-size: clamp(1.5rem, 2.6vw, 2.1rem);
       font-weight: 500;
       line-height: 1;
       color: var(--text-primary);
       letter-spacing: -0.02em;
+      font-feature-settings: 'liga', 'dlig', 'onum', 'tnum';
     }
     .scale-stat-label {
       font-family: 'JetBrains Mono', monospace;
@@ -1034,7 +1067,41 @@
       letter-spacing: 0.2em;
       color: var(--text-muted);
       text-transform: uppercase;
-      margin-top: 0.25rem;
+      margin-top: 0.4rem;
+    }
+    .scale-stat-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      opacity: 0.75;
+    }
+    .scale-stat-flagrow {
+      display: flex;
+      gap: 2px;
+      margin-top: 0.4rem;
+    }
+    .scale-stat-flagrow span {
+      display: inline-block;
+      width: 10px;
+      height: 7px;
+      box-shadow: 0 0 0 1px var(--border) inset;
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .scale-stat-flagrow span svg { width: 100%; height: 100%; display: block; }
+    .scale-stat-bar {
+      width: 60px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.4rem;
+    }
+    .scale-stat-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .scale-globe-wrap {
       position: relative;
@@ -1113,6 +1180,19 @@
       color: var(--accent);
       margin-top: 0.5rem;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scale-arc-headline.is-native-jp { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
+    .scale-arc-headline.is-native-de { font-family: 'Bitter', 'Fraunces', Georgia, serif; }
+    .scale-arc-headline.is-native-it { font-family: 'Cormorant Garamond', 'Fraunces', Georgia, serif; }
+    .scale-arc-headline.is-native-fr { font-family: 'Marcellus', 'Fraunces', Georgia, serif; }
+    .scale-arc-headline.is-native-pt,
+    .scale-arc-headline.is-native-es { font-family: 'Cormorant Garamond', 'Fraunces', Georgia, serif; }
+    .scale-arc-trans {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      font-style: italic;
     }
     .scale-subline {
       font-family: 'Inter', sans-serif;
@@ -3003,14 +3083,29 @@
   }
 
   // ============================================================================
-  // SimpleGlobe — Beat 3 supporting cinematic. Three.js sphere + 53 dots.
+  // SimpleGlobe — Beat 3 cinematic. Three.js sphere + 53 markers + flying arcs +
+  // atmospheric haze + cloud layer + orbit particles + airplane-blink markers.
   // ----------------------------------------------------------------------------
-  // Slow rotation, brand-tinted exchange dots, no perf-heavy effects.
-  // perfMode (URL ?perf=1) reduces rotation speed and dot resolution.
+  // Audit upgrades: 3.3 faster rotation, 3.4 flying arcs Tokyo→NY (and others),
+  // E3 atmosphere/clouds/airplane blinks, D4 orbit particles, A3 hooks for
+  // headline-on-arc-land event (handled by parent ScaleScene via onArc callback).
   // ============================================================================
-  function SimpleGlobe({ accent }) {
+  // Helper: lat/lng → 3D position on sphere of radius R (module scope so other
+  // utilities can reuse for screen-space projection if needed).
+  function latLngToVec3(lat, lng, R) {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lng + 180) * (Math.PI / 180);
+    const x = -R * Math.sin(phi) * Math.cos(theta);
+    const y = R * Math.cos(phi);
+    const z = R * Math.sin(phi) * Math.sin(theta);
+    return new THREE.Vector3(x, y, z);
+  }
+
+  function SimpleGlobe({ accent, onArcLand }) {
     const containerRef = useRef(null);
     const stateRef = useRef(null);
+    const onArcLandRef = useRef(onArcLand);
+    useEffect(() => { onArcLandRef.current = onArcLand; }, [onArcLand]);
 
     useEffect(() => {
       const container = containerRef.current;
@@ -3039,16 +3134,60 @@
       renderer.setClearColor(0x000000, 0);
       container.appendChild(renderer.domElement);
 
-      // Globe sphere — subtle, low opacity, gives the "planet" silhouette
+      const accentColor = new THREE.Color(accent || '#6AAE22');
+
+      // Globe sphere — subtle dark interior
       const sphereGeom = new THREE.SphereGeometry(85, perfMode ? 32 : 64, perfMode ? 16 : 32);
       const sphereMat = new THREE.MeshBasicMaterial({
         color: 0x111418,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.92,
         wireframe: false,
       });
       const sphere = new THREE.Mesh(sphereGeom, sphereMat);
       scene.add(sphere);
+
+      // Atmospheric haze — outer sphere with brand-tint glow (E3)
+      const hazeGeom = new THREE.SphereGeometry(91, 32, 16);
+      const hazeMat = new THREE.MeshBasicMaterial({
+        color: accentColor,
+        transparent: true,
+        opacity: 0.06,
+        side: THREE.BackSide,
+      });
+      const haze = new THREE.Mesh(hazeGeom, hazeMat);
+      scene.add(haze);
+
+      // Cloud layer — second outer sphere with subtle noise texture (E3)
+      // Procedural via short canvas-derived texture
+      const cloudCanvas = document.createElement('canvas');
+      cloudCanvas.width = 256; cloudCanvas.height = 128;
+      const cctx = cloudCanvas.getContext('2d');
+      cctx.fillStyle = 'rgba(0,0,0,0)';
+      cctx.fillRect(0, 0, 256, 128);
+      // Random soft cloud blobs
+      for (let i = 0; i < 22; i++) {
+        const x = Math.random() * 256;
+        const y = Math.random() * 128;
+        const r = 8 + Math.random() * 14;
+        const grad = cctx.createRadialGradient(x, y, 0, x, y, r);
+        grad.addColorStop(0, 'rgba(255,255,255,0.45)');
+        grad.addColorStop(1, 'rgba(255,255,255,0)');
+        cctx.fillStyle = grad;
+        cctx.beginPath(); cctx.arc(x, y, r, 0, Math.PI * 2); cctx.fill();
+      }
+      const cloudTex = new THREE.CanvasTexture(cloudCanvas);
+      cloudTex.wrapS = THREE.RepeatWrapping;
+      cloudTex.wrapT = THREE.RepeatWrapping;
+      const cloudGeom = new THREE.SphereGeometry(86.4, 32, 16);
+      const cloudMat = new THREE.MeshBasicMaterial({
+        map: cloudTex,
+        transparent: true,
+        opacity: 0.18,
+        depthWrite: false,
+      });
+      const clouds = new THREE.Mesh(cloudGeom, cloudMat);
+      scene.add(clouds);
 
       // Wireframe overlay for "world grid" feel
       const wireGeom = new THREE.SphereGeometry(85.1, 24, 16);
@@ -3061,19 +3200,9 @@
       const wire = new THREE.Mesh(wireGeom, wireMat);
       scene.add(wire);
 
-      // Helper: lat/lng → 3D position on sphere of radius R
-      function latLngToVec3(lat, lng, R) {
-        const phi = (90 - lat) * (Math.PI / 180);
-        const theta = (lng + 180) * (Math.PI / 180);
-        const x = -R * Math.sin(phi) * Math.cos(theta);
-        const y = R * Math.cos(phi);
-        const z = R * Math.sin(phi) * Math.sin(theta);
-        return new THREE.Vector3(x, y, z);
-      }
-
-      // Exchange dots — 53 markers, brand-tinted via accent color
-      const accentColor = new THREE.Color(accent || '#6AAE22');
+      // Exchange dots — 53 markers, brand-tinted
       const dotsGroup = new THREE.Group();
+      const blinkMaterials = []; // for airplane-blink animation (E3)
       EXCHANGES_53.forEach((ex) => {
         const pos = latLngToVec3(ex.lat, ex.lng, 86);
         const dotGeom = new THREE.SphereGeometry(1.2, 8, 8);
@@ -3081,8 +3210,7 @@
         const dot = new THREE.Mesh(dotGeom, dotMat);
         dot.position.copy(pos);
         dotsGroup.add(dot);
-
-        // Halo ring for visual emphasis
+        // Halo ring
         const haloGeom = new THREE.RingGeometry(1.6, 2.4, 16);
         const haloMat = new THREE.MeshBasicMaterial({
           color: accentColor,
@@ -3094,24 +3222,169 @@
         halo.position.copy(pos);
         halo.lookAt(0, 0, 0);
         dotsGroup.add(halo);
+        // Airplane-blink — tiny pulsing dot just above each marker (E3)
+        const blinkMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
+        const blink = new THREE.Mesh(new THREE.SphereGeometry(0.55, 6, 6), blinkMat);
+        blink.position.copy(pos.clone().multiplyScalar(1.025));
+        blinkMaterials.push({ mat: blinkMat, phase: Math.random() * Math.PI * 2 });
+        dotsGroup.add(blink);
       });
       scene.add(dotsGroup);
 
-      // Initial rotation — angle the globe so North America + Europe are visible
-      sphere.rotation.x = -0.25;
-      wire.rotation.x = -0.25;
-      dotsGroup.rotation.x = -0.25;
-      sphere.rotation.y = -1.2;
-      wire.rotation.y = -1.2;
-      dotsGroup.rotation.y = -1.2;
+      // Orbit particles — 60 small dots in a slow ring around the planet (D4)
+      const orbitGroup = new THREE.Group();
+      const orbitParticles = [];
+      const orbitCount = perfMode ? 30 : 60;
+      for (let i = 0; i < orbitCount; i++) {
+        const angle = (i / orbitCount) * Math.PI * 2;
+        const tilt = (Math.random() - 0.5) * 0.6;
+        const r = 110 + Math.random() * 12;
+        const orbitMat = new THREE.MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.45 + Math.random() * 0.35 });
+        const orbitMesh = new THREE.Mesh(new THREE.SphereGeometry(0.4, 4, 4), orbitMat);
+        orbitParticles.push({ angle, tilt, r, mesh: orbitMesh, mat: orbitMat });
+        orbitGroup.add(orbitMesh);
+      }
+      scene.add(orbitGroup);
 
-      // Animate — slow Y rotation
-      const speed = perfMode ? 0.0006 : 0.0009;
+      // Initial rotation — favor NA + Europe in default view
+      const initialRotX = -0.25;
+      const initialRotY = -1.2;
+      [sphere, haze, clouds, wire, dotsGroup].forEach((m) => {
+        m.rotation.x = initialRotX;
+        m.rotation.y = initialRotY;
+      });
+
+      // Flying arcs (audit 3.4) — animated great-circle paths between exchange pairs
+      const arcGroup = new THREE.Group();
+      // Arcs sit OUTSIDE the rotating dots group so they remain in view long
+      // enough for the user to read the headline overlay. Position is computed
+      // including the current dotsGroup rotation at fire time.
+      scene.add(arcGroup);
+
+      const ARC_EVENTS = [
+        { fromCode: 'TSE-TYO', toCode: 'NYSE',     headline: '日経平均、連日の高値更新',                       trans: 'Nikkei extends record high, second day',   lang: 'JP' },
+        { fromCode: 'B3',      toCode: 'LSE',      headline: 'Petrobras anuncia recorde de exportação',         trans: 'Petrobras announces record oil export',   lang: 'PT' },
+        { fromCode: 'XETRA',   toCode: 'HKEX',     headline: 'ASML sichert TSMC-Großauftrag',                  trans: 'ASML secures major TSMC order',           lang: 'DE' },
+        { fromCode: 'NYSE',    toCode: 'TSE-TYO',  headline: 'Fed minutes signal patience on cuts',             trans: '',                                        lang: 'EN' },
+        { fromCode: 'EURONEXT',toCode: 'BMV',      headline: 'LVMH crece 9,4% en mercados latinoamericanos',    trans: 'LVMH grows 9.4% in Latin American markets', lang: 'ES' },
+        { fromCode: 'HKEX',    toCode: 'EURONEXT', headline: 'Tencent dépasse les attentes du Q1',              trans: 'Tencent beats Q1 expectations',           lang: 'FR' },
+      ];
+
+      function getExchangePos(code) {
+        const ex = EXCHANGES_53.find((e) => e.code === code);
+        if (!ex) return null;
+        return latLngToVec3(ex.lat, ex.lng, 86);
+      }
+
+      function fireArc(eventIdx) {
+        const ev = ARC_EVENTS[eventIdx % ARC_EVENTS.length];
+        const a = getExchangePos(ev.fromCode);
+        const b = getExchangePos(ev.toCode);
+        if (!a || !b) return;
+        // Apply current dotsGroup rotation so arc starts/ends at the visible
+        // marker positions (the arc itself doesn't rotate with the planet).
+        const m4 = new THREE.Matrix4();
+        m4.makeRotationY(dotsGroup.rotation.y);
+        m4.multiply(new THREE.Matrix4().makeRotationX(dotsGroup.rotation.x));
+        const aRot = a.clone().applyMatrix4(m4);
+        const bRot = b.clone().applyMatrix4(m4);
+
+        // Great-circle approximation via QuadraticBezierCurve3 with elevated control point
+        const mid = aRot.clone().add(bRot).multiplyScalar(0.5);
+        const dist = aRot.distanceTo(bRot);
+        const elev = Math.min(60, dist * 0.45);
+        const ctrl = mid.clone().normalize().multiplyScalar(86 + elev);
+        const curve = new THREE.QuadraticBezierCurve3(aRot, ctrl, bRot);
+        const points = curve.getPoints(64);
+        const geom = new THREE.BufferGeometry().setFromPoints(points);
+        const mat = new THREE.LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.95 });
+        const line = new THREE.Line(geom, mat);
+        line.geometry.setDrawRange(0, 0);
+        arcGroup.add(line);
+
+        // Bloom at destination — sphere that scales + fades after arc lands
+        const bloomMat = new THREE.MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0 });
+        const bloom = new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 16), bloomMat);
+        bloom.position.copy(bRot);
+        arcGroup.add(bloom);
+
+        // Animate draw range over 1500ms; then bloom; then fade arc + bloom.
+        const arcStart = performance.now();
+        const arcDur = 1500;
+        const fadeDur = 1500;
+        const totalDur = arcDur + 4500 + fadeDur;
+        let bloomFired = false;
+
+        function tick() {
+          const t = performance.now() - arcStart;
+          if (t < arcDur) {
+            const p = t / arcDur;
+            // ease-out-quart
+            const eased = 1 - Math.pow(1 - p, 4);
+            line.geometry.setDrawRange(0, Math.floor(64 * eased) + 1);
+          } else if (t < arcDur + 800) {
+            // Bloom phase
+            line.geometry.setDrawRange(0, 65);
+            if (!bloomFired) {
+              bloomFired = true;
+              try { onArcLandRef.current && onArcLandRef.current(ev); } catch (e) {}
+            }
+            const bp = (t - arcDur) / 800;
+            bloomMat.opacity = (1 - bp) * 0.85;
+            bloom.scale.setScalar(1 + bp * 1.8);
+          } else if (t < totalDur - fadeDur) {
+            // Hold
+            mat.opacity = 0.92;
+            bloomMat.opacity = 0;
+          } else if (t < totalDur) {
+            // Fade out
+            const fp = (t - (totalDur - fadeDur)) / fadeDur;
+            mat.opacity = 0.92 * (1 - fp);
+          } else {
+            // Cleanup
+            arcGroup.remove(line);
+            arcGroup.remove(bloom);
+            geom.dispose(); mat.dispose(); bloomMat.dispose();
+            bloom.geometry.dispose();
+            return;
+          }
+          requestAnimationFrame(tick);
+        }
+        tick();
+      }
+
+      // Fire arcs every 8 sec, cycling through ARC_EVENTS
+      let arcEventIdx = 0;
+      const arcInterval = setInterval(() => {
+        fireArc(arcEventIdx);
+        arcEventIdx++;
+      }, 8000);
+      // Fire first arc shortly after mount
+      const arcKickoff = setTimeout(() => { fireArc(arcEventIdx); arcEventIdx++; }, 1200);
+
+      // Animate — Y rotation + orbit particles + blinks (audit 3.3 faster speed)
+      const speed = perfMode ? 0.0014 : 0.0025;
+      const cloudSpeed = speed * 0.4; // clouds drift slower than planet
       let rafId = null;
       const animate = () => {
+        const tNow = performance.now() * 0.001;
         sphere.rotation.y += speed;
+        haze.rotation.y += speed;
         wire.rotation.y += speed;
         dotsGroup.rotation.y += speed;
+        clouds.rotation.y += cloudSpeed;
+        // Orbit particles spin around the planet
+        orbitParticles.forEach((p, i) => {
+          const a = p.angle + tNow * 0.15;
+          const x = Math.cos(a) * p.r * Math.cos(p.tilt);
+          const y = Math.sin(p.tilt) * p.r;
+          const z = Math.sin(a) * p.r * Math.cos(p.tilt);
+          p.mesh.position.set(x, y, z);
+        });
+        // Airplane-blink animation
+        blinkMaterials.forEach((b) => {
+          b.mat.opacity = (Math.sin(tNow * 2.5 + b.phase) + 1) * 0.5 * 0.55;
+        });
         renderer.render(scene, camera);
         rafId = requestAnimationFrame(animate);
       };
@@ -3128,19 +3401,26 @@
       };
       window.addEventListener('resize', onResize);
 
-      stateRef.current = { renderer, scene, dotsGroup, accentColor };
+      stateRef.current = { renderer, scene, dotsGroup, accentColor, hazeMat, blinkMaterials, orbitParticles };
 
       return () => {
         if (rafId) cancelAnimationFrame(rafId);
+        clearInterval(arcInterval);
+        clearTimeout(arcKickoff);
         window.removeEventListener('resize', onResize);
         renderer.dispose();
-        sphereGeom.dispose();
-        sphereMat.dispose();
-        wireGeom.dispose();
-        wireMat.dispose();
+        sphereGeom.dispose(); sphereMat.dispose();
+        wireGeom.dispose(); wireMat.dispose();
+        hazeGeom.dispose(); hazeMat.dispose();
+        cloudGeom.dispose(); cloudMat.dispose();
+        cloudTex.dispose();
         dotsGroup.children.forEach((m) => {
           if (m.geometry) m.geometry.dispose();
           if (m.material) m.material.dispose();
+        });
+        orbitParticles.forEach((p) => {
+          p.mesh.geometry.dispose();
+          p.mat.dispose();
         });
         if (renderer.domElement && renderer.domElement.parentNode === container) {
           container.removeChild(renderer.domElement);
@@ -3149,8 +3429,7 @@
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // mount once; brand color updates via separate effect
 
-    // Update dot colors when accent changes (brand switch). Animation loop
-    // will pick up the new colors on the next frame; no manual render needed.
+    // Update dot colors when accent changes (brand switch)
     useEffect(() => {
       const s = stateRef.current;
       if (!s || typeof THREE === 'undefined') return;
@@ -3159,6 +3438,8 @@
       s.dotsGroup.children.forEach((m) => {
         if (m.material && m.material.color) m.material.color.copy(newColor);
       });
+      if (s.hazeMat) s.hazeMat.color.copy(newColor);
+      s.orbitParticles.forEach((p) => p.mat.color.copy(newColor));
     }, [accent]);
 
     return <div ref={containerRef} className="scale-globe-canvas" />;
@@ -3166,13 +3447,23 @@
 
   // ============================================================================
   // ScaleScene — Beat 3 main. "You operate everywhere your users do."
+  // Audit upgrades: 4.1 scale tower, D2 stat countUps, 3.4+E3+D4 globe upgrades,
+  // A3 native-language headline on arc landing.
   // ============================================================================
+  // Map ARC_EVENTS lang code → arc-card flag code + display label
+  const ARC_LANG_META = {
+    JP: { flag: 'JP', name: 'Japanese' },
+    PT: { flag: 'BR', name: 'Portuguese' },
+    DE: { flag: 'DE', name: 'German' },
+    EN: { flag: 'US', name: 'English' },
+    ES: { flag: 'ES', name: 'Spanish' },
+    FR: { flag: 'FR', name: 'French' },
+  };
+
   function ScaleScene({ brandSlug, brandConfig, onContinue }) {
-    // Read live --accent from CSS for the Three.js scene
     const [accent, setAccent] = useState(() => {
-      try {
-        return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6AAE22';
-      } catch (e) { return '#6AAE22'; }
+      try { return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6AAE22'; }
+      catch (e) { return '#6AAE22'; }
     });
     useEffect(() => {
       try {
@@ -3184,6 +3475,10 @@
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
+
+    // A3 — current arc event drives the headline overlay
+    const [currentArc, setCurrentArc] = useState(null);
+    const handleArcLand = useCallback((ev) => { setCurrentArc({ ...ev, key: Date.now() }); }, []);
 
     return (
       <section className="scale-scene" aria-label="Beat 3 · scale reveal">
@@ -3199,48 +3494,78 @@
           We track every market <em>your users</em> care about.
         </h2>
 
-        <div className="scale-stats">
-          <div className="scale-stat">
-            <div className="scale-stat-value">32,000+</div>
-            <div className="scale-stat-label">Companies</div>
+        {/* 4.1 — Scale tower with countUps (D2) */}
+        <div className="scale-tower">
+          <div className="scale-tower-primary">
+            <CountUp to={32000} duration={1600} delay={300} format={(v) => Math.round(v).toLocaleString()} suffix="+" />
           </div>
-          <div className="scale-stat">
-            <div className="scale-stat-value">53</div>
-            <div className="scale-stat-label">Exchanges</div>
-          </div>
-          <div className="scale-stat">
-            <div className="scale-stat-value">24/7</div>
-            <div className="scale-stat-label">Monitoring</div>
-          </div>
-          <div className="scale-stat">
-            <div className="scale-stat-value">8</div>
-            <div className="scale-stat-label">Languages live</div>
-          </div>
-          <div className="scale-stat">
-            <div className="scale-stat-value">30</div>
-            <div className="scale-stat-label">Agents · live</div>
+          <div className="scale-tower-primary-label">Companies · across 11 GICS sectors</div>
+          <div className="scale-tower-row">
+            <div className="scale-stat">
+              <div className="scale-stat-value">
+                <CountUp to={53} duration={1100} delay={600} />
+              </div>
+              <div className="scale-stat-label">Exchanges</div>
+              <div className="scale-stat-sub">5 continents</div>
+            </div>
+            <div className="scale-stat">
+              <div className="scale-stat-value">24/7</div>
+              <div className="scale-stat-label">Monitoring</div>
+              <div className="scale-stat-sub">Sentry + health checks</div>
+            </div>
+            <div className="scale-stat">
+              <div className="scale-stat-value">
+                <CountUp to={8} duration={900} delay={900} />
+              </div>
+              <div className="scale-stat-label">Languages live</div>
+              <div className="scale-stat-flagrow">
+                {['US','DE','IT','ES','FR','BR','JP','IL'].map((c) => (
+                  <span key={c} dangerouslySetInnerHTML={{ __html: flagSvg(c) }} />
+                ))}
+              </div>
+            </div>
+            <div className="scale-stat">
+              <div className="scale-stat-value">
+                <CountUp to={30} duration={1000} delay={1200} />
+              </div>
+              <div className="scale-stat-label">Agents · live</div>
+              <div className="scale-stat-bar">
+                <div className="scale-stat-bar-fill" style={{ width: '78%' }} />
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="scale-globe-wrap">
-          <SimpleGlobe accent={accent} />
+          <SimpleGlobe accent={accent} onArcLand={handleArcLand} />
           <div className="scale-globe-vignette" aria-hidden="true" />
           <div className="scale-globe-overlay">
-            <div className="scale-arc-card" key={brandSlug + '-arc'}>
-              <div className="scale-arc-meta">
-                Tokyo (TSE)
-                <span className="scale-arc-meta-dot" aria-hidden="true" />
-                Detected
-                <span className="scale-arc-meta-dot" aria-hidden="true" />
-                03:11 UTC
+            {currentArc && (
+              <div className="scale-arc-card" key={currentArc.key}>
+                <div className="scale-arc-meta">
+                  {(() => {
+                    const fromEx = EXCHANGES_53.find((e) => e.code === currentArc.fromCode);
+                    return fromEx ? fromEx.name.replace(' Stock Exchange', '').replace(' Exchanges', '') : currentArc.fromCode;
+                  })()}
+                  <span className="scale-arc-meta-dot" aria-hidden="true" />
+                  {ARC_LANG_META[currentArc.lang]?.name || currentArc.lang}
+                  <span className="scale-arc-meta-dot" aria-hidden="true" />
+                  Detected
+                </div>
+                <div className={`scale-arc-headline is-native-${currentArc.lang.toLowerCase()}`}>
+                  {currentArc.headline}
+                </div>
+                {currentArc.trans && (
+                  <div className="scale-arc-trans">{currentArc.trans}</div>
+                )}
+                <div className="scale-arc-foot">
+                  → {(() => {
+                    const toEx = EXCHANGES_53.find((e) => e.code === currentArc.toCode);
+                    return toEx ? toEx.name.replace(' Stock Exchange', '').replace(' Exchanges', '').toUpperCase() : currentArc.toCode;
+                  })()} · script ready · 47 seconds
+                </div>
               </div>
-              <div className="scale-arc-headline">
-                Asian session story crosses to {display} feed.
-              </div>
-              <div className="scale-arc-foot">
-                NEW YORK · script ready · 47 seconds
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
