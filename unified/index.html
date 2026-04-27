@@ -7,19 +7,18 @@
   <meta name="theme-color" content="#FAF7F2" id="theme-color-meta">
   <title>StockerTV — Unified Demo</title>
 
-  <!-- Pre-paint theme to avoid flash. Light default per Beat 3 lock. Stateless,
-       try/catch around localStorage so private mode / sandboxed contexts work. -->
+  <!-- Pre-paint theme to avoid flash. Light default per Beat 3 lock. -->
   <script>
     (function(){try{var t=localStorage.getItem('stv-theme')||'light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='light';}})();
   </script>
 
-  <!-- Editorial typography per Beat 3.A: Fraunces (display) · Inter (UI) · JetBrains Mono (operational) -->
+  <!-- Editorial typography per Beat 3.A -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Locked CDN versions per Beat 5.A cross-cutting requirements. No @latest. -->
+  <!-- Locked CDN versions per Beat 5.A. No @latest. -->
   <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
   <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -27,10 +26,7 @@
   <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
 
   <style>
-    /* Neutral substrate CSS vars. Set ONCE on first paint, never change on
-       brand-switch (per Beat 4 B.4.D). Brand-specific vars (--accent,
-       --accent-deep, --accent-2, --green) are written by the brand-switch
-       handler at runtime, after the first config loads. */
+    /* ============ NEUTRAL SUBSTRATE — set ONCE on first paint ============ */
     :root[data-theme='dark'] {
       --bg: #0A0B0F;
       --text-primary: #FAF7F2;
@@ -46,12 +42,15 @@
       --surface: #FFFFFF;
     }
     :root {
-      /* Always-neutral signal colors (--green is brand-specific per Beat 4 hybrid 3-way rule
-         and gets set by the brand-switch handler). */
       --red: #ef4444;
-      /* Conservative neutral fallback for --green when no brand is loaded. */
-      --green: #22c55e;
+      --green: #22c55e; /* neutral fallback; brand-switch may override per Beat 4 hybrid 3-way rule */
+      /* Brand-specific vars (will be set by brand-switch handler in Beat 2;
+         hardcoded to eToro defaults for Beat 1 until then). */
+      --accent: #6AAE22;
+      --accent-deep: #8FC850;
+      --accent-2: #A8D96E;
     }
+
     html, body {
       margin: 0; padding: 0;
       background: var(--bg);
@@ -60,10 +59,12 @@
       font-feature-settings: 'cv11', 'ss01';
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
+      overflow-x: hidden;
     }
     .display { font-family: 'Fraunces', Georgia, serif; font-feature-settings: 'liga', 'dlig'; }
     .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
-    /* Reduced-motion respect — every animation degrades to instant per Beat 3.C */
+
+    /* Reduced-motion respect per Beat 3.C */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -71,62 +72,453 @@
         transition-duration: 0.01ms !important;
       }
     }
-    /* Scaffold-only placeholder styling. Beat 1 will replace #root contents. */
-    .scaffold-frame {
+
+    /* ============ TEXTURE OVERLAYS — Beat 3.D ============ */
+    /* Three layers always-on: grain, paper-fibre, ticker watermark.
+       Don't compete with foreground. Beat 1 already includes them. */
+    .stv-grain {
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 9998;
+      mix-blend-mode: multiply;
+    }
+    :root[data-theme='dark'] .stv-grain { mix-blend-mode: screen; opacity: 0.04; }
+
+    .stv-paper-fiber {
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, transparent 0 2px, rgba(0,0,0,0.012) 2px 3px),
+        repeating-linear-gradient(-45deg, transparent 0 2px, rgba(0,0,0,0.012) 2px 3px);
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 9997;
+    }
+    :root[data-theme='dark'] .stv-paper-fiber { opacity: 0.3; mix-blend-mode: lighten; }
+
+    /* ============ BEAT 1 — HOOK ============ */
+    /* Cinematic boot sequence + Fraunces "47 seconds" hero reveal + sub-line.
+       Editorial register, slow easing per Beat 3.C. */
+
+    .boot-stage {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      overflow: hidden;
+    }
+    .boot-stage::before {
+      /* Subtle vignette for editorial depth */
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, var(--bg) 95%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .boot-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .boot-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: stv-fade-in 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 200ms forwards;
+      margin-bottom: 1.5rem;
+    }
+    .boot-wordmark {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(3rem, 9vw, 6rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      filter: blur(20px);
+      opacity: 0;
+      animation: stv-blur-focus 1800ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards;
+    }
+    .boot-wordmark-stocker { color: var(--text-primary); }
+    .boot-wordmark-tv { color: var(--accent); font-style: italic; }
+    .boot-status {
+      margin-top: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 2400ms forwards;
+    }
+    .boot-status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      animation: stv-pulse 1800ms ease-in-out infinite;
+    }
+    .boot-stage.fading-out {
+      animation: stv-fade-out 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes stv-blur-focus {
+      0%   { filter: blur(20px); opacity: 0; transform: scale(1.1); }
+      60%  { filter: blur(0px); opacity: 1; transform: scale(1.02); }
+      100% { filter: blur(0px); opacity: 1; transform: scale(1); }
+    }
+    @keyframes stv-fade-in {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes stv-fade-out {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes stv-pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Hook hero — appears after boot sequence completes */
+    .hook-stage {
+      position: relative;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
       padding: 2rem;
       text-align: center;
+      opacity: 0;
+      animation: stv-hook-enter 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 400ms forwards;
     }
-    .scaffold-eyebrow {
+    .hook-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.28em;
       color: var(--text-muted);
       text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards;
     }
-    .scaffold-title {
+    .hook-eyebrow .hook-eyebrow-dot {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 0.6rem;
+      vertical-align: middle;
+    }
+    .hook-hero-number {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.5rem, 7vw, 4.5rem);
       font-weight: 400;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      max-width: 24ch;
+      font-size: clamp(7rem, 22vw, 18rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--text-primary);
+      filter: blur(28px);
+      opacity: 0;
+      transform: scale(1.15);
+      animation: stv-hero-reveal 2000ms cubic-bezier(0.25, 0.1, 0.25, 1) 1200ms forwards;
+      margin: 0;
+      font-feature-settings: 'liga', 'dlig', 'onum';
     }
-    .scaffold-sub {
+    .hook-hero-unit {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--accent);
+      margin-left: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hook-subline {
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: clamp(13px, 1.5vw, 16px);
+      letter-spacing: 0.04em;
       color: var(--text-muted);
+      margin-top: 3rem;
       max-width: 56ch;
-      line-height: 1.5;
+      line-height: 1.6;
+      opacity: 0;
+      animation: stv-fade-in 1000ms cubic-bezier(0.25, 0.1, 0.25, 1) 3000ms forwards;
+    }
+    .hook-subline-emphasis {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .hook-continue {
+      margin-top: 4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4200ms forwards;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      transition: color 200ms ease;
+      border: 1px solid transparent;
+      border-radius: 2px;
+    }
+    .hook-continue:hover {
+      color: var(--accent);
+      border-color: var(--border);
+    }
+    .hook-continue-arrow {
+      display: inline-block;
+      margin-left: 0.5rem;
+      transition: transform 200ms ease;
+    }
+    .hook-continue:hover .hook-continue-arrow {
+      transform: translateX(4px);
+    }
+
+    @keyframes stv-hero-reveal {
+      0%   { filter: blur(28px); opacity: 0; transform: scale(1.15); }
+      55%  { filter: blur(0px); opacity: 1; transform: scale(1.02); }
+      100% { filter: blur(0px); opacity: 1; transform: scale(1); }
+    }
+    @keyframes stv-hook-enter {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Editorial frame line under the hook hero — subtle, brand-tinted */
+    .hook-accent-line {
+      width: 60px;
+      height: 1px;
+      background: var(--accent);
+      margin: 1.5rem auto 0;
+      opacity: 0;
+      animation: stv-line-grow 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 2600ms forwards;
+      transform-origin: center;
+    }
+    @keyframes stv-line-grow {
+      from { opacity: 0; transform: scaleX(0); }
+      to   { opacity: 1; transform: scaleX(1); }
+    }
+
+    /* Fraunces ticker watermark per Beat 3.D */
+    .stv-watermark {
+      position: fixed;
+      bottom: 2rem;
+      left: 0; right: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .stv-watermark-track {
+      display: inline-block;
+      white-space: nowrap;
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 10rem;
+      line-height: 1;
+      color: var(--text-primary);
+      opacity: 0.04;
+      animation: stv-watermark-scroll 240s linear infinite;
+      will-change: transform;
+    }
+    @keyframes stv-watermark-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
   </style>
 </head>
 <body>
 
-<div id="root">
-  <div class="scaffold-frame">
-    <div class="scaffold-eyebrow">StockerTV · Unified Demo · Scaffold</div>
-    <h1 class="scaffold-title">Deployment pipeline ready.</h1>
-    <p class="scaffold-sub">Beats 1–7 will land here. Branch <code>unified-demo</code> · GitHub Pages subroute <code>/unified/</code>. Build begins on the next commit.</p>
-  </div>
+<div id="root"></div>
+
+<!-- Texture overlays per Beat 3.D — render outside React so they persist regardless of state -->
+<div class="stv-paper-fiber" aria-hidden="true"></div>
+<div class="stv-grain" aria-hidden="true"></div>
+
+<!-- Long-running Fraunces watermark, low-opacity, scrolls 10× slower than any other motion -->
+<div class="stv-watermark" aria-hidden="true">
+  <div class="stv-watermark-track">Where the market's news becomes broadcast · Where the market's news becomes broadcast · </div>
 </div>
 
-<!-- Beat scripts will append here as the build progresses. -->
 <script type="text/babel" data-presets="react">
-  // Scaffold no-op. Verifies Babel + React are loaded.
-  (function(){
-    if (typeof React !== 'undefined' && typeof ReactDOM !== 'undefined') {
-      // Production scaffold: leave the static HTML in #root. Beat 1 will mount real React.
-      console.log('[stv-unified] scaffold ready · React', React.version, '· ReactDOM available · Three', (typeof THREE !== 'undefined' ? THREE.REVISION : 'pending'));
-    } else {
-      console.error('[stv-unified] scaffold init failed — React or ReactDOM missing');
+  const { useState, useEffect, useRef } = React;
+
+  // ============================================================================
+  // STOCKERTV UNIFIED DEMO
+  // ----------------------------------------------------------------------------
+  // Beat 1 — Hook (LIVE)
+  //   Cold open · BootSequence runs · Fraunces "47 seconds" hero drops ·
+  //   sub-line lands. Total: ~5.5 sec to the static end-frame.
+  //
+  // Beats 2-7 — to follow in subsequent commits.
+  // ============================================================================
+
+  // ---- Beat enumeration (extends as each beat ships) ----
+  const BEATS = {
+    HOOK: 'hook',
+    BRAND: 'brand',         // Beat 2 placeholder
+    SCALE: 'scale',         // Beat 3 placeholder
+    SAFETY: 'safety',       // Beat 4 placeholder
+    PIPELINE: 'pipeline',   // Beat 5 placeholder
+    OUTPUT: 'output',       // Beat 6 placeholder
+    CLOSE: 'close',         // Beat 7 placeholder
+  };
+
+  // ============================================================================
+  // BootSequence — opens the demo. ~3s blur-to-focus reveal.
+  // ============================================================================
+  function BootSequence({ onComplete }) {
+    const [exiting, setExiting] = useState(false);
+
+    useEffect(() => {
+      // Fade out at 3.4s; complete at 4.2s (800ms exit transition)
+      const exitTimer = setTimeout(() => setExiting(true), 3400);
+      const completeTimer = setTimeout(() => onComplete && onComplete(), 4200);
+      return () => {
+        clearTimeout(exitTimer);
+        clearTimeout(completeTimer);
+      };
+    }, [onComplete]);
+
+    return (
+      <div className={`boot-stage ${exiting ? 'fading-out' : ''}`}>
+        <div className="boot-content">
+          <div className="boot-eyebrow">Stockertv · Live Operations</div>
+          <div className="boot-wordmark">
+            <span className="boot-wordmark-stocker">Stocker</span>
+            <span className="boot-wordmark-tv">TV</span>
+          </div>
+          <div className="boot-status">
+            <span className="boot-status-dot" />
+            Pre-market intelligence active
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================================
+  // HookScene — Beat 1 main scene. Locks the meeting in the first 5 seconds.
+  // ============================================================================
+  function HookScene({ onContinue }) {
+    return (
+      <section className="hook-stage" aria-label="StockerTV unified demo · Hook">
+        <div className="hook-eyebrow">
+          StockerTV
+          <span className="hook-eyebrow-dot" aria-hidden="true" />
+          Article to broadcast
+          <span className="hook-eyebrow-dot" aria-hidden="true" />
+          Source-verified
+        </div>
+
+        <h1 className="hook-hero-number">
+          47<span className="hook-hero-unit">seconds.</span>
+        </h1>
+
+        <div className="hook-accent-line" aria-hidden="true" />
+
+        <p className="hook-subline">
+          From a published news article to a fully scripted, source-verified, multi-language broadcast segment.{' '}
+          <span className="hook-subline-emphasis">AI-powered with human oversight · designed for regulated environments.</span>
+        </p>
+
+        <button
+          className="hook-continue"
+          onClick={onContinue}
+          aria-label="Continue to next beat"
+        >
+          Continue
+          <span className="hook-continue-arrow" aria-hidden="true">→</span>
+        </button>
+      </section>
+    );
+  }
+
+  // ============================================================================
+  // PlaceholderScene — temporary holder for beats 2-7. Replaced as each ships.
+  // ============================================================================
+  function PlaceholderScene({ beatId, beatName, onBack }) {
+    return (
+      <section className="hook-stage" aria-label={`Beat placeholder · ${beatName}`}>
+        <div className="hook-eyebrow">
+          Beat {beatId}
+          <span className="hook-eyebrow-dot" aria-hidden="true" />
+          {beatName}
+          <span className="hook-eyebrow-dot" aria-hidden="true" />
+          Coming next
+        </div>
+        <h1 className="hook-hero-number" style={{ fontSize: 'clamp(4rem, 12vw, 9rem)', filter: 'none', opacity: 1, transform: 'none', animation: 'none' }}>
+          ·
+        </h1>
+        <div className="hook-accent-line" style={{ opacity: 1, transform: 'none', animation: 'none' }} />
+        <p className="hook-subline" style={{ opacity: 1, animation: 'none' }}>
+          This beat is part of the locked Phase 2 plan. Build is in progress.
+        </p>
+        <button className="hook-continue" onClick={onBack} style={{ opacity: 1, animation: 'none' }} aria-label="Back to Hook">
+          <span className="hook-continue-arrow" aria-hidden="true" style={{ transform: 'rotate(180deg)', marginLeft: 0, marginRight: '0.5rem' }}>→</span>
+          Back to Hook
+        </button>
+      </section>
+    );
+  }
+
+  // ============================================================================
+  // App — top-level state machine. Handles boot → beat scenes.
+  // ============================================================================
+  function App() {
+    const [booted, setBooted] = useState(false);
+    const [activeBeat, setActiveBeat] = useState(BEATS.HOOK);
+
+    // Keyboard navigation: Enter advances from Hook to next beat
+    useEffect(() => {
+      const onKey = (e) => {
+        if (!booted) return;
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+          if (activeBeat === BEATS.HOOK) setActiveBeat(BEATS.BRAND);
+        }
+        if (e.key === 'Escape' || e.key === 'ArrowLeft') {
+          if (activeBeat !== BEATS.HOOK) setActiveBeat(BEATS.HOOK);
+        }
+      };
+      window.addEventListener('keydown', onKey);
+      return () => window.removeEventListener('keydown', onKey);
+    }, [booted, activeBeat]);
+
+    if (!booted) {
+      return <BootSequence onComplete={() => setBooted(true)} />;
     }
-  })();
+
+    if (activeBeat === BEATS.HOOK) {
+      return <HookScene onContinue={() => setActiveBeat(BEATS.BRAND)} />;
+    }
+
+    // Placeholder labels for beats not yet built. Each ships in subsequent commits.
+    const beatLabels = {
+      [BEATS.BRAND]: { id: 2, name: 'Brand lock-in' },
+      [BEATS.SCALE]: { id: 3, name: 'Scale reveal' },
+      [BEATS.SAFETY]: { id: 4, name: 'Safety net' },
+      [BEATS.PIPELINE]: { id: 5, name: 'Full pipeline' },
+      [BEATS.OUTPUT]: { id: 6, name: 'Output' },
+      [BEATS.CLOSE]: { id: 7, name: 'Close' },
+    };
+    const meta = beatLabels[activeBeat] || { id: '?', name: 'Unknown' };
+    return <PlaceholderScene beatId={meta.id} beatName={meta.name} onBack={() => setActiveBeat(BEATS.HOOK)} />;
+  }
+
+  // ============================================================================
+  // Mount
+  // ============================================================================
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />);
 </script>
 
 </body>
