@@ -27,6 +27,8 @@
   <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+  <!-- Round 2 — fleet showcase data (Natural Earth 110m continent paths for Beat 3 globe texture) -->
+  <script src="../showcase.js"></script>
 
   <style>
     /* ============ NEUTRAL SUBSTRATE — set ONCE on first paint ============ */
@@ -349,25 +351,45 @@
       vertical-align: middle;
       transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* Round 2 — dual hero flow: 47 sec → 5 min */
+    .hook-hero-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.75rem, 2vw, 2rem);
+      flex-wrap: wrap;
+      margin: 0;
+    }
+    .hook-hero-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      min-width: 0;
+    }
     .hook-hero-number {
       font-family: 'Fraunces', Georgia, serif;
       font-weight: 400;
-      font-size: clamp(7rem, 22vw, 18rem);
+      font-size: clamp(3.5rem, 8vw, 6rem);
       line-height: 0.95;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.04em;
       color: var(--text-primary);
       margin: 0;
       font-feature-settings: 'liga', 'dlig', 'onum';
       font-variation-settings: 'opsz' 144;
       position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
     }
-    /* Brand-accent glow under hero number (audit 2.2.b) */
+    /* Brand-accent glow under each hero number (audit 2.2.b) */
     .hook-hero-number::before {
       content: '';
       position: absolute;
-      inset: 12% -8%;
+      inset: 12% -10%;
       background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 40%, transparent) 0%, transparent 65%);
-      filter: blur(60px);
+      filter: blur(50px);
       z-index: -1;
       pointer-events: none;
       opacity: 0;
@@ -378,20 +400,59 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    .hook-hero-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 3300ms forwards;
+    }
+    .hook-hero-connector {
+      width: clamp(60px, 12vw, 180px);
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: stv-fade-in 600ms cubic-bezier(0.25, 0.1, 0.25, 1) 2700ms forwards;
+    }
+    .hook-hero-connector svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      color: var(--accent);
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hook-hero-connector svg path {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: stv-connector-draw 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 2900ms forwards;
+    }
+    @keyframes stv-connector-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @media (max-width: 600px) {
+      .hook-hero-connector {
+        width: 26px;
+        height: 60px;
+        transform: rotate(90deg);
+      }
+    }
     .hook-hero-unit {
       font-family: 'Fraunces', Georgia, serif;
       font-style: italic;
       font-weight: 400;
-      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
       color: var(--accent);
-      margin-left: 0.5rem;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
       animation: stv-fade-in 500ms cubic-bezier(0.25, 0.1, 0.25, 1) 2700ms forwards;
       display: inline-block;
     }
-    /* Underline shimmer beneath hero number (audit 3.2) */
+    /* Underline shimmer beneath hero numbers (audit 3.2) */
     .hook-hero-shimmer {
       display: block;
       position: absolute;
@@ -1009,7 +1070,7 @@
       font-style: italic;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    /* 4.1 — Scale tower: primary big stat + 4 supporting */
+    /* 4.1 — Scale tower: ROUND 2 — promote 32,000+ to dominant hero */
     .scale-tower {
       display: flex;
       flex-direction: column;
@@ -1019,7 +1080,7 @@
     }
     .scale-tower-primary {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(3.5rem, 7vw, 6rem);
       font-weight: 500;
       line-height: 1;
       color: var(--text-primary);
@@ -1028,15 +1089,28 @@
       font-variation-settings: 'opsz' 144;
       position: relative;
     }
+    /* Hero glow under 32,000+ (matches Beat 1 hero numbers) */
+    .scale-tower-primary::before {
+      content: '';
+      position: absolute;
+      inset: 12% -10%;
+      background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 36%, transparent) 0%, transparent 65%);
+      filter: blur(50px);
+      z-index: -1;
+      pointer-events: none;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .scale-tower-primary-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.22em;
       color: var(--text-muted);
       text-transform: uppercase;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       margin-bottom: 1.5rem;
     }
+    /* Round 2 — supporting stats row at half-scale below 32k+ hero */
+    .scale-tower-row .scale-stat-value { font-size: clamp(1.1rem, 1.9vw, 1.5rem); }
     .scale-tower-row {
       display: flex;
       flex-wrap: wrap;
@@ -1181,6 +1255,217 @@
       margin-top: 0.5rem;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* Round 2 — globe marker hover tooltip (audit 3.3) */
+    .globe-tooltip {
+      position: absolute;
+      pointer-events: none;
+      transform: translate(-50%, calc(-100% - 12px));
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      z-index: 25;
+      opacity: 0;
+      transition: opacity 120ms ease;
+    }
+    .globe-tooltip[data-visible='true'] { opacity: 1; }
+    .globe-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 7px; height: 7px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .scale-globe-canvas { cursor: grab; }
+    .scale-globe-canvas[data-hovering='true'] { cursor: pointer; }
+
+    /* Round 2 — exchange detail side panel (audit 3.3) */
+    .exchange-panel {
+      position: fixed;
+      top: 64px;
+      right: 0;
+      bottom: 0;
+      width: min(440px, 92vw);
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -16px 0 50px rgba(0,0,0,0.18);
+      z-index: 70;
+      transform: translateX(100%);
+      transition: transform 360ms cubic-bezier(0.25, 0.1, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .exchange-panel[data-open='true'] {
+      transform: translateX(0);
+    }
+    .exchange-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, var(--surface)) 0%, var(--surface) 100%);
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .exchange-panel-flag {
+      width: 36px;
+      height: 24px;
+      border-radius: 2px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px var(--border) inset;
+    }
+    .exchange-panel-flag svg { width: 100%; height: 100%; display: block; }
+    .exchange-panel-titles {
+      flex: 1;
+      min-width: 0;
+    }
+    .exchange-panel-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.15;
+      margin: 0;
+    }
+    .exchange-panel-locale {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .exchange-panel-close {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+    }
+    .exchange-panel-close:hover {
+      color: var(--text-primary);
+      background: var(--bg);
+    }
+    .exchange-panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+    }
+    .exchange-panel-meta {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .exchange-panel-meta-pill {
+      padding: 3px 9px;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .exchange-panel-meta-pill.is-company {
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .exchange-panel-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin: 0 0 1rem;
+    }
+    .exchange-panel-native {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-primary);
+      padding: 1rem 1.1rem;
+      background: var(--surface-elevated);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .exchange-panel-native[data-lang='AR'],
+    .exchange-panel-native[data-lang='HE'] {
+      direction: rtl;
+      text-align: right;
+    }
+    .exchange-panel-native[data-lang='JA'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
+    .exchange-panel-native[data-lang='ZH'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
+    .exchange-panel-native[data-lang='KO'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
+    .exchange-panel-native[data-lang='HI'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
+    .exchange-panel-native[data-lang='TH'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
+    .exchange-panel-native[data-lang='AR'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; font-size: 15px; }
+    .exchange-panel-native[data-lang='HE'] { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; font-size: 15px; }
+    .exchange-panel-native[data-lang='IT'],
+    .exchange-panel-native[data-lang='ES'],
+    .exchange-panel-native[data-lang='PT'] { font-family: 'Cormorant Garamond', 'Fraunces', Georgia, serif; font-size: 15px; }
+    .exchange-panel-native[data-lang='FR'] { font-family: 'Marcellus', 'Fraunces', Georgia, serif; font-size: 15px; }
+    .exchange-panel-native[data-lang='DE'] { font-family: 'Bitter', 'Fraunces', Georgia, serif; }
+    .exchange-panel-trans-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .exchange-panel-english {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      font-style: italic;
+      margin: 0 0 1.5rem;
+    }
+    .exchange-panel-foot {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .exchange-panel-foot-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      opacity: 0.6;
+    }
+
     .scale-arc-headline.is-native-jp { font-family: 'Noto Serif JP', 'Fraunces', Georgia, serif; }
     .scale-arc-headline.is-native-de { font-family: 'Bitter', 'Fraunces', Georgia, serif; }
     .scale-arc-headline.is-native-it { font-family: 'Cormorant Garamond', 'Fraunces', Georgia, serif; }
@@ -1876,6 +2161,270 @@
     }
     .safety-subline strong { color: var(--text-primary); font-weight: 500; }
 
+    /* ============ BEAT 4 — 5-STATION JOURNEY (Round 2 Phase B4) ============ */
+    /* Vertical narrative flow: Read → Verify → Apply Rules → Review → Sign.
+       Default Beat-4 view. "Show all" toggle reveals legacy dashboard. */
+    .safety-view-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+      margin-left: 0.5rem;
+    }
+    .safety-view-toggle:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+    }
+    .safety-view-toggle[data-active='true'] {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    .safety-view-toggle-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .station-journey {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-width: 920px;
+      margin: 0.5rem auto 1rem;
+      width: 100%;
+      position: relative;
+    }
+    /* Vertical progress rail running through left side of all stations */
+    .station-journey::before {
+      content: '';
+      position: absolute;
+      left: 38px;
+      top: 60px;
+      bottom: 60px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--border) 0%, color-mix(in srgb, var(--accent) 30%, var(--border)) 50%, var(--border) 100%);
+      z-index: 0;
+    }
+    @media (max-width: 720px) {
+      .station-journey::before { display: none; }
+    }
+
+    .station {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: stretch;
+      padding: 1.25rem 1.25rem 1.25rem 0;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, var(--border) 0%, var(--border) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      position: relative;
+      z-index: 1;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 380ms cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 380ms cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0.55;
+    }
+    .station[data-active='true'] {
+      opacity: 1;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent) 0%, var(--border) 60%, color-mix(in srgb, var(--green) 18%, transparent) 100%) border-box;
+      box-shadow: 0 12px 36px color-mix(in srgb, var(--accent) 12%, transparent);
+      transform: translateY(-1px);
+    }
+    .station[data-completed='true']:not([data-active='true']) {
+      opacity: 0.85;
+    }
+    @media (max-width: 720px) {
+      .station { grid-template-columns: 64px minmax(0, 1fr); gap: 0.75rem; padding: 1rem 1rem 1rem 0; }
+    }
+
+    /* Number medallion with ring and label */
+    .station-medallion {
+      width: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 0.5rem;
+      flex-shrink: 0;
+    }
+    @media (max-width: 720px) {
+      .station-medallion { width: 64px; }
+    }
+    .station-num {
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: background 380ms cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 380ms cubic-bezier(0.4, 0, 0.2, 1),
+                  color 380ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 2;
+    }
+    .station[data-active='true'] .station-num {
+      background: var(--accent);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent);
+    }
+    .station[data-completed='true']:not([data-active='true']) .station-num {
+      background: color-mix(in srgb, var(--green) 80%, transparent);
+      border-color: transparent;
+      color: #fff;
+    }
+    .station-tick {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0.5rem;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .station[data-completed='true']:not([data-active='true']) .station-num { font-size: 0; }
+    .station[data-completed='true']:not([data-active='true']) .station-num::before {
+      content: '';
+      width: 14px; height: 8px;
+      border-left: 2.4px solid #fff;
+      border-bottom: 2.4px solid #fff;
+      transform: rotate(-45deg);
+      margin-bottom: 4px;
+    }
+
+    .station-content {
+      display: grid;
+      grid-template-columns: 1fr 96px;
+      gap: 1rem;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .station-content { grid-template-columns: 1fr; }
+    }
+    .station-text { min-width: 0; }
+    .station-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .station-eyebrow-active { color: var(--accent); }
+    .station-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.018em;
+    }
+    .station-headline em {
+      color: var(--accent);
+      font-style: italic;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .station-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 0.6rem;
+      max-width: 56ch;
+    }
+    .station-body strong { color: var(--text-primary); font-weight: 500; }
+    .station-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .station-meta-pill {
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface-elevated);
+    }
+    .station[data-active='true'] .station-meta-pill {
+      border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+      color: var(--text-primary);
+    }
+    .station-illust {
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+      color: var(--text-primary);
+      opacity: 0.85;
+      transition: opacity 380ms cubic-bezier(0.4, 0, 0.2, 1), transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
+      align-self: center;
+      justify-self: end;
+    }
+    @media (max-width: 720px) {
+      .station-illust { justify-self: start; opacity: 0.7; transform: scale(0.85); }
+    }
+    .station[data-active='true'] .station-illust { opacity: 1; transform: scale(1.05); }
+    @media (max-width: 720px) {
+      .station[data-active='true'] .station-illust { transform: scale(0.92); }
+    }
+
+    /* Replay button for journey mode */
+    .station-journey-foot {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .station-progress-dots {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .station-progress-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 300ms ease, transform 300ms ease;
+    }
+    .station-progress-dot[data-active='true'] {
+      background: var(--accent);
+      transform: scale(1.4);
+    }
+    .station-progress-dot[data-completed='true'] { background: var(--green); }
+
     /* ============ BEAT 5 — FULL PIPELINE (LINK-OUT) ============ */
     .pipeline-scene {
       min-height: calc(100vh - 64px);
@@ -1986,19 +2535,38 @@
     @media (min-width: 720px) {
       .pipeline-stages { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
+    /* Pipeline stage card — Round 2 Phase B5 reworked as a clickable button */
     .pipeline-stage-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 0.75rem 0.75rem 0.6rem;
       text-align: left;
-      transition: border-color 220ms ease, transform 220ms ease;
+      transition: border-color 220ms ease, transform 220ms ease, background 220ms ease, box-shadow 220ms ease;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
+      font: inherit;
+      width: 100%;
+      display: block;
+    }
+    .pipeline-stage-card:hover {
+      border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    .pipeline-stage-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
     .pipeline-stage-card[data-wow='true'] {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .pipeline-stage-card[data-expanded='true'] {
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
     }
     .pipeline-stage-card[data-wow='true']::after {
       content: 'WOW';
@@ -2009,6 +2577,9 @@
       letter-spacing: 0.2em;
       color: var(--accent);
       font-weight: 700;
+    }
+    .pipeline-stage-card[data-wow='true'][data-expanded='true']::after {
+      display: none;
     }
     .pipeline-stage-num {
       font-family: 'JetBrains Mono', monospace;
@@ -2025,6 +2596,127 @@
       color: var(--text-primary);
       line-height: 1.3;
     }
+    .pipeline-stage-expand {
+      position: absolute;
+      bottom: 6px; right: 8px;
+      width: 14px; height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1;
+      color: var(--text-muted);
+      opacity: 0.7;
+      transition: color 200ms ease, opacity 200ms ease;
+    }
+    .pipeline-stage-card:hover .pipeline-stage-expand,
+    .pipeline-stage-card[data-expanded='true'] .pipeline-stage-expand {
+      color: var(--accent);
+      opacity: 1;
+    }
+
+    /* Expanded panel below stage grid (one at a time) */
+    .pipeline-stage-panel {
+      width: 100%;
+      max-width: 920px;
+      margin: 1rem auto 0;
+      padding: 1.25rem 1.5rem 1.4rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 28%, transparent) 0%, var(--border) 60%, color-mix(in srgb, var(--accent) 8%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 10%, transparent);
+      animation: stv-stage-panel-in 320ms cubic-bezier(0.25, 0.1, 0.25, 1);
+      text-align: left;
+    }
+    @keyframes stv-stage-panel-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .pipeline-stage-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+    .pipeline-stage-panel-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .pipeline-stage-panel-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 0;
+      flex: 1;
+      letter-spacing: -0.018em;
+      line-height: 1.2;
+    }
+    .pipeline-stage-panel-wow {
+      display: inline-block;
+      margin-left: 0.5rem;
+      padding: 2px 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      border-radius: 999px;
+      vertical-align: middle;
+      font-weight: 600;
+    }
+    .pipeline-stage-panel-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 200ms ease, color 200ms ease;
+    }
+    .pipeline-stage-panel-close:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .pipeline-stage-panel-detail {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-primary);
+      margin: 0 0 0.9rem;
+      max-width: 64ch;
+    }
+    .pipeline-stage-panel-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .pipeline-stage-panel-meta-pill {
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
     .pipeline-callout {
       margin-top: 2.5rem;
       padding: 1.25rem 1.5rem;
@@ -2245,6 +2937,109 @@
       color: var(--accent);
       font-style: italic;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Round 2 Phase B6 — phone showcase wrapper (phone + annotation labels) */
+    .phone-showcase {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      align-items: center;
+      padding: 1rem 0 1.5rem;
+    }
+    @media (min-width: 880px) {
+      .phone-showcase {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 2.5rem;
+        padding: 1.25rem 0 2rem;
+      }
+    }
+    .phone-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 1rem;
+      min-height: 420px;
+    }
+    .brand-phone {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+      filter:
+        drop-shadow(0 24px 60px rgba(0,0,0,0.18))
+        drop-shadow(0 8px 24px color-mix(in srgb, var(--accent) 16%, transparent));
+      transition: filter 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* Annotation labels around the phone — connector lines drawn via ::before */
+    .phone-callouts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      align-self: center;
+      max-width: 100%;
+    }
+    .phone-callout {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 0.65rem;
+      padding: 0.75rem 0.9rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+    }
+    .phone-callout:hover {
+      transform: translateX(2px);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .phone-callout-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      align-self: start;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .phone-callout-body { min-width: 0; }
+    .phone-callout-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.25;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+    .phone-callout-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+    .phone-foot-note {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: -0.5rem;
+      opacity: 0.78;
+    }
+    .phone-foot-note-dot {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 0.5rem;
+      vertical-align: middle;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* User surface preview (phone-ish mockup) */
@@ -2875,8 +3670,9 @@
   };
 
   // ---- Real flag SVG library (from fleet/js/client-loader.js) ----
-  // Used in Beat 5 multi-language preview + Beat 6 user-preview cards.
-  // Replaces the wrong CSS gradients (audit 6.5).
+  // Used in Beat 5 multi-language preview + Beat 6 user-preview cards + Beat 3
+  // 15-language stat row + Beat 3 click-to-explore globe panels.
+  // Replaces the wrong CSS gradients (audit 6.5). Round 2 expansion: +10 flags.
   const FLAGS_SVG = {
     US: '<rect width="30" height="20" fill="#b22234"/><rect y="1.54" width="30" height="1.54" fill="#fff"/><rect y="4.62" width="30" height="1.54" fill="#fff"/><rect y="7.69" width="30" height="1.54" fill="#fff"/><rect y="10.77" width="30" height="1.54" fill="#fff"/><rect y="13.85" width="30" height="1.54" fill="#fff"/><rect y="16.92" width="30" height="1.54" fill="#fff"/><rect width="12" height="10.77" fill="#3c3b6e"/>',
     GB: '<rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="3"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="1.5"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#fff" stroke-width="5"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#C8102E" stroke-width="3"/>',
@@ -2887,6 +3683,48 @@
     JP: '<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5" fill="#BC002D"/>',
     BR: '<rect width="30" height="20" fill="#009c3b"/><polygon points="15,2 28,10 15,18 2,10" fill="#ffdf00"/><circle cx="15" cy="10" r="4" fill="#002776"/>',
     IL: '<rect width="30" height="20" fill="#fff"/><rect y="3" width="30" height="2" fill="#0038B8"/><rect y="15" width="30" height="2" fill="#0038B8"/><polygon points="15,7 16.3,9.2 18.8,9.2 16.8,10.6 17.6,13 15,11.6 12.4,13 13.2,10.6 11.2,9.2 13.7,9.2" fill="none" stroke="#0038B8" stroke-width="0.6"/>',
+    // Round 2 — 10 more flags for 15-language coverage
+    CN: '<rect width="30" height="20" fill="#DE2910"/><polygon points="6,4 6.7,6 9,6 7.1,7.2 7.9,9.3 6,8 4.1,9.3 4.9,7.2 3,6 5.3,6" fill="#FFDE00"/><circle cx="11" cy="3.2" r="0.5" fill="#FFDE00"/><circle cx="12.6" cy="4.6" r="0.5" fill="#FFDE00"/><circle cx="12.6" cy="6.8" r="0.5" fill="#FFDE00"/><circle cx="11" cy="8.2" r="0.5" fill="#FFDE00"/>',
+    KR: '<rect width="30" height="20" fill="#fff"/><path d="M15 6 A 4 4 0 0 1 15 14 Z" fill="#CD2E3A"/><path d="M15 6 A 4 4 0 0 0 15 14 Z" fill="#003478"/><g stroke="#000" stroke-width="0.5"><line x1="6" y1="5.5" x2="9" y2="5.5"/><line x1="6" y1="6.5" x2="9" y2="6.5"/><line x1="6" y1="7.5" x2="9" y2="7.5"/><line x1="21" y1="12.5" x2="24" y2="12.5"/><line x1="21" y1="13.5" x2="24" y2="13.5"/><line x1="21" y1="14.5" x2="24" y2="14.5"/></g>',
+    AE: '<rect width="30" height="20" fill="#009E49"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#000"/><rect width="7.5" height="20" fill="#CE1126"/>',
+    IN: '<rect width="30" height="6.67" fill="#FF9933"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2" fill="none" stroke="#000080" stroke-width="0.4"/><circle cx="15" cy="10" r="0.4" fill="#000080"/>',
+    NL: '<rect width="30" height="6.67" fill="#AE1C28"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#21468B"/>',
+    TR: '<rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="4.5" fill="#fff"/><circle cx="12" cy="10" r="3.6" fill="#E30A17"/><polygon points="14.6,8 17.5,9 14.6,10 17.5,11 14.6,12 16.4,10 14.6,8" fill="#fff"/>',
+    ID: '<rect width="30" height="10" fill="#CE1126"/><rect y="10" width="30" height="10" fill="#fff"/>',
+    SA: '<rect width="30" height="20" fill="#006C35"/><text x="15" y="13" text-anchor="middle" fill="#fff" font-size="6" font-family="serif" letter-spacing="-0.5">لا اله الا الله</text>',
+    MX: '<rect width="10" height="20" fill="#006847"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE1126"/><circle cx="15" cy="10" r="2.5" fill="none" stroke="#8B6914" stroke-width="0.4"/>',
+    CA: '<rect width="7.5" height="20" fill="#D52B1E"/><rect x="22.5" width="7.5" height="20" fill="#D52B1E"/><rect x="7.5" width="15" height="20" fill="#fff"/><polygon points="15,4.5 16,8 19,8 16.5,10 17.5,13.5 15,11.5 12.5,13.5 13.5,10 11,8 14,8" fill="#D52B1E"/>',
+    AU: '<rect width="30" height="20" fill="#012169"/><rect width="15" height="10" fill="#012169"/><path d="M0,0 L15,10 M15,0 L0,10" stroke="#fff" stroke-width="1.5"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#fff" stroke-width="2"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#C8102E" stroke-width="1"/><polygon points="22.5,8 23.2,10 25.4,10 23.6,11.3 24.3,13.4 22.5,12.1 20.7,13.4 21.4,11.3 19.6,10 21.8,10" fill="#fff"/>',
+    HK: '<rect width="30" height="20" fill="#DE2910"/><circle cx="15" cy="10" r="3" fill="#fff"/><circle cx="15" cy="9" r="0.6" fill="#DE2910"/>',
+    SG: '<rect width="30" height="10" fill="#ED2939"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="2.5" fill="#fff"/><circle cx="8.6" cy="5" r="2" fill="#ED2939"/>',
+    TW: '<rect width="30" height="20" fill="#FE0000"/><rect width="15" height="10" fill="#000095"/><polygon points="7.5,2 8.7,4.7 11.6,4.5 9.4,6.5 10.4,9.3 7.5,8 4.6,9.3 5.6,6.5 3.4,4.5 6.3,4.7" fill="#fff"/>',
+    EG: '<rect width="30" height="6.67" fill="#CE1126"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#000"/>',
+    ZA: '<rect width="30" height="20" fill="#007749"/><polygon points="0,0 14,10 0,20" fill="#000"/><polygon points="0,0 0,5 12,10 0,15 0,20 14,10" fill="#fff"/><polygon points="0,3 0,7 8,10 0,13 0,17 11,10" fill="#FFB81C"/><rect x="14" y="0" width="16" height="6" fill="#DE3831"/><rect x="14" y="14" width="16" height="6" fill="#002395"/><rect x="14" y="6" width="16" height="2" fill="#fff"/><rect x="14" y="12" width="16" height="2" fill="#fff"/><rect x="14" y="8" width="16" height="4" fill="#007749"/>',
+    NG: '<rect width="10" height="20" fill="#008751"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#008751"/>',
+    AR: '<rect width="30" height="20" fill="#74ACDF"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="1.6" fill="#FCBF49"/>',
+    CL: '<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/><polygon points="5,3 5.6,4.6 7.3,4.6 5.9,5.6 6.5,7.2 5,6.2 3.5,7.2 4.1,5.6 2.7,4.6 4.4,4.6" fill="#fff"/>',
+    CO: '<rect width="30" height="20" fill="#FCD116"/><rect y="10" width="30" height="5" fill="#003893"/><rect y="15" width="30" height="5" fill="#CE1126"/>',
+    PE: '<rect width="10" height="20" fill="#D91023"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#D91023"/>',
+    PA: '<rect width="30" height="20" fill="#fff"/><rect width="15" height="10" fill="#fff"/><rect x="15" width="15" height="10" fill="#D72028"/><rect y="10" width="15" height="10" fill="#005AA7"/><polygon points="7.5,3 8.3,5.3 10.7,5.3 8.7,6.7 9.5,9 7.5,7.5 5.5,9 6.3,6.7 4.3,5.3 6.7,5.3" fill="#005AA7"/><polygon points="22.5,13 23.3,15.3 25.7,15.3 23.7,16.7 24.5,19 22.5,17.5 20.5,19 21.3,16.7 19.3,15.3 21.7,15.3" fill="#D72028"/>',
+    CR: '<rect width="30" height="4" fill="#002B7F"/><rect y="4" width="30" height="4" fill="#fff"/><rect y="8" width="30" height="4" fill="#CE1225"/><rect y="12" width="30" height="4" fill="#fff"/><rect y="16" width="30" height="4" fill="#002B7F"/>',
+    PL: '<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#DC143C"/>',
+    HU: '<rect width="30" height="6.67" fill="#CE2939"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#477050"/>',
+    CZ: '<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#D7141A"/><polygon points="0,0 15,10 0,20" fill="#11457E"/>',
+    SE: '<rect width="30" height="20" fill="#006AA7"/><rect y="8" width="30" height="4" fill="#FECC00"/><rect x="9" width="4" height="20" fill="#FECC00"/>',
+    NO: '<rect width="30" height="20" fill="#EF2B2D"/><rect y="8" width="30" height="4" fill="#fff"/><rect x="9" width="4" height="20" fill="#fff"/><rect y="9" width="30" height="2" fill="#002868"/><rect x="10" width="2" height="20" fill="#002868"/>',
+    DK: '<rect width="30" height="20" fill="#C60C30"/><rect y="9" width="30" height="2" fill="#fff"/><rect x="10" width="2" height="20" fill="#fff"/>',
+    FI: '<rect width="30" height="20" fill="#fff"/><rect y="8" width="30" height="4" fill="#003580"/><rect x="9" width="4" height="20" fill="#003580"/>',
+    IE: '<rect width="10" height="20" fill="#169B62"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#FF883E"/>',
+    BE: '<rect width="10" height="20" fill="#000"/><rect x="10" width="10" height="20" fill="#FAE042"/><rect x="20" width="10" height="20" fill="#ED2939"/>',
+    CH: '<rect width="30" height="20" fill="#FF0000"/><rect x="13" y="5" width="4" height="10" fill="#fff"/><rect x="10" y="8" width="10" height="4" fill="#fff"/>',
+    AT: '<rect width="30" height="6.67" fill="#ED2939"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#ED2939"/>',
+    GR: '<rect width="30" height="20" fill="#fff"/><rect y="2.2" width="30" height="2.2" fill="#0D5EAF"/><rect y="6.6" width="30" height="2.2" fill="#0D5EAF"/><rect y="11" width="30" height="2.2" fill="#0D5EAF"/><rect y="15.4" width="30" height="2.2" fill="#0D5EAF"/><rect width="11" height="11" fill="#0D5EAF"/><rect x="4.4" width="2.2" height="11" fill="#fff"/><rect y="4.4" width="11" height="2.2" fill="#fff"/>',
+    NZ: '<rect width="30" height="20" fill="#012169"/><rect width="15" height="10" fill="#012169"/><path d="M0,0 L15,10 M15,0 L0,10" stroke="#fff" stroke-width="1.5"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#fff" stroke-width="2"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#C8102E" stroke-width="1"/><polygon points="22,11 22.5,12.5 24,12.5 22.8,13.4 23.3,14.9 22,14 20.7,14.9 21.2,13.4 20,12.5 21.5,12.5" fill="#C8102E"/>',
+    TH: '<rect width="30" height="3.5" fill="#A51931"/><rect y="3.5" width="30" height="3.5" fill="#fff"/><rect y="7" width="30" height="6" fill="#2D2A4A"/><rect y="13" width="30" height="3.5" fill="#fff"/><rect y="16.5" width="30" height="3.5" fill="#A51931"/>',
+    PH: '<rect width="30" height="10" fill="#0038A8"/><rect y="10" width="30" height="10" fill="#CE1126"/><polygon points="0,0 15,10 0,20" fill="#fff"/><polygon points="3,9 4.5,9.4 4.2,11 5.5,10.2 6.7,11 6.4,9.4 7.9,9 6.4,8.6 6.7,7 5.5,7.8 4.2,7 4.5,8.6" fill="#FCD116"/>',
+    VN: '<rect width="30" height="20" fill="#DA251D"/><polygon points="15,5 16.5,9.5 21,9.5 17.4,12.3 18.6,17 15,14.2 11.4,17 12.6,12.3 9,9.5 13.5,9.5" fill="#FF0"/>',
+    MY: '<rect width="30" height="20" fill="#CC0001"/><rect y="2" width="30" height="2" fill="#fff"/><rect y="6" width="30" height="2" fill="#fff"/><rect y="10" width="30" height="2" fill="#fff"/><rect y="14" width="30" height="2" fill="#fff"/><rect y="18" width="30" height="2" fill="#fff"/><rect width="14" height="12" fill="#000066"/><circle cx="6" cy="6" r="2.4" fill="#FFCC00"/><circle cx="6.8" cy="6" r="2" fill="#000066"/>',
+    LK: '<rect width="30" height="20" fill="#FFB300"/><rect width="6" height="20" fill="#00543F"/><rect x="6" width="3" height="20" fill="#FF8200"/><rect x="11" y="2" width="17" height="16" fill="#8D153A"/><polygon points="19.5,5 20.3,7 22.5,6.5 21,8 22.5,9.5 20.3,9 19.5,11 18.7,9 16.5,9.5 18,8 16.5,6.5 18.7,7" fill="#FFB300"/>',
   };
   function flagSvg(code, opts) {
     const inner = FLAGS_SVG[code] || '<rect width="30" height="20" fill="#555"/>';
@@ -3180,6 +4018,330 @@
   }
 
   // ============================================================================
+  // BRAND PHONE MOCKUP (Round 2 Phase B6) — abstract SVG iPhone per client
+  // ----------------------------------------------------------------------------
+  // ~280×580 viewBox. Brand-color top nav + StockerTV widget rectangle inside +
+  // generic bottom tab bar. Footer note declares it's an illustration, not a
+  // screenshot. Uses brandConfig.branding.primaryColor for color and pulls
+  // tab labels + widget content from BRAND_PHONE_PRESETS.
+  // ============================================================================
+  const BRAND_PHONE_PRESETS = {
+    etoro: {
+      tabs: ['Discover', 'Markets', 'Watch', 'Portfolio', 'Copy'],
+      widgetLine1: 'Market Intel',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'BlackRock IBIT crosses cumulative inflow milestone',
+      widgetMeta: 'Crypto · 47s · EN/DE/IT/ES/FR',
+    },
+    ibkr: {
+      tabs: ['Trade', 'Quotes', 'Research', 'Account', 'More'],
+      widgetLine1: 'Pre-market briefing',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'Tier-1 broker activity rises ahead of US open',
+      widgetMeta: 'Operations · 47s · EN',
+    },
+    bac: {
+      tabs: ['Home', 'Markets', 'Trade', 'Research', 'Accounts'],
+      widgetLine1: 'Daily market read',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'Wealth-management flows — quarterly summary',
+      widgetMeta: 'Wealth · 47s · EN/ES',
+    },
+    jpm: {
+      tabs: ['Home', 'Markets', 'Invest', 'Plan', 'Profile'],
+      widgetLine1: 'AWM segment briefing',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'JPM AWM Q1 segment results',
+      widgetMeta: 'Earnings · 47s · EN/ES/ZH',
+    },
+    plus500: {
+      tabs: ['Trade', 'Charts', 'Watchlist', 'News', 'Account'],
+      widgetLine1: 'Market Intel',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'CFD volumes — top 10 contracts this hour',
+      widgetMeta: 'Trading · 47s · EN/DE/HE',
+    },
+    t212: {
+      tabs: ['Discover', 'Stocks', 'Pies', 'Cards', 'Profile'],
+      widgetLine1: 'Market Intel',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'European retail favourites — quarterly read',
+      widgetMeta: 'Equities · 47s · EN/DE/IT/ES/FR',
+    },
+  };
+
+  function BrandPhoneMockup({ brandSlug, brandConfig }) {
+    const preset = BRAND_PHONE_PRESETS[brandSlug] || BRAND_PHONE_PRESETS.etoro;
+    const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
+      ? brandConfig.branding.shortName
+      : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'Brand' }).shortName;
+
+    return (
+      <svg
+        className="brand-phone"
+        viewBox="0 0 280 580"
+        preserveAspectRatio="xMidYMid meet"
+        aria-label={`Illustration of the ${display} mobile app with the StockerTV widget embedded`}
+        role="img"
+      >
+        {/* Outer phone frame — neutral substrate */}
+        <rect x="0" y="0" width="280" height="580" rx="38" fill="var(--surface-elevated)" stroke="var(--border)" strokeWidth="1.2"/>
+        {/* Inner screen */}
+        <rect x="10" y="10" width="260" height="560" rx="30" fill="var(--surface)" stroke="var(--border)" strokeWidth="0.6"/>
+        {/* Dynamic island */}
+        <rect x="108" y="22" width="64" height="22" rx="11" fill="var(--text-primary)" opacity="0.92"/>
+
+        {/* Status bar */}
+        <text x="32" y="36" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill="var(--text-primary)" opacity="0.78">9:41</text>
+        <g transform="translate(220 30)" fill="var(--text-primary)" opacity="0.78">
+          <rect x="0" y="0" width="2" height="6" rx="0.5"/>
+          <rect x="3" y="-2" width="2" height="8" rx="0.5"/>
+          <rect x="6" y="-3" width="2" height="9" rx="0.5"/>
+          <rect x="9" y="-4" width="2" height="10" rx="0.5"/>
+          <rect x="14" y="-3" width="14" height="8" rx="2" stroke="var(--text-primary)" strokeWidth="0.8" fill="none"/>
+          <rect x="16" y="-1.5" width="9" height="5" rx="0.5"/>
+        </g>
+
+        {/* Top nav — BRAND COLOR */}
+        <rect x="10" y="58" width="260" height="56" fill="var(--accent)" />
+        {/* Brand wordmark inside nav */}
+        <text x="22" y="92" fontFamily="'Inter', sans-serif" fontSize="17" fontWeight="700" fill="#fff" letterSpacing="-0.4">{display}</text>
+        {/* Generic search/avatar icons on right */}
+        <circle cx="232" cy="86" r="7" fill="none" stroke="#fff" strokeWidth="1.4" opacity="0.85"/>
+        <line x1="237" y1="91" x2="241" y2="95" stroke="#fff" strokeWidth="1.4" opacity="0.85"/>
+        <circle cx="254" cy="86" r="9" fill="rgba(255,255,255,0.18)" stroke="#fff" strokeWidth="1" opacity="0.85"/>
+
+        {/* StockerTV WIDGET — primary embedded element */}
+        <g>
+          {/* Frame: dashed accent border + soft fill */}
+          <rect x="22" y="130" width="236" height="172" rx="14"
+                fill="color-mix(in srgb, var(--accent) 6%, var(--surface))"
+                stroke="var(--accent)" strokeWidth="1.6" strokeDasharray="4 3"/>
+          {/* Widget header */}
+          <text x="36" y="154" fontFamily="'JetBrains Mono', monospace" fontSize="9" letterSpacing="2" fill="var(--accent)" fontWeight="600">{preset.widgetLine1.toUpperCase()}</text>
+          <text x="36" y="166" fontFamily="'JetBrains Mono', monospace" fontSize="8" letterSpacing="1" fill="var(--text-muted)">{preset.widgetSrc}</text>
+          {/* Mock video thumbnail (left) */}
+          <g transform="translate(36 178)">
+            <rect x="0" y="0" width="76" height="50" rx="4" fill="var(--text-primary)" opacity="0.9"/>
+            <polygon points="32,16 32,34 48,25" fill="#fff"/>
+            <text x="2" y="48" fontFamily="'JetBrains Mono', monospace" fontSize="6" fill="#fff" opacity="0.85">47s</text>
+          </g>
+          {/* Headline + meta to the right of thumb */}
+          <foreignObject x="120" y="178" width="124" height="60">
+            <div xmlns="http://www.w3.org/1999/xhtml" style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '10.5px',
+              lineHeight: '1.3',
+              color: 'var(--text-primary)',
+              fontWeight: 500,
+              overflow: 'hidden',
+            }}>
+              {preset.widgetHeadline}
+            </div>
+          </foreignObject>
+          <text x="120" y="246" fontFamily="'JetBrains Mono', monospace" fontSize="7" fill="var(--text-muted)" letterSpacing="0.5">{preset.widgetMeta}</text>
+          {/* Footer row inside widget — source-verified + audit */}
+          <line x1="36" y1="262" x2="244" y2="262" stroke="var(--border)" strokeWidth="0.6"/>
+          <circle cx="42" cy="278" r="3" fill="var(--green)"/>
+          <text x="50" y="282" fontFamily="'JetBrains Mono', monospace" fontSize="7.5" letterSpacing="0.6" fill="var(--text-muted)">SOURCE-VERIFIED · AUDIT SIGNED</text>
+          {/* Live badge top-right */}
+          <g transform="translate(218 144)">
+            <rect x="0" y="-9" width="34" height="14" rx="3" fill="var(--accent)"/>
+            <text x="17" y="0.5" textAnchor="middle" fontFamily="'JetBrains Mono', monospace" fontSize="7.5" fontWeight="700" fill="#fff" letterSpacing="0.8">LIVE</text>
+          </g>
+        </g>
+
+        {/* Below widget — generic content rows (the broker's own UI) */}
+        <g opacity="0.55">
+          <text x="22" y="332" fontFamily="'Inter', sans-serif" fontSize="11" fontWeight="600" fill="var(--text-primary)">Your watchlist</text>
+          <line x1="22" y1="340" x2="258" y2="340" stroke="var(--border)" strokeWidth="0.6"/>
+          {[0,1,2].map((i) => (
+            <g key={i} transform={`translate(0 ${352 + i * 36})`}>
+              <circle cx="32" cy="12" r="9" fill="var(--surface-elevated)" stroke="var(--border)" strokeWidth="0.6"/>
+              <text x="32" y="15" textAnchor="middle" fontFamily="'JetBrains Mono', monospace" fontSize="7" fill="var(--text-muted)">{['BTC','ETH','TSLA'][i]}</text>
+              <text x="48" y="11" fontFamily="'Inter', sans-serif" fontSize="10" fontWeight="500" fill="var(--text-primary)">{['Bitcoin','Ethereum','Tesla'][i]}</text>
+              <text x="48" y="22" fontFamily="'JetBrains Mono', monospace" fontSize="8" fill="var(--text-muted)">{['$67,420','$3,512','$284.10'][i]}</text>
+              <text x="240" y="15" textAnchor="end" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill={i === 2 ? 'var(--red)' : 'var(--green)'}>{['+1.4%','+0.8%','-0.6%'][i]}</text>
+            </g>
+          ))}
+        </g>
+
+        {/* Bottom tab bar */}
+        <rect x="10" y="510" width="260" height="60" fill="var(--surface-elevated)" />
+        <line x1="10" y1="510" x2="270" y2="510" stroke="var(--border)" strokeWidth="0.6"/>
+        {preset.tabs.slice(0, 5).map((label, i) => {
+          const cx = 36 + i * 52;
+          const isFirst = i === 0;
+          return (
+            <g key={i}>
+              {/* Tiny icon glyph above each label */}
+              <circle cx={cx} cy={528} r="4" fill="none" stroke={isFirst ? 'var(--accent)' : 'var(--text-muted)'} strokeWidth="1.2"/>
+              <text x={cx} y="550" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8" fontWeight={isFirst ? 600 : 500} fill={isFirst ? 'var(--accent)' : 'var(--text-muted)'}>
+                {label}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Home indicator */}
+        <rect x="106" y="558" width="68" height="3" rx="1.5" fill="var(--text-primary)" opacity="0.45"/>
+      </svg>
+    );
+  }
+
+  // ============================================================================
+  // STATION ILLUSTRATIONS (B11–B15) — Beat 4 vertical-journey stations
+  // ----------------------------------------------------------------------------
+  // Round 2 Phase B4 · five line-art icons, ~80×80, monochrome with selective
+  // brand-accent fill. Each represents one station of the safety-net journey:
+  // Read · Verify · Apply Rules · Review · Sign.
+  // ============================================================================
+
+  // B11 — eye + open book (READ)
+  function IllustrationStationRead() {
+    return (
+      <svg className="illust illust--station" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {/* Open book */}
+        <path d="M 12 52 L 12 24 Q 12 22 14 22 L 38 22 L 40 24 L 42 22 L 66 22 Q 68 22 68 24 L 68 52 Q 68 54 66 54 L 42 54 L 40 56 L 38 54 L 14 54 Q 12 54 12 52 Z" fill="color-mix(in srgb, var(--accent) 8%, transparent)"/>
+        <line x1="40" y1="24" x2="40" y2="54" opacity="0.7"/>
+        {/* Page lines left */}
+        <line x1="18" y1="30" x2="36" y2="30" opacity="0.55"/>
+        <line x1="18" y1="34" x2="34" y2="34" opacity="0.45"/>
+        <line x1="18" y1="38" x2="36" y2="38" opacity="0.55"/>
+        <line x1="18" y1="42" x2="32" y2="42" opacity="0.45"/>
+        <line x1="18" y1="46" x2="36" y2="46" opacity="0.55"/>
+        {/* Page lines right */}
+        <line x1="44" y1="30" x2="62" y2="30" opacity="0.55"/>
+        <line x1="44" y1="34" x2="60" y2="34" opacity="0.45"/>
+        <line x1="44" y1="38" x2="62" y2="38" opacity="0.55"/>
+        <line x1="44" y1="42" x2="58" y2="42" opacity="0.45"/>
+        <line x1="44" y1="46" x2="62" y2="46" opacity="0.55"/>
+        {/* Eye above */}
+        <path d="M 28 14 Q 40 6 52 14 Q 40 22 28 14 Z" />
+        <circle cx="40" cy="14" r="3" fill="var(--accent)" stroke="none"/>
+        <circle cx="40" cy="14" r="1" fill="#fff" stroke="none" opacity="0.85"/>
+      </svg>
+    );
+  }
+
+  // B12 — Source verification badges (three stamped seals over a doc)
+  function IllustrationStationVerify() {
+    return (
+      <svg className="illust illust--station" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {/* Document base */}
+        <path d="M 16 12 L 50 12 L 60 22 L 60 70 L 16 70 Z" fill="color-mix(in srgb, var(--accent) 6%, transparent)"/>
+        <path d="M 50 12 L 50 22 L 60 22" />
+        {/* Doc lines (faded) */}
+        <line x1="22" y1="32" x2="54" y2="32" opacity="0.4"/>
+        <line x1="22" y1="38" x2="50" y2="38" opacity="0.3"/>
+        <line x1="22" y1="44" x2="54" y2="44" opacity="0.4"/>
+        <line x1="22" y1="50" x2="46" y2="50" opacity="0.3"/>
+        {/* Stamped seals — three badges along bottom */}
+        <g transform="translate(22 56)">
+          <circle cx="0" cy="0" r="6" fill="var(--accent)" stroke="none"/>
+          <path d="M -2.5 0 L -0.5 2 L 3 -2" stroke="#fff" strokeWidth="1.2" />
+        </g>
+        <g transform="translate(40 60)">
+          <circle cx="0" cy="0" r="5" fill="var(--green)" stroke="none"/>
+          <path d="M -2 0 L -0.4 1.6 L 2.4 -1.6" stroke="#fff" strokeWidth="1.2" />
+        </g>
+        <g transform="translate(54 56)">
+          <circle cx="0" cy="0" r="6" fill="var(--accent)" stroke="none" opacity="0.85"/>
+          <path d="M -2.5 0 L -0.5 2 L 3 -2" stroke="#fff" strokeWidth="1.2" />
+        </g>
+        {/* Source labels above each seal — small ticks indicating provenance */}
+        <text x="22" y="28" textAnchor="middle" fontSize="5" fill="currentColor" stroke="none" fontFamily="'JetBrains Mono', monospace" opacity="0.7">EDGAR</text>
+        <text x="40" y="28" textAnchor="middle" fontSize="5" fill="currentColor" stroke="none" fontFamily="'JetBrains Mono', monospace" opacity="0.7">REUTERS</text>
+        <text x="54" y="28" textAnchor="middle" fontSize="5" fill="currentColor" stroke="none" fontFamily="'JetBrains Mono', monospace" opacity="0.7">FILING</text>
+      </svg>
+    );
+  }
+
+  // B13 — 6×4 checkbox grid (24 integrity rules)
+  function IllustrationStationRules() {
+    const cells = [];
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col < 6; col++) {
+        const x = 12 + col * 10;
+        const y = 18 + row * 11;
+        cells.push(
+          <g key={`${row}-${col}`} transform={`translate(${x} ${y})`}>
+            <rect x="0" y="0" width="7" height="7" rx="1" fill="color-mix(in srgb, var(--green) 20%, transparent)" stroke="currentColor" strokeWidth="1.1" />
+            <path d="M 1.5 3.6 L 3 5 L 5.5 2" stroke="var(--green)" strokeWidth="1.3" />
+          </g>
+        );
+      }
+    }
+    return (
+      <svg className="illust illust--station" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Frame */}
+        <rect x="6" y="10" width="68" height="60" rx="3" fill="color-mix(in srgb, var(--accent) 5%, transparent)" stroke="currentColor"/>
+        {cells}
+        {/* "24" count badge bottom-right */}
+        <g transform="translate(64 64)">
+          <circle cx="0" cy="0" r="8" fill="var(--accent)" stroke="none"/>
+          <text x="0" y="2.5" textAnchor="middle" fontSize="9" fontWeight="700" fill="#fff" stroke="none" fontFamily="'JetBrains Mono', monospace">24</text>
+        </g>
+      </svg>
+    );
+  }
+
+  // B14 — Magnifying glass over text (REVIEW)
+  function IllustrationStationReview() {
+    return (
+      <svg className="illust illust--station" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {/* Doc behind */}
+        <rect x="14" y="12" width="44" height="56" rx="2" fill="color-mix(in srgb, var(--accent) 5%, transparent)" stroke="currentColor"/>
+        <line x1="20" y1="20" x2="52" y2="20" opacity="0.35"/>
+        <line x1="20" y1="26" x2="48" y2="26" opacity="0.35"/>
+        <line x1="20" y1="32" x2="52" y2="32" opacity="0.35"/>
+        <line x1="20" y1="38" x2="46" y2="38" opacity="0.35"/>
+        <line x1="20" y1="44" x2="52" y2="44" opacity="0.35"/>
+        <line x1="20" y1="50" x2="44" y2="50" opacity="0.35"/>
+        <line x1="20" y1="56" x2="50" y2="56" opacity="0.35"/>
+        {/* Magnifying glass over middle */}
+        <circle cx="48" cy="44" r="14" fill="color-mix(in srgb, var(--accent) 12%, transparent)" stroke="currentColor" strokeWidth="2"/>
+        <line x1="58" y1="54" x2="68" y2="64" strokeWidth="2.4"/>
+        {/* Lens highlight */}
+        <path d="M 41 38 Q 44 36 47 38" stroke="#fff" strokeWidth="1.4" opacity="0.6"/>
+        {/* Visible "L1 L2 L3" inside lens */}
+        <text x="48" y="46.5" textAnchor="middle" fontSize="6.5" fontWeight="700" fill="var(--accent)" stroke="none" fontFamily="'JetBrains Mono', monospace">L1·L2·L3</text>
+      </svg>
+    );
+  }
+
+  // B15 — Trophy/seal (SIGN — every script signed & archived)
+  function IllustrationStationSign() {
+    return (
+      <svg className="illust illust--station" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {/* Outer wax seal — circular medallion */}
+        <circle cx="40" cy="38" r="22" fill="color-mix(in srgb, var(--accent) 16%, transparent)" stroke="currentColor" strokeWidth="2"/>
+        {/* Decorative scallop edge */}
+        {Array.from({ length: 16 }).map((_, i) => {
+          const a = (i / 16) * Math.PI * 2;
+          const x1 = 40 + Math.cos(a) * 22;
+          const y1 = 38 + Math.sin(a) * 22;
+          const x2 = 40 + Math.cos(a) * 25;
+          const y2 = 38 + Math.sin(a) * 25;
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} opacity="0.55" />;
+        })}
+        {/* Inner ring */}
+        <circle cx="40" cy="38" r="14" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6"/>
+        {/* Hash # symbol inside (signed) */}
+        <g transform="translate(40 38)">
+          <line x1="-5" y1="-6" x2="-5" y2="6" stroke="var(--accent)" strokeWidth="2.4"/>
+          <line x1="5" y1="-6" x2="5" y2="6" stroke="var(--accent)" strokeWidth="2.4"/>
+          <line x1="-7" y1="-2" x2="7" y2="-2" stroke="var(--accent)" strokeWidth="2.4"/>
+          <line x1="-7" y1="3" x2="7" y2="3" stroke="var(--accent)" strokeWidth="2.4"/>
+        </g>
+        {/* Ribbon tails below */}
+        <path d="M 28 56 L 24 70 L 32 64 L 36 72 L 40 60" />
+        <path d="M 52 56 L 56 70 L 48 64 L 44 72 L 40 60" />
+      </svg>
+    );
+  }
+
+  // ============================================================================
   // AUDIO SYSTEM (audit A4) — procedural Web Audio, default OFF
   // ----------------------------------------------------------------------------
   // 4 sounds: click, gatePass, typewriter, closeChord. Tasteful frequencies.
@@ -3400,6 +4562,341 @@
   ];
 
   // ============================================================================
+  // EXCHANGE_SCRIPTS — Round 2: fictional script preview per all 53 exchanges
+  // Each preview: ~80 words native + English translation. Q6 hard rules apply.
+  // Footer "Demo content · illustrative only" enforced in panel UI, not in data.
+  // Real publicly-traded companies per exchange. Factual structure only.
+  // ============================================================================
+  const EXCHANGE_SCRIPTS = {
+    // ─── AMERICAS — English & Spanish & Portuguese ──────────────────────────
+    'NYSE': {
+      lang: 'EN', langName: 'English', flag: 'US', city: 'New York', country: 'United States', company: 'JPMorgan Chase',
+      headline: "JPMorgan Chase reports first-quarter earnings",
+      native: "Hi, I'm Gerardo. JPMorgan Chase reported first-quarter results today. Net revenue reached 41.9 billion dollars on managed basis, according to the bank's official earnings release. Net income totaled 13.4 billion dollars across the four reporting segments. Asset and Wealth Management posted a 12 percent year-over-year revenue increase. The release was filed with the Securities and Exchange Commission this morning. That's today's JPM snapshot.",
+      english: ""
+    },
+    'NASDAQ': {
+      lang: 'EN', langName: 'English', flag: 'US', city: 'New York', country: 'United States', company: 'NVIDIA',
+      headline: "NVIDIA closes data-center revenue quarter",
+      native: "Hi, I'm Gerardo. NVIDIA closed its data-center segment quarter today. Revenue from the data-center division reached a multi-billion-dollar level, according to the company's earnings release. The release notes continued demand for accelerated computing systems across hyperscale customers. Management commentary referenced ongoing supply-side discipline. The full earnings release is available on the investor relations site. That's today's NVDA snapshot.",
+      english: ""
+    },
+    'TSX': {
+      lang: 'EN', langName: 'English', flag: 'CA', city: 'Toronto', country: 'Canada', company: 'Royal Bank of Canada',
+      headline: "Royal Bank of Canada files quarterly report",
+      native: "Hi, I'm Gerardo. Royal Bank of Canada filed its quarterly report today. Total revenue from the most recent quarter is detailed in the SEDAR-filed document. Personal and Commercial Banking reported continued growth in client deposits, according to the management discussion section. The Capital Markets segment also disclosed an updated trading-revenue figure. Filed today on SEDAR-Plus and the bank's investor site. That's today's RY snapshot.",
+      english: ""
+    },
+    'CSE': {
+      lang: 'EN', langName: 'English', flag: 'CA', city: 'Toronto', country: 'Canada', company: 'Listed CSE issuer',
+      headline: "Canadian Securities Exchange listing update",
+      native: "Hi, I'm Gerardo. A Canadian Securities Exchange-listed issuer filed updated disclosure today. The filing details quarterly operational metrics in the management discussion and analysis. The company also disclosed updated cash-position information per the auditor-reviewed figures. Material change reports are available on SEDAR-Plus. Continued monitoring is in place. That's today's CSE-listed snapshot.",
+      english: ""
+    },
+    'BMV': {
+      lang: 'ES', langName: 'Spanish', flag: 'MX', city: 'Mexico City', country: 'Mexico', company: 'América Móvil',
+      headline: "América Móvil presenta resultados trimestrales",
+      native: "Hola, soy Gerardo. América Móvil presentó hoy sus resultados trimestrales. Los ingresos consolidados del trimestre alcanzaron la cifra publicada en el reporte oficial de la compañía. La división de telecomunicaciones móviles reportó un aumento en suscriptores de pospago, según el informe presentado a la Bolsa Mexicana de Valores. La empresa también divulgó cifras actualizadas de flujo de caja operativo. El informe completo está disponible en el sitio de relación con inversionistas. Eso es todo por hoy en AMX.",
+      english: "America Movil reported quarterly results today. Consolidated revenue reached the figure published in the company's official report. The mobile telecom division reported postpaid subscriber growth per the filing with the Mexican Stock Exchange. The company also disclosed updated operating cash-flow figures. Full report available at the investor relations site."
+    },
+    'B3': {
+      lang: 'PT', langName: 'Portuguese', flag: 'BR', city: 'São Paulo', country: 'Brazil', company: 'Petrobras',
+      headline: "Petrobras divulga produção trimestral",
+      native: "Olá, eu sou o Gerardo. A Petrobras divulgou hoje seus dados de produção do trimestre. A produção total de óleo e gás atingiu o nível detalhado no relatório oficial da empresa. A divisão de exploração e produção reportou números atualizados sobre o pré-sal, segundo o documento entregue à B3 e à Comissão de Valores Mobiliários. O relatório completo está disponível no portal de relações com investidores. Esse é o resumo de hoje da PETR4.",
+      english: "Petrobras released its quarterly production data today. Total oil and gas production reached the level detailed in the company's official report. The Exploration and Production division disclosed updated pre-salt figures per the filing with B3 and the CVM securities commission. Full report available on the investor relations portal."
+    },
+    'BCBA': {
+      lang: 'ES', langName: 'Spanish', flag: 'AR', city: 'Buenos Aires', country: 'Argentina', company: 'YPF',
+      headline: "YPF publica informe trimestral en BCBA",
+      native: "Hola, soy Gerardo. YPF publicó hoy su informe trimestral. La producción total de hidrocarburos del trimestre se detalla en el documento presentado a la Bolsa de Comercio de Buenos Aires. El segmento de no convencional reportó un nivel de producción en Vaca Muerta según las cifras oficiales de la compañía. El informe íntegro está disponible en el sitio de relación con inversores. Eso es todo por hoy en YPF.",
+      english: "YPF published its quarterly report today. Total hydrocarbon production for the quarter is detailed in the document filed with the Buenos Aires Stock Exchange. The unconventional segment reported a Vaca Muerta production level per the company's official figures. Full report available at investor relations."
+    },
+    'BVL': {
+      lang: 'ES', langName: 'Spanish', flag: 'PE', city: 'Lima', country: 'Peru', company: 'Credicorp',
+      headline: "Credicorp informa resultados trimestrales",
+      native: "Hola, soy Gerardo. Credicorp informó hoy sus resultados trimestrales. Los ingresos por intereses netos alcanzaron la cifra publicada en el reporte oficial. El segmento de banca universal a través de BCP reportó un aumento en colocaciones, según el documento presentado a la Bolsa de Valores de Lima. El informe completo está disponible en la web de relaciones con inversionistas. Eso es todo por hoy en BAP.",
+      english: "Credicorp reported quarterly results today. Net interest income reached the figure published in the official report. The universal banking segment via BCP reported loan-portfolio growth per the filing with the Lima Stock Exchange. Full report at the investor relations site."
+    },
+    'BCS': {
+      lang: 'ES', langName: 'Spanish', flag: 'CL', city: 'Santiago', country: 'Chile', company: 'SQM',
+      headline: "SQM divulga resultados del trimestre",
+      native: "Hola, soy Gerardo. Sociedad Química y Minera de Chile divulgó hoy sus resultados del trimestre. La producción de litio del período se detalla en el reporte oficial. El segmento Litio y Derivados reportó volúmenes de venta según el documento presentado a la Comisión para el Mercado Financiero. El informe trimestral está disponible en la web de relaciones con inversionistas. Eso es todo por hoy en SQM.",
+      english: "Sociedad Quimica y Minera de Chile released quarterly results today. Lithium production for the period is detailed in the official report. The Lithium and Derivatives segment disclosed sales volumes per the filing with the Chilean financial regulator. Quarterly report at investor relations."
+    },
+    'BVC': {
+      lang: 'ES', langName: 'Spanish', flag: 'CO', city: 'Bogotá', country: 'Colombia', company: 'Ecopetrol',
+      headline: "Ecopetrol publica informe trimestral",
+      native: "Hola, soy Gerardo. Ecopetrol publicó hoy su informe trimestral. La producción consolidada de petróleo y gas del trimestre se detalla en el documento oficial. El segmento upstream reportó cifras actualizadas de producción según el informe presentado a la Superintendencia Financiera. El informe completo está disponible en la web de relaciones con inversionistas. Eso es todo por hoy en EC.",
+      english: "Ecopetrol published its quarterly report today. Consolidated oil and gas production for the quarter is detailed in the official document. The upstream segment disclosed updated production figures per the filing with the Colombian financial regulator. Full report at investor relations."
+    },
+    'BVL Pan': {
+      lang: 'ES', langName: 'Spanish', flag: 'PA', city: 'Panama City', country: 'Panama', company: 'Copa Holdings',
+      headline: "Copa Holdings publica datos operativos",
+      native: "Hola, soy Gerardo. Copa Holdings publicó hoy sus datos operativos del trimestre. El factor de ocupación promedio del período se detalla en el reporte oficial de la compañía. La división de operaciones reportó cifras actualizadas de capacidad según el documento presentado a la Securities and Exchange Commission. El informe íntegro está disponible en el sitio de relación con inversionistas. Eso es todo por hoy en CPA.",
+      english: "Copa Holdings published quarterly operating data today. Average load factor for the period is detailed in the company's official report. The operations division disclosed updated capacity figures per the filing with the SEC. Full report at investor relations."
+    },
+    'BCR': {
+      lang: 'ES', langName: 'Spanish', flag: 'CR', city: 'San José', country: 'Costa Rica', company: 'BAC Credomatic',
+      headline: "BAC reporta cifras del trimestre",
+      native: "Hola, soy Gerardo. BAC Credomatic reportó hoy sus cifras del trimestre. La cartera total de créditos del período se detalla en el documento presentado a la Bolsa Nacional de Valores. El segmento de banca corporativa reportó volúmenes actualizados según el informe oficial de la compañía. El reporte trimestral está disponible en la web de relación con inversionistas. Eso es todo por hoy en BAC.",
+      english: "BAC Credomatic reported quarterly figures today. Total credit portfolio for the period is detailed in the document filed with the Costa Rican stock exchange. The corporate banking segment disclosed updated volumes per the company's official report. Quarterly report at investor relations."
+    },
+
+    // ─── EUROPE — English / French / German / Spanish / Italian / Dutch / etc ──
+    'LSE': {
+      lang: 'EN', langName: 'English', flag: 'GB', city: 'London', country: 'United Kingdom', company: 'Shell',
+      headline: "Shell publishes quarterly results",
+      native: "Hi, I'm Gerardo. Shell published its quarterly results today. Adjusted earnings for the quarter are detailed in the company's official release. The Integrated Gas segment reported updated production figures, according to the filing with the London Stock Exchange. The full release is available on the investor relations site. That's today's SHEL snapshot.",
+      english: ""
+    },
+    'EURONEXT': {
+      lang: 'FR', langName: 'French', flag: 'FR', city: 'Paris', country: 'France', company: 'LVMH',
+      headline: "LVMH publie ses résultats trimestriels",
+      native: "Bonjour, je suis Gerardo. LVMH a publié aujourd'hui ses résultats trimestriels. Le chiffre d'affaires consolidé du trimestre est détaillé dans le communiqué officiel du groupe. La division Mode et Maroquinerie a déclaré une croissance organique conforme aux chiffres publiés à l'Autorité des Marchés Financiers. Le rapport complet est disponible sur le site dédié aux relations investisseurs. Voilà l'instantané LVMH du jour.",
+      english: "LVMH released quarterly results today. Consolidated quarterly revenue is detailed in the group's official press release. The Fashion and Leather Goods division reported organic growth in line with figures published to the French AMF regulator. Full report at investor relations."
+    },
+    'XETRA': {
+      lang: 'DE', langName: 'German', flag: 'DE', city: 'Frankfurt', country: 'Germany', company: 'SAP',
+      headline: "SAP veröffentlicht Quartalsergebnisse",
+      native: "Hallo, ich bin Gerardo. SAP hat heute seine Quartalsergebnisse veröffentlicht. Der Cloud-Umsatz des Quartals ist im offiziellen Geschäftsbericht des Unternehmens aufgeführt. Das Segment Cloud-Backlog meldete einen aktualisierten Auftragsbestand laut der Mitteilung an die Deutsche Börse. Der vollständige Bericht steht im Investor-Relations-Portal zur Verfügung. Das war der heutige SAP-Schnappschuss.",
+      english: "SAP released quarterly results today. Cloud revenue for the quarter is detailed in the official company report. The Cloud Backlog segment disclosed updated bookings per the filing with the Frankfurt exchange. Full report at the investor relations portal."
+    },
+    'SIX': {
+      lang: 'DE', langName: 'German', flag: 'CH', city: 'Zurich', country: 'Switzerland', company: 'Nestlé',
+      headline: "Nestlé veröffentlicht Quartalsbericht",
+      native: "Hallo, ich bin Gerardo. Nestlé hat heute seinen Quartalsbericht veröffentlicht. Der konsolidierte Umsatz des Quartals ist in der offiziellen Mitteilung des Unternehmens aufgeführt. Das Segment Getränke meldete eine organische Wachstumsrate gemäß den an die SIX Swiss Exchange übermittelten Zahlen. Der vollständige Bericht steht auf dem Investor-Relations-Portal zur Verfügung. Das war der heutige Nestlé-Schnappschuss.",
+      english: "Nestle released its quarterly report today. Consolidated quarterly revenue is detailed in the company's official release. The Beverages segment disclosed an organic growth rate per the figures filed with the SIX Swiss Exchange. Full report at the investor relations portal."
+    },
+    'BME': {
+      lang: 'ES', langName: 'Spanish', flag: 'ES', city: 'Madrid', country: 'Spain', company: 'Inditex',
+      headline: "Inditex publica resultados trimestrales",
+      native: "Hola, soy Gerardo. Inditex publicó hoy sus resultados trimestrales. Las ventas consolidadas del trimestre se detallan en el comunicado oficial del grupo. La división de Zara reportó cifras actualizadas según el documento presentado a la Comisión Nacional del Mercado de Valores. El informe íntegro está disponible en la web de relaciones con inversores. Eso es todo por hoy en ITX.",
+      english: "Inditex published quarterly results today. Consolidated quarterly sales are detailed in the group's official release. The Zara division disclosed updated figures per the filing with Spain's CNMV regulator. Full report at investor relations."
+    },
+    'BIT': {
+      lang: 'IT', langName: 'Italian', flag: 'IT', city: 'Milan', country: 'Italy', company: 'Ferrari',
+      headline: "Ferrari pubblica i risultati trimestrali",
+      native: "Ciao, sono Gerardo. Ferrari ha pubblicato oggi i risultati trimestrali. I ricavi consolidati del trimestre sono dettagliati nel comunicato ufficiale dell'azienda. Il segmento delle vetture sportive ha riportato volumi di consegna aggiornati secondo il documento depositato presso Borsa Italiana. La relazione completa è disponibile sul portale relazioni con gli investitori. Questa è l'istantanea Ferrari di oggi.",
+      english: "Ferrari released quarterly results today. Consolidated quarterly revenue is detailed in the company's official release. The sports car segment reported updated delivery volumes per the filing with Borsa Italiana. Full report at the investor relations portal."
+    },
+    'AEX': {
+      lang: 'NL', langName: 'Dutch', flag: 'NL', city: 'Amsterdam', country: 'Netherlands', company: 'ASML',
+      headline: "ASML publiceert kwartaalresultaten",
+      native: "Hallo, ik ben Gerardo. ASML heeft vandaag de kwartaalresultaten gepubliceerd. De netto-omzet van het kwartaal staat vermeld in het officiële persbericht van het bedrijf. Het segment lithografiesystemen rapporteerde bijgewerkte orderboekgegevens volgens de melding aan Euronext Amsterdam. Het volledige verslag is beschikbaar op het investor-relations-portaal. Dat was de ASML-snapshot van vandaag.",
+      english: "ASML released quarterly results today. Net revenue for the quarter is detailed in the company's official press release. The lithography-systems segment reported updated order-book data per the filing with Euronext Amsterdam. Full report at the investor relations portal."
+    },
+    'BEL': {
+      lang: 'NL', langName: 'Dutch', flag: 'BE', city: 'Brussels', country: 'Belgium', company: 'AB InBev',
+      headline: "AB InBev publiceert kwartaalresultaten",
+      native: "Hallo, ik ben Gerardo. Anheuser-Busch InBev heeft vandaag de kwartaalresultaten gepubliceerd. De geconsolideerde omzet van het kwartaal staat vermeld in het officiële verslag van het bedrijf. Het segment merken reportstateerde bijgewerkte volume-cijfers volgens de melding aan Euronext Brussel. Het volledige verslag is beschikbaar op het investor-relations-portaal. Dat was de ABI-snapshot van vandaag.",
+      english: "Anheuser-Busch InBev released quarterly results today. Consolidated quarterly revenue is detailed in the company's official report. The brands segment reported updated volume figures per the filing with Euronext Brussels. Full report at the investor relations portal."
+    },
+    'ISE': {
+      lang: 'EN', langName: 'English', flag: 'IE', city: 'Dublin', country: 'Ireland', company: 'Ryanair',
+      headline: "Ryanair publishes quarterly traffic data",
+      native: "Hi, I'm Gerardo. Ryanair Holdings published quarterly traffic data today. Total scheduled passengers for the period are detailed in the company's official release. The operations segment reported updated capacity figures per the filing with Euronext Dublin. The full release is available on the investor relations site. That's today's RYAAY snapshot.",
+      english: ""
+    },
+    'OMX': {
+      lang: 'SV', langName: 'Swedish', flag: 'SE', city: 'Stockholm', country: 'Sweden', company: 'Volvo',
+      headline: "Volvo Group rapporterar kvartalsresultat",
+      native: "Hej, jag är Gerardo. Volvo Group rapporterade idag kvartalsresultat. Nettoomsättningen för kvartalet redovisas i bolagets officiella delårsrapport. Segmentet lastbilar rapporterade uppdaterade orderingångar enligt anmälan till Nasdaq Stockholm. Den fullständiga rapporten finns tillgänglig på investerarrelationsportalen. Det var dagens VOLV-B snapshot.",
+      english: "Volvo Group reported quarterly results today. Net revenue for the quarter is detailed in the company's official interim report. The trucks segment reported updated order intake per the filing with Nasdaq Stockholm. Full report at investor relations."
+    },
+    'OBX': {
+      lang: 'NO', langName: 'Norwegian', flag: 'NO', city: 'Oslo', country: 'Norway', company: 'Equinor',
+      headline: "Equinor publiserer kvartalsrapport",
+      native: "Hei, jeg er Gerardo. Equinor publiserte i dag sin kvartalsrapport. Den samlede produksjonen for kvartalet er detaljert i selskapets offisielle pressemelding. Segmentet utvinning og produksjon meldte oppdaterte volumer i henhold til innsendingen til Oslo Børs. Den fullstendige rapporten er tilgjengelig på investorrelasjonsportalen. Det var dagens EQNR-øyeblikksbilde.",
+      english: "Equinor released its quarterly report today. Total production for the quarter is detailed in the company's official press release. The Exploration and Production segment reported updated volumes per the filing with the Oslo Bors. Full report at investor relations."
+    },
+    'CPH': {
+      lang: 'DA', langName: 'Danish', flag: 'DK', city: 'Copenhagen', country: 'Denmark', company: 'Novo Nordisk',
+      headline: "Novo Nordisk offentliggør kvartalsregnskab",
+      native: "Hej, jeg er Gerardo. Novo Nordisk offentliggjorde i dag sit kvartalsregnskab. Den samlede omsætning for kvartalet er detaljeret i selskabets officielle meddelelse. Segmentet diabetes og fedme rapporterede opdaterede salgstal i henhold til indberetningen til Nasdaq Copenhagen. Den fulde rapport er tilgængelig på investor-relations-portalen. Det var dagens NOVO B øjebliksbillede.",
+      english: "Novo Nordisk released quarterly results today. Total quarterly revenue is detailed in the company's official statement. The Diabetes and Obesity segment reported updated sales figures per the filing with Nasdaq Copenhagen. Full report at investor relations."
+    },
+    'HEL': {
+      lang: 'FI', langName: 'Finnish', flag: 'FI', city: 'Helsinki', country: 'Finland', company: 'Nokia',
+      headline: "Nokia julkaisee neljännesvuosiraportin",
+      native: "Hei, olen Gerardo. Nokia julkaisi tänään neljännesvuosiraporttinsa. Liikevaihto neljännekseltä on yksityiskohdassaan yhtiön virallisessa tiedotteessa. Verkkoinfrastruktuurisegmentti raportoi päivitetyt tilauskanta-luvut Nasdaq Helsinkiin tehdyn ilmoituksen mukaan. Täydellinen raportti on saatavilla sijoittajasuhteiden portaalissa. Tässä oli tämän päivän NOKIA-katsaus.",
+      english: "Nokia released its quarterly report today. Quarterly revenue is detailed in the company's official statement. The Network Infrastructure segment reported updated order-book figures per the filing with Nasdaq Helsinki. Full report at investor relations."
+    },
+    'WSE': {
+      lang: 'PL', langName: 'Polish', flag: 'PL', city: 'Warsaw', country: 'Poland', company: 'PKN Orlen',
+      headline: "PKN Orlen publikuje wyniki kwartalne",
+      native: "Cześć, jestem Gerardo. PKN Orlen opublikował dzisiaj swoje wyniki kwartalne. Skonsolidowane przychody za kwartał są szczegółowo opisane w oficjalnym komunikacie spółki. Segment downstream zaraportował zaktualizowane wolumeny zgodnie z dokumentem złożonym do Giełdy Papierów Wartościowych w Warszawie. Pełny raport jest dostępny w portalu relacji inwestorskich. To był dzisiejszy snapshot PKN.",
+      english: "PKN Orlen released quarterly results today. Consolidated quarterly revenue is detailed in the company's official statement. The downstream segment reported updated volumes per the filing with the Warsaw Stock Exchange. Full report at investor relations."
+    },
+    'BSE-BUD': {
+      lang: 'HU', langName: 'Hungarian', flag: 'HU', city: 'Budapest', country: 'Hungary', company: 'OTP Bank',
+      headline: "OTP Bank közzéteszi negyedéves jelentését",
+      native: "Üdvözlöm, Gerardo vagyok. Az OTP Bank ma közzétette negyedéves jelentését. A bank konszolidált működési bevétele a hivatalos sajtóközleményben részletesen szerepel. A lakossági banki szegmens frissített hitelállomány-adatokat jelentett a Budapesti Értéktőzsdére benyújtott dokumentum szerint. A teljes jelentés elérhető a befektetői kapcsolatok portálon. Ez volt a mai OTP pillanatkép.",
+      english: "OTP Bank released its quarterly report today. Consolidated operating revenue is detailed in the bank's official press release. The Retail Banking segment reported updated loan-portfolio data per the filing with the Budapest Stock Exchange. Full report at investor relations."
+    },
+    'PSE-PRG': {
+      lang: 'CS', langName: 'Czech', flag: 'CZ', city: 'Prague', country: 'Czech Republic', company: 'ČEZ',
+      headline: "ČEZ zveřejňuje čtvrtletní výsledky",
+      native: "Dobrý den, jsem Gerardo. Společnost ČEZ dnes zveřejnila čtvrtletní výsledky. Celkové konsolidované tržby za čtvrtletí jsou podrobně popsány v oficiální tiskové zprávě společnosti. Segment výroby elektřiny vykázal aktualizované objemy výroby podle dokumentu předloženého Burze cenných papírů Praha. Úplná zpráva je k dispozici na portálu pro vztahy s investory. To byl dnešní ČEZ snapshot.",
+      english: "CEZ released quarterly results today. Total consolidated quarterly revenue is detailed in the company's official press release. The Electricity Generation segment reported updated production volumes per the filing with the Prague Stock Exchange. Full report at investor relations."
+    },
+
+    // ─── MIDDLE EAST / AFRICA — Hebrew, Arabic, Turkish, English ──
+    'TASE': {
+      lang: 'HE', langName: 'Hebrew', flag: 'IL', city: 'Tel Aviv', country: 'Israel', company: 'Teva Pharmaceutical',
+      headline: "טבע מפרסמת תוצאות רבעוניות",
+      native: "שלום, אני ג'רארדו. טבע פרסמה היום את התוצאות הרבעוניות שלה. ההכנסות המאוחדות מהרבעון מפורטות בהודעה הרשמית של החברה. סגמנט הגנריקה דיווח על נתונים מעודכנים לפי הדיווח לרשות לניירות ערך ולבורסה לניירות ערך בתל אביב. הדוח המלא זמין בפורטל קשרי המשקיעים. זה הסיכום היומי של טבע.",
+      english: "Teva Pharmaceutical released quarterly results today. Consolidated quarterly revenue is detailed in the company's official release. The Generics segment reported updated figures per the filing with the Israel Securities Authority and the Tel Aviv Stock Exchange. Full report at investor relations."
+    },
+    'Tadawul': {
+      lang: 'AR', langName: 'Arabic', flag: 'SA', city: 'Riyadh', country: 'Saudi Arabia', company: 'Saudi Aramco',
+      headline: "أرامكو السعودية تعلن نتائج الربع",
+      native: "مرحباً، أنا جيراردو. أعلنت أرامكو السعودية اليوم عن نتائج الربع. إجمالي الإيرادات الموحدة للربع مفصل في البيان الصحفي الرسمي للشركة. أبلغ قطاع التكرير عن أرقام إنتاج محدثة وفقاً للوثيقة المقدمة إلى السوق المالية السعودية تداول. التقرير الكامل متاح على بوابة علاقات المستثمرين. هذا تحديث أرامكو لهذا اليوم.",
+      english: "Saudi Aramco released quarterly results today. Total consolidated quarterly revenue is detailed in the company's official press release. The Refining segment reported updated production figures per the filing with the Saudi Tadawul exchange. Full report at investor relations."
+    },
+    'ADX': {
+      lang: 'AR', langName: 'Arabic', flag: 'AE', city: 'Abu Dhabi', country: 'United Arab Emirates', company: 'IHC',
+      headline: "الشركة العالمية القابضة تعلن النتائج",
+      native: "مرحباً، أنا جيراردو. أعلنت الشركة العالمية القابضة اليوم عن نتائجها الربعية. إجمالي إيرادات الربع موضح بالتفصيل في الإفصاح الرسمي للشركة. أبلغ قطاع الاستثمارات الاستراتيجية عن قيمة محدثة للأصول وفقاً للوثيقة المقدمة إلى سوق أبوظبي للأوراق المالية. التقرير الكامل متاح على بوابة علاقات المستثمرين. هذا تحديث IHC لهذا اليوم.",
+      english: "International Holding Company released quarterly results today. Total quarterly revenue is detailed in the company's official disclosure. The Strategic Investments segment reported an updated asset value per the filing with the Abu Dhabi Securities Exchange. Full report at investor relations."
+    },
+    'DFM': {
+      lang: 'AR', langName: 'Arabic', flag: 'AE', city: 'Dubai', country: 'United Arab Emirates', company: 'Emirates NBD',
+      headline: "بنك الإمارات دبي الوطني يعلن النتائج",
+      native: "مرحباً، أنا جيراردو. أعلن بنك الإمارات دبي الوطني اليوم عن نتائجه الربعية. صافي إيرادات الفوائد للربع مفصل في البيان الصحفي الرسمي للبنك. أبلغ قطاع الخدمات المصرفية للأفراد عن أرقام محدثة للقروض وفقاً للوثيقة المقدمة إلى سوق دبي المالي. التقرير الكامل متاح على بوابة علاقات المستثمرين. هذا تحديث ENBD لهذا اليوم.",
+      english: "Emirates NBD reported quarterly results today. Net interest income for the quarter is detailed in the bank's official press release. The Retail Banking segment reported updated loan figures per the filing with the Dubai Financial Market. Full report at investor relations."
+    },
+    'BIST': {
+      lang: 'TR', langName: 'Turkish', flag: 'TR', city: 'Istanbul', country: 'Turkey', company: 'Türk Hava Yolları',
+      headline: "Türk Hava Yolları çeyrek sonuçlarını açıkladı",
+      native: "Merhaba, ben Gerardo. Türk Hava Yolları bugün çeyrek dönem sonuçlarını açıkladı. Toplam yolcu sayısı çeyrek dönem için şirketin resmi duyurusunda detaylandırıldı. Operasyon segmenti, Borsa İstanbul'a sunulan belgeye göre güncellenmiş kapasite verilerini açıkladı. Tam rapor yatırımcı ilişkileri portalında mevcuttur. Bu günün THY anlık görüntüsüydü.",
+      english: "Turk Hava Yollari released quarterly results today. Total passenger count for the quarter is detailed in the company's official statement. The Operations segment reported updated capacity figures per the filing with Borsa Istanbul. Full report at investor relations."
+    },
+    'EGX': {
+      lang: 'AR', langName: 'Arabic', flag: 'EG', city: 'Cairo', country: 'Egypt', company: 'Commercial International Bank',
+      headline: "البنك التجاري الدولي يعلن النتائج",
+      native: "مرحباً، أنا جيراردو. أعلن البنك التجاري الدولي اليوم عن نتائجه الربعية. صافي الإيرادات للربع مفصل في البيان الصحفي الرسمي للبنك. أبلغ قطاع الخدمات المصرفية للشركات عن نمو في محفظة القروض وفقاً للوثيقة المقدمة إلى البورصة المصرية. التقرير الكامل متاح على بوابة علاقات المستثمرين. هذا تحديث CIB لهذا اليوم.",
+      english: "Commercial International Bank reported quarterly results today. Net revenue for the quarter is detailed in the bank's official press release. The Corporate Banking segment reported loan-portfolio growth per the filing with the Egyptian Exchange. Full report at investor relations."
+    },
+    'JSE': {
+      lang: 'EN', langName: 'English', flag: 'ZA', city: 'Johannesburg', country: 'South Africa', company: 'Naspers',
+      headline: "Naspers files interim results on JSE",
+      native: "Hi, I'm Gerardo. Naspers Limited filed its interim results today. Consolidated revenue for the period is detailed in the company's official statement. The Ecommerce segment reported updated growth figures per the filing with the Johannesburg Stock Exchange. The full report is available on the investor relations portal. That's today's NPN snapshot.",
+      english: ""
+    },
+    'NSE-LG': {
+      lang: 'EN', langName: 'English', flag: 'NG', city: 'Lagos', country: 'Nigeria', company: 'Dangote Cement',
+      headline: "Dangote Cement publishes quarterly volumes",
+      native: "Hi, I'm Gerardo. Dangote Cement published quarterly volume data today. Total cement sales volumes for the period are detailed in the company's official release. The Nigeria operations segment reported updated production figures per the filing with the Nigerian Exchange. The full report is available on the investor relations site. That's today's DANGCEM snapshot.",
+      english: ""
+    },
+
+    // ─── ASIA PACIFIC — Japanese, Chinese (Simplified + Traditional), Korean,
+    //                   English (SG/AU/NZ/PH), Hindi, Indonesian, Thai, Vietnamese, Malay, Sinhala
+    'TSE-TYO': {
+      lang: 'JA', langName: 'Japanese', flag: 'JP', city: 'Tokyo', country: 'Japan', company: 'Toyota',
+      headline: "トヨタ自動車、四半期決算を発表",
+      native: "こんにちは、ジェラルドです。トヨタ自動車は本日、四半期決算を発表しました。連結売上高は同社の公式リリースに詳細が記載されています。自動車事業セグメントは東京証券取引所への提出書類に基づき、グローバル販売台数の最新数値を報告しました。完全な決算報告書は投資家向け情報サイトで公開されています。以上、本日のトヨタ・スナップショットでした。",
+      english: "Toyota Motor released quarterly results today. Consolidated revenue is detailed in the company's official release. The Automotive segment reported updated global vehicle sales figures per the filing with the Tokyo Stock Exchange. Full report at investor relations."
+    },
+    'HKEX': {
+      lang: 'ZH', langName: 'Chinese (Traditional)', flag: 'HK', city: 'Hong Kong', country: 'Hong Kong', company: 'Tencent',
+      headline: "騰訊公布季度業績",
+      native: "大家好,我是杰拉多。騰訊控股今日公布季度業績。本季度的綜合收入詳情已在公司官方公告中披露。網絡廣告業務分部根據向香港交易所提交的文件,公布了最新的廣告收入數據。完整報告已在投資者關係網站上公布。以上就是今天的騰訊快訊。",
+      english: "Tencent Holdings released quarterly results today. Consolidated quarterly revenue is detailed in the company's official announcement. The Online Advertising segment reported updated revenue figures per the filing with the Hong Kong Stock Exchange. Full report at investor relations."
+    },
+    'SSE': {
+      lang: 'ZH', langName: 'Chinese (Simplified)', flag: 'CN', city: 'Shanghai', country: 'China', company: 'ICBC',
+      headline: "工商银行发布季度业绩",
+      native: "大家好,我是杰拉多。中国工商银行今日发布季度业绩。本季度的净利息收入详情已在银行官方公告中披露。零售银行业务分部根据向上海证券交易所提交的文件,公布了最新的存款余额数据。完整报告已在投资者关系网站上公布。以上就是今天的工行快讯。",
+      english: "Industrial and Commercial Bank of China reported quarterly results today. Net interest income for the quarter is detailed in the bank's official announcement. The Retail Banking segment reported updated deposit balance figures per the filing with the Shanghai Stock Exchange. Full report at investor relations."
+    },
+    'SZSE': {
+      lang: 'ZH', langName: 'Chinese (Simplified)', flag: 'CN', city: 'Shenzhen', country: 'China', company: 'BYD',
+      headline: "比亚迪发布季度业绩",
+      native: "大家好,我是杰拉多。比亚迪今日发布季度业绩。本季度的新能源汽车销量详情已在公司官方公告中披露。乘用车业务分部根据向深圳证券交易所提交的文件,公布了最新的产销数据。完整报告已在投资者关系网站上公布。以上就是今天的比亚迪快讯。",
+      english: "BYD reported quarterly results today. New energy vehicle sales for the quarter are detailed in the company's official announcement. The Passenger Vehicles segment reported updated production and sales figures per the filing with the Shenzhen Stock Exchange. Full report at investor relations."
+    },
+    'KRX': {
+      lang: 'KO', langName: 'Korean', flag: 'KR', city: 'Seoul', country: 'South Korea', company: 'Samsung Electronics',
+      headline: "삼성전자, 분기 실적 발표",
+      native: "안녕하세요, 저는 제라르도입니다. 삼성전자는 오늘 분기 실적을 발표했습니다. 연결 매출액은 회사의 공식 보도자료에 자세히 기재되어 있습니다. 반도체 사업부는 한국거래소에 제출된 문서에 따라 업데이트된 매출 수치를 공개했습니다. 완전한 보고서는 투자자 관계 사이트에서 확인할 수 있습니다. 이상 오늘의 삼성전자 스냅샷이었습니다.",
+      english: "Samsung Electronics reported quarterly results today. Consolidated revenue is detailed in the company's official press release. The Semiconductor division reported updated revenue figures per the filing with the Korea Exchange. Full report at investor relations."
+    },
+    'SGX': {
+      lang: 'EN', langName: 'English', flag: 'SG', city: 'Singapore', country: 'Singapore', company: 'DBS Bank',
+      headline: "DBS Group publishes quarterly results",
+      native: "Hi, I'm Gerardo. DBS Group Holdings published quarterly results today. Total income for the quarter is detailed in the bank's official release. The Consumer Banking segment reported updated wealth-management AUM figures per the filing with the Singapore Exchange. The full report is available on the investor relations portal. That's today's DBS snapshot.",
+      english: ""
+    },
+    'ASX': {
+      lang: 'EN', langName: 'English', flag: 'AU', city: 'Sydney', country: 'Australia', company: 'BHP',
+      headline: "BHP Group releases quarterly operations review",
+      native: "Hi, I'm Gerardo. BHP Group released its quarterly operations review today. Iron ore production for the quarter is detailed in the company's official report. The Western Australia Iron Ore segment reported updated tonnage figures per the filing with the Australian Securities Exchange. The full report is available on the investor relations portal. That's today's BHP snapshot.",
+      english: ""
+    },
+    'NZX': {
+      lang: 'EN', langName: 'English', flag: 'NZ', city: 'Auckland', country: 'New Zealand', company: 'Fisher & Paykel Healthcare',
+      headline: "Fisher & Paykel Healthcare files quarterly update",
+      native: "Hi, I'm Gerardo. Fisher and Paykel Healthcare filed its quarterly update today. Total operating revenue for the period is detailed in the company's official release. The Hospital Products segment reported updated unit-shipment figures per the filing with the New Zealand Exchange. The full report is available on the investor relations portal. That's today's FPH snapshot.",
+      english: ""
+    },
+    'BSE-BOM': {
+      lang: 'HI', langName: 'Hindi', flag: 'IN', city: 'Mumbai', country: 'India', company: 'Reliance Industries',
+      headline: "रिलायंस इंडस्ट्रीज़ ने तिमाही नतीजे जारी किए",
+      native: "नमस्ते, मैं गेरार्डो हूं। रिलायंस इंडस्ट्रीज़ ने आज तिमाही नतीजे जारी किए। इस तिमाही का समेकित राजस्व कंपनी की आधिकारिक प्रेस विज्ञप्ति में विस्तार से दिया गया है। ऑयल टू केमिकल्स खंड ने बीएसई और सेबी को दी गई जानकारी के अनुसार अद्यतन उत्पादन आंकड़े बताए। पूरी रिपोर्ट निवेशक संबंध पोर्टल पर उपलब्ध है। यह आज का रिलायंस स्नैपशॉट था।",
+      english: "Reliance Industries released quarterly results today. Consolidated revenue for the quarter is detailed in the company's official press release. The Oil-to-Chemicals segment reported updated production figures per the filing with the BSE and SEBI. Full report at investor relations."
+    },
+    'NSE-IND': {
+      lang: 'HI', langName: 'Hindi', flag: 'IN', city: 'Mumbai', country: 'India', company: 'Tata Consultancy Services',
+      headline: "टीसीएस ने तिमाही परिणाम घोषित किए",
+      native: "नमस्ते, मैं गेरार्डो हूं। टाटा कंसल्टेंसी सर्विसेज़ ने आज तिमाही परिणाम घोषित किए। तिमाही का राजस्व कंपनी की आधिकारिक प्रेस विज्ञप्ति में विस्तार से दिया गया है। डिजिटल सेवाओं के खंड ने एनएसई को दी गई जानकारी के अनुसार अद्यतन ऑर्डर बुक के आंकड़े बताए। पूरी रिपोर्ट निवेशक संबंध पोर्टल पर उपलब्ध है। यह आज का टीसीएस स्नैपशॉट था।",
+      english: "Tata Consultancy Services released quarterly results today. Quarterly revenue is detailed in the company's official press release. The Digital Services segment reported updated order-book figures per the filing with the National Stock Exchange of India. Full report at investor relations."
+    },
+    'TWSE': {
+      lang: 'ZH', langName: 'Chinese (Traditional)', flag: 'TW', city: 'Taipei', country: 'Taiwan', company: 'TSMC',
+      headline: "台積電公布季度業績",
+      native: "大家好,我是杰拉多。台灣積體電路製造公司今日公布季度業績。本季度的綜合營收詳情已在公司官方新聞稿中披露。先進製程業務分部根據向台灣證券交易所提交的文件,公布了最新的產能數據。完整報告已在投資人關係網站上公布。以上就是今天的台積電快訊。",
+      english: "Taiwan Semiconductor Manufacturing Company released quarterly results today. Consolidated quarterly revenue is detailed in the company's official press release. The Advanced Process segment reported updated capacity figures per the filing with the Taiwan Stock Exchange. Full report at investor relations."
+    },
+    'IDX': {
+      lang: 'ID', langName: 'Indonesian', flag: 'ID', city: 'Jakarta', country: 'Indonesia', company: 'Bank Central Asia',
+      headline: "Bank Central Asia merilis hasil triwulan",
+      native: "Halo, saya Gerardo. Bank Central Asia merilis hari ini hasil triwulan. Total pendapatan bunga bersih untuk triwulan ini diuraikan dalam siaran pers resmi bank. Segmen perbankan ritel melaporkan data dana pihak ketiga yang diperbarui sesuai dokumen yang diserahkan ke Bursa Efek Indonesia. Laporan lengkap tersedia di portal hubungan investor. Itulah cuplikan BCA hari ini.",
+      english: "Bank Central Asia released quarterly results today. Net interest income for the quarter is detailed in the bank's official press release. The Retail Banking segment reported updated third-party funds data per the filing with the Indonesia Stock Exchange. Full report at investor relations."
+    },
+    'SET': {
+      lang: 'TH', langName: 'Thai', flag: 'TH', city: 'Bangkok', country: 'Thailand', company: 'PTT',
+      headline: "ปตท. ประกาศผลประกอบการรายไตรมาส",
+      native: "สวัสดีครับ ผมเจอราร์โด บริษัท ปตท. จำกัด มหาชน ประกาศผลประกอบการรายไตรมาสในวันนี้ รายได้รวมสำหรับไตรมาสนี้ระบุไว้อย่างละเอียดในข่าวประชาสัมพันธ์อย่างเป็นทางการของบริษัท กลุ่มธุรกิจก๊าซธรรมชาติรายงานข้อมูลปริมาณการขายที่ปรับปรุงตามเอกสารที่ยื่นต่อตลาดหลักทรัพย์แห่งประเทศไทย รายงานฉบับเต็มอยู่ในพอร์ทัลนักลงทุนสัมพันธ์ นั่นคือสรุป PTT ของวันนี้",
+      english: "PTT released quarterly results today. Total revenue for the quarter is detailed in the company's official press release. The Natural Gas segment reported updated sales-volume data per the filing with the Stock Exchange of Thailand. Full report at investor relations."
+    },
+    'PSE-MNL': {
+      lang: 'EN', langName: 'English', flag: 'PH', city: 'Manila', country: 'Philippines', company: 'SM Investments',
+      headline: "SM Investments files quarterly results",
+      native: "Hi, I'm Gerardo. SM Investments Corporation filed its quarterly results today. Consolidated revenue for the period is detailed in the company's official release. The Retail segment reported updated same-store sales figures per the filing with the Philippine Stock Exchange. The full report is available on the investor relations portal. That's today's SM snapshot.",
+      english: ""
+    },
+    'HOSE': {
+      lang: 'VI', langName: 'Vietnamese', flag: 'VN', city: 'Ho Chi Minh City', country: 'Vietnam', company: 'Vingroup',
+      headline: "Vingroup công bố kết quả quý",
+      native: "Xin chào, tôi là Gerardo. Vingroup công bố hôm nay kết quả quý. Tổng doanh thu hợp nhất của quý được trình bày chi tiết trong thông cáo báo chí chính thức của tập đoàn. Phân khúc bất động sản báo cáo các số liệu cập nhật về bàn giao dự án theo tài liệu nộp lên Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh. Báo cáo đầy đủ có sẵn trên cổng quan hệ nhà đầu tư. Đó là ảnh chụp Vingroup hôm nay.",
+      english: "Vingroup released quarterly results today. Consolidated quarterly revenue is detailed in the company's official press release. The Real Estate segment reported updated project-handover figures per the filing with the Ho Chi Minh Stock Exchange. Full report at investor relations."
+    },
+    'KLSE': {
+      lang: 'EN', langName: 'English', flag: 'MY', city: 'Kuala Lumpur', country: 'Malaysia', company: 'Maybank',
+      headline: "Maybank releases quarterly results",
+      native: "Hi, I'm Gerardo. Malayan Banking released its quarterly results today. Net operating income for the period is detailed in the bank's official release. The Group Community Financial Services segment reported updated loan-portfolio figures per the filing with Bursa Malaysia. The full report is available on the investor relations portal. That's today's Maybank snapshot.",
+      english: ""
+    },
+    'CSE-COL': {
+      lang: 'EN', langName: 'English', flag: 'LK', city: 'Colombo', country: 'Sri Lanka', company: 'John Keells Holdings',
+      headline: "John Keells Holdings publishes interim report",
+      native: "Hi, I'm Gerardo. John Keells Holdings published its interim report today. Group revenue for the period is detailed in the company's official release. The Transportation segment reported updated container-throughput figures per the filing with the Colombo Stock Exchange. The full report is available on the investor relations site. That's today's JKH snapshot.",
+      english: ""
+    },
+  };
+
+  // ============================================================================
   // BootSequence (Beat 1 entry)
   // ============================================================================
   function BootSequence({ onComplete }) {
@@ -3478,11 +4975,29 @@
           <span className="hook-eyebrow-dot" aria-hidden="true" />
           Source-verified
         </div>
-        <h1 className="hook-hero-number">
-          <CountUp to={47} duration={1400} delay={1100} />
-          <span className="hook-hero-unit">seconds.</span>
-          <span className="hook-hero-shimmer" aria-hidden="true" />
-        </h1>
+        <div className="hook-hero-flow" role="presentation">
+          <div className="hook-hero-block">
+            <h1 className="hook-hero-number">
+              <CountUp to={47} duration={1400} delay={1100} />
+              <span className="hook-hero-unit">sec</span>
+              <span className="hook-hero-shimmer" aria-hidden="true" />
+            </h1>
+            <div className="hook-hero-caption">to a finished script</div>
+          </div>
+          <div className="hook-hero-connector" aria-hidden="true">
+            <svg viewBox="0 0 200 26" preserveAspectRatio="none" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M 4 13 L 188 13" strokeDasharray="4 4" opacity="0.7" />
+              <path d="M 180 6 L 192 13 L 180 20" opacity="0.95" />
+            </svg>
+          </div>
+          <div className="hook-hero-block">
+            <h1 className="hook-hero-number">
+              <CountUp to={5} duration={1000} delay={1700} />
+              <span className="hook-hero-unit">min</span>
+            </h1>
+            <div className="hook-hero-caption">to a broadcast-ready video</div>
+          </div>
+        </div>
         <div className="hook-accent-line" aria-hidden="true" />
         <p className="hook-subline">
           From a published news article to a fully scripted, source-verified, multi-language broadcast segment.{' '}
@@ -3694,11 +5209,56 @@
     return new THREE.Vector3(x, y, z);
   }
 
-  function SimpleGlobe({ accent, onArcLand }) {
+  // Build a CanvasTexture of the world with continents from FLEET_SHOWCASE
+  // (Natural Earth 110m public-domain land paths, projected x = lng + 180,
+  // y = 90 - lat — equirectangular).
+  function buildWorldTexture() {
+    if (typeof window === 'undefined' || !window.FLEET_SHOWCASE || !window.FLEET_SHOWCASE.continents) return null;
+    const continents = window.FLEET_SHOWCASE.continents;
+    if (!Array.isArray(continents) || continents.length === 0) return null;
+    const w = 2048, h = 1024;
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    // Ocean fill — slightly lighter than the dark sphere so continents read
+    ctx.fillStyle = '#0d1015';
+    ctx.fillRect(0, 0, w, h);
+    // Continents — slightly lighter
+    ctx.fillStyle = '#1f2630';
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth = 0.6;
+    const sx = w / 360;  // x scale
+    const sy = h / 180;  // y scale
+    continents.forEach((pathStr) => {
+      const path = new Path2D();
+      // Manually parse "M x,y L x,y L x,y Z" to scale coordinates
+      const tokens = pathStr.match(/([MLZ])\s*([-\d.]+)?\s*,?\s*([-\d.]+)?/g) || [];
+      let started = false;
+      tokens.forEach((tok) => {
+        const m = tok.match(/^([MLZ])\s*([-\d.]+)?\s*,?\s*([-\d.]+)?/);
+        if (!m) return;
+        const cmd = m[1];
+        const x = parseFloat(m[2]);
+        const y = parseFloat(m[3]);
+        if (cmd === 'M') { path.moveTo(x * sx, y * sy); started = true; }
+        else if (cmd === 'L' && started) { path.lineTo(x * sx, y * sy); }
+        else if (cmd === 'Z') { path.closePath(); }
+      });
+      ctx.fill(path);
+      ctx.stroke(path);
+    });
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  function SimpleGlobe({ accent, onArcLand, onMarkerHover, onMarkerClick }) {
     const containerRef = useRef(null);
     const stateRef = useRef(null);
     const onArcLandRef = useRef(onArcLand);
+    const onMarkerHoverRef = useRef(onMarkerHover);
+    const onMarkerClickRef = useRef(onMarkerClick);
     useEffect(() => { onArcLandRef.current = onArcLand; }, [onArcLand]);
+    useEffect(() => { onMarkerHoverRef.current = onMarkerHover; }, [onMarkerHover]);
+    useEffect(() => { onMarkerClickRef.current = onMarkerClick; }, [onMarkerClick]);
 
     useEffect(() => {
       const container = containerRef.current;
@@ -3729,12 +5289,14 @@
 
       const accentColor = new THREE.Color(accent || '#6AAE22');
 
-      // Globe sphere — subtle dark interior
+      // Globe sphere — with real continent texture if FLEET_SHOWCASE is loaded
+      const worldTex = buildWorldTexture();
       const sphereGeom = new THREE.SphereGeometry(85, perfMode ? 32 : 64, perfMode ? 16 : 32);
       const sphereMat = new THREE.MeshBasicMaterial({
-        color: 0x111418,
+        color: worldTex ? 0xffffff : 0x111418,
+        map: worldTex || null,
         transparent: true,
-        opacity: 0.92,
+        opacity: 0.94,
         wireframe: false,
       });
       const sphere = new THREE.Mesh(sphereGeom, sphereMat);
@@ -3793,18 +5355,22 @@
       const wire = new THREE.Mesh(wireGeom, wireMat);
       scene.add(wire);
 
-      // Exchange dots — 53 markers, brand-tinted
+      // Exchange dots — 53 markers, brand-tinted, click/hover-pickable
       const dotsGroup = new THREE.Group();
-      const blinkMaterials = []; // for airplane-blink animation (E3)
+      const blinkMaterials = [];
+      const pickableMeshes = []; // raycasting targets — dots only
       EXCHANGES_53.forEach((ex) => {
         const pos = latLngToVec3(ex.lat, ex.lng, 86);
-        const dotGeom = new THREE.SphereGeometry(1.2, 8, 8);
+        const dotGeom = new THREE.SphereGeometry(1.6, 10, 10); // slightly larger for easier clicking
         const dotMat = new THREE.MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.95 });
         const dot = new THREE.Mesh(dotGeom, dotMat);
         dot.position.copy(pos);
+        dot.userData.exchangeCode = ex.code;
+        dot.userData.exchangeName = ex.name;
         dotsGroup.add(dot);
+        pickableMeshes.push(dot);
         // Halo ring
-        const haloGeom = new THREE.RingGeometry(1.6, 2.4, 16);
+        const haloGeom = new THREE.RingGeometry(1.8, 2.8, 16);
         const haloMat = new THREE.MeshBasicMaterial({
           color: accentColor,
           transparent: true,
@@ -3814,7 +5380,9 @@
         const halo = new THREE.Mesh(haloGeom, haloMat);
         halo.position.copy(pos);
         halo.lookAt(0, 0, 0);
+        halo.userData.exchangeCode = ex.code; // also pickable for easier clicks
         dotsGroup.add(halo);
+        pickableMeshes.push(halo);
         // Airplane-blink — tiny pulsing dot just above each marker (E3)
         const blinkMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
         const blink = new THREE.Mesh(new THREE.SphereGeometry(0.55, 6, 6), blinkMat);
@@ -3823,6 +5391,45 @@
         dotsGroup.add(blink);
       });
       scene.add(dotsGroup);
+
+      // Raycaster for hover + click on markers
+      const raycaster = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
+      let hoveredCode = null;
+      function pickAt(clientX, clientY) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(pointer, camera);
+        const hits = raycaster.intersectObjects(pickableMeshes, false);
+        if (hits.length === 0) return null;
+        return hits[0].object.userData.exchangeCode || null;
+      }
+      function onPointerMove(e) {
+        const code = pickAt(e.clientX, e.clientY);
+        if (code !== hoveredCode) {
+          hoveredCode = code;
+          renderer.domElement.setAttribute('data-hovering', code ? 'true' : 'false');
+          if (onMarkerHoverRef.current) {
+            const ex = code ? EXCHANGES_53.find((x) => x.code === code) : null;
+            onMarkerHoverRef.current(ex, e.clientX, e.clientY);
+          }
+        } else if (code && onMarkerHoverRef.current) {
+          // Continue updating tooltip position while hovering same marker
+          const ex = EXCHANGES_53.find((x) => x.code === code);
+          onMarkerHoverRef.current(ex, e.clientX, e.clientY);
+        }
+      }
+      function onPointerDown(e) {
+        const code = pickAt(e.clientX, e.clientY);
+        if (code && onMarkerClickRef.current) {
+          const ex = EXCHANGES_53.find((x) => x.code === code);
+          onMarkerClickRef.current(ex);
+          audioState.play('click');
+        }
+      }
+      renderer.domElement.addEventListener('pointermove', onPointerMove, { passive: true });
+      renderer.domElement.addEventListener('pointerdown', onPointerDown);
 
       // Orbit particles — 60 small dots in a slow ring around the planet (D4)
       const orbitGroup = new THREE.Group();
@@ -4001,8 +5608,11 @@
         clearInterval(arcInterval);
         clearTimeout(arcKickoff);
         window.removeEventListener('resize', onResize);
+        renderer.domElement.removeEventListener('pointermove', onPointerMove);
+        renderer.domElement.removeEventListener('pointerdown', onPointerDown);
         renderer.dispose();
         sphereGeom.dispose(); sphereMat.dispose();
+        if (worldTex) worldTex.dispose();
         wireGeom.dispose(); wireMat.dispose();
         hazeGeom.dispose(); hazeMat.dispose();
         cloudGeom.dispose(); cloudMat.dispose();
@@ -4073,6 +5683,24 @@
     const [currentArc, setCurrentArc] = useState(null);
     const handleArcLand = useCallback((ev) => { setCurrentArc({ ...ev, key: Date.now() }); }, []);
 
+    // Round 2 3.3 — globe marker hover tooltip + click-to-explore side panel
+    const [tooltip, setTooltip] = useState(null); // { ex, x, y } | null
+    const [openExchange, setOpenExchange] = useState(null); // exchange code or null
+    const handleMarkerHover = useCallback((ex, x, y) => {
+      setTooltip(ex ? { ex, x, y } : null);
+    }, []);
+    const handleMarkerClick = useCallback((ex) => {
+      setOpenExchange(ex.code);
+    }, []);
+    const closePanel = useCallback(() => setOpenExchange(null), []);
+    // Esc closes panel
+    useEffect(() => {
+      if (!openExchange) return;
+      const onKey = (e) => { if (e.key === 'Escape') closePanel(); };
+      window.addEventListener('keydown', onKey);
+      return () => window.removeEventListener('keydown', onKey);
+    }, [openExchange, closePanel]);
+
     return (
       <section className="scale-scene" aria-label="Beat 3 · scale reveal">
         <div className="scale-eyebrow">
@@ -4087,12 +5715,12 @@
           We track every market <em>your users</em> care about.
         </h2>
 
-        {/* 4.1 — Scale tower with countUps (D2) */}
+        {/* Round 2 — 32k+ promoted to dominant hero */}
         <div className="scale-tower">
           <div className="scale-tower-primary">
             <CountUp to={32000} duration={1600} delay={300} format={(v) => Math.round(v).toLocaleString()} suffix="+" />
           </div>
-          <div className="scale-tower-primary-label">Companies · across 11 GICS sectors</div>
+          <div className="scale-tower-primary-label">Companies tracked across 11 GICS sectors</div>
           <div className="scale-tower-row">
             <div className="scale-stat">
               <div className="scale-stat-value">
@@ -4108,11 +5736,11 @@
             </div>
             <div className="scale-stat">
               <div className="scale-stat-value">
-                <CountUp to={8} duration={900} delay={900} />
+                <CountUp to={15} duration={1100} delay={900} />
               </div>
               <div className="scale-stat-label">Languages live</div>
               <div className="scale-stat-flagrow">
-                {['US','DE','IT','ES','FR','BR','JP','IL'].map((c) => (
+                {['US','DE','IT','ES','FR','BR','JP','IL','CN','KR','AE','IN','NL','TR','ID'].map((c) => (
                   <span key={c} dangerouslySetInnerHTML={{ __html: flagSvg(c) }} />
                 ))}
               </div>
@@ -4130,10 +5758,15 @@
         </div>
 
         <div className="scale-globe-wrap">
-          <SimpleGlobe accent={accent} onArcLand={handleArcLand} />
+          <SimpleGlobe
+            accent={accent}
+            onArcLand={handleArcLand}
+            onMarkerHover={handleMarkerHover}
+            onMarkerClick={handleMarkerClick}
+          />
           <div className="scale-globe-vignette" aria-hidden="true" />
           <div className="scale-globe-overlay">
-            {currentArc && (
+            {currentArc && !openExchange && (
               <div className="scale-arc-card" key={currentArc.key}>
                 <div className="scale-arc-meta">
                   {(() => {
@@ -4160,6 +5793,26 @@
               </div>
             )}
           </div>
+          {/* Round 2 3.3 — globe tooltip on hover */}
+          {tooltip && tooltip.ex && (
+            <div
+              className="globe-tooltip"
+              data-visible="true"
+              style={{ left: `${tooltip.x}px`, top: `${tooltip.y}px`, position: 'fixed' }}
+            >
+              {tooltip.ex.name} · {tooltip.ex.code}
+            </div>
+          )}
+        </div>
+
+        {/* Round 2 3.3 — invitation pill above globe */}
+        <div style={{ textAlign: 'center', marginTop: '0.4rem', marginBottom: '0.5rem' }}>
+          <span style={{
+            fontFamily: "'JetBrains Mono', monospace", fontSize: 9.5, letterSpacing: '0.18em',
+            color: 'var(--text-muted)', textTransform: 'uppercase', opacity: 0.85
+          }}>
+            ◉ Click any marker on the globe → see what the system would write
+          </span>
         </div>
 
         <p className="scale-subline">
@@ -4172,7 +5825,76 @@
           Continue to safety net
           <span className="scene-continue-arrow" aria-hidden="true">→</span>
         </button>
+
+        {/* Round 2 3.3 — exchange detail side panel */}
+        <ExchangePanel
+          exchangeCode={openExchange}
+          onClose={closePanel}
+        />
       </section>
+    );
+  }
+
+  // ============================================================================
+  // ExchangePanel (Round 2 3.3) — exchange detail side panel with native-language
+  // script preview. Slides in from right when a globe marker is clicked.
+  // ============================================================================
+  function ExchangePanel({ exchangeCode, onClose }) {
+    const ex = exchangeCode ? EXCHANGES_53.find((e) => e.code === exchangeCode) : null;
+    const script = exchangeCode ? EXCHANGE_SCRIPTS[exchangeCode] : null;
+    const open = !!exchangeCode;
+    return (
+      <aside
+        className="exchange-panel"
+        data-open={open}
+        role="dialog"
+        aria-hidden={!open}
+        aria-label={ex ? `${ex.name} script preview` : 'Exchange detail'}
+      >
+        {ex && script && (
+          <>
+            <div className="exchange-panel-header">
+              <div
+                className="exchange-panel-flag"
+                dangerouslySetInnerHTML={{ __html: flagSvg(script.flag) }}
+              />
+              <div className="exchange-panel-titles">
+                <h3 className="exchange-panel-name">{ex.name}</h3>
+                <div className="exchange-panel-locale">
+                  {script.city} · {script.country} · {script.langName}
+                </div>
+              </div>
+              <button
+                className="exchange-panel-close"
+                onClick={onClose}
+                aria-label="Close panel"
+              >×</button>
+            </div>
+            <div className="exchange-panel-body">
+              <div className="exchange-panel-meta">
+                <span className="exchange-panel-meta-pill is-company">{script.company}</span>
+                <span className="exchange-panel-meta-pill">Reporter: Gerardo</span>
+                <span className="exchange-panel-meta-pill">{script.lang}</span>
+                <span className="exchange-panel-meta-pill">~80 words</span>
+              </div>
+              <h4 className="exchange-panel-headline">{script.headline}</h4>
+              <div className="exchange-panel-native" data-lang={script.lang}>
+                {script.native}
+              </div>
+              {script.english && script.lang !== 'EN' && (
+                <>
+                  <div className="exchange-panel-trans-label">English translation</div>
+                  <p className="exchange-panel-english">{script.english}</p>
+                </>
+              )}
+              <div className="exchange-panel-foot">
+                <span className="exchange-panel-foot-dot" />
+                Demo content · illustrative only · Q6 hard rules applied
+              </div>
+            </div>
+          </>
+        )}
+      </aside>
     );
   }
 
@@ -4437,6 +6159,192 @@
   // Matches the eToro App Store final script (current pinned content per K.4)
   const PINNED_GEN_TEXT_SHORT = "Hi, I'm Gerardo. Nasdaq-listed eToro Group today launched the eToro App Store, an AI-enabled ecosystem for trading and investing. The marketplace lets developers and investors build, share, and access trading applications directly on the platform.";
 
+  // ============================================================================
+  // STATIONS — Round 2 Phase B4 · 5-station vertical journey for Beat 4
+  // ----------------------------------------------------------------------------
+  // Five plain-language stations covering the safety-net narrative end-to-end.
+  // Each station auto-advances at ~5 seconds for a ~25-second total journey.
+  // The user can also click any station number to jump.
+  // ============================================================================
+  const SAFETY_STATIONS = [
+    {
+      n: 1,
+      key: 'read',
+      eyebrow: 'Station 1 · Read',
+      headline: <>Every story is <em>read end-to-end</em> before anything else happens.</>,
+      body: <>Before a single word is generated, the system parses the article in full &mdash; structure, entities, dates, named amounts, sources cited. Nothing is skimmed. The detector looks for novelty, completeness, and ambiguity, then routes the story to the right desk only if it passes.</>,
+      meta: ['Haiku 4.5', '0.4 s · 6 facts extracted', '99% confidence'],
+      Illust: IllustrationStationRead,
+    },
+    {
+      n: 2,
+      key: 'verify',
+      eyebrow: 'Station 2 · Verify',
+      headline: <>Every numeric claim is <em>matched against an authoritative source</em>.</>,
+      body: <>Numbers don't enter a script unless they came from somewhere defensible &mdash; SEC EDGAR filings, issuer disclosures, regulator-side data feeds. If a figure can't be tied back to a primary source, the story is held. No "around" or "roughly." Either the source backs the number, or the line is rewritten.</>,
+      meta: ['SEC EDGAR · 6 facts cross-referenced', '0 unverified claims', 'Source-locked'],
+      Illust: IllustrationStationVerify,
+    },
+    {
+      n: 3,
+      key: 'rules',
+      eyebrow: 'Station 3 · Apply 24 rules',
+      headline: <>Twenty-four <em>integrity rules</em> fire in parallel &mdash; one click of the gate.</>,
+      body: <>Forbidden phrases, implied performance promises, undisclosed risks, missing disclaimers, regulatory boilerplate &mdash; every rule has a name, a citation, and a test. They run on every script. Adding a new rule is a config change, not a code change. The 24 you see are the live production set.</>,
+      meta: ['24 rules · 0 violations', 'Rule library versioned', 'Config-driven'],
+      Illust: IllustrationStationRules,
+    },
+    {
+      n: 4,
+      key: 'review',
+      eyebrow: 'Station 4 · Review',
+      headline: <>Three layers of regulatory review: <em>pattern, meaning, balance</em>.</>,
+      body: <>L1 catches the obvious &mdash; banned words, regex patterns. L2 reads the script semantically and asks: would this language imply a guarantee, a forecast, or advice? L3 takes a holistic pass: does the tone strike the right balance for a regulated environment? All three must clear.</>,
+      meta: ['L1 15ms · L2 812ms · L3 2.1s', 'Quality 95 · Integrity 98', 'Three independent models'],
+      Illust: IllustrationStationReview,
+    },
+    {
+      n: 5,
+      key: 'sign',
+      eyebrow: 'Station 5 · Sign',
+      headline: <>Every approved script is <em>SHA-256 signed and archived</em>. Forever.</>,
+      body: <>Once a script clears all reviews, it gets a cryptographic signature and is written to immutable storage. Three months from now, when a regulator asks "show me the script that ran on April 27, 2026 about BlackRock IBIT," the answer is one query &mdash; with the original hash, the source citations, and every reviewer decision attached.</>,
+      meta: ['SHA-256 · Supabase archive', 'DOC-ID per script', 'Auditable on demand'],
+      Illust: IllustrationStationSign,
+    },
+  ];
+
+  // Persist Beat 4 view mode across page reloads + brand switches.
+  const SAFETY_VIEW_KEY = 'stv-beat4-view-mode';
+  function readSafetyViewMode() {
+    try {
+      const v = localStorage.getItem(SAFETY_VIEW_KEY);
+      return v === 'dashboard' ? 'dashboard' : 'journey';
+    } catch (e) { return 'journey'; }
+  }
+  function writeSafetyViewMode(mode) {
+    try { localStorage.setItem(SAFETY_VIEW_KEY, mode); } catch (e) {}
+  }
+
+  function StationJourney() {
+    // Active station index. Auto-advances every ~5s; clicking jumps.
+    const [activeIdx, setActiveIdx] = useState(0);
+    const [completed, setCompleted] = useState(() => new Set());
+    const [runId, setRunId] = useState(0);
+    const reduceMotion = typeof window !== 'undefined' && window.matchMedia
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    useEffect(() => {
+      setActiveIdx(0);
+      setCompleted(new Set());
+      if (reduceMotion) {
+        setActiveIdx(SAFETY_STATIONS.length - 1);
+        setCompleted(new Set([0, 1, 2, 3, 4]));
+        return;
+      }
+      const STEP = 5000;
+      const timers = [];
+      SAFETY_STATIONS.forEach((_, i) => {
+        if (i === 0) return;
+        timers.push(setTimeout(() => {
+          setActiveIdx(i);
+          setCompleted((prev) => {
+            const next = new Set(prev);
+            next.add(i - 1);
+            return next;
+          });
+          audioState.play('gatePass');
+        }, i * STEP));
+      });
+      timers.push(setTimeout(() => {
+        setCompleted((prev) => {
+          const next = new Set(prev);
+          next.add(SAFETY_STATIONS.length - 1);
+          return next;
+        });
+      }, SAFETY_STATIONS.length * STEP));
+      return () => timers.forEach(clearTimeout);
+    }, [runId, reduceMotion]);
+
+    const jump = useCallback((i) => {
+      setActiveIdx(i);
+      setCompleted((prev) => {
+        const next = new Set(prev);
+        for (let k = 0; k < i; k++) next.add(k);
+        return next;
+      });
+      audioState.play('click');
+    }, []);
+
+    return (
+      <div className="station-journey" role="list" aria-label="Five-station safety-net journey">
+        {SAFETY_STATIONS.map((s, i) => {
+          const isActive = i === activeIdx;
+          const isCompleted = completed.has(i);
+          const Illust = s.Illust;
+          return (
+            <article
+              key={s.key}
+              className="station"
+              data-active={isActive}
+              data-completed={isCompleted}
+              role="listitem"
+              tabIndex="0"
+              onClick={() => jump(i)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jump(i); } }}
+              aria-label={`Station ${s.n} of ${SAFETY_STATIONS.length}`}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="station-medallion">
+                <div className="station-num" aria-hidden="true">{s.n}</div>
+              </div>
+              <div className="station-content">
+                <div className="station-text">
+                  <div className={`station-eyebrow ${isActive ? 'station-eyebrow-active' : ''}`}>{s.eyebrow}</div>
+                  <h3 className="station-headline">{s.headline}</h3>
+                  <p className="station-body">{s.body}</p>
+                  <div className="station-meta">
+                    {s.meta.map((m, k) => (
+                      <span className="station-meta-pill" key={k}>{m}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="station-illust">
+                  <Illust />
+                </div>
+              </div>
+            </article>
+          );
+        })}
+
+        <div className="station-journey-foot">
+          <div className="station-progress-dots" role="presentation">
+            {SAFETY_STATIONS.map((_, i) => (
+              <span
+                key={i}
+                className="station-progress-dot"
+                data-active={i === activeIdx}
+                data-completed={completed.has(i) && i !== activeIdx}
+              />
+            ))}
+          </div>
+          <button
+            onClick={() => setRunId((r) => r + 1)}
+            style={{
+              background: 'transparent', border: '1px solid var(--border)',
+              borderRadius: 999, color: 'var(--text-muted)', padding: '4px 12px', cursor: 'pointer',
+              fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', display: 'inline-flex',
+              alignItems: 'center', gap: 6, fontFamily: 'JetBrains Mono, monospace'
+            }}
+            title="Restart the safety-net journey"
+          >
+            <ScriptRefreshIcon /> Replay
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   function SafetyScene({ brandSlug, brandConfig, onContinue }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
       ? brandConfig.branding.shortName
@@ -4447,10 +6355,24 @@
     const [treeIdx, setTreeIdx] = useState(0);
     const [runId, setRunId] = useState(0);
     const [genActive, setGenActive] = useState(false);
+    // Round 2 Phase B4 — view mode: 'journey' (default) or 'dashboard' (legacy)
+    const [viewMode, setViewMode] = useState(readSafetyViewMode);
+    const isDashboard = viewMode === 'dashboard';
     // 3.1 — ambient mode after phase 4
     const ambient = phase >= 4;
 
+    const toggleView = useCallback(() => {
+      setViewMode((m) => {
+        const next = m === 'journey' ? 'dashboard' : 'journey';
+        writeSafetyViewMode(next);
+        audioState.play('click');
+        return next;
+      });
+    }, []);
+
     useEffect(() => {
+      // Only run the legacy dashboard cinematic when in dashboard mode.
+      if (!isDashboard) return;
       const timers = [];
       setPhase(0); setThoughtIdx(0); setTreeIdx(0); setGenActive(false);
       THOUGHT_STREAM_SCRIPT.forEach((_, i) => {
@@ -4470,7 +6392,7 @@
       timers.push(setTimeout(() => setPhase(4), 9100));
       timers.push(setTimeout(() => audioState.play('gatePass'), 9100));
       return () => timers.forEach(clearTimeout);
-    }, [runId]);
+    }, [runId, isDashboard]);
 
     const playTypewriter = useCallback(() => audioState.play('typewriter'), []);
 
@@ -4483,13 +6405,28 @@
             Built for your regulator, not retrofitted
             <span className="safety-eyebrow-dot" aria-hidden="true" />
             573 production tests
+            <button
+              className="safety-view-toggle"
+              data-active={isDashboard}
+              onClick={toggleView}
+              aria-pressed={isDashboard}
+              title={isDashboard ? 'Switch to 5-station journey' : 'Switch to dashboard view (operations detail)'}
+            >
+              <span className="safety-view-toggle-dot" aria-hidden="true" />
+              {isDashboard ? 'Show journey' : 'Show all'}
+            </button>
           </div>
           <h2 className="safety-headline">
             Every story passes through <em>24 integrity rules · 3 layers</em> &mdash; before it ever reaches your users.
           </h2>
         </div>
 
-        {/* 4.2 — DUAL-REVEAL FULL-WIDTH HERO (Quality + Integrity numerals with bars + deltas) */}
+        {/* Round 2 Phase B4 — default 5-station journey replaces dense dashboard */}
+        {!isDashboard && <StationJourney />}
+
+        {isDashboard && (<>
+
+        {/* 4.2 — DUAL-REVEAL FULL-WIDTH HERO (Quality + Integrity numerals with bars + deltas) — dashboard mode only */}
         <div className="dual-reveal-hero">
           <div className="dual-reveal-col">
             <div className="dual-reveal-eyebrow">Quality Score</div>
@@ -4588,7 +6525,9 @@
           </div>
         </div>
 
-        {/* TRUST BADGES — full width with 4.5 micro-viz */}
+        </>)}
+
+        {/* TRUST BADGES — full width with 4.5 micro-viz · always visible (journey + dashboard) */}
         <div className="trust-row">
           <div className="trust-badge">
             <div className="trust-badge-label"><Icon name="penTool" size={11} /> Audit</div>
@@ -4638,22 +6577,70 @@
   // The wow moment lives in Stage 13 (multi-language reveal) inside the
   // linked pipeline; this scene previews and launches it.
   // ============================================================================
+  // Round 2 Phase B5 — each stage has a plain-language explanation
+  // (~3 sentences, educational, jargon-light) + meta pills (model/latency/output).
+  // Click any card to expand the explanation in a panel below the grid.
   const PIPELINE_STAGES = [
-    { num: 1,  name: 'Article input' },
-    { num: 2,  name: 'Story detection' },
-    { num: 3,  name: 'Company enrichment' },
-    { num: 4,  name: 'Fact extraction' },
-    { num: 5,  name: 'SEC EDGAR validation' },
-    { num: 6,  name: 'Cross-reference' },
-    { num: 7,  name: 'Reporter selection' },
-    { num: 8,  name: 'Script generation' },
-    { num: 9,  name: 'Chart suggestion' },
-    { num: 10, name: 'Thumbnail generation' },
-    { num: 11, name: 'Integrity red-pass' },
-    { num: 12, name: 'Integrity gates' },
-    { num: 13, name: 'Multi-language', wow: true },
-    { num: 14, name: 'Audit trail' },
-    { num: 15, name: 'Final output' },
+    { num: 1,  name: 'Article input',
+      detail: "The story arrives as raw text — usually a wire article, an issuer press release, or a regulator filing. Before anything else happens, the system normalizes its structure (headline, body, byline, date, source domain) so every later stage is reading the same shape. No script generation begins until the input is complete and parseable.",
+      meta: ['Wire / press release / filing', 'Domain whitelist enforced', '< 100ms'],
+    },
+    { num: 2,  name: 'Story detection',
+      detail: "A small classifier looks at the article and asks one question: is this newsworthy enough to warrant a script? It checks novelty against the last 7 days of content, scores the impact (price-moving, regulatory, structural), and routes the story to the right desk. Most input never makes it past this stage — and that's the point.",
+      meta: ['Haiku 4.5 · 92% novelty score', '7-day dedup window', '< 400ms'],
+    },
+    { num: 3,  name: 'Company enrichment',
+      detail: "Once a story is selected, the system pulls together everything it knows about the entities involved — ticker, exchange, sector, market cap, recent earnings, peer set. This context grounds the script in the company's actual market position. Without enrichment, you get scripts that sound plausible but drift from the real entity.",
+      meta: ['Internal DB · 32,000+ companies', '53 exchanges', '~600ms'],
+    },
+    { num: 4,  name: 'Fact extraction',
+      detail: "Every numeric, dated, or attributed claim in the article is pulled out as a structured fact. Each fact gets a span back to where it appeared in the source text. This is the system's working memory for the rest of the pipeline — every later stage works against these facts, not the original prose.",
+      meta: ['Sonnet 4.6', '~6 facts per article', 'Sources tagged inline'],
+    },
+    { num: 5,  name: 'SEC EDGAR validation',
+      detail: "Every extracted fact that touches a public company is matched against the SEC's EDGAR filings — earnings releases, 8-Ks, 10-Qs, issuer statements. If the article claims revenue of $X, EDGAR has to back it. Facts that fail validation are flagged and not used in the script.",
+      meta: ['EDGAR API · live filings', 'Regulator-side ground truth', '~1.2s'],
+    },
+    { num: 6,  name: 'Cross-reference',
+      detail: "Validated facts are tied back to a network of related entities, peer companies, and prior reporting. This stage gives the script context — what's the precedent, what's the comparison, what's the broader story arc. It's how a one-line earnings beat becomes a story with depth.",
+      meta: ['Knowledge graph traversal', 'Peer + sector linkage', '~800ms'],
+    },
+    { num: 7,  name: 'Reporter selection',
+      detail: "Five reporters cover different beats — financial earnings, macro, crypto, structural news, and breaking. A classifier picks the one whose voice and beat fit the story. For all client demos, Gerardo (financial anchor) is locked as the on-camera voice — same face, same delivery, every time.",
+      meta: ['5 reporters · 1 selected', 'Beat classifier 0.94 conf', 'Locked: Gerardo (demo)'],
+    },
+    { num: 8,  name: 'Script generation',
+      detail: "Given the validated facts, the chosen reporter's voice, and a 47-second target runtime, Sonnet 4.6 writes the script. Output is roughly 110-130 words. The model is constrained to use only the validated facts — no embellishment, no ad-libbing, no numbers that didn't come through validation.",
+      meta: ['Sonnet 4.6', '110-130 words · 47s target', '~3.5s'],
+    },
+    { num: 9,  name: 'Chart suggestion',
+      detail: "If the story has a quantitative spine — a price move, an earnings trajectory, an inflow trend — the system proposes the chart that best illustrates it. The chart type, time window, and series are inferred from the facts. The producer can override; defaults are usually right.",
+      meta: ['Inferred from facts', 'Type · window · series', '~400ms'],
+    },
+    { num: 10, name: 'Thumbnail generation',
+      detail: "A still frame for the broadcast — headline phrase, key number, brand mark. Multiple options are generated; the highest-scoring one is recommended. Brand colors and typography come from the active client config so the thumbnail matches the rest of the surface.",
+      meta: ['3-5 candidates per story', 'Brand-locked palette', '~800ms'],
+    },
+    { num: 11, name: 'Integrity red-pass',
+      detail: "A first-pass review specifically tuned for high-risk language: implied performance promises, unattributed predictions, regulatory boilerplate gaps. Anything flagged is rewritten in place. The red-pass is aggressive — it would rather over-correct than let a single problem line through.",
+      meta: ['Sonnet 4.6 reviewer', 'Auto-rewrite enabled', '~2s'],
+    },
+    { num: 12, name: 'Integrity gates',
+      detail: "Three independent gates run in sequence. L1 (forbidden phrases) is a fast regex pass — milliseconds. L2 (semantic meaning) reads the script with a different model and asks 'would a regulator object?' L3 (tone & balance) is the holistic check. All three must pass; if any blocks, the script returns to red-pass for rework.",
+      meta: ['L1 15ms · L2 812ms · L3 2.1s', '24 rules · 0 violations', 'All independent models'],
+    },
+    { num: 13, name: 'Multi-language', wow: true,
+      detail: "The cleared English script is rendered into native variants for each market the client serves — typically 5 European languages plus English; up to 15 supported. These are not translations. Each variant carries its own regulatory context (CONSOB, CNMV, BaFin-aligned) and the words a native viewer expects from a financial broadcast in their language.",
+      meta: ['Up to 15 languages live', 'Native (not translated)', 'Per-market regulatory context'],
+    },
+    { num: 14, name: 'Audit trail',
+      detail: "Every input, every facto, every model call, every reviewer decision is signed and written to a permanent audit document. The doc has a unique ID (DOC-XXX-YYYY-MM-DD-N) that ties to the script forever. Three months from now, regulators can ask for the trail of any specific script and get it in one query.",
+      meta: ['SHA-256 chain', 'DOC-ID per script', 'Supabase archive · forever'],
+    },
+    { num: 15, name: 'Final output',
+      detail: "The approved script, the chart, the thumbnail, the multi-language variants, the audit document — all delivered to the broadcast surface. The reporter's avatar speaks the script in 47 seconds. From article input to broadcast-ready video: end-to-end, the whole pipeline runs in under a minute.",
+      meta: ['Reporter avatar (Gerardo)', '47-second runtime', 'Broadcast-ready'],
+    },
   ];
 
   // ============================================================================
@@ -4700,13 +6687,24 @@
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
 
+    // Round 2 Phase B5 — click-to-expand a single stage's plain-language explanation
+    const [expandedStageNum, setExpandedStageNum] = useState(null);
+    const expandedStage = expandedStageNum != null
+      ? PIPELINE_STAGES.find((s) => s.num === expandedStageNum)
+      : null;
+    const toggleStage = useCallback((num) => {
+      setExpandedStageNum((prev) => prev === num ? null : num);
+      audioState.play('click');
+    }, []);
+
     const buildPipelineUrl = useCallback(() => {
       try {
         const u = new URL('../pipeline-template.html', location.href);
         u.searchParams.set('client', brandSlug);
+        u.searchParams.set('from', 'unified'); // signals the return CTA in pipeline-template
         return u.toString();
       } catch (e) {
-        return `../pipeline-template.html?client=${encodeURIComponent(brandSlug)}`;
+        return `../pipeline-template.html?client=${encodeURIComponent(brandSlug)}&from=unified`;
       }
     }, [brandSlug]);
 
@@ -4745,14 +6743,55 @@
 
         <IllustrationStageMap />
 
-        <div className="pipeline-stages" role="list" aria-label="15 pipeline stages">
-          {PIPELINE_STAGES.map((s) => (
-            <div className="pipeline-stage-card" data-wow={!!s.wow} role="listitem" key={s.num}>
-              <div className="pipeline-stage-num">Stage {String(s.num).padStart(2, '0')}</div>
-              <div className="pipeline-stage-name">{s.name}</div>
-            </div>
-          ))}
+        <div className="pipeline-stages" role="list" aria-label="15 pipeline stages — click any stage to expand">
+          {PIPELINE_STAGES.map((s) => {
+            const isExpanded = expandedStageNum === s.num;
+            return (
+              <button
+                type="button"
+                className="pipeline-stage-card"
+                data-wow={!!s.wow}
+                data-expanded={isExpanded}
+                role="listitem"
+                key={s.num}
+                onClick={() => toggleStage(s.num)}
+                aria-expanded={isExpanded}
+                aria-controls="pipeline-stage-panel"
+                title={`Click to expand: ${s.name}`}
+              >
+                <div className="pipeline-stage-num">Stage {String(s.num).padStart(2, '0')}</div>
+                <div className="pipeline-stage-name">{s.name}</div>
+                <span className="pipeline-stage-expand" aria-hidden="true">{isExpanded ? '−' : '+'}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Round 2 Phase B5 — expanded stage explanation panel (one at a time) */}
+        {expandedStage && (
+          <div className="pipeline-stage-panel" id="pipeline-stage-panel" role="region" aria-label={`Stage ${expandedStage.num} detail`}>
+            <div className="pipeline-stage-panel-head">
+              <div className="pipeline-stage-panel-num">Stage {String(expandedStage.num).padStart(2, '0')}</div>
+              <h3 className="pipeline-stage-panel-name">
+                {expandedStage.name}
+                {expandedStage.wow && <span className="pipeline-stage-panel-wow">Wow moment</span>}
+              </h3>
+              <button
+                className="pipeline-stage-panel-close"
+                onClick={() => setExpandedStageNum(null)}
+                aria-label="Close stage detail"
+              >×</button>
+            </div>
+            <p className="pipeline-stage-panel-detail">{expandedStage.detail}</p>
+            {expandedStage.meta && expandedStage.meta.length > 0 && (
+              <div className="pipeline-stage-panel-meta">
+                {expandedStage.meta.map((m, i) => (
+                  <span className="pipeline-stage-panel-meta-pill" key={i}>{m}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 4.6 — Inline Stage 13 multi-language preview (the WOW moment, in-flow) */}
         <div className="stage13-wrap">
@@ -4895,7 +6934,47 @@
           </h2>
         </div>
 
-        <IllustrationPhone />
+        {/* Round 2 Phase B6 — brand-specific iPhone mockup with annotation callouts */}
+        <div className="phone-showcase" aria-label={`${display} mobile app illustration with the embedded StockerTV widget`}>
+          <div className="phone-stage">
+            <BrandPhoneMockup brandSlug={brandSlug} brandConfig={brandConfig} />
+          </div>
+          <div className="phone-callouts" role="list" aria-label="Phone mockup callouts">
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">01</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">Brand-locked top nav</div>
+                <div className="phone-callout-text">Your colors, your wordmark, your icons. The user never leaves <strong>{display}</strong>.</div>
+              </div>
+            </div>
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">02</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">StockerTV widget &mdash; embedded</div>
+                <div className="phone-callout-text">A fixed-height card inside the home screen. Auto-refreshing video segment with live source-verified content. Tap to watch full 47-second briefing.</div>
+              </div>
+            </div>
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">03</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">Native to your platform</div>
+                <div className="phone-callout-text">Same nav, same tabs, same surface. The widget composes in &mdash; no separate app, no second login, no integration tax.</div>
+              </div>
+            </div>
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">04</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">Source-verified · audit signed</div>
+                <div className="phone-callout-text">Every segment carries the same integrity proofs you saw in Beat 4. Visible to your users; queryable by your regulators.</div>
+              </div>
+            </div>
+          </div>
+          <div className="phone-foot-note">
+            <span className="phone-foot-note-dot" aria-hidden="true" />
+            Illustration &middot; representative integration, not a screenshot
+            <span className="phone-foot-note-dot" aria-hidden="true" />
+          </div>
+        </div>
 
         <div className="user-preview" aria-label="Mocked end-user broadcast surface">
           <div className="user-preview-frame">
@@ -4946,11 +7025,11 @@
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="accent">
-                <CountUp to={8} duration={900} delay={350} />
+                <CountUp to={15} duration={1100} delay={350} />
               </div>
               <Sparkline data={genSparkData(7, 30, 0.4)} />
               <div className="ops-cell-label">Languages live</div>
-              <div className="ops-cell-foot">EN · DE · IT · ES · FR · PT · ZH · JA</div>
+              <div className="ops-cell-foot">EN · DE · IT · ES · FR · PT · NL · JA · ZH · KO · AR · HE · HI · TR · ID</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="success">
@@ -4958,7 +7037,7 @@
               </div>
               <Sparkline data={genSparkData(3, 30, 0)} />
               <div className="ops-cell-label">Integrity pass rate</div>
-              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-27</div>
+              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-28</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="accent">
@@ -4966,7 +7045,7 @@
               </div>
               <Sparkline data={genSparkData(13, 30, 0.3)} />
               <div className="ops-cell-label">Quality avg · /110</div>
-              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-27</div>
+              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-28</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value">
@@ -5100,8 +7179,20 @@
   // App — top-level state machine
   // ============================================================================
   function App() {
-    const [booted, setBooted] = useState(false);
-    const [activeBeat, setActiveBeat] = useState(BEATS.HOOK);
+    // Round 2 Phase B5 — `?beat=N` URL param (1-indexed) auto-advances on mount.
+    // Used by pipeline-template return CTA to land back on Beat 5.
+    const initialBeatFromUrl = (() => {
+      try {
+        const param = new URLSearchParams(location.search).get('beat');
+        const n = parseInt(param, 10);
+        if (Number.isFinite(n) && n >= 1 && n <= BEAT_ORDER.length) {
+          return BEAT_ORDER[n - 1];
+        }
+      } catch (e) {}
+      return null;
+    })();
+    const [booted, setBooted] = useState(() => initialBeatFromUrl !== null);
+    const [activeBeat, setActiveBeat] = useState(initialBeatFromUrl || BEATS.HOOK);
     const [theme, setTheme] = useState(() => {
       try { return document.documentElement.dataset.theme || 'light'; }
       catch (e) { return 'light'; }

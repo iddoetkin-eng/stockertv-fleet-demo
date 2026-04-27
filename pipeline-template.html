@@ -30,6 +30,8 @@
     <div class="stage-tracker" id="stage-tracker" data-state="ready">
       <span class="stage-tracker-label" id="stage-tracker-label">READY</span>
     </div>
+    <!-- Round 2 Phase B5 — return CTA shown only when arriving from unified demo (?from=unified) -->
+    <a class="back-to-unified" id="back-to-unified" href="./unified/?beat=5" title="Return to overview" hidden>← Overview</a>
     <a class="fleet-link" href="./index.html" title="Back to Fleet View">FLEET</a>
     <span class="meta-pill meta-pill--ghost" id="meta-clock">00:00.0</span>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark mode">
@@ -543,6 +545,15 @@
           <div class="final-headline-v"><span data-slot="totalSeconds">—</span><span class="final-headline-unit">seconds</span></div>
           <div class="final-runtime-note" data-tmpl="final.runtimeNote">Pipeline runtime: 47 seconds · Demo replay slowed for visibility</div>
         </div>
+        <!-- Round 2 Phase B5 — post-Stage-15 banner: only shown when arriving from unified demo -->
+        <div class="back-to-unified-banner" id="back-to-unified-banner" hidden>
+          <div class="back-to-unified-banner-text">
+            That was the deep tour. Ready to see what your users would see?
+          </div>
+          <a class="back-to-unified-banner-cta" id="back-to-unified-banner-cta" href="./unified/?beat=6">
+            Continue to Beat 6 — output through their eyes →
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -589,5 +600,33 @@
 <script src="./soundfx.js"></script>
 <script src="./wave5-ceremony.js"></script>
 <script src="./js/client-loader.js"></script>
+
+<!-- Round 2 Phase B5 — back-to-unified wiring: activate return CTA when ?from=unified is present -->
+<script>
+(function() {
+  try {
+    var params = new URLSearchParams(location.search);
+    if (params.get('from') !== 'unified') return;
+    var slug = params.get('client') || '';
+    var topPill = document.getElementById('back-to-unified');
+    var bannerEl = document.getElementById('back-to-unified-banner');
+    var bannerCta = document.getElementById('back-to-unified-banner-cta');
+    var fleetLink = document.querySelector('.fleet-link');
+    // Build URLs that preserve the brand
+    var qsBeat5 = '?beat=5' + (slug ? '&client=' + encodeURIComponent(slug) : '');
+    var qsBeat6 = '?beat=6' + (slug ? '&client=' + encodeURIComponent(slug) : '');
+    if (topPill) {
+      topPill.setAttribute('href', './unified/' + qsBeat5);
+      topPill.hidden = false;
+    }
+    if (bannerEl && bannerCta) {
+      bannerCta.setAttribute('href', './unified/' + qsBeat6);
+      bannerEl.hidden = false;
+    }
+    // Hide FLEET link to reduce competing CTAs when the user came from unified
+    if (fleetLink) fleetLink.style.display = 'none';
+  } catch (e) { /* no-op */ }
+})();
+</script>
 </body>
 </html>
