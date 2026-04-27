@@ -1453,71 +1453,362 @@
     .gate[data-status='check'] .gate-bar::after { width: 100%; background: var(--accent); }
     .gate[data-status='checking'] .gate-bar::after { width: 60%; background: var(--accent); }
 
-    /* Quality + Integrity dual reveal — the Fraunces numerals moment */
-    .dual-reveal {
+    /* 4.2 — Quality + Integrity dual reveal as FULL-WIDTH HERO with bars + deltas */
+    .dual-reveal-hero {
+      grid-column: 1 / -1;
       display: grid;
       grid-template-columns: 1fr 1px 1fr;
       gap: 1.5rem;
       align-items: center;
-      padding: 1.25rem 1rem;
-      margin-top: 1rem;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      margin: 1rem 0 0.5rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent) 0%, var(--border) 50%, color-mix(in srgb, var(--green) 22%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 16px 50px color-mix(in srgb, var(--accent) 12%, transparent);
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .dual-reveal-divider { background: var(--border); height: 60%; align-self: center; }
-    .dual-reveal-col { text-align: center; }
+    @media (max-width: 880px) {
+      .dual-reveal-hero { grid-template-columns: 1fr; gap: 1rem; }
+      .dual-reveal-divider-h { display: none; }
+    }
+    .dual-reveal-divider-h { background: var(--border); height: 70%; align-self: center; }
+    .dual-reveal-col { text-align: center; padding: 0.5rem; }
     .dual-reveal-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 9px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 0.25rem;
     }
     .dual-reveal-number {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-size: clamp(4rem, 8vw, 7rem);
       font-weight: 500;
       line-height: 1;
       color: var(--text-primary);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
+      font-feature-settings: 'liga', 'dlig', 'onum', 'tnum';
+      font-variation-settings: 'opsz' 144;
+      position: relative;
+      display: inline-block;
     }
     .dual-reveal-number[data-metric='quality'] { color: var(--accent); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
     .dual-reveal-number[data-metric='integrity'] { color: var(--green); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
-    .dual-reveal-scale {
+    /* Brand-glow under each number */
+    .dual-reveal-number::before {
+      content: '';
+      position: absolute;
+      inset: 14% -10%;
+      background: radial-gradient(ellipse at center, color-mix(in srgb, currentColor 35%, transparent) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .dual-reveal-track {
+      position: relative;
+      width: 80%;
+      max-width: 220px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 999px;
+      margin: 1rem auto 0.5rem;
+      overflow: visible;
+    }
+    .dual-reveal-track-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, currentColor);
+      border-radius: 999px;
+      transition: width 1400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .dual-reveal-threshold {
+      position: absolute;
+      top: -4px;
+      width: 2px;
+      height: 11px;
+      background: var(--text-muted);
+      opacity: 0.65;
+      border-radius: 1px;
+    }
+    .dual-reveal-threshold-label {
+      position: absolute;
+      top: 14px;
+      transform: translateX(-50%);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
+      font-size: 8px;
       color: var(--text-muted);
       letter-spacing: 0.1em;
-      margin-top: 0.4rem;
+      text-transform: uppercase;
+      opacity: 0.65;
+      white-space: nowrap;
+    }
+    .dual-reveal-delta {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 14px;
+      color: currentColor;
+      margin-top: 1.6rem;
+      opacity: 0.92;
+    }
+    .dual-reveal-delta strong {
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    /* 3.1 — Ambient post-phase shimmer on numerals */
+    .dual-reveal-number.is-shimmer::after {
+      content: '';
+      position: absolute;
+      inset: -4px -8px;
+      background: linear-gradient(110deg, transparent 30%, color-mix(in srgb, currentColor 30%, transparent) 50%, transparent 70%);
+      background-size: 200% 100%;
+      animation: stv-mark-shimmer 6000ms linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      border-radius: 6px;
     }
 
-    /* Hash chain background ticker */
-    .hash-chain {
+    /* 4.4 — Hash chain as visual chain (linked blocks, horizontal) */
+    .hash-chain-vis {
       display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      padding: 0.5rem 0;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .hash-block {
+      display: inline-flex;
       flex-direction: column;
-      gap: 0.25rem;
-      max-height: 100px;
-      overflow: hidden;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9.5px;
-      color: var(--text-muted);
-    }
-    .hash-row {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.2rem 0;
+      align-items: center;
+      justify-content: center;
+      min-width: 56px;
+      height: 38px;
+      padding: 0 0.4rem;
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
+      border-radius: 4px;
+      flex-shrink: 0;
       animation: stv-thought-in 380ms cubic-bezier(0.25, 0.1, 0.25, 1);
+      position: relative;
     }
-    .hash-row-tick {
-      color: var(--green);
+    .hash-block[data-state='signed'] {
+      border-color: color-mix(in srgb, var(--green) 50%, transparent);
+      background: color-mix(in srgb, var(--green) 8%, var(--surface-elevated));
+    }
+    .hash-block-hash {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    .hash-block-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7px;
+      color: var(--text-muted);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+    .hash-block-link {
+      width: 18px;
+      height: 1px;
+      background: var(--border);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .hash-block-link::after {
+      content: '›';
+      position: absolute;
+      right: -2px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1;
+    }
+    .hash-block[data-state='signed'] + .hash-block-link {
+      background: var(--green);
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 4.3 — Latency strips on integrity gates */
+    .gate-latency {
+      margin-top: 0.4rem;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .gate-latency-fill {
+      height: 100%;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 60%, transparent), var(--accent));
+      transition: width 800ms cubic-bezier(0.25, 0.1, 0.25, 1), background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gate-latency-tick {
+      position: absolute;
+      top: -2px;
+      width: 1px;
+      height: 8px;
+      background: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* 1.6 — Decision tree confidence bars */
+    .tree-node-confbar {
+      width: 50px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
       flex-shrink: 0;
     }
-    .hash-row-hash {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .tree-node-confbar-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 400ms cubic-bezier(0.25, 0.1, 0.25, 1), background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tree-node[data-active='false'] .tree-node-confbar-fill { background: var(--text-muted); opacity: 0.5; }
+
+    /* 4.5 — Trust badge micro-vizualizations */
+    .trust-badge-viz {
+      margin-top: 0.5rem;
+      min-height: 22px;
+      display: flex;
+      align-items: center;
+    }
+    /* Audit: chain icon + counter */
+    .trust-viz--audit {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+    }
+    .trust-viz--audit svg { color: var(--accent); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+    /* Tests: dot grid */
+    .trust-viz--tests {
+      display: grid;
+      grid-template-columns: repeat(48, 1fr);
+      gap: 1px;
+      width: 100%;
+      max-width: 220px;
+    }
+    .trust-viz--tests span {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--green);
+      opacity: 0.85;
+      border-radius: 0.5px;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* Privacy: pulsing zero */
+    .trust-viz--privacy {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      animation: stv-pulse-zero 2000ms ease-in-out infinite;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-pulse-zero {
+      0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 25%, transparent); }
+      50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 0%, transparent); }
+    }
+    /* Monitor: tiny EKG line */
+    .trust-viz--monitor svg { width: 100px; height: 18px; color: var(--accent); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .trust-viz--monitor svg path { stroke-dasharray: 200; stroke-dashoffset: 200; animation: stv-ekg 2400ms cubic-bezier(0.42, 0, 0.58, 1) infinite; }
+    @keyframes stv-ekg {
+      0%   { stroke-dashoffset: 200; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* B2 — Architectural arches (decorative behind gate cards) */
+    .gate-arch-bg {
+      position: absolute;
+      inset: -8px -4px;
+      pointer-events: none;
+      opacity: 0.08;
+      color: var(--text-primary);
+      z-index: 0;
+    }
+    .gate-arch-bg svg { width: 100%; height: 100%; display: block; }
+    .gate { position: relative; z-index: 1; }
+    .gate > * { position: relative; z-index: 1; }
+
+    /* E4 — Token-by-token script generation inset */
+    .gen-inset {
+      margin-top: 0.875rem;
+      padding: 0.875rem;
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(var(--surface-elevated), var(--surface-elevated)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 35%, transparent), var(--border)) border-box;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gen-inset-head {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .gen-inset-head-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: stv-pulse 1100ms ease-in-out infinite;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gen-inset-text {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      min-height: 4.5em;
+      letter-spacing: -0.005em;
+    }
+    .gen-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: stv-cursor-blink 900ms steps(1) infinite;
+      margin-left: 1px;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-cursor-blink {
+      0%, 50%   { opacity: 1; }
+      51%, 100% { opacity: 0; }
     }
 
     /* Trust badges */
@@ -1533,13 +1824,16 @@
     }
     .trust-badge {
       padding: 0.875rem 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent) 0%, var(--border) 60%, color-mix(in srgb, var(--accent) 6%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.4rem;
       text-align: left;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .trust-badge-label {
       font-family: 'JetBrains Mono', monospace;
@@ -1547,7 +1841,11 @@
       letter-spacing: 0.18em;
       color: var(--text-muted);
       text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
+    .trust-badge-label svg { color: var(--accent); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
     .trust-badge-value {
       font-family: 'Fraunces', Georgia, serif;
       font-size: 14px;
@@ -3641,6 +3939,10 @@
           >
             <span className="tree-node-num">{n.num}</span>
             <span className="tree-node-label">{n.label}</span>
+            {/* 1.6 — confidence bar */}
+            <span className="tree-node-confbar">
+              <span className="tree-node-confbar-fill" style={{ width: `${(n.conf * 100).toFixed(0)}%` }} />
+            </span>
             <span className="tree-node-conf">{(n.conf * 100).toFixed(0)}%</span>
           </div>
         ))}
@@ -3648,42 +3950,161 @@
     );
   }
 
+  // ============================================================================
+  // ArchSVG — B2: 3 architectural arches as decorative backgrounds for L1/L2/L3
+  // gates. Each arch grows wider/taller (L1 → L3) implying "deeper review."
+  // ============================================================================
+  function ArchSVG({ tier }) {
+    // tier 1, 2, or 3 — width/height scale subtly per tier
+    const cfg = {
+      1: { w: 100, h: 60, archX: 50, archR: 28, top: 12 },
+      2: { w: 100, h: 60, archX: 50, archR: 32, top: 8 },
+      3: { w: 100, h: 60, archX: 50, archR: 36, top: 4 },
+    }[tier] || { w: 100, h: 60, archX: 50, archR: 28, top: 12 };
+    const { w, h, archX, archR, top } = cfg;
+    const baseY = h - 4;
+    return (
+      <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="xMidYMax meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="0.8">
+        {/* Outer arch */}
+        <path d={`M ${archX - archR} ${baseY} L ${archX - archR} ${top + archR} A ${archR} ${archR} 0 0 1 ${archX + archR} ${top + archR} L ${archX + archR} ${baseY}`} />
+        {/* Inner arch (slightly smaller) */}
+        <path d={`M ${archX - archR + 4} ${baseY} L ${archX - archR + 4} ${top + archR + 1} A ${archR - 4} ${archR - 4} 0 0 1 ${archX + archR - 4} ${top + archR + 1} L ${archX + archR - 4} ${baseY}`} opacity="0.7" />
+        {/* Pillar foundation lines */}
+        <line x1={archX - archR - 3} y1={baseY} x2={archX + archR + 3} y2={baseY} />
+        <line x1={archX - archR - 3} y1={baseY + 2} x2={archX + archR + 3} y2={baseY + 2} opacity="0.5" />
+        {/* Keystone */}
+        <rect x={archX - 2} y={top + 1} width="4" height="4" />
+      </svg>
+    );
+  }
+
+  // ============================================================================
+  // GenInset (E4) — token-by-token script generation animation
+  // Types out the eToro pinned final script (or fallback) at ~12 chars/sec.
+  // ============================================================================
+  function GenInset({ active, text, onPlayTone }) {
+    const [shown, setShown] = useState(0);
+    useEffect(() => {
+      if (!active || !text) { setShown(0); return; }
+      let cancelled = false;
+      let lastSoundIdx = -1;
+      const charPerMs = 12 / 1000;
+      const start = performance.now();
+      const tick = () => {
+        if (cancelled) return;
+        const t = performance.now() - start;
+        const next = Math.min(text.length, Math.floor(t * charPerMs));
+        setShown(next);
+        // typewriter sound on every ~5th char
+        if (onPlayTone && next > lastSoundIdx + 4) {
+          lastSoundIdx = next;
+          onPlayTone();
+        }
+        if (next < text.length) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      return () => { cancelled = true; };
+    }, [active, text, onPlayTone]);
+    return (
+      <div className="gen-inset">
+        <div className="gen-inset-head">
+          <span className="gen-inset-head-dot" />
+          AI is writing the script now · Sonnet 4.6
+        </div>
+        <div className="gen-inset-text">
+          {text ? text.slice(0, shown) : ''}
+          {active && shown < (text?.length || 0) && <span className="gen-cursor" aria-hidden="true" />}
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================================
+  // HashChainVis (4.4) — horizontal chain of linked blocks with growing chain
+  // ============================================================================
+  function HashChainVis({ phase }) {
+    const seeds = ['a3f2', '6e1c', '8b4d', 'f9a0', '2c7e', '5d3b', 'e8f1', '7c2a'];
+    const total = Math.min(seeds.length, Math.max(2, phase * 2));
+    const blocks = [];
+    for (let i = 0; i < total; i++) {
+      blocks.push(
+        <React.Fragment key={i}>
+          <div className="hash-block" data-state="signed">
+            <div className="hash-block-hash">{seeds[i % seeds.length]}</div>
+            <div className="hash-block-num">#{1240 + i}</div>
+          </div>
+          {i < total - 1 && <div className="hash-block-link" />}
+        </React.Fragment>
+      );
+    }
+    return <div className="hash-chain-vis">{blocks}</div>;
+  }
+
+  // ============================================================================
+  // TrustBadge — variant-specific micro-viz
+  // ============================================================================
+  function TrustBadgeAudit() {
+    return (
+      <div className="trust-viz--audit">
+        <Icon name="penTool" size={14} />
+        <span>→ 12,400 signed</span>
+      </div>
+    );
+  }
+  function TrustBadgeTests() {
+    // 48 dots × 12 rows would be too many; use 1 row of 48
+    const dots = [];
+    for (let i = 0; i < 48; i++) dots.push(<span key={i} />);
+    return <div className="trust-viz--tests">{dots}</div>;
+  }
+  function TrustBadgePrivacy() {
+    return <div className="trust-viz--privacy">0</div>;
+  }
+  function TrustBadgeMonitor() {
+    return (
+      <div className="trust-viz--monitor">
+        <svg viewBox="0 0 100 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M0 9 L 18 9 L 22 4 L 28 14 L 32 9 L 60 9 L 64 6 L 70 12 L 100 9" />
+        </svg>
+      </div>
+    );
+  }
+
   function IntegrityGates({ phase }) {
-    // phase: 0 = idle, 1 = L1 checking, 2 = L1 done L2 checking, 3 = L2 done L3 checking, 4 = all pass
+    // phase: 0=idle, 1=L1 checking, 2=L1 done L2 checking, 3=L2 done L3 checking, 4=all pass
+    // Latency strip uses log-scale visualization: 15ms → 5%, 812ms → 50%, 2104ms → 100%
     const stateFor = (gate) => {
       if (phase >= gate + 1) return 'pass';
       if (phase === gate) return 'checking';
       return 'check';
     };
+    const gateData = [
+      { n: 'L1', name: 'Forbidden phrases', ms: 15,   passLabel: 'PASS', activeLabel: 'SCANNING',  latency: 5 },
+      { n: 'L2', name: 'Semantic meaning',  ms: 812,  passLabel: 'PASS', activeLabel: 'CHECKING',  latency: 50 },
+      { n: 'L3', name: 'Tone & balance',    ms: 2104, passLabel: 'PASS', activeLabel: 'REVIEWING', latency: 100 },
+    ];
     return (
       <div className="gates">
-        <div className="gate" data-status={stateFor(1)}>
-          <div className="gate-num">L1</div>
-          <div className="gate-name">Forbidden phrases</div>
-          <div className="gate-status">
-            {stateFor(1) === 'pass' ? 'PASS' : stateFor(1) === 'checking' ? 'SCANNING' : '—'}
-          </div>
-          <div className="gate-time">15ms</div>
-          <div className="gate-bar" />
-        </div>
-        <div className="gate" data-status={stateFor(2)}>
-          <div className="gate-num">L2</div>
-          <div className="gate-name">Semantic meaning</div>
-          <div className="gate-status">
-            {stateFor(2) === 'pass' ? 'PASS' : stateFor(2) === 'checking' ? 'CHECKING' : '—'}
-          </div>
-          <div className="gate-time">812ms</div>
-          <div className="gate-bar" />
-        </div>
-        <div className="gate" data-status={stateFor(3)}>
-          <div className="gate-num">L3</div>
-          <div className="gate-name">Tone &amp; balance</div>
-          <div className="gate-status">
-            {stateFor(3) === 'pass' ? 'PASS' : stateFor(3) === 'checking' ? 'REVIEWING' : '—'}
-          </div>
-          <div className="gate-time">2104ms</div>
-          <div className="gate-bar" />
-        </div>
+        {gateData.map((g, i) => {
+          const s = stateFor(i + 1);
+          return (
+            <div className="gate" data-status={s} key={g.n}>
+              <div className="gate-arch-bg"><ArchSVG tier={i + 1} /></div>
+              <div className="gate-num">{g.n}</div>
+              <div className="gate-name">{g.name}</div>
+              <div className="gate-status">{s === 'pass' ? g.passLabel : s === 'checking' ? g.activeLabel : '—'}</div>
+              <div className="gate-time">{g.ms}ms</div>
+              {/* 4.3 — log-scale latency strip */}
+              <div className="gate-latency">
+                <div className="gate-latency-tick" style={{ left: '10%' }} />
+                <div className="gate-latency-tick" style={{ left: '50%' }} />
+                <div className="gate-latency-tick" style={{ left: '90%' }} />
+                <div className="gate-latency-fill" style={{ width: s !== 'check' ? `${g.latency}%` : '0%' }} />
+              </div>
+              <div className="gate-bar" />
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -3717,37 +4138,46 @@
     );
   }
 
+  // Sample script text for E4 token-by-token generation animation
+  // Matches the eToro App Store final script (current pinned content per K.4)
+  const PINNED_GEN_TEXT_SHORT = "Hi, I'm Gerardo. Nasdaq-listed eToro Group today launched the eToro App Store, an AI-enabled ecosystem for trading and investing. The marketplace lets developers and investors build, share, and access trading applications directly on the platform.";
+
   function SafetyScene({ brandSlug, brandConfig, onContinue }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
 
-    // Cinematic phase advances: 0 → 1 (L1 checking) → 2 (L2) → 3 (L3) → 4 (all pass)
-    // Auto-advances on a timer; can be re-triggered via "Re-run".
     const [phase, setPhase] = useState(0);
     const [thoughtIdx, setThoughtIdx] = useState(0);
     const [treeIdx, setTreeIdx] = useState(0);
     const [runId, setRunId] = useState(0);
+    const [genActive, setGenActive] = useState(false);
+    // 3.1 — ambient mode after phase 4
+    const ambient = phase >= 4;
 
     useEffect(() => {
       const timers = [];
-      // Reset
-      setPhase(0); setThoughtIdx(0); setTreeIdx(0);
-      // Stagger thought-stream rows
+      setPhase(0); setThoughtIdx(0); setTreeIdx(0); setGenActive(false);
       THOUGHT_STREAM_SCRIPT.forEach((_, i) => {
         timers.push(setTimeout(() => setThoughtIdx(i + 1), 250 + i * 700));
       });
-      // Stagger decision-tree highlights
       DECISION_TREE.forEach((_, i) => {
         timers.push(setTimeout(() => setTreeIdx(i), 400 + i * 350));
       });
-      // Phase progression for gates
+      // E4 — token gen kicks off at SCRIPT phase (4.1s)
+      timers.push(setTimeout(() => setGenActive(true), 4100));
       timers.push(setTimeout(() => setPhase(1), 4500));
+      timers.push(setTimeout(() => audioState.play('gatePass'), 4500));
       timers.push(setTimeout(() => setPhase(2), 5800));
+      timers.push(setTimeout(() => audioState.play('gatePass'), 5800));
       timers.push(setTimeout(() => setPhase(3), 7200));
+      timers.push(setTimeout(() => audioState.play('gatePass'), 7200));
       timers.push(setTimeout(() => setPhase(4), 9100));
+      timers.push(setTimeout(() => audioState.play('gatePass'), 9100));
       return () => timers.forEach(clearTimeout);
     }, [runId]);
+
+    const playTypewriter = useCallback(() => audioState.play('typewriter'), []);
 
     return (
       <section className="safety-scene" aria-label="Beat 4 · the safety net">
@@ -3764,7 +4194,44 @@
           </h2>
         </div>
 
-        {/* LEFT — Live thought stream + decision tree */}
+        {/* 4.2 — DUAL-REVEAL FULL-WIDTH HERO (Quality + Integrity numerals with bars + deltas) */}
+        <div className="dual-reveal-hero">
+          <div className="dual-reveal-col">
+            <div className="dual-reveal-eyebrow">Quality Score</div>
+            <div className={`dual-reveal-number ${ambient ? 'is-shimmer' : ''}`} data-metric="quality">
+              {phase >= 4 ? <CountUp to={95} duration={1400} delay={0} /> : '—'}
+            </div>
+            <div className="dual-reveal-track">
+              <div className="dual-reveal-track-fill" style={{ width: phase >= 4 ? '86%' : '0%', color: 'var(--accent)' }} />
+              <div className="dual-reveal-threshold" style={{ left: '32%' }} />
+              <div className="dual-reveal-threshold-label" style={{ left: '32%' }}>Pass 35</div>
+            </div>
+            {phase >= 4 && (
+              <div className="dual-reveal-delta" style={{ color: 'var(--accent)' }}>
+                <strong>+60</strong> over the line · /110
+              </div>
+            )}
+          </div>
+          <div className="dual-reveal-divider-h" aria-hidden="true" />
+          <div className="dual-reveal-col">
+            <div className="dual-reveal-eyebrow">Integrity Score</div>
+            <div className={`dual-reveal-number ${ambient ? 'is-shimmer' : ''}`} data-metric="integrity">
+              {phase >= 4 ? <CountUp to={98} duration={1400} delay={0} /> : '—'}
+            </div>
+            <div className="dual-reveal-track">
+              <div className="dual-reveal-track-fill" style={{ width: phase >= 4 ? '98%' : '0%', color: 'var(--green)' }} />
+              <div className="dual-reveal-threshold" style={{ left: '60%' }} />
+              <div className="dual-reveal-threshold-label" style={{ left: '60%' }}>Pass 60</div>
+            </div>
+            {phase >= 4 && (
+              <div className="dual-reveal-delta" style={{ color: 'var(--green)' }}>
+                <strong>+38</strong> over the line · /100
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* LEFT — Live thought stream + decision tree + token gen inset */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="safety-card">
             <div className="safety-card-eyebrow">
@@ -3785,6 +4252,8 @@
               </button>
             </div>
             <ThoughtStream rows={THOUGHT_STREAM_SCRIPT.slice(0, thoughtIdx)} />
+            {/* E4 — token-by-token script generation appears at SCRIPT phase */}
+            {genActive && <GenInset active={genActive} text={PINNED_GEN_TEXT_SHORT} onPlayTone={playTypewriter} />}
           </div>
           <div className="safety-card">
             <div className="safety-card-eyebrow">
@@ -3798,7 +4267,7 @@
           </div>
         </div>
 
-        {/* RIGHT — Integrity gates + dual reveal + hash chain */}
+        {/* RIGHT — Integrity gates + hash chain */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="safety-card">
             <div className="safety-card-eyebrow">
@@ -3811,19 +4280,6 @@
               L3 holistic
             </div>
             <IntegrityGates phase={phase} />
-            <div className="dual-reveal">
-              <div className="dual-reveal-col">
-                <div className="dual-reveal-eyebrow">Quality</div>
-                <div className="dual-reveal-number" data-metric="quality">{phase >= 4 ? '95' : '—'}</div>
-                <div className="dual-reveal-scale">Pass 35 · of 110</div>
-              </div>
-              <div className="dual-reveal-divider" aria-hidden="true" />
-              <div className="dual-reveal-col">
-                <div className="dual-reveal-eyebrow">Integrity</div>
-                <div className="dual-reveal-number" data-metric="integrity">{phase >= 4 ? '98' : '—'}</div>
-                <div className="dual-reveal-scale">Pass 60 · of 100</div>
-              </div>
-            </div>
           </div>
           <div className="safety-card">
             <div className="safety-card-eyebrow">
@@ -3833,31 +4289,35 @@
               <span className="safety-card-eyebrow-dot" aria-hidden="true" />
               every script signed
             </div>
-            <HashChain phase={phase} />
+            <HashChainVis phase={phase} />
           </div>
         </div>
 
-        {/* TRUST BADGES — full width */}
+        {/* TRUST BADGES — full width with 4.5 micro-viz */}
         <div className="trust-row">
           <div className="trust-badge">
-            <div className="trust-badge-label">Audit</div>
+            <div className="trust-badge-label"><Icon name="penTool" size={11} /> Audit</div>
             <div className="trust-badge-value">Audit trail kept</div>
             <div className="trust-badge-foot">Every approved script signed &amp; archived to Supabase</div>
+            <div className="trust-badge-viz"><TrustBadgeAudit /></div>
           </div>
           <div className="trust-badge">
-            <div className="trust-badge-label">Tests</div>
-            <div className="trust-badge-value">573 production tests</div>
+            <div className="trust-badge-label"><Icon name="checkCircle" size={11} /> Tests</div>
+            <div className="trust-badge-value"><CountUp to={573} duration={1400} delay={300} /> production tests</div>
             <div className="trust-badge-foot">Across 4 services · all passing on every deploy</div>
+            <div className="trust-badge-viz"><TrustBadgeTests /></div>
           </div>
           <div className="trust-badge">
-            <div className="trust-badge-label">Privacy</div>
+            <div className="trust-badge-label"><Icon name="eyeOff" size={11} /> Privacy</div>
             <div className="trust-badge-value">GDPR-aligned</div>
             <div className="trust-badge-foot">Zero user data collected · stateless content delivery</div>
+            <div className="trust-badge-viz"><TrustBadgePrivacy /></div>
           </div>
           <div className="trust-badge">
-            <div className="trust-badge-label">Monitor</div>
+            <div className="trust-badge-label"><Icon name="activity" size={11} /> Monitor</div>
             <div className="trust-badge-value">24/7 monitored</div>
             <div className="trust-badge-foot">Sentry · Pipeline Health Monitor · Telegram alerts</div>
+            <div className="trust-badge-viz"><TrustBadgeMonitor /></div>
           </div>
         </div>
 
