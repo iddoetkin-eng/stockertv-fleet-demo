@@ -2939,6 +2939,109 @@
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Round 2 Phase B6 — phone showcase wrapper (phone + annotation labels) */
+    .phone-showcase {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      align-items: center;
+      padding: 1rem 0 1.5rem;
+    }
+    @media (min-width: 880px) {
+      .phone-showcase {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 2.5rem;
+        padding: 1.25rem 0 2rem;
+      }
+    }
+    .phone-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 1rem;
+      min-height: 420px;
+    }
+    .brand-phone {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+      filter:
+        drop-shadow(0 24px 60px rgba(0,0,0,0.18))
+        drop-shadow(0 8px 24px color-mix(in srgb, var(--accent) 16%, transparent));
+      transition: filter 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* Annotation labels around the phone — connector lines drawn via ::before */
+    .phone-callouts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      align-self: center;
+      max-width: 100%;
+    }
+    .phone-callout {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 0.65rem;
+      padding: 0.75rem 0.9rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+    }
+    .phone-callout:hover {
+      transform: translateX(2px);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .phone-callout-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      align-self: start;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .phone-callout-body { min-width: 0; }
+    .phone-callout-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.25;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+    .phone-callout-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+    .phone-foot-note {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: -0.5rem;
+      opacity: 0.78;
+    }
+    .phone-foot-note-dot {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 0.5rem;
+      vertical-align: middle;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     /* User surface preview (phone-ish mockup) */
     .user-preview {
       background:
@@ -3910,6 +4013,178 @@
         <text x={w / 2} y="6" textAnchor="middle" fontSize="6" fill="currentColor" stroke="none" letterSpacing="2" fontFamily="'JetBrains Mono', monospace" opacity="0.5">
           {meta.city.toUpperCase()}
         </text>
+      </svg>
+    );
+  }
+
+  // ============================================================================
+  // BRAND PHONE MOCKUP (Round 2 Phase B6) — abstract SVG iPhone per client
+  // ----------------------------------------------------------------------------
+  // ~280×580 viewBox. Brand-color top nav + StockerTV widget rectangle inside +
+  // generic bottom tab bar. Footer note declares it's an illustration, not a
+  // screenshot. Uses brandConfig.branding.primaryColor for color and pulls
+  // tab labels + widget content from BRAND_PHONE_PRESETS.
+  // ============================================================================
+  const BRAND_PHONE_PRESETS = {
+    etoro: {
+      tabs: ['Discover', 'Markets', 'Watch', 'Portfolio', 'Copy'],
+      widgetLine1: 'Market Intel',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'BlackRock IBIT crosses cumulative inflow milestone',
+      widgetMeta: 'Crypto · 47s · EN/DE/IT/ES/FR',
+    },
+    ibkr: {
+      tabs: ['Trade', 'Quotes', 'Research', 'Account', 'More'],
+      widgetLine1: 'Pre-market briefing',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'Tier-1 broker activity rises ahead of US open',
+      widgetMeta: 'Operations · 47s · EN',
+    },
+    bac: {
+      tabs: ['Home', 'Markets', 'Trade', 'Research', 'Accounts'],
+      widgetLine1: 'Daily market read',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'Wealth-management flows — quarterly summary',
+      widgetMeta: 'Wealth · 47s · EN/ES',
+    },
+    jpm: {
+      tabs: ['Home', 'Markets', 'Invest', 'Plan', 'Profile'],
+      widgetLine1: 'AWM segment briefing',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'JPM AWM Q1 segment results',
+      widgetMeta: 'Earnings · 47s · EN/ES/ZH',
+    },
+    plus500: {
+      tabs: ['Trade', 'Charts', 'Watchlist', 'News', 'Account'],
+      widgetLine1: 'Market Intel',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'CFD volumes — top 10 contracts this hour',
+      widgetMeta: 'Trading · 47s · EN/DE/HE',
+    },
+    t212: {
+      tabs: ['Discover', 'Stocks', 'Pies', 'Cards', 'Profile'],
+      widgetLine1: 'Market Intel',
+      widgetSrc: 'powered by StockerTV',
+      widgetHeadline: 'European retail favourites — quarterly read',
+      widgetMeta: 'Equities · 47s · EN/DE/IT/ES/FR',
+    },
+  };
+
+  function BrandPhoneMockup({ brandSlug, brandConfig }) {
+    const preset = BRAND_PHONE_PRESETS[brandSlug] || BRAND_PHONE_PRESETS.etoro;
+    const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
+      ? brandConfig.branding.shortName
+      : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'Brand' }).shortName;
+
+    return (
+      <svg
+        className="brand-phone"
+        viewBox="0 0 280 580"
+        preserveAspectRatio="xMidYMid meet"
+        aria-label={`Illustration of the ${display} mobile app with the StockerTV widget embedded`}
+        role="img"
+      >
+        {/* Outer phone frame — neutral substrate */}
+        <rect x="0" y="0" width="280" height="580" rx="38" fill="var(--surface-elevated)" stroke="var(--border)" strokeWidth="1.2"/>
+        {/* Inner screen */}
+        <rect x="10" y="10" width="260" height="560" rx="30" fill="var(--surface)" stroke="var(--border)" strokeWidth="0.6"/>
+        {/* Dynamic island */}
+        <rect x="108" y="22" width="64" height="22" rx="11" fill="var(--text-primary)" opacity="0.92"/>
+
+        {/* Status bar */}
+        <text x="32" y="36" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill="var(--text-primary)" opacity="0.78">9:41</text>
+        <g transform="translate(220 30)" fill="var(--text-primary)" opacity="0.78">
+          <rect x="0" y="0" width="2" height="6" rx="0.5"/>
+          <rect x="3" y="-2" width="2" height="8" rx="0.5"/>
+          <rect x="6" y="-3" width="2" height="9" rx="0.5"/>
+          <rect x="9" y="-4" width="2" height="10" rx="0.5"/>
+          <rect x="14" y="-3" width="14" height="8" rx="2" stroke="var(--text-primary)" strokeWidth="0.8" fill="none"/>
+          <rect x="16" y="-1.5" width="9" height="5" rx="0.5"/>
+        </g>
+
+        {/* Top nav — BRAND COLOR */}
+        <rect x="10" y="58" width="260" height="56" fill="var(--accent)" />
+        {/* Brand wordmark inside nav */}
+        <text x="22" y="92" fontFamily="'Inter', sans-serif" fontSize="17" fontWeight="700" fill="#fff" letterSpacing="-0.4">{display}</text>
+        {/* Generic search/avatar icons on right */}
+        <circle cx="232" cy="86" r="7" fill="none" stroke="#fff" strokeWidth="1.4" opacity="0.85"/>
+        <line x1="237" y1="91" x2="241" y2="95" stroke="#fff" strokeWidth="1.4" opacity="0.85"/>
+        <circle cx="254" cy="86" r="9" fill="rgba(255,255,255,0.18)" stroke="#fff" strokeWidth="1" opacity="0.85"/>
+
+        {/* StockerTV WIDGET — primary embedded element */}
+        <g>
+          {/* Frame: dashed accent border + soft fill */}
+          <rect x="22" y="130" width="236" height="172" rx="14"
+                fill="color-mix(in srgb, var(--accent) 6%, var(--surface))"
+                stroke="var(--accent)" strokeWidth="1.6" strokeDasharray="4 3"/>
+          {/* Widget header */}
+          <text x="36" y="154" fontFamily="'JetBrains Mono', monospace" fontSize="9" letterSpacing="2" fill="var(--accent)" fontWeight="600">{preset.widgetLine1.toUpperCase()}</text>
+          <text x="36" y="166" fontFamily="'JetBrains Mono', monospace" fontSize="8" letterSpacing="1" fill="var(--text-muted)">{preset.widgetSrc}</text>
+          {/* Mock video thumbnail (left) */}
+          <g transform="translate(36 178)">
+            <rect x="0" y="0" width="76" height="50" rx="4" fill="var(--text-primary)" opacity="0.9"/>
+            <polygon points="32,16 32,34 48,25" fill="#fff"/>
+            <text x="2" y="48" fontFamily="'JetBrains Mono', monospace" fontSize="6" fill="#fff" opacity="0.85">47s</text>
+          </g>
+          {/* Headline + meta to the right of thumb */}
+          <foreignObject x="120" y="178" width="124" height="60">
+            <div xmlns="http://www.w3.org/1999/xhtml" style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '10.5px',
+              lineHeight: '1.3',
+              color: 'var(--text-primary)',
+              fontWeight: 500,
+              overflow: 'hidden',
+            }}>
+              {preset.widgetHeadline}
+            </div>
+          </foreignObject>
+          <text x="120" y="246" fontFamily="'JetBrains Mono', monospace" fontSize="7" fill="var(--text-muted)" letterSpacing="0.5">{preset.widgetMeta}</text>
+          {/* Footer row inside widget — source-verified + audit */}
+          <line x1="36" y1="262" x2="244" y2="262" stroke="var(--border)" strokeWidth="0.6"/>
+          <circle cx="42" cy="278" r="3" fill="var(--green)"/>
+          <text x="50" y="282" fontFamily="'JetBrains Mono', monospace" fontSize="7.5" letterSpacing="0.6" fill="var(--text-muted)">SOURCE-VERIFIED · AUDIT SIGNED</text>
+          {/* Live badge top-right */}
+          <g transform="translate(218 144)">
+            <rect x="0" y="-9" width="34" height="14" rx="3" fill="var(--accent)"/>
+            <text x="17" y="0.5" textAnchor="middle" fontFamily="'JetBrains Mono', monospace" fontSize="7.5" fontWeight="700" fill="#fff" letterSpacing="0.8">LIVE</text>
+          </g>
+        </g>
+
+        {/* Below widget — generic content rows (the broker's own UI) */}
+        <g opacity="0.55">
+          <text x="22" y="332" fontFamily="'Inter', sans-serif" fontSize="11" fontWeight="600" fill="var(--text-primary)">Your watchlist</text>
+          <line x1="22" y1="340" x2="258" y2="340" stroke="var(--border)" strokeWidth="0.6"/>
+          {[0,1,2].map((i) => (
+            <g key={i} transform={`translate(0 ${352 + i * 36})`}>
+              <circle cx="32" cy="12" r="9" fill="var(--surface-elevated)" stroke="var(--border)" strokeWidth="0.6"/>
+              <text x="32" y="15" textAnchor="middle" fontFamily="'JetBrains Mono', monospace" fontSize="7" fill="var(--text-muted)">{['BTC','ETH','TSLA'][i]}</text>
+              <text x="48" y="11" fontFamily="'Inter', sans-serif" fontSize="10" fontWeight="500" fill="var(--text-primary)">{['Bitcoin','Ethereum','Tesla'][i]}</text>
+              <text x="48" y="22" fontFamily="'JetBrains Mono', monospace" fontSize="8" fill="var(--text-muted)">{['$67,420','$3,512','$284.10'][i]}</text>
+              <text x="240" y="15" textAnchor="end" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill={i === 2 ? 'var(--red)' : 'var(--green)'}>{['+1.4%','+0.8%','-0.6%'][i]}</text>
+            </g>
+          ))}
+        </g>
+
+        {/* Bottom tab bar */}
+        <rect x="10" y="510" width="260" height="60" fill="var(--surface-elevated)" />
+        <line x1="10" y1="510" x2="270" y2="510" stroke="var(--border)" strokeWidth="0.6"/>
+        {preset.tabs.slice(0, 5).map((label, i) => {
+          const cx = 36 + i * 52;
+          const isFirst = i === 0;
+          return (
+            <g key={i}>
+              {/* Tiny icon glyph above each label */}
+              <circle cx={cx} cy={528} r="4" fill="none" stroke={isFirst ? 'var(--accent)' : 'var(--text-muted)'} strokeWidth="1.2"/>
+              <text x={cx} y="550" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8" fontWeight={isFirst ? 600 : 500} fill={isFirst ? 'var(--accent)' : 'var(--text-muted)'}>
+                {label}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Home indicator */}
+        <rect x="106" y="558" width="68" height="3" rx="1.5" fill="var(--text-primary)" opacity="0.45"/>
       </svg>
     );
   }
@@ -6659,7 +6934,47 @@
           </h2>
         </div>
 
-        <IllustrationPhone />
+        {/* Round 2 Phase B6 — brand-specific iPhone mockup with annotation callouts */}
+        <div className="phone-showcase" aria-label={`${display} mobile app illustration with the embedded StockerTV widget`}>
+          <div className="phone-stage">
+            <BrandPhoneMockup brandSlug={brandSlug} brandConfig={brandConfig} />
+          </div>
+          <div className="phone-callouts" role="list" aria-label="Phone mockup callouts">
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">01</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">Brand-locked top nav</div>
+                <div className="phone-callout-text">Your colors, your wordmark, your icons. The user never leaves <strong>{display}</strong>.</div>
+              </div>
+            </div>
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">02</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">StockerTV widget &mdash; embedded</div>
+                <div className="phone-callout-text">A fixed-height card inside the home screen. Auto-refreshing video segment with live source-verified content. Tap to watch full 47-second briefing.</div>
+              </div>
+            </div>
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">03</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">Native to your platform</div>
+                <div className="phone-callout-text">Same nav, same tabs, same surface. The widget composes in &mdash; no separate app, no second login, no integration tax.</div>
+              </div>
+            </div>
+            <div className="phone-callout" role="listitem">
+              <span className="phone-callout-num" aria-hidden="true">04</span>
+              <div className="phone-callout-body">
+                <div className="phone-callout-title">Source-verified · audit signed</div>
+                <div className="phone-callout-text">Every segment carries the same integrity proofs you saw in Beat 4. Visible to your users; queryable by your regulators.</div>
+              </div>
+            </div>
+          </div>
+          <div className="phone-foot-note">
+            <span className="phone-foot-note-dot" aria-hidden="true" />
+            Illustration &middot; representative integration, not a screenshot
+            <span className="phone-foot-note-dot" aria-hidden="true" />
+          </div>
+        </div>
 
         <div className="user-preview" aria-label="Mocked end-user broadcast surface">
           <div className="user-preview-frame">
