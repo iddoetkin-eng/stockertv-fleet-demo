@@ -811,6 +811,376 @@
       margin: 0.5rem 0 1.5rem;
     }
     .scale-subline strong { color: var(--text-primary); font-weight: 500; }
+
+    /* ============ BEAT 4 — THE SAFETY NET ============ */
+    .safety-scene {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 2rem 1.5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (min-width: 880px) {
+      .safety-scene {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 2rem;
+        padding: 3rem 2rem 5rem;
+      }
+    }
+    .safety-header {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .safety-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .safety-eyebrow-dot {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 0.6rem;
+      vertical-align: middle;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .safety-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      max-width: 36ch;
+      margin: 0 auto;
+    }
+    .safety-headline em {
+      color: var(--accent);
+      font-style: italic;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Card chrome reused across safety-scene panels */
+    .safety-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.25rem;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1), border-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .safety-card-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.875rem;
+    }
+    .safety-card-eyebrow-dot {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 0.4rem;
+      vertical-align: middle;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* AI thought stream */
+    .thought-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      max-height: 220px;
+      overflow: hidden;
+    }
+    .thought-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.4rem 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      line-height: 1.45;
+      color: var(--text-muted);
+      background: var(--surface-elevated);
+      border-radius: 4px;
+      animation: stv-thought-in 380ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .thought-row[data-state='passed'] { color: var(--text-primary); border-left: 2px solid var(--green); padding-left: calc(0.5rem - 2px); }
+    .thought-row[data-state='checked'] { color: var(--text-primary); border-left: 2px solid var(--accent); padding-left: calc(0.5rem - 2px); }
+    .thought-row[data-state='blocked'] { color: var(--text-primary); border-left: 2px solid var(--red); padding-left: calc(0.5rem - 2px); }
+    .thought-row[data-state='info'] { border-left: 2px solid var(--border); padding-left: calc(0.5rem - 2px); }
+    .thought-row-time {
+      color: var(--text-muted);
+      flex-shrink: 0;
+      width: 50px;
+      font-weight: 500;
+    }
+    .thought-row-code {
+      color: var(--accent);
+      flex-shrink: 0;
+      font-weight: 600;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .thought-row[data-state='passed'] .thought-row-code { color: var(--green); }
+    .thought-row[data-state='blocked'] .thought-row-code { color: var(--red); }
+    .thought-row-msg { flex: 1; min-width: 0; }
+    @keyframes stv-thought-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Decision tree (8 nodes vertically) */
+    .tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .tree-node {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      background: var(--surface-elevated);
+      border-radius: 4px;
+      color: var(--text-muted);
+      animation: stv-thought-in 380ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
+    }
+    .tree-node[data-active='true'] {
+      color: var(--text-primary);
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      padding: calc(0.55rem - 1px) calc(0.6rem - 1px);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .tree-node-num {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 9.5px;
+      font-weight: 600;
+    }
+    .tree-node[data-active='true'] .tree-node-num {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      mix-blend-mode: difference;
+    }
+    .tree-node-label { flex: 1; }
+    .tree-node-conf {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .tree-node[data-active='true'] .tree-node-conf { color: var(--accent); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Integrity gates */
+    .gates {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    .gate {
+      padding: 0.875rem 0.75rem;
+      background: var(--surface-elevated);
+      border-radius: 6px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .gate-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .gate-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .gate-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      transition: color 220ms ease;
+    }
+    .gate[data-status='pass'] .gate-status { color: var(--green); }
+    .gate[data-status='check'] .gate-status { color: var(--accent); }
+    .gate[data-status='checking'] .gate-status { color: var(--accent); opacity: 0.7; animation: stv-pulse 1100ms ease-in-out infinite; }
+    .gate-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-top: 0.25rem;
+    }
+    .gate-bar {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      width: 100%;
+      background: var(--border);
+    }
+    .gate-bar::after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--green);
+      transition: width 1100ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .gate[data-status='pass'] .gate-bar::after { width: 100%; }
+    .gate[data-status='check'] .gate-bar::after { width: 100%; background: var(--accent); }
+    .gate[data-status='checking'] .gate-bar::after { width: 60%; background: var(--accent); }
+
+    /* Quality + Integrity dual reveal — the Fraunces numerals moment */
+    .dual-reveal {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.25rem 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .dual-reveal-divider { background: var(--border); height: 60%; align-self: center; }
+    .dual-reveal-col { text-align: center; }
+    .dual-reveal-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .dual-reveal-number {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-weight: 500;
+      line-height: 1;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+    .dual-reveal-number[data-metric='quality'] { color: var(--accent); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .dual-reveal-number[data-metric='integrity'] { color: var(--green); transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .dual-reveal-scale {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-top: 0.4rem;
+    }
+
+    /* Hash chain background ticker */
+    .hash-chain {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      max-height: 100px;
+      overflow: hidden;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: var(--text-muted);
+    }
+    .hash-row {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.2rem 0;
+      animation: stv-thought-in 380ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .hash-row-tick {
+      color: var(--green);
+      flex-shrink: 0;
+    }
+    .hash-row-hash {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Trust badges */
+    .trust-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    @media (min-width: 720px) {
+      .trust-row { grid-template-columns: repeat(4, 1fr); }
+    }
+    .trust-badge {
+      padding: 0.875rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-align: left;
+    }
+    .trust-badge-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .trust-badge-value {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .trust-badge-foot {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .safety-foot {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .safety-subline {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--text-muted);
+      max-width: 64ch;
+      line-height: 1.65;
+      letter-spacing: 0.02em;
+      margin: 0 auto 1.5rem;
+    }
+    .safety-subline strong { color: var(--text-primary); font-weight: 500; }
   </style>
 </head>
 <body>
@@ -1428,7 +1798,300 @@
   }
 
   // ============================================================================
-  // PlaceholderScene — for beats 4-7 until they ship
+  // SafetyScene — Beat 4 main. "Built for your regulator, not retrofitted."
+  // ----------------------------------------------------------------------------
+  // The confidence-building beat. Animated thought stream + decision tree +
+  // integrity gates + dual-reveal numerals + hash chain + 4 trust badges.
+  // ============================================================================
+
+  const THOUGHT_STREAM_SCRIPT = [
+    { time: '00.0', code: 'INGEST',     state: 'info',    msg: 'BTC ETF inflow article ingested · Globe Newswire' },
+    { time: '00.4', code: 'NOVELTY',    state: 'checked', msg: 'Story freshness 92% · not covered in last 7 days' },
+    { time: '01.1', code: 'EDGAR',      state: 'passed',  msg: 'SEC filings cross-referenced · BlackRock IBIT · 6 facts verified' },
+    { time: '02.3', code: 'REPORTER',   state: 'checked', msg: 'Gerardo selected · Financial earnings classifier · 0.94 confidence' },
+    { time: '04.1', code: 'SCRIPT',     state: 'passed',  msg: 'Sonnet 4.6 · 117 words · 47-second target' },
+    { time: '05.4', code: 'L1',         state: 'passed',  msg: 'Forbidden phrase scan · 0/24 patterns matched' },
+    { time: '06.2', code: 'L2',         state: 'passed',  msg: 'Semantic review · no implied guarantees · Haiku 4.5' },
+    { time: '08.6', code: 'L3',         state: 'passed',  msg: 'Holistic balance review · regulatory tone confirmed · Gemini 2.5' },
+    { time: '09.0', code: 'GATE',       state: 'passed',  msg: 'Quality 95 · Integrity 98 · dual-gate cleared' },
+    { time: '09.3', code: 'AUDIT',      state: 'passed',  msg: 'SHA-256 audit chain signed · DOC-ETOR-2026-0427-1' },
+  ];
+
+  const DECISION_TREE = [
+    { num: 1, label: 'Parse article structure',         conf: 0.99 },
+    { num: 2, label: 'Detect entity (BlackRock, IBIT)', conf: 0.97 },
+    { num: 3, label: 'Classify story type · ETF flow',  conf: 0.94 },
+    { num: 4, label: 'Check 72-hour freshness',         conf: 1.00 },
+    { num: 5, label: 'Cross-reference SEC EDGAR',       conf: 0.96 },
+    { num: 6, label: 'Select Gerardo (financial beat)', conf: 0.94 },
+    { num: 7, label: 'Generate · 110-130 word target',  conf: 0.92 },
+    { num: 8, label: 'Apply 24 integrity rules · L1+L2+L3', conf: 0.98 },
+  ];
+
+  function ThoughtStream({ rows }) {
+    return (
+      <div className="thought-stream" role="log">
+        {rows.map((r, i) => (
+          <div className="thought-row" data-state={r.state} key={`${r.time}-${i}`}>
+            <span className="thought-row-time">{r.time}s</span>
+            <span className="thought-row-code">{r.code}</span>
+            <span className="thought-row-msg">{r.msg}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function DecisionTree({ activeIdx }) {
+    return (
+      <div className="tree" role="list">
+        {DECISION_TREE.map((n, i) => (
+          <div
+            className="tree-node"
+            data-active={i <= activeIdx}
+            key={n.num}
+            style={{ animationDelay: `${i * 90}ms` }}
+            role="listitem"
+          >
+            <span className="tree-node-num">{n.num}</span>
+            <span className="tree-node-label">{n.label}</span>
+            <span className="tree-node-conf">{(n.conf * 100).toFixed(0)}%</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function IntegrityGates({ phase }) {
+    // phase: 0 = idle, 1 = L1 checking, 2 = L1 done L2 checking, 3 = L2 done L3 checking, 4 = all pass
+    const stateFor = (gate) => {
+      if (phase >= gate + 1) return 'pass';
+      if (phase === gate) return 'checking';
+      return 'check';
+    };
+    return (
+      <div className="gates">
+        <div className="gate" data-status={stateFor(1)}>
+          <div className="gate-num">L1</div>
+          <div className="gate-name">Forbidden phrases</div>
+          <div className="gate-status">
+            {stateFor(1) === 'pass' ? 'PASS' : stateFor(1) === 'checking' ? 'SCANNING' : '—'}
+          </div>
+          <div className="gate-time">15ms</div>
+          <div className="gate-bar" />
+        </div>
+        <div className="gate" data-status={stateFor(2)}>
+          <div className="gate-num">L2</div>
+          <div className="gate-name">Semantic meaning</div>
+          <div className="gate-status">
+            {stateFor(2) === 'pass' ? 'PASS' : stateFor(2) === 'checking' ? 'CHECKING' : '—'}
+          </div>
+          <div className="gate-time">812ms</div>
+          <div className="gate-bar" />
+        </div>
+        <div className="gate" data-status={stateFor(3)}>
+          <div className="gate-num">L3</div>
+          <div className="gate-name">Tone &amp; balance</div>
+          <div className="gate-status">
+            {stateFor(3) === 'pass' ? 'PASS' : stateFor(3) === 'checking' ? 'REVIEWING' : '—'}
+          </div>
+          <div className="gate-time">2104ms</div>
+          <div className="gate-bar" />
+        </div>
+      </div>
+    );
+  }
+
+  function HashChain({ phase }) {
+    // Generate fake but realistic-looking hash entries that grow as phase advances
+    const seeds = ['a3f2', '6e1c', '8b4d', 'f9a0', '2c7e', '5d3b', 'e8f1', '7c2a'];
+    const rows = [];
+    const total = Math.min(seeds.length, phase * 2 + 2);
+    for (let i = 0; i < total; i++) {
+      const t = (i * 0.42 + 0.18).toFixed(2);
+      const h = seeds[i % seeds.length] + 'b9c1' + seeds[(i + 1) % seeds.length] + '...';
+      rows.push(
+        <div className="hash-row" key={`${i}-${h}`}>
+          <span className="hash-row-tick">✓</span>
+          <span className="hash-row-hash">block #{1240 + i} · {h}</span>
+          <span style={{ color: 'var(--text-muted)' }}>· t+{t}s</span>
+        </div>
+      );
+    }
+    return <div className="hash-chain">{rows}</div>;
+  }
+
+  function ScriptRefreshIcon() {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+        <polyline points="23 4 23 10 17 10"/>
+        <polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+    );
+  }
+
+  function SafetyScene({ brandSlug, brandConfig, onContinue }) {
+    const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
+      ? brandConfig.branding.shortName
+      : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
+
+    // Cinematic phase advances: 0 → 1 (L1 checking) → 2 (L2) → 3 (L3) → 4 (all pass)
+    // Auto-advances on a timer; can be re-triggered via "Re-run".
+    const [phase, setPhase] = useState(0);
+    const [thoughtIdx, setThoughtIdx] = useState(0);
+    const [treeIdx, setTreeIdx] = useState(0);
+    const [runId, setRunId] = useState(0);
+
+    useEffect(() => {
+      const timers = [];
+      // Reset
+      setPhase(0); setThoughtIdx(0); setTreeIdx(0);
+      // Stagger thought-stream rows
+      THOUGHT_STREAM_SCRIPT.forEach((_, i) => {
+        timers.push(setTimeout(() => setThoughtIdx(i + 1), 250 + i * 700));
+      });
+      // Stagger decision-tree highlights
+      DECISION_TREE.forEach((_, i) => {
+        timers.push(setTimeout(() => setTreeIdx(i), 400 + i * 350));
+      });
+      // Phase progression for gates
+      timers.push(setTimeout(() => setPhase(1), 4500));
+      timers.push(setTimeout(() => setPhase(2), 5800));
+      timers.push(setTimeout(() => setPhase(3), 7200));
+      timers.push(setTimeout(() => setPhase(4), 9100));
+      return () => timers.forEach(clearTimeout);
+    }, [runId]);
+
+    return (
+      <section className="safety-scene" aria-label="Beat 4 · the safety net">
+        <div className="safety-header">
+          <div className="safety-eyebrow">
+            Beat 4
+            <span className="safety-eyebrow-dot" aria-hidden="true" />
+            Built for your regulator, not retrofitted
+            <span className="safety-eyebrow-dot" aria-hidden="true" />
+            573 production tests
+          </div>
+          <h2 className="safety-headline">
+            Every story passes through <em>24 integrity rules · 3 layers</em> &mdash; before it ever reaches your users.
+          </h2>
+        </div>
+
+        {/* LEFT — Live thought stream + decision tree */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="safety-card">
+            <div className="safety-card-eyebrow">
+              Live thought stream
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              one story end-to-end
+              <button
+                onClick={() => setRunId((r) => r + 1)}
+                style={{
+                  float: 'right', background: 'transparent', border: '1px solid var(--border)',
+                  borderRadius: 4, color: 'var(--text-muted)', padding: '2px 8px', cursor: 'pointer',
+                  fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', display: 'inline-flex',
+                  alignItems: 'center', gap: 4
+                }}
+                title="Replay the safety-net cinematic"
+              >
+                <ScriptRefreshIcon /> Re-run
+              </button>
+            </div>
+            <ThoughtStream rows={THOUGHT_STREAM_SCRIPT.slice(0, thoughtIdx)} />
+          </div>
+          <div className="safety-card">
+            <div className="safety-card-eyebrow">
+              Decision tree
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              {treeIdx + 1} of 8 nodes
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              confidence per step
+            </div>
+            <DecisionTree activeIdx={treeIdx} />
+          </div>
+        </div>
+
+        {/* RIGHT — Integrity gates + dual reveal + hash chain */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="safety-card">
+            <div className="safety-card-eyebrow">
+              Integrity gates
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              L1 regex
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              L2 semantic
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              L3 holistic
+            </div>
+            <IntegrityGates phase={phase} />
+            <div className="dual-reveal">
+              <div className="dual-reveal-col">
+                <div className="dual-reveal-eyebrow">Quality</div>
+                <div className="dual-reveal-number" data-metric="quality">{phase >= 4 ? '95' : '—'}</div>
+                <div className="dual-reveal-scale">Pass 35 · of 110</div>
+              </div>
+              <div className="dual-reveal-divider" aria-hidden="true" />
+              <div className="dual-reveal-col">
+                <div className="dual-reveal-eyebrow">Integrity</div>
+                <div className="dual-reveal-number" data-metric="integrity">{phase >= 4 ? '98' : '—'}</div>
+                <div className="dual-reveal-scale">Pass 60 · of 100</div>
+              </div>
+            </div>
+          </div>
+          <div className="safety-card">
+            <div className="safety-card-eyebrow">
+              Audit chain
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              SHA-256
+              <span className="safety-card-eyebrow-dot" aria-hidden="true" />
+              every script signed
+            </div>
+            <HashChain phase={phase} />
+          </div>
+        </div>
+
+        {/* TRUST BADGES — full width */}
+        <div className="trust-row">
+          <div className="trust-badge">
+            <div className="trust-badge-label">Audit</div>
+            <div className="trust-badge-value">Audit trail kept</div>
+            <div className="trust-badge-foot">Every approved script signed &amp; archived to Supabase</div>
+          </div>
+          <div className="trust-badge">
+            <div className="trust-badge-label">Tests</div>
+            <div className="trust-badge-value">573 production tests</div>
+            <div className="trust-badge-foot">Across 4 services · all passing on every deploy</div>
+          </div>
+          <div className="trust-badge">
+            <div className="trust-badge-label">Privacy</div>
+            <div className="trust-badge-value">GDPR-aligned</div>
+            <div className="trust-badge-foot">Zero user data collected · stateless content delivery</div>
+          </div>
+          <div className="trust-badge">
+            <div className="trust-badge-label">Monitor</div>
+            <div className="trust-badge-value">24/7 monitored</div>
+            <div className="trust-badge-foot">Sentry · Pipeline Health Monitor · Telegram alerts</div>
+          </div>
+        </div>
+
+        <div className="safety-foot">
+          <p className="safety-subline">
+            <strong>Three layers of regulatory review &mdash; no human intervention bypasses the gate.</strong>{' '}
+            Engineered for the same editorial standards your team already applies to outbound content.{' '}
+            573 production tests across the 4 services. Every story signed, archived, and reproducible on demand.
+          </p>
+          <button className="scene-continue" onClick={onContinue} aria-label="Continue to full pipeline">
+            Continue to full pipeline
+            <span className="scene-continue-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+    );
+  }
+
+  // ============================================================================
+  // PlaceholderScene — for beats 5-7 until they ship
   // ============================================================================
   function PlaceholderScene({ beatId, beatName, onContinue, onBack }) {
     return (
@@ -1605,9 +2268,16 @@
           onContinue={goNext}
         />
       );
+    } else if (activeBeat === BEATS.SAFETY) {
+      scene = (
+        <SafetyScene
+          brandSlug={brandSlug}
+          brandConfig={brandConfig}
+          onContinue={goNext}
+        />
+      );
     } else {
       const beatLabels = {
-        [BEATS.SAFETY]:   { id: 4, name: 'The safety net' },
         [BEATS.PIPELINE]: { id: 5, name: 'Full pipeline' },
         [BEATS.OUTPUT]:   { id: 6, name: 'Output through users\' eyes' },
         [BEATS.CLOSE]:    { id: 7, name: 'Close' },
