@@ -17,6 +17,9 @@
     "accentColor": "#4a8d1a",
     "accentDeep": "#8FC850",
     "accent2": "#A8D96E",
+    "successColor": "#4a8d1a",
+    "shortName": "eToro",
+    "themeMode": "light",
     "pageTitle": "StockerTV — Pipeline · eToro Demo"
   },
   "hero": {

@@ -1,0 +1,90 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "Trading 212 config (placeholder, 2026-04-27). Branding palette confirmed. Pinned story is a placeholder clone of the eToro BTC ETF narrative until Iddo picks a T212-specific story (B.4.J candidates: UK FTSE 100 leader / European retail favorite / US retail crossover). The branding section is production-ready for the unified demo's brand-switch demo (Beat 2). Stage 14 finalScript and avatar_video_url remain to be locked before the T212 meeting.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive; Iddo will add later",
+    "avatar_video_url — intentionally null per Q4 lock; CTA hides until Iddo delivers Supabase URL after producing the avatar video",
+    "Pinned story selection (B.4.J) — Iddo to pick from candidates: UK FTSE 100 quarterly leader / European retail favorite (ASML, LVMH) / US retail crossover (NVDA fallback). Showcase below mirrors eToro BTC ETF as a working placeholder.",
+    "Brand palette per Mission Control BRAND_PRESETS: #009cde primary (Trading 212 brand blue from public assets); accentDeep #007bb5 (darker shade), accent2 #6ecdff (lighter shade). No successColor (non-green primary) → unified demo falls back to neutral #22c55e per Beat 4 B.4.D hybrid 3-way rule."
+  ],
+  "branding": {
+    "clientName": "Trading 212",
+    "logoUrl": null,
+    "primaryColor": "#009cde",
+    "accentColor": "#10B981",
+    "accentDeep": "#007bb5",
+    "accent2": "#6ecdff",
+    "shortName": "T212",
+    "themeMode": "light",
+    "pageTitle": "StockerTV — Pipeline · Trading 212 Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → source-verified script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready segments, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated story · 47 sec",
+    "stats": [
+      { "value": "32,000+", "label": "companies" },
+      { "value": "53", "label": "exchanges" },
+      { "value": "30", "label": "agents" },
+      { "value": "24", "label": "integrity rules" }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": ["$400M", "$300M", "$200M", "$100M", "$0"]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "Trading 212 · Demo Story",
+    "docId": "DOC-T212-2026-0427"
+  },
+  "multilang": {
+    "combinedCapHeadline": "Same story · 5 European markets · native quality",
+    "languages": [
+      { "id": "en", "countryCode": "GB", "heading": "English", "marketCaption": "UK · Trading 212 home market" },
+      { "id": "de", "countryCode": "DE", "heading": "Deutsch", "marketCaption": "Germany · BaFin-aligned operations" },
+      { "id": "it", "countryCode": "IT", "heading": "Italiano", "marketCaption": "Italy · CONSOB-aligned operations" },
+      { "id": "es", "countryCode": "ES", "heading": "Español", "marketCaption": "Spain · CNMV-aligned operations" },
+      { "id": "fr", "countryCode": "FR", "heading": "Français", "marketCaption": "France · AMF-aligned operations" }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "T212",
+  "avatar_video_url": null,
+  "showcase": {
+    "meta": {
+      "company": "Trading 212",
+      "ticker": "T212",
+      "exchange": "Private",
+      "articleSource": "Placeholder — pinned story TBD",
+      "totalDurationMs": 90000,
+      "sourceFiling": "Placeholder — pinned story TBD"
+    },
+    "stages": [
+      { "stage": 1, "name": "article_input", "delayMs": 400, "data": { "title": "Trading 212 demo placeholder — pinned story to be locked before meeting", "source": "TBD", "publishedAt": "TBD", "wordCount": 0, "fullText": "Placeholder content. Pinned story will be selected from B.4.J candidates (UK FTSE 100 leader / European retail favorite / US retail crossover) and the full ~110-130 word Gerardo-voiced script will be authored before any Trading 212 meeting." } },
+      { "stage": 2, "name": "watcher_detection", "delayMs": 3500, "data": { "source": "TBD", "publishedAt": "TBD", "ticker": "TBD", "exchange": "TBD", "noveltyScore": 0, "noveltyReason": "Placeholder" } },
+      { "stage": 3, "name": "company_enrichment", "delayMs": 7000, "data": { "name": "TBD", "ticker": "TBD", "sector": "TBD", "industry": "TBD", "ceo": "TBD", "headquarters": "TBD", "foundedYear": "TBD", "marketCap": "TBD", "lastPrice": "TBD", "week52High": "TBD", "week52Low": "TBD", "keyProducts": "TBD", "competitors": "TBD", "description": "Placeholder", "dbSize": "32,000+", "dbExchanges": "53" } },
+      { "stage": 4, "name": "fact_extraction", "delayMs": 11000, "data": { "facts": [], "totalWords": 0, "fullText": "Placeholder" } },
+      { "stage": 5, "name": "sec_validation", "delayMs": 16500, "data": { "validations": [] } },
+      { "stage": 6, "name": "cross_reference", "delayMs": 23000, "data": { "center": "TBD", "nodes": [], "note": "Placeholder" } },
+      { "stage": 7, "name": "reporter_selection", "delayMs": 29500, "data": { "selected": "Gerardo", "reasoning": "Locked per Q5 — Gerardo is the consistent voice across all 6 client videos." } },
+      { "stage": 8, "name": "script_generation", "delayMs": 34000, "data": { "model": "Claude Sonnet 4.6", "wordCount": 0, "script": ["Placeholder script — pinned story TBD."] } },
+      { "stage": 9, "name": "chart_suggestion", "delayMs": 41500, "data": { "type": "Placeholder", "series": [{ "q": "Q1", "v": 0 }] } },
+      { "stage": 10, "name": "thumbnail_generation", "delayMs": 46000, "data": { "options": [{ "headline": "Placeholder", "number": "TBD", "foot": "TBD", "recommended": true }] } },
+      { "stage": 11, "name": "compliance_red_pass", "delayMs": 50500, "data": { "draftScript": "Placeholder", "violations": [], "rewrittenScript": "Placeholder", "rewrites": [] } },
+      { "stage": 12, "name": "compliance_gates", "delayMs": 63000, "data": { "l1": { "ms": 15, "passed": true, "msg": "0 forbidden phrases" }, "l2": { "ms": 812, "passed": true, "msg": "Placeholder" }, "l3": { "ms": 2104, "passed": true, "msg": "Placeholder" }, "qualityScore": 95, "complianceScore": 98 } },
+      { "stage": 13, "name": "multilanguage", "delayMs": 72000, "data": { "languages": [
+        { "id": "en", "script": ["Placeholder English script — pinned story TBD."] },
+        { "id": "de", "script": ["Platzhalter — Story noch nicht festgelegt."] },
+        { "id": "it", "script": ["Segnaposto — storia non ancora fissata."] },
+        { "id": "es", "script": ["Marcador — historia aún no fijada."] },
+        { "id": "fr", "script": ["Espace réservé — histoire pas encore fixée."] }
+      ], "driftPct": 0 } },
+      { "stage": 14, "name": "audit_trail", "delayMs": 79500, "data": { "steps": 15, "durationSec": 47, "humanInterventions": 0 } },
+      { "stage": 15, "name": "final_output", "delayMs": 84000, "data": { "reporter": "Gerardo", "reporterRole": "Placeholder", "finalScript": "Placeholder Trading 212 final script — to be authored from B.4.J candidate stories before any T212 meeting.", "qualityScore": 95, "complianceScore": 98, "ticker": "T212", "exchange": "Private", "source": "TBD", "totalSeconds": 47 } }
+    ]
+  }
+}

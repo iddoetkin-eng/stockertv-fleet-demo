@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#FAF7F2" id="theme-color-meta">
   <title>StockerTV — Unified Demo</title>
 
-  <!-- Pre-paint theme to avoid flash. Light default per Beat 3 lock. -->
+  <!-- Pre-paint theme. Light default per Beat 3 lock. Stateless try/catch. -->
   <script>
     (function(){try{var t=localStorage.getItem('stv-theme')||'light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='light';}})();
   </script>
@@ -33,6 +33,7 @@
       --text-muted: #888c98;
       --border: rgba(255,255,255,0.08);
       --surface: #13151c;
+      --surface-elevated: #1a1d27;
     }
     :root[data-theme='light'] {
       --bg: #FAF7F2;
@@ -40,12 +41,12 @@
       --text-muted: #666c78;
       --border: rgba(0,0,0,0.08);
       --surface: #FFFFFF;
+      --surface-elevated: #F4EFE7;
     }
     :root {
       --red: #ef4444;
-      --green: #22c55e; /* neutral fallback; brand-switch may override per Beat 4 hybrid 3-way rule */
-      /* Brand-specific vars (will be set by brand-switch handler in Beat 2;
-         hardcoded to eToro defaults for Beat 1 until then). */
+      --green: #22c55e; /* neutral fallback; brand-switch may override per B.4.D 3-way rule */
+      /* Brand-specific vars — eToro defaults. Overwritten by brand-switch handler. */
       --accent: #6AAE22;
       --accent-deep: #8FC850;
       --accent-2: #A8D96E;
@@ -60,6 +61,7 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1), color 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .display { font-family: 'Fraunces', Georgia, serif; font-feature-settings: 'liga', 'dlig'; }
     .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
@@ -74,8 +76,6 @@
     }
 
     /* ============ TEXTURE OVERLAYS — Beat 3.D ============ */
-    /* Three layers always-on: grain, paper-fibre, ticker watermark.
-       Don't compete with foreground. Beat 1 already includes them. */
     .stv-grain {
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
@@ -97,10 +97,32 @@
     }
     :root[data-theme='dark'] .stv-paper-fiber { opacity: 0.3; mix-blend-mode: lighten; }
 
-    /* ============ BEAT 1 — HOOK ============ */
-    /* Cinematic boot sequence + Fraunces "47 seconds" hero reveal + sub-line.
-       Editorial register, slow easing per Beat 3.C. */
+    .stv-watermark {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 0; right: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .stv-watermark-track {
+      display: inline-block;
+      white-space: nowrap;
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 8rem;
+      line-height: 1;
+      color: var(--text-primary);
+      opacity: 0.04;
+      animation: stv-watermark-scroll 240s linear infinite;
+      will-change: transform;
+    }
+    @keyframes stv-watermark-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
 
+    /* ============ BEAT 1 — HOOK ============ */
     .boot-stage {
       position: fixed; inset: 0;
       background: var(--bg);
@@ -111,18 +133,13 @@
       overflow: hidden;
     }
     .boot-stage::before {
-      /* Subtle vignette for editorial depth */
       content: '';
       position: absolute; inset: 0;
       background: radial-gradient(ellipse at center, transparent 0%, var(--bg) 95%);
       opacity: 0.6;
       pointer-events: none;
     }
-    .boot-content {
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
+    .boot-content { text-align: center; position: relative; z-index: 1; }
     .boot-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -144,7 +161,7 @@
       animation: stv-blur-focus 1800ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards;
     }
     .boot-wordmark-stocker { color: var(--text-primary); }
-    .boot-wordmark-tv { color: var(--accent); font-style: italic; }
+    .boot-wordmark-tv { color: var(--accent); font-style: italic; transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1); }
     .boot-status {
       margin-top: 2rem;
       font-family: 'JetBrains Mono', monospace;
@@ -163,6 +180,7 @@
       margin-right: 0.5rem;
       vertical-align: middle;
       animation: stv-pulse 1800ms ease-in-out infinite;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .boot-stage.fading-out {
       animation: stv-fade-out 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -187,7 +205,6 @@
       50% { opacity: 1; transform: scale(1.2); }
     }
 
-    /* Hook hero — appears after boot sequence completes */
     .hook-stage {
       position: relative;
       min-height: 100vh;
@@ -210,13 +227,14 @@
       opacity: 0;
       animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards;
     }
-    .hook-eyebrow .hook-eyebrow-dot {
+    .hook-eyebrow-dot {
       display: inline-block;
       width: 4px; height: 4px;
       background: var(--accent);
       border-radius: 50%;
       margin: 0 0.6rem;
       vertical-align: middle;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .hook-hero-number {
       font-family: 'Fraunces', Georgia, serif;
@@ -240,6 +258,7 @@
       color: var(--accent);
       margin-left: 0.5rem;
       letter-spacing: -0.02em;
+      transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .hook-subline {
       font-family: 'Inter', sans-serif;
@@ -252,10 +271,7 @@
       opacity: 0;
       animation: stv-fade-in 1000ms cubic-bezier(0.25, 0.1, 0.25, 1) 3000ms forwards;
     }
-    .hook-subline-emphasis {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
+    .hook-subline-emphasis { color: var(--text-primary); font-weight: 500; }
     .hook-continue {
       margin-top: 4rem;
       font-family: 'JetBrains Mono', monospace;
@@ -267,132 +283,485 @@
       animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4200ms forwards;
       cursor: pointer;
       padding: 0.5rem 1rem;
-      transition: color 200ms ease;
+      transition: color 200ms ease, border-color 200ms ease;
       border: 1px solid transparent;
       border-radius: 2px;
+      background: transparent;
+      font-weight: 500;
     }
-    .hook-continue:hover {
-      color: var(--accent);
-      border-color: var(--border);
-    }
-    .hook-continue-arrow {
-      display: inline-block;
-      margin-left: 0.5rem;
-      transition: transform 200ms ease;
-    }
-    .hook-continue:hover .hook-continue-arrow {
-      transform: translateX(4px);
-    }
-
-    @keyframes stv-hero-reveal {
-      0%   { filter: blur(28px); opacity: 0; transform: scale(1.15); }
-      55%  { filter: blur(0px); opacity: 1; transform: scale(1.02); }
-      100% { filter: blur(0px); opacity: 1; transform: scale(1); }
-    }
-    @keyframes stv-hook-enter {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* Editorial frame line under the hook hero — subtle, brand-tinted */
+    .hook-continue:hover { color: var(--accent); border-color: var(--border); }
+    .hook-continue-arrow { display: inline-block; margin-left: 0.5rem; transition: transform 200ms ease; }
+    .hook-continue:hover .hook-continue-arrow { transform: translateX(4px); }
     .hook-accent-line {
-      width: 60px;
-      height: 1px;
+      width: 60px; height: 1px;
       background: var(--accent);
       margin: 1.5rem auto 0;
       opacity: 0;
       animation: stv-line-grow 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 2600ms forwards;
       transform-origin: center;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    @keyframes stv-line-grow {
-      from { opacity: 0; transform: scaleX(0); }
-      to   { opacity: 1; transform: scaleX(1); }
+    @keyframes stv-line-grow { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+    @keyframes stv-hero-reveal {
+      0%   { filter: blur(28px); opacity: 0; transform: scale(1.15); }
+      55%  { filter: blur(0px); opacity: 1; transform: scale(1.02); }
+      100% { filter: blur(0px); opacity: 1; transform: scale(1); }
+    }
+    @keyframes stv-hook-enter { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ============ TOP BAR (Beats 2-7) ============ */
+    .stv-topbar {
+      position: sticky;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1), border-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stv-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .stv-topbar-mark {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1;
+      letter-spacing: -0.015em;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .stv-topbar-mark .stv-mark-tv {
+      color: var(--accent);
+      font-style: italic;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stv-topbar-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--border);
+    }
+    .stv-topbar-status {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .stv-topbar-status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: stv-pulse 2400ms ease-in-out infinite;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @media (min-width: 720px) {
+      .stv-topbar-status { display: flex; }
+    }
+    .stv-topbar-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      background: var(--surface-elevated);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+    .stv-brand-pill {
+      min-width: 38px;
+      height: 32px;
+      padding: 0 0.625rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+      position: relative;
+    }
+    .stv-brand-pill:hover {
+      color: var(--text-primary);
+      background: var(--bg);
+    }
+    .stv-brand-pill[data-active='true'] {
+      color: var(--text-primary);
+      background: var(--accent);
+      transform: scale(1.02);
+    }
+    .stv-brand-pill[data-active='true'] .stv-brand-pill-initials { color: #fff; mix-blend-mode: difference; }
+    .stv-brand-pill-initials {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .stv-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .stv-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+    }
+    .stv-icon-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg);
+    }
+    .stv-icon-btn svg { width: 14px; height: 14px; }
+
+    /* ============ APP FRAME (post-Hook content area) ============ */
+    .stv-app-frame {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      animation: stv-frame-enter 700ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    .stv-app-content {
+      flex: 1;
+      position: relative;
+    }
+    @keyframes stv-frame-enter {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    /* Fraunces ticker watermark per Beat 3.D */
-    .stv-watermark {
-      position: fixed;
-      bottom: 2rem;
-      left: 0; right: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 1;
+    /* ============ BEAT 2 — BRAND LOCK-IN ============ */
+    .brand-scene {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+      gap: 0;
     }
-    .stv-watermark-track {
+    .brand-scene-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .brand-scene-eyebrow-dot {
       display: inline-block;
-      white-space: nowrap;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 0.6rem;
+      vertical-align: middle;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .brand-scene-builtfor {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin: 0 0 0.5rem 0;
+    }
+    .brand-scene-name {
       font-family: 'Fraunces', Georgia, serif;
       font-style: italic;
-      font-size: 10rem;
-      line-height: 1;
+      font-weight: 500;
+      font-size: clamp(5rem, 14vw, 11rem);
+      letter-spacing: -0.04em;
+      color: var(--accent);
+      line-height: 0.9;
+      margin: 0.5rem 0 0 0;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      animation: stv-brand-name-pop 380ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    @keyframes stv-brand-name-pop {
+      0% { opacity: 0; filter: blur(8px); transform: scale(0.97); }
+      100% { opacity: 1; filter: blur(0); transform: scale(1); }
+    }
+    .brand-scene-line {
+      width: 80px;
+      height: 1px;
+      background: var(--accent);
+      margin: 2rem auto;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .brand-scene-subline {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--text-muted);
+      max-width: 64ch;
+      line-height: 1.65;
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
+    .brand-scene-subline strong {
       color: var(--text-primary);
-      opacity: 0.04;
-      animation: stv-watermark-scroll 240s linear infinite;
-      will-change: transform;
+      font-weight: 500;
     }
-    @keyframes stv-watermark-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    .brand-scene-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 1rem;
+      max-width: 720px;
+      width: 100%;
+      margin: 1rem auto 3rem;
     }
+    @media (max-width: 720px) {
+      .brand-scene-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .brand-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color 220ms ease, transform 220ms ease, background 220ms ease;
+    }
+    .brand-card:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+    .brand-card[data-active='true'] {
+      border-color: var(--accent);
+      background: var(--surface-elevated);
+    }
+    .brand-card-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px var(--border) inset;
+    }
+    .brand-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .brand-card[data-active='true'] .brand-card-label {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .brand-scene-helper {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .brand-scene-helper kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--surface-elevated);
+      font-family: inherit;
+      font-size: 10px;
+      color: var(--text-primary);
+      margin: 0 2px;
+    }
+
+    /* Toast for defensive failures (B.4.G) */
+    .stv-toast {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--surface-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      opacity: 0;
+      transition: opacity 220ms ease, transform 220ms ease;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .stv-toast[data-visible='true'] {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Continue control reused inside scenes */
+    .scene-continue {
+      margin-top: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 0.6rem 1.25rem;
+      transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: transparent;
+      font-weight: 500;
+    }
+    .scene-continue:hover {
+      color: var(--text-primary);
+      border-color: var(--accent);
+      background: var(--surface-elevated);
+    }
+    .scene-continue-arrow {
+      display: inline-block;
+      margin-left: 0.5rem;
+      transition: transform 200ms ease;
+    }
+    .scene-continue:hover .scene-continue-arrow { transform: translateX(4px); }
   </style>
 </head>
 <body>
 
 <div id="root"></div>
 
-<!-- Texture overlays per Beat 3.D — render outside React so they persist regardless of state -->
+<!-- Texture overlays per Beat 3.D -->
 <div class="stv-paper-fiber" aria-hidden="true"></div>
 <div class="stv-grain" aria-hidden="true"></div>
 
-<!-- Long-running Fraunces watermark, low-opacity, scrolls 10× slower than any other motion -->
 <div class="stv-watermark" aria-hidden="true">
   <div class="stv-watermark-track">Where the market's news becomes broadcast · Where the market's news becomes broadcast · </div>
 </div>
 
+<!-- Toast container — populated by React via portal-style direct DOM access -->
+<div class="stv-toast" id="stv-toast" data-visible="false" role="status" aria-live="polite"></div>
+
 <script type="text/babel" data-presets="react">
-  const { useState, useEffect, useRef } = React;
+  const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
   // ============================================================================
   // STOCKERTV UNIFIED DEMO
   // ----------------------------------------------------------------------------
   // Beat 1 — Hook (LIVE)
-  //   Cold open · BootSequence runs · Fraunces "47 seconds" hero drops ·
-  //   sub-line lands. Total: ~5.5 sec to the static end-frame.
-  //
-  // Beats 2-7 — to follow in subsequent commits.
+  // Beat 2 — Brand lock-in (LIVE) — top bar with 6 brand pills, async config
+  //          loader, CSS-var propagation per Beat 4 B.4.D 3-way --green rule,
+  //          URL ↔ state sync, defensive fallbacks per B.4.G
+  // Beats 3-7 — placeholder scenes; ship in subsequent commits
   // ============================================================================
 
-  // ---- Beat enumeration (extends as each beat ships) ----
+  // ---- Beat enumeration ----
   const BEATS = {
     HOOK: 'hook',
-    BRAND: 'brand',         // Beat 2 placeholder
-    SCALE: 'scale',         // Beat 3 placeholder
-    SAFETY: 'safety',       // Beat 4 placeholder
-    PIPELINE: 'pipeline',   // Beat 5 placeholder
-    OUTPUT: 'output',       // Beat 6 placeholder
-    CLOSE: 'close',         // Beat 7 placeholder
+    BRAND: 'brand',
+    SCALE: 'scale',
+    SAFETY: 'safety',
+    PIPELINE: 'pipeline',
+    OUTPUT: 'output',
+    CLOSE: 'close',
+  };
+  const BEAT_ORDER = [BEATS.HOOK, BEATS.BRAND, BEATS.SCALE, BEATS.SAFETY, BEATS.PIPELINE, BEATS.OUTPUT, BEATS.CLOSE];
+
+  // ---- Brand registry (per Beat 4 B.4.B) ----
+  const KNOWN_SLUGS = ['etoro', 'ibkr', 'bac', 'jpm', 'plus500', 't212'];
+  const DEFAULT_SLUG = 'etoro';
+  const BRAND_DISPLAY_DEFAULTS = {
+    etoro:   { initials: 'eT', shortName: 'eToro',        tagline: 'Built for eToro',        seed: '#6AAE22' },
+    ibkr:    { initials: 'IB', shortName: 'IBKR',         tagline: 'Built for IBKR',         seed: '#d91e18' },
+    bac:     { initials: 'ME', shortName: 'Merrill Edge', tagline: 'Built for Merrill Edge', seed: '#012169' },
+    jpm:     { initials: 'JP', shortName: 'JPM',          tagline: 'Built for J.P. Morgan',  seed: '#117ACA' },
+    plus500: { initials: 'P5', shortName: 'Plus500',      tagline: 'Built for Plus500',      seed: '#ec1c24' },
+    t212:    { initials: 'T2', shortName: 'Trading 212',  tagline: 'Built for Trading 212',  seed: '#009cde' },
   };
 
+  // ---- Config cache (per Beat 4 B.4.A) ----
+  const configCache = new Map();
+
+  async function loadBrandConfig(slug) {
+    if (configCache.has(slug)) return configCache.get(slug);
+    const safe = String(slug).replace(/[^a-z0-9_-]/gi, '');
+    const url = `../config/${encodeURIComponent(safe)}.json`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const cfg = await res.json();
+    configCache.set(slug, cfg);
+    return cfg;
+  }
+
+  // ---- CSS variable application (per Beat 4 B.4.D, hybrid 3-way --green rule) ----
+  function applyBrandVars(cfg) {
+    if (!cfg || !cfg.branding) return;
+    const b = cfg.branding;
+    const root = document.documentElement;
+    if (b.primaryColor) {
+      root.style.setProperty('--accent', b.primaryColor);
+      root.style.setProperty('--gold', b.primaryColor); // Mission Control alias
+    }
+    if (b.accentDeep) root.style.setProperty('--accent-deep', b.accentDeep);
+    if (b.accent2) {
+      root.style.setProperty('--accent-2', b.accent2);
+      root.style.setProperty('--cyan', b.accent2); // Mission Control alias
+    }
+    // --green hybrid 3-way rule: brand-aligned green if successColor present;
+    // neutral fallback otherwise. Per Beat 4 B.4.D + B.3 lock.
+    root.style.setProperty('--green', b.successColor || '#22c55e');
+    if (b.pageTitle) document.title = b.pageTitle;
+  }
+
+  // ---- Toast helper for defensive failures ----
+  function showToast(msg, ms) {
+    const el = document.getElementById('stv-toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.setAttribute('data-visible', 'true');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => el.setAttribute('data-visible', 'false'), ms || 3000);
+  }
+
   // ============================================================================
-  // BootSequence — opens the demo. ~3s blur-to-focus reveal.
+  // BootSequence (Beat 1 entry)
   // ============================================================================
   function BootSequence({ onComplete }) {
     const [exiting, setExiting] = useState(false);
-
     useEffect(() => {
-      // Fade out at 3.4s; complete at 4.2s (800ms exit transition)
       const exitTimer = setTimeout(() => setExiting(true), 3400);
       const completeTimer = setTimeout(() => onComplete && onComplete(), 4200);
-      return () => {
-        clearTimeout(exitTimer);
-        clearTimeout(completeTimer);
-      };
+      return () => { clearTimeout(exitTimer); clearTimeout(completeTimer); };
     }, [onComplete]);
 
     return (
       <div className={`boot-stage ${exiting ? 'fading-out' : ''}`}>
         <div className="boot-content">
-          <div className="boot-eyebrow">Stockertv · Live Operations</div>
+          <div className="boot-eyebrow">StockerTV · Live Operations</div>
           <div className="boot-wordmark">
             <span className="boot-wordmark-stocker">Stocker</span>
             <span className="boot-wordmark-tv">TV</span>
@@ -407,7 +776,7 @@
   }
 
   // ============================================================================
-  // HookScene — Beat 1 main scene. Locks the meeting in the first 5 seconds.
+  // HookScene (Beat 1 main)
   // ============================================================================
   function HookScene({ onContinue }) {
     return (
@@ -419,23 +788,15 @@
           <span className="hook-eyebrow-dot" aria-hidden="true" />
           Source-verified
         </div>
-
         <h1 className="hook-hero-number">
           47<span className="hook-hero-unit">seconds.</span>
         </h1>
-
         <div className="hook-accent-line" aria-hidden="true" />
-
         <p className="hook-subline">
           From a published news article to a fully scripted, source-verified, multi-language broadcast segment.{' '}
           <span className="hook-subline-emphasis">AI-powered with human oversight · designed for regulated environments.</span>
         </p>
-
-        <button
-          className="hook-continue"
-          onClick={onContinue}
-          aria-label="Continue to next beat"
-        >
+        <button className="hook-continue" onClick={onContinue} aria-label="Continue to next beat">
           Continue
           <span className="hook-continue-arrow" aria-hidden="true">→</span>
         </button>
@@ -444,79 +805,349 @@
   }
 
   // ============================================================================
-  // PlaceholderScene — temporary holder for beats 2-7. Replaced as each ships.
+  // ThemeIcon — renders sun or moon depending on current theme
   // ============================================================================
-  function PlaceholderScene({ beatId, beatName, onBack }) {
+  function ThemeIcon({ theme }) {
+    if (theme === 'light') {
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    }
     return (
-      <section className="hook-stage" aria-label={`Beat placeholder · ${beatName}`}>
-        <div className="hook-eyebrow">
-          Beat {beatId}
-          <span className="hook-eyebrow-dot" aria-hidden="true" />
-          {beatName}
-          <span className="hook-eyebrow-dot" aria-hidden="true" />
-          Coming next
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="4" fill="currentColor" />
+        <line x1="12" y1="2.5" x2="12" y2="5" />
+        <line x1="12" y1="19" x2="12" y2="21.5" />
+        <line x1="2.5" y1="12" x2="5" y2="12" />
+        <line x1="19" y1="12" x2="21.5" y2="12" />
+        <line x1="5.2" y1="5.2" x2="7" y2="7" />
+        <line x1="17" y1="17" x2="18.8" y2="18.8" />
+        <line x1="5.2" y1="18.8" x2="7" y2="17" />
+        <line x1="17" y1="7" x2="18.8" y2="5.2" />
+      </svg>
+    );
+  }
+
+  // ============================================================================
+  // TopBar — persistent across Beats 2-7 (per Beat 2 spec)
+  // ============================================================================
+  function TopBar({ brandSlug, brandConfig, onBrandSwitch, theme, onToggleTheme }) {
+    const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
+      ? brandConfig.branding.shortName
+      : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: brandSlug }).shortName;
+
+    return (
+      <header className="stv-topbar">
+        <div className="stv-topbar-left">
+          <div className="stv-topbar-mark">
+            Stocker<span className="stv-mark-tv">TV</span>
+          </div>
+          <div className="stv-topbar-divider" />
+          <div className="stv-topbar-status">
+            <span className="stv-topbar-status-dot" />
+            Live · {display}
+          </div>
         </div>
-        <h1 className="hook-hero-number" style={{ fontSize: 'clamp(4rem, 12vw, 9rem)', filter: 'none', opacity: 1, transform: 'none', animation: 'none' }}>
-          ·
-        </h1>
-        <div className="hook-accent-line" style={{ opacity: 1, transform: 'none', animation: 'none' }} />
-        <p className="hook-subline" style={{ opacity: 1, animation: 'none' }}>
-          This beat is part of the locked Phase 2 plan. Build is in progress.
+
+        <nav className="stv-topbar-pills" aria-label="Switch demo brand">
+          {KNOWN_SLUGS.map((slug) => {
+            const meta = BRAND_DISPLAY_DEFAULTS[slug] || { initials: slug.slice(0, 2).toUpperCase(), shortName: slug };
+            const active = slug === brandSlug;
+            return (
+              <button
+                key={slug}
+                className="stv-brand-pill"
+                data-active={active}
+                onClick={() => onBrandSwitch(slug)}
+                title={`Preview as ${meta.shortName}`}
+                aria-pressed={active}
+              >
+                <span className="stv-brand-pill-initials">{meta.initials}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="stv-topbar-right">
+          <button
+            className="stv-icon-btn"
+            onClick={onToggleTheme}
+            title="Toggle light / dark"
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            <ThemeIcon theme={theme} />
+          </button>
+        </div>
+      </header>
+    );
+  }
+
+  // ============================================================================
+  // BrandScene (Beat 2 main) — the "this is yours, not ours" moment
+  // ============================================================================
+  function BrandScene({ brandSlug, brandConfig, onBrandSwitch, onContinue }) {
+    const meta = BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: brandSlug };
+    const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName) || meta.shortName;
+
+    return (
+      <section className="brand-scene" aria-label={`Beat 2 · brand lock-in · currently ${display}`}>
+        <div className="brand-scene-eyebrow">
+          Beat 2
+          <span className="brand-scene-eyebrow-dot" aria-hidden="true" />
+          Multi-tenant
+          <span className="brand-scene-eyebrow-dot" aria-hidden="true" />
+          Brand-locked per client
+        </div>
+
+        <h2 className="brand-scene-builtfor">Built for</h2>
+        {/* Use brandSlug as React key so the wordmark re-runs the brand-name-pop animation on every switch */}
+        <div className="brand-scene-name" key={brandSlug}>{display}</div>
+
+        <div className="brand-scene-line" aria-hidden="true" />
+
+        <p className="brand-scene-subline">
+          One demo, six brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the linked pipeline. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
         </p>
-        <button className="hook-continue" onClick={onBack} style={{ opacity: 1, animation: 'none' }} aria-label="Back to Hook">
-          <span className="hook-continue-arrow" aria-hidden="true" style={{ transform: 'rotate(180deg)', marginLeft: 0, marginRight: '0.5rem' }}>→</span>
-          Back to Hook
+
+        <div className="brand-scene-helper">
+          Tip — try it now. Or use{' '}
+          <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd>{' '}
+          to switch.
+        </div>
+
+        <div className="brand-scene-grid" role="group" aria-label="Brand previews">
+          {KNOWN_SLUGS.map((slug) => {
+            const m = BRAND_DISPLAY_DEFAULTS[slug];
+            return (
+              <button
+                key={slug}
+                className="brand-card"
+                data-active={slug === brandSlug}
+                onClick={() => onBrandSwitch(slug)}
+                title={`Lock to ${m.shortName}`}
+                aria-pressed={slug === brandSlug}
+              >
+                <span className="brand-card-swatch" style={{ background: m.seed }} aria-hidden="true" />
+                <span className="brand-card-label">{m.shortName}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <button className="scene-continue" onClick={onContinue} aria-label="Continue to next beat">
+          Continue to scale reveal
+          <span className="scene-continue-arrow" aria-hidden="true">→</span>
         </button>
       </section>
     );
   }
 
   // ============================================================================
-  // App — top-level state machine. Handles boot → beat scenes.
+  // PlaceholderScene — for beats 3-7 until they ship
+  // ============================================================================
+  function PlaceholderScene({ beatId, beatName, onContinue, onBack }) {
+    return (
+      <section className="brand-scene" aria-label={`Beat ${beatId} placeholder · ${beatName}`}>
+        <div className="brand-scene-eyebrow">
+          Beat {beatId}
+          <span className="brand-scene-eyebrow-dot" aria-hidden="true" />
+          {beatName}
+          <span className="brand-scene-eyebrow-dot" aria-hidden="true" />
+          In progress
+        </div>
+        <h2 className="brand-scene-builtfor">Coming next.</h2>
+        <div className="brand-scene-line" aria-hidden="true" />
+        <p className="brand-scene-subline">
+          This beat is part of the locked Phase 2 plan and will land in a subsequent commit. The brand state above carries through &mdash; switch pills to verify the propagation works on every surface.
+        </p>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {onBack && (
+            <button className="scene-continue" onClick={onBack} aria-label="Back">
+              <span className="scene-continue-arrow" aria-hidden="true" style={{ marginRight: '0.5rem', marginLeft: 0, transform: 'rotate(180deg)', display: 'inline-block' }}>→</span>
+              Back
+            </button>
+          )}
+          {onContinue && (
+            <button className="scene-continue" onClick={onContinue} aria-label="Continue">
+              Continue
+              <span className="scene-continue-arrow" aria-hidden="true">→</span>
+            </button>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  // ============================================================================
+  // App — top-level state machine
   // ============================================================================
   function App() {
     const [booted, setBooted] = useState(false);
     const [activeBeat, setActiveBeat] = useState(BEATS.HOOK);
+    const [theme, setTheme] = useState(() => {
+      try { return document.documentElement.dataset.theme || 'light'; }
+      catch (e) { return 'light'; }
+    });
+    const [brandSlug, setBrandSlug] = useState(() => {
+      try {
+        const param = new URLSearchParams(location.search).get('client');
+        return KNOWN_SLUGS.includes(param) ? param : DEFAULT_SLUG;
+      } catch (e) { return DEFAULT_SLUG; }
+    });
+    const [brandConfig, setBrandConfig] = useState(null);
+    const switchInFlight = useRef(false);
 
-    // Keyboard navigation: Enter advances from Hook to next beat
+    // Async config load on brandSlug change
+    useEffect(() => {
+      let cancelled = false;
+      switchInFlight.current = true;
+      loadBrandConfig(brandSlug)
+        .then((cfg) => {
+          if (cancelled) return;
+          setBrandConfig(cfg);
+          applyBrandVars(cfg);
+          // Sync URL — stay shallow so back button works
+          try {
+            const u = new URL(location.href);
+            if (brandSlug === DEFAULT_SLUG) u.searchParams.delete('client');
+            else u.searchParams.set('client', brandSlug);
+            history.replaceState({}, '', u.toString());
+          } catch (e) { /* no-op */ }
+        })
+        .catch((err) => {
+          if (cancelled) return;
+          // Defensive fallback per B.4.G — keep current brand visually, surface a toast.
+          console.error('[stv-unified] brand config load failed for', brandSlug, err);
+          showToast(`Couldn't load ${BRAND_DISPLAY_DEFAULTS[brandSlug]?.shortName || brandSlug} config — staying on current.`);
+          if (brandSlug !== DEFAULT_SLUG) {
+            // Roll back to default if current load failed
+            setBrandSlug(DEFAULT_SLUG);
+          }
+        })
+        .finally(() => { switchInFlight.current = false; });
+      return () => { cancelled = true; };
+    }, [brandSlug]);
+
+    // Theme persistence + meta theme-color sync
+    useEffect(() => {
+      try {
+        document.documentElement.dataset.theme = theme;
+        localStorage.setItem('stv-theme', theme);
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'light' ? '#FAF7F2' : '#0A0B0F');
+      } catch (e) { /* no-op */ }
+    }, [theme]);
+
+    // Keyboard navigation
     useEffect(() => {
       const onKey = (e) => {
         if (!booted) return;
-        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
-          if (activeBeat === BEATS.HOOK) setActiveBeat(BEATS.BRAND);
+        // 1-6 → brand switch (works in any beat after Hook)
+        if (activeBeat !== BEATS.HOOK && /^[1-6]$/.test(e.key)) {
+          const idx = parseInt(e.key, 10) - 1;
+          const slug = KNOWN_SLUGS[idx];
+          if (slug && slug !== brandSlug) handleBrandSwitch(slug);
+          return;
         }
-        if (e.key === 'Escape' || e.key === 'ArrowLeft') {
+        // ArrowRight / Enter / Space — advance through beats
+        if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
+          const i = BEAT_ORDER.indexOf(activeBeat);
+          if (i >= 0 && i < BEAT_ORDER.length - 1) {
+            e.preventDefault();
+            setActiveBeat(BEAT_ORDER[i + 1]);
+          }
+        }
+        // ArrowLeft — back
+        if (e.key === 'ArrowLeft') {
+          const i = BEAT_ORDER.indexOf(activeBeat);
+          if (i > 0) {
+            e.preventDefault();
+            setActiveBeat(BEAT_ORDER[i - 1]);
+          }
+        }
+        // Escape — return to Hook
+        if (e.key === 'Escape') {
           if (activeBeat !== BEATS.HOOK) setActiveBeat(BEATS.HOOK);
         }
       };
       window.addEventListener('keydown', onKey);
       return () => window.removeEventListener('keydown', onKey);
-    }, [booted, activeBeat]);
+    }, [booted, activeBeat, brandSlug]);
+
+    const handleBrandSwitch = useCallback((slug) => {
+      if (slug === brandSlug) return;
+      setBrandSlug(slug);
+    }, [brandSlug]);
+
+    const handleToggleTheme = useCallback(() => {
+      setTheme((t) => t === 'light' ? 'dark' : 'light');
+    }, []);
+
+    const goNext = useCallback(() => {
+      const i = BEAT_ORDER.indexOf(activeBeat);
+      if (i < BEAT_ORDER.length - 1) setActiveBeat(BEAT_ORDER[i + 1]);
+    }, [activeBeat]);
+
+    const goBack = useCallback(() => {
+      const i = BEAT_ORDER.indexOf(activeBeat);
+      if (i > 0) setActiveBeat(BEAT_ORDER[i - 1]);
+    }, [activeBeat]);
 
     if (!booted) {
       return <BootSequence onComplete={() => setBooted(true)} />;
     }
 
     if (activeBeat === BEATS.HOOK) {
-      return <HookScene onContinue={() => setActiveBeat(BEATS.BRAND)} />;
+      return <HookScene onContinue={goNext} />;
     }
 
-    // Placeholder labels for beats not yet built. Each ships in subsequent commits.
-    const beatLabels = {
-      [BEATS.BRAND]: { id: 2, name: 'Brand lock-in' },
-      [BEATS.SCALE]: { id: 3, name: 'Scale reveal' },
-      [BEATS.SAFETY]: { id: 4, name: 'Safety net' },
-      [BEATS.PIPELINE]: { id: 5, name: 'Full pipeline' },
-      [BEATS.OUTPUT]: { id: 6, name: 'Output' },
-      [BEATS.CLOSE]: { id: 7, name: 'Close' },
-    };
-    const meta = beatLabels[activeBeat] || { id: '?', name: 'Unknown' };
-    return <PlaceholderScene beatId={meta.id} beatName={meta.name} onBack={() => setActiveBeat(BEATS.HOOK)} />;
+    // Post-Hook: app frame with persistent top bar
+    let scene = null;
+    if (activeBeat === BEATS.BRAND) {
+      scene = (
+        <BrandScene
+          brandSlug={brandSlug}
+          brandConfig={brandConfig}
+          onBrandSwitch={handleBrandSwitch}
+          onContinue={goNext}
+        />
+      );
+    } else {
+      const beatLabels = {
+        [BEATS.SCALE]:    { id: 3, name: 'Scale reveal' },
+        [BEATS.SAFETY]:   { id: 4, name: 'The safety net' },
+        [BEATS.PIPELINE]: { id: 5, name: 'Full pipeline' },
+        [BEATS.OUTPUT]:   { id: 6, name: 'Output through users\' eyes' },
+        [BEATS.CLOSE]:    { id: 7, name: 'Close' },
+      };
+      const meta = beatLabels[activeBeat] || { id: '?', name: 'Unknown' };
+      const i = BEAT_ORDER.indexOf(activeBeat);
+      scene = (
+        <PlaceholderScene
+          beatId={meta.id}
+          beatName={meta.name}
+          onContinue={i < BEAT_ORDER.length - 1 ? goNext : null}
+          onBack={i > 0 ? goBack : null}
+        />
+      );
+    }
+
+    return (
+      <div className="stv-app-frame">
+        <TopBar
+          brandSlug={brandSlug}
+          brandConfig={brandConfig}
+          onBrandSwitch={handleBrandSwitch}
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
+        />
+        <main className="stv-app-content">{scene}</main>
+      </div>
+    );
   }
 
-  // ============================================================================
-  // Mount
-  // ============================================================================
   const root = ReactDOM.createRoot(document.getElementById('root'));
   root.render(<App />);
 </script>
