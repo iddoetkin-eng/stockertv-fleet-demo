@@ -349,25 +349,45 @@
       vertical-align: middle;
       transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* Round 2 — dual hero flow: 47 sec → 5 min */
+    .hook-hero-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.75rem, 2vw, 2rem);
+      flex-wrap: wrap;
+      margin: 0;
+    }
+    .hook-hero-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      min-width: 0;
+    }
     .hook-hero-number {
       font-family: 'Fraunces', Georgia, serif;
       font-weight: 400;
-      font-size: clamp(7rem, 22vw, 18rem);
+      font-size: clamp(3.5rem, 8vw, 6rem);
       line-height: 0.95;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.04em;
       color: var(--text-primary);
       margin: 0;
       font-feature-settings: 'liga', 'dlig', 'onum';
       font-variation-settings: 'opsz' 144;
       position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
     }
-    /* Brand-accent glow under hero number (audit 2.2.b) */
+    /* Brand-accent glow under each hero number (audit 2.2.b) */
     .hook-hero-number::before {
       content: '';
       position: absolute;
-      inset: 12% -8%;
+      inset: 12% -10%;
       background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 40%, transparent) 0%, transparent 65%);
-      filter: blur(60px);
+      filter: blur(50px);
       z-index: -1;
       pointer-events: none;
       opacity: 0;
@@ -378,20 +398,59 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    .hook-hero-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 3300ms forwards;
+    }
+    .hook-hero-connector {
+      width: clamp(60px, 12vw, 180px);
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: stv-fade-in 600ms cubic-bezier(0.25, 0.1, 0.25, 1) 2700ms forwards;
+    }
+    .hook-hero-connector svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      color: var(--accent);
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hook-hero-connector svg path {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: stv-connector-draw 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 2900ms forwards;
+    }
+    @keyframes stv-connector-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @media (max-width: 600px) {
+      .hook-hero-connector {
+        width: 26px;
+        height: 60px;
+        transform: rotate(90deg);
+      }
+    }
     .hook-hero-unit {
       font-family: 'Fraunces', Georgia, serif;
       font-style: italic;
       font-weight: 400;
-      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
       color: var(--accent);
-      margin-left: 0.5rem;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
       animation: stv-fade-in 500ms cubic-bezier(0.25, 0.1, 0.25, 1) 2700ms forwards;
       display: inline-block;
     }
-    /* Underline shimmer beneath hero number (audit 3.2) */
+    /* Underline shimmer beneath hero numbers (audit 3.2) */
     .hook-hero-shimmer {
       display: block;
       position: absolute;
@@ -2875,8 +2934,9 @@
   };
 
   // ---- Real flag SVG library (from fleet/js/client-loader.js) ----
-  // Used in Beat 5 multi-language preview + Beat 6 user-preview cards.
-  // Replaces the wrong CSS gradients (audit 6.5).
+  // Used in Beat 5 multi-language preview + Beat 6 user-preview cards + Beat 3
+  // 15-language stat row + Beat 3 click-to-explore globe panels.
+  // Replaces the wrong CSS gradients (audit 6.5). Round 2 expansion: +10 flags.
   const FLAGS_SVG = {
     US: '<rect width="30" height="20" fill="#b22234"/><rect y="1.54" width="30" height="1.54" fill="#fff"/><rect y="4.62" width="30" height="1.54" fill="#fff"/><rect y="7.69" width="30" height="1.54" fill="#fff"/><rect y="10.77" width="30" height="1.54" fill="#fff"/><rect y="13.85" width="30" height="1.54" fill="#fff"/><rect y="16.92" width="30" height="1.54" fill="#fff"/><rect width="12" height="10.77" fill="#3c3b6e"/>',
     GB: '<rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="3"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="1.5"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#fff" stroke-width="5"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#C8102E" stroke-width="3"/>',
@@ -2887,6 +2947,48 @@
     JP: '<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5" fill="#BC002D"/>',
     BR: '<rect width="30" height="20" fill="#009c3b"/><polygon points="15,2 28,10 15,18 2,10" fill="#ffdf00"/><circle cx="15" cy="10" r="4" fill="#002776"/>',
     IL: '<rect width="30" height="20" fill="#fff"/><rect y="3" width="30" height="2" fill="#0038B8"/><rect y="15" width="30" height="2" fill="#0038B8"/><polygon points="15,7 16.3,9.2 18.8,9.2 16.8,10.6 17.6,13 15,11.6 12.4,13 13.2,10.6 11.2,9.2 13.7,9.2" fill="none" stroke="#0038B8" stroke-width="0.6"/>',
+    // Round 2 — 10 more flags for 15-language coverage
+    CN: '<rect width="30" height="20" fill="#DE2910"/><polygon points="6,4 6.7,6 9,6 7.1,7.2 7.9,9.3 6,8 4.1,9.3 4.9,7.2 3,6 5.3,6" fill="#FFDE00"/><circle cx="11" cy="3.2" r="0.5" fill="#FFDE00"/><circle cx="12.6" cy="4.6" r="0.5" fill="#FFDE00"/><circle cx="12.6" cy="6.8" r="0.5" fill="#FFDE00"/><circle cx="11" cy="8.2" r="0.5" fill="#FFDE00"/>',
+    KR: '<rect width="30" height="20" fill="#fff"/><path d="M15 6 A 4 4 0 0 1 15 14 Z" fill="#CD2E3A"/><path d="M15 6 A 4 4 0 0 0 15 14 Z" fill="#003478"/><g stroke="#000" stroke-width="0.5"><line x1="6" y1="5.5" x2="9" y2="5.5"/><line x1="6" y1="6.5" x2="9" y2="6.5"/><line x1="6" y1="7.5" x2="9" y2="7.5"/><line x1="21" y1="12.5" x2="24" y2="12.5"/><line x1="21" y1="13.5" x2="24" y2="13.5"/><line x1="21" y1="14.5" x2="24" y2="14.5"/></g>',
+    AE: '<rect width="30" height="20" fill="#009E49"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#000"/><rect width="7.5" height="20" fill="#CE1126"/>',
+    IN: '<rect width="30" height="6.67" fill="#FF9933"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2" fill="none" stroke="#000080" stroke-width="0.4"/><circle cx="15" cy="10" r="0.4" fill="#000080"/>',
+    NL: '<rect width="30" height="6.67" fill="#AE1C28"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#21468B"/>',
+    TR: '<rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="4.5" fill="#fff"/><circle cx="12" cy="10" r="3.6" fill="#E30A17"/><polygon points="14.6,8 17.5,9 14.6,10 17.5,11 14.6,12 16.4,10 14.6,8" fill="#fff"/>',
+    ID: '<rect width="30" height="10" fill="#CE1126"/><rect y="10" width="30" height="10" fill="#fff"/>',
+    SA: '<rect width="30" height="20" fill="#006C35"/><text x="15" y="13" text-anchor="middle" fill="#fff" font-size="6" font-family="serif" letter-spacing="-0.5">لا اله الا الله</text>',
+    MX: '<rect width="10" height="20" fill="#006847"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE1126"/><circle cx="15" cy="10" r="2.5" fill="none" stroke="#8B6914" stroke-width="0.4"/>',
+    CA: '<rect width="7.5" height="20" fill="#D52B1E"/><rect x="22.5" width="7.5" height="20" fill="#D52B1E"/><rect x="7.5" width="15" height="20" fill="#fff"/><polygon points="15,4.5 16,8 19,8 16.5,10 17.5,13.5 15,11.5 12.5,13.5 13.5,10 11,8 14,8" fill="#D52B1E"/>',
+    AU: '<rect width="30" height="20" fill="#012169"/><rect width="15" height="10" fill="#012169"/><path d="M0,0 L15,10 M15,0 L0,10" stroke="#fff" stroke-width="1.5"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#fff" stroke-width="2"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#C8102E" stroke-width="1"/><polygon points="22.5,8 23.2,10 25.4,10 23.6,11.3 24.3,13.4 22.5,12.1 20.7,13.4 21.4,11.3 19.6,10 21.8,10" fill="#fff"/>',
+    HK: '<rect width="30" height="20" fill="#DE2910"/><circle cx="15" cy="10" r="3" fill="#fff"/><circle cx="15" cy="9" r="0.6" fill="#DE2910"/>',
+    SG: '<rect width="30" height="10" fill="#ED2939"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="2.5" fill="#fff"/><circle cx="8.6" cy="5" r="2" fill="#ED2939"/>',
+    TW: '<rect width="30" height="20" fill="#FE0000"/><rect width="15" height="10" fill="#000095"/><polygon points="7.5,2 8.7,4.7 11.6,4.5 9.4,6.5 10.4,9.3 7.5,8 4.6,9.3 5.6,6.5 3.4,4.5 6.3,4.7" fill="#fff"/>',
+    EG: '<rect width="30" height="6.67" fill="#CE1126"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#000"/>',
+    ZA: '<rect width="30" height="20" fill="#007749"/><polygon points="0,0 14,10 0,20" fill="#000"/><polygon points="0,0 0,5 12,10 0,15 0,20 14,10" fill="#fff"/><polygon points="0,3 0,7 8,10 0,13 0,17 11,10" fill="#FFB81C"/><rect x="14" y="0" width="16" height="6" fill="#DE3831"/><rect x="14" y="14" width="16" height="6" fill="#002395"/><rect x="14" y="6" width="16" height="2" fill="#fff"/><rect x="14" y="12" width="16" height="2" fill="#fff"/><rect x="14" y="8" width="16" height="4" fill="#007749"/>',
+    NG: '<rect width="10" height="20" fill="#008751"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#008751"/>',
+    AR: '<rect width="30" height="20" fill="#74ACDF"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="1.6" fill="#FCBF49"/>',
+    CL: '<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/><polygon points="5,3 5.6,4.6 7.3,4.6 5.9,5.6 6.5,7.2 5,6.2 3.5,7.2 4.1,5.6 2.7,4.6 4.4,4.6" fill="#fff"/>',
+    CO: '<rect width="30" height="20" fill="#FCD116"/><rect y="10" width="30" height="5" fill="#003893"/><rect y="15" width="30" height="5" fill="#CE1126"/>',
+    PE: '<rect width="10" height="20" fill="#D91023"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#D91023"/>',
+    PA: '<rect width="30" height="20" fill="#fff"/><rect width="15" height="10" fill="#fff"/><rect x="15" width="15" height="10" fill="#D72028"/><rect y="10" width="15" height="10" fill="#005AA7"/><polygon points="7.5,3 8.3,5.3 10.7,5.3 8.7,6.7 9.5,9 7.5,7.5 5.5,9 6.3,6.7 4.3,5.3 6.7,5.3" fill="#005AA7"/><polygon points="22.5,13 23.3,15.3 25.7,15.3 23.7,16.7 24.5,19 22.5,17.5 20.5,19 21.3,16.7 19.3,15.3 21.7,15.3" fill="#D72028"/>',
+    CR: '<rect width="30" height="4" fill="#002B7F"/><rect y="4" width="30" height="4" fill="#fff"/><rect y="8" width="30" height="4" fill="#CE1225"/><rect y="12" width="30" height="4" fill="#fff"/><rect y="16" width="30" height="4" fill="#002B7F"/>',
+    PL: '<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#DC143C"/>',
+    HU: '<rect width="30" height="6.67" fill="#CE2939"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#477050"/>',
+    CZ: '<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#D7141A"/><polygon points="0,0 15,10 0,20" fill="#11457E"/>',
+    SE: '<rect width="30" height="20" fill="#006AA7"/><rect y="8" width="30" height="4" fill="#FECC00"/><rect x="9" width="4" height="20" fill="#FECC00"/>',
+    NO: '<rect width="30" height="20" fill="#EF2B2D"/><rect y="8" width="30" height="4" fill="#fff"/><rect x="9" width="4" height="20" fill="#fff"/><rect y="9" width="30" height="2" fill="#002868"/><rect x="10" width="2" height="20" fill="#002868"/>',
+    DK: '<rect width="30" height="20" fill="#C60C30"/><rect y="9" width="30" height="2" fill="#fff"/><rect x="10" width="2" height="20" fill="#fff"/>',
+    FI: '<rect width="30" height="20" fill="#fff"/><rect y="8" width="30" height="4" fill="#003580"/><rect x="9" width="4" height="20" fill="#003580"/>',
+    IE: '<rect width="10" height="20" fill="#169B62"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#FF883E"/>',
+    BE: '<rect width="10" height="20" fill="#000"/><rect x="10" width="10" height="20" fill="#FAE042"/><rect x="20" width="10" height="20" fill="#ED2939"/>',
+    CH: '<rect width="30" height="20" fill="#FF0000"/><rect x="13" y="5" width="4" height="10" fill="#fff"/><rect x="10" y="8" width="10" height="4" fill="#fff"/>',
+    AT: '<rect width="30" height="6.67" fill="#ED2939"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#ED2939"/>',
+    GR: '<rect width="30" height="20" fill="#fff"/><rect y="2.2" width="30" height="2.2" fill="#0D5EAF"/><rect y="6.6" width="30" height="2.2" fill="#0D5EAF"/><rect y="11" width="30" height="2.2" fill="#0D5EAF"/><rect y="15.4" width="30" height="2.2" fill="#0D5EAF"/><rect width="11" height="11" fill="#0D5EAF"/><rect x="4.4" width="2.2" height="11" fill="#fff"/><rect y="4.4" width="11" height="2.2" fill="#fff"/>',
+    NZ: '<rect width="30" height="20" fill="#012169"/><rect width="15" height="10" fill="#012169"/><path d="M0,0 L15,10 M15,0 L0,10" stroke="#fff" stroke-width="1.5"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#fff" stroke-width="2"/><path d="M7.5,0 L7.5,10 M0,5 L15,5" stroke="#C8102E" stroke-width="1"/><polygon points="22,11 22.5,12.5 24,12.5 22.8,13.4 23.3,14.9 22,14 20.7,14.9 21.2,13.4 20,12.5 21.5,12.5" fill="#C8102E"/>',
+    TH: '<rect width="30" height="3.5" fill="#A51931"/><rect y="3.5" width="30" height="3.5" fill="#fff"/><rect y="7" width="30" height="6" fill="#2D2A4A"/><rect y="13" width="30" height="3.5" fill="#fff"/><rect y="16.5" width="30" height="3.5" fill="#A51931"/>',
+    PH: '<rect width="30" height="10" fill="#0038A8"/><rect y="10" width="30" height="10" fill="#CE1126"/><polygon points="0,0 15,10 0,20" fill="#fff"/><polygon points="3,9 4.5,9.4 4.2,11 5.5,10.2 6.7,11 6.4,9.4 7.9,9 6.4,8.6 6.7,7 5.5,7.8 4.2,7 4.5,8.6" fill="#FCD116"/>',
+    VN: '<rect width="30" height="20" fill="#DA251D"/><polygon points="15,5 16.5,9.5 21,9.5 17.4,12.3 18.6,17 15,14.2 11.4,17 12.6,12.3 9,9.5 13.5,9.5" fill="#FF0"/>',
+    MY: '<rect width="30" height="20" fill="#CC0001"/><rect y="2" width="30" height="2" fill="#fff"/><rect y="6" width="30" height="2" fill="#fff"/><rect y="10" width="30" height="2" fill="#fff"/><rect y="14" width="30" height="2" fill="#fff"/><rect y="18" width="30" height="2" fill="#fff"/><rect width="14" height="12" fill="#000066"/><circle cx="6" cy="6" r="2.4" fill="#FFCC00"/><circle cx="6.8" cy="6" r="2" fill="#000066"/>',
+    LK: '<rect width="30" height="20" fill="#FFB300"/><rect width="6" height="20" fill="#00543F"/><rect x="6" width="3" height="20" fill="#FF8200"/><rect x="11" y="2" width="17" height="16" fill="#8D153A"/><polygon points="19.5,5 20.3,7 22.5,6.5 21,8 22.5,9.5 20.3,9 19.5,11 18.7,9 16.5,9.5 18,8 16.5,6.5 18.7,7" fill="#FFB300"/>',
   };
   function flagSvg(code, opts) {
     const inner = FLAGS_SVG[code] || '<rect width="30" height="20" fill="#555"/>';
@@ -3478,11 +3580,29 @@
           <span className="hook-eyebrow-dot" aria-hidden="true" />
           Source-verified
         </div>
-        <h1 className="hook-hero-number">
-          <CountUp to={47} duration={1400} delay={1100} />
-          <span className="hook-hero-unit">seconds.</span>
-          <span className="hook-hero-shimmer" aria-hidden="true" />
-        </h1>
+        <div className="hook-hero-flow" role="presentation">
+          <div className="hook-hero-block">
+            <h1 className="hook-hero-number">
+              <CountUp to={47} duration={1400} delay={1100} />
+              <span className="hook-hero-unit">sec</span>
+              <span className="hook-hero-shimmer" aria-hidden="true" />
+            </h1>
+            <div className="hook-hero-caption">to a finished script</div>
+          </div>
+          <div className="hook-hero-connector" aria-hidden="true">
+            <svg viewBox="0 0 200 26" preserveAspectRatio="none" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M 4 13 L 188 13" strokeDasharray="4 4" opacity="0.7" />
+              <path d="M 180 6 L 192 13 L 180 20" opacity="0.95" />
+            </svg>
+          </div>
+          <div className="hook-hero-block">
+            <h1 className="hook-hero-number">
+              <CountUp to={5} duration={1000} delay={1700} />
+              <span className="hook-hero-unit">min</span>
+            </h1>
+            <div className="hook-hero-caption">to a broadcast-ready video</div>
+          </div>
+        </div>
         <div className="hook-accent-line" aria-hidden="true" />
         <p className="hook-subline">
           From a published news article to a fully scripted, source-verified, multi-language broadcast segment.{' '}
@@ -4108,11 +4228,11 @@
             </div>
             <div className="scale-stat">
               <div className="scale-stat-value">
-                <CountUp to={8} duration={900} delay={900} />
+                <CountUp to={15} duration={1100} delay={900} />
               </div>
               <div className="scale-stat-label">Languages live</div>
               <div className="scale-stat-flagrow">
-                {['US','DE','IT','ES','FR','BR','JP','IL'].map((c) => (
+                {['US','DE','IT','ES','FR','BR','JP','IL','CN','KR','AE','IN','NL','TR','ID'].map((c) => (
                   <span key={c} dangerouslySetInnerHTML={{ __html: flagSvg(c) }} />
                 ))}
               </div>
@@ -4946,11 +5066,11 @@
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="accent">
-                <CountUp to={8} duration={900} delay={350} />
+                <CountUp to={15} duration={1100} delay={350} />
               </div>
               <Sparkline data={genSparkData(7, 30, 0.4)} />
               <div className="ops-cell-label">Languages live</div>
-              <div className="ops-cell-foot">EN · DE · IT · ES · FR · PT · ZH · JA</div>
+              <div className="ops-cell-foot">EN · DE · IT · ES · FR · PT · NL · JA · ZH · KO · AR · HE · HI · TR · ID</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="success">
@@ -4958,7 +5078,7 @@
               </div>
               <Sparkline data={genSparkData(3, 30, 0)} />
               <div className="ops-cell-label">Integrity pass rate</div>
-              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-27</div>
+              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-28</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="accent">
@@ -4966,7 +5086,7 @@
               </div>
               <Sparkline data={genSparkData(13, 30, 0.3)} />
               <div className="ops-cell-label">Quality avg · /110</div>
-              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-27</div>
+              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-28</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value">
