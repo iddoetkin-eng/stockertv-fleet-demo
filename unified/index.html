@@ -36,12 +36,13 @@
       --surface-elevated: #1a1d27;
     }
     :root[data-theme='light'] {
-      --bg: #FAF7F2;
-      --text-primary: #0A0B0F;
+      /* Newspaper-print palette per audit 2.4. Stronger card-to-bg separation. */
+      --bg: #F4F0E8;
+      --text-primary: #14171F;
       --text-muted: #666c78;
-      --border: rgba(0,0,0,0.08);
+      --border: rgba(0,0,0,0.10);
       --surface: #FFFFFF;
-      --surface-elevated: #F4EFE7;
+      --surface-elevated: #FBF7EE;
     }
     :root {
       --red: #ef4444;
@@ -89,13 +90,54 @@
     .stv-paper-fiber {
       position: fixed; inset: 0;
       background-image:
-        repeating-linear-gradient(45deg, transparent 0 2px, rgba(0,0,0,0.012) 2px 3px),
-        repeating-linear-gradient(-45deg, transparent 0 2px, rgba(0,0,0,0.012) 2px 3px);
-      opacity: 0.7;
+        repeating-linear-gradient(45deg, transparent 0 2px, rgba(0,0,0,0.018) 2px 3px),
+        repeating-linear-gradient(-45deg, transparent 0 2px, rgba(0,0,0,0.018) 2px 3px);
+      opacity: 1;
       pointer-events: none;
       z-index: 9997;
     }
     :root[data-theme='dark'] .stv-paper-fiber { opacity: 0.3; mix-blend-mode: lighten; }
+
+    /* ============ ATMOSPHERE — blur orbs + parallax (audit C1+C2) ============ */
+    .stv-atmosphere {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stv-orb {
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 60%);
+      filter: blur(80px);
+      opacity: 0.85;
+      will-change: transform;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stv-orb--a { top: -380px; left: -300px; }
+    .stv-orb--b { bottom: -360px; right: -260px; width: 720px; height: 720px;
+      background: radial-gradient(circle at center, color-mix(in srgb, var(--accent-deep) 14%, transparent) 0%, transparent 60%);
+    }
+    .stv-orb--c { top: 30%; right: -380px; width: 600px; height: 600px;
+      background: radial-gradient(circle at center, color-mix(in srgb, var(--accent-2) 10%, transparent) 0%, transparent 65%);
+    }
+    /* Beat-specific orb position overrides for "glow signature per scene" */
+    body[data-beat='hook']     .stv-orb--a { top: -200px; left: 50%; transform: translateX(-50%); }
+    body[data-beat='brand']    .stv-orb--a { top: -300px; right: -250px; left: auto; }
+    body[data-beat='scale']    .stv-orb--c { top: 50%; right: 30%; }
+    body[data-beat='safety']   .stv-orb--b { bottom: -400px; left: -200px; right: auto; }
+    body[data-beat='pipeline'] .stv-orb--a { top: -300px; left: 30%; }
+    body[data-beat='output']   .stv-orb--c { top: 20%; left: -300px; right: auto; }
+    body[data-beat='close']    .stv-orb--a { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1000px; height: 1000px; }
+    /* Parallax variable applied via JS — translates whole atmosphere up to ±10px */
+    .stv-atmosphere {
+      transform: translate(var(--paraX, 0px), var(--paraY, 0px));
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
     .stv-watermark {
       position: fixed;
@@ -162,15 +204,40 @@
     }
     .boot-wordmark-stocker { color: var(--text-primary); }
     .boot-wordmark-tv { color: var(--accent); font-style: italic; transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .boot-checks {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      align-items: center;
+    }
+    .boot-check {
+      opacity: 0;
+      animation: stv-check-in 380ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    .boot-check-tick {
+      color: var(--green);
+      margin-right: 0.4rem;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-check-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .boot-status {
-      margin-top: 2rem;
+      margin-top: 1.6rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.15em;
       color: var(--text-muted);
       text-transform: uppercase;
       opacity: 0;
-      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 2400ms forwards;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 3000ms forwards;
     }
     .boot-status-dot {
       display: inline-block;
@@ -220,7 +287,7 @@
     .hook-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.32em;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 2.5rem;
@@ -243,12 +310,27 @@
       line-height: 0.95;
       letter-spacing: -0.05em;
       color: var(--text-primary);
-      filter: blur(28px);
-      opacity: 0;
-      transform: scale(1.15);
-      animation: stv-hero-reveal 2000ms cubic-bezier(0.25, 0.1, 0.25, 1) 1200ms forwards;
       margin: 0;
       font-feature-settings: 'liga', 'dlig', 'onum';
+      font-variation-settings: 'opsz' 144;
+      position: relative;
+    }
+    /* Brand-accent glow under hero number (audit 2.2.b) */
+    .hook-hero-number::before {
+      content: '';
+      position: absolute;
+      inset: 12% -8%;
+      background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 40%, transparent) 0%, transparent 65%);
+      filter: blur(60px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      animation: stv-glow-in 1600ms cubic-bezier(0.25, 0.1, 0.25, 1) 2200ms forwards;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-glow-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     .hook-hero-unit {
       font-family: 'Fraunces', Georgia, serif;
@@ -259,6 +341,57 @@
       margin-left: 0.5rem;
       letter-spacing: -0.02em;
       transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      animation: stv-fade-in 500ms cubic-bezier(0.25, 0.1, 0.25, 1) 2700ms forwards;
+      display: inline-block;
+    }
+    /* Underline shimmer beneath hero number (audit 3.2) */
+    .hook-hero-shimmer {
+      display: block;
+      position: absolute;
+      left: 50%;
+      bottom: -0.4em;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+      opacity: 0;
+      animation: stv-shimmer 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 3100ms forwards;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-shimmer {
+      0%   { opacity: 0; transform: translateX(-150%); width: 30%; }
+      40%  { opacity: 0.85; }
+      100% { opacity: 0; transform: translateX(50%); width: 80%; }
+    }
+    /* E1 — living counter beneath hook scene */
+    .hook-counter {
+      margin-top: 3rem;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4500ms forwards;
+      transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hook-counter-value {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      color: var(--accent);
+      font-feature-settings: 'liga', 'dlig', 'onum', 'tnum';
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      text-transform: none;
     }
     .hook-subline {
       font-family: 'Inter', sans-serif;
@@ -471,7 +604,7 @@
     .brand-scene-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.20em;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 1.5rem;
@@ -837,7 +970,7 @@
     .safety-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.24em;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 0.75rem;
@@ -1392,7 +1525,7 @@
     .output-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.30em;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 0.75rem;
@@ -1483,6 +1616,39 @@
       font-size: 18px;
       font-weight: 500;
       transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      position: relative;
+    }
+    .user-preview-thumb--portrait { padding: 0; }
+    .user-preview-thumb--portrait svg { width: 100%; height: 100%; display: block; }
+
+    /* Audio-suggesting waveform under reporter portrait (audit E6) */
+    .stv-waveform {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      height: 10px;
+      margin: 0 0.4rem;
+    }
+    .stv-waveform span {
+      display: inline-block;
+      width: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      animation: stv-wave 1400ms ease-in-out infinite;
+      transform-origin: center;
+    }
+    .stv-waveform span:nth-child(1) { animation-delay: 0ms;   height: 4px; }
+    .stv-waveform span:nth-child(2) { animation-delay: 120ms; height: 7px; }
+    .stv-waveform span:nth-child(3) { animation-delay: 240ms; height: 9px; }
+    .stv-waveform span:nth-child(4) { animation-delay: 360ms; height: 6px; }
+    .stv-waveform span:nth-child(5) { animation-delay: 480ms; height: 8px; }
+    .stv-waveform span:nth-child(6) { animation-delay: 600ms; height: 5px; }
+    .stv-waveform span:nth-child(7) { animation-delay: 720ms; height: 7px; }
+    @keyframes stv-wave {
+      0%, 100% { transform: scaleY(0.55); opacity: 0.55; }
+      50%      { transform: scaleY(1); opacity: 1; }
     }
     .user-preview-body { flex: 1; min-width: 0; }
     .user-preview-meta {
@@ -1495,13 +1661,15 @@
     }
     .user-preview-meta-flag {
       display: inline-block;
-      width: 12px;
+      width: 13px;
       height: 9px;
       vertical-align: middle;
       border-radius: 1px;
       margin-right: 4px;
+      overflow: hidden;
       box-shadow: 0 0 0 1px var(--border) inset;
     }
+    .user-preview-meta-flag svg { width: 100%; height: 100%; display: block; }
     .user-preview-headline {
       font-family: 'Fraunces', Georgia, serif;
       font-size: 13px;
@@ -1649,7 +1817,7 @@
     .close-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.34em;
       color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 2rem;
@@ -1738,6 +1906,13 @@
 
 <div id="root"></div>
 
+<!-- Atmospheric blur orbs per scene (audit C1) — brand-tinted via --accent -->
+<div class="stv-atmosphere" aria-hidden="true">
+  <div class="stv-orb stv-orb--a"></div>
+  <div class="stv-orb stv-orb--b"></div>
+  <div class="stv-orb stv-orb--c"></div>
+</div>
+
 <!-- Texture overlays per Beat 3.D -->
 <div class="stv-paper-fiber" aria-hidden="true"></div>
 <div class="stv-grain" aria-hidden="true"></div>
@@ -1785,6 +1960,140 @@
     plus500: { initials: 'P5', shortName: 'Plus500',      tagline: 'Built for Plus500',      seed: '#ec1c24' },
     t212:    { initials: 'T2', shortName: 'Trading 212',  tagline: 'Built for Trading 212',  seed: '#009cde' },
   };
+
+  // ---- Real flag SVG library (from fleet/js/client-loader.js) ----
+  // Used in Beat 5 multi-language preview + Beat 6 user-preview cards.
+  // Replaces the wrong CSS gradients (audit 6.5).
+  const FLAGS_SVG = {
+    US: '<rect width="30" height="20" fill="#b22234"/><rect y="1.54" width="30" height="1.54" fill="#fff"/><rect y="4.62" width="30" height="1.54" fill="#fff"/><rect y="7.69" width="30" height="1.54" fill="#fff"/><rect y="10.77" width="30" height="1.54" fill="#fff"/><rect y="13.85" width="30" height="1.54" fill="#fff"/><rect y="16.92" width="30" height="1.54" fill="#fff"/><rect width="12" height="10.77" fill="#3c3b6e"/>',
+    GB: '<rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="3"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="1.5"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#fff" stroke-width="5"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#C8102E" stroke-width="3"/>',
+    DE: '<rect width="30" height="6.67" fill="#000"/><rect y="6.67" width="30" height="6.67" fill="#DD0000"/><rect y="13.33" width="30" height="6.67" fill="#FFCE00"/>',
+    IT: '<rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE2B37"/>',
+    ES: '<rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/>',
+    FR: '<rect width="10" height="20" fill="#002654"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/>',
+    JP: '<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5" fill="#BC002D"/>',
+    BR: '<rect width="30" height="20" fill="#009c3b"/><polygon points="15,2 28,10 15,18 2,10" fill="#ffdf00"/><circle cx="15" cy="10" r="4" fill="#002776"/>',
+    IL: '<rect width="30" height="20" fill="#fff"/><rect y="3" width="30" height="2" fill="#0038B8"/><rect y="15" width="30" height="2" fill="#0038B8"/><polygon points="15,7 16.3,9.2 18.8,9.2 16.8,10.6 17.6,13 15,11.6 12.4,13 13.2,10.6 11.2,9.2 13.7,9.2" fill="none" stroke="#0038B8" stroke-width="0.6"/>',
+  };
+  function flagSvg(code, opts) {
+    const inner = FLAGS_SVG[code] || '<rect width="30" height="20" fill="#555"/>';
+    const cls = (opts && opts.className) || '';
+    const style = (opts && opts.style) || '';
+    return `<svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice" class="${cls}" style="${style}" aria-hidden="true">${inner}</svg>`;
+  }
+
+  // ---- Lucide icon set (audit 6.3) — 12 icons inline as SVG paths ----
+  // Stroke 1.8px per Beat 3.F lock. Use at 16px in beat eyebrows + trust badges.
+  const ICONS = {
+    stopwatch:    '<circle cx="12" cy="13" r="8"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="9" y1="2" x2="15" y2="2"/>',
+    layers:       '<polygon points="12,2 2,7 12,12 22,7"/><polyline points="2,17 12,22 22,17"/><polyline points="2,12 12,17 22,12"/>',
+    globe:        '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2 a 10 10 0 0 1 0 20 a 10 10 0 0 1 0 -20"/>',
+    shield:       '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    workflow:     '<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6"/>',
+    phone:        '<rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/>',
+    send:         '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/>',
+    penTool:      '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.5 7.5"/><circle cx="11" cy="11" r="2"/>',
+    checkCircle:  '<circle cx="12" cy="12" r="10"/><polyline points="9,12 11,14 15,10"/>',
+    eyeOff:       '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>',
+    activity:     '<polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>',
+    refreshCw:    '<polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  };
+  function Icon({ name, size, className, style }) {
+    const path = ICONS[name];
+    if (!path) return null;
+    const sz = size || 16;
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        width={sz} height={sz}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className || ''}
+        style={style || {}}
+        aria-hidden="true"
+        dangerouslySetInnerHTML={{ __html: path }}
+      />
+    );
+  }
+
+  // ---- Reporter portraits (audit B6-B10) — abstract editorial line-art SVGs ----
+  // 80x80 viewBox; mounted inside .user-preview-thumb (56x56). Stylized
+  // silhouettes per reporter; brand-accent gradient bg stays as framing.
+  const REPORTER_PORTRAITS = {
+    // Gerardo — financial anchor; mid-length dark hair, jacket collar
+    G: '<defs><radialGradient id="rg" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rg)"/><path d="M40 18 C 30 18 24 25 24 35 C 24 42 28 47 32 49 L 30 56 L 16 60 L 10 80 L 70 80 L 64 60 L 50 56 L 48 49 C 52 47 56 42 56 35 C 56 25 50 18 40 18 Z" fill="rgba(255,255,255,0.92)"/><path d="M40 49 L 40 56 M 30 56 L 50 56" stroke="rgba(0,0,0,0.18)" stroke-width="0.8" fill="none"/>',
+    // Liam — operations; shorter hair, stubble
+    L: '<defs><radialGradient id="rl" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rl)"/><path d="M40 19 C 31 19 26 26 26 34 C 26 41 30 46 33 48 L 31 55 L 17 59 L 11 80 L 69 80 L 63 59 L 49 55 L 47 48 C 50 46 54 41 54 34 C 54 26 49 19 40 19 Z" fill="rgba(255,255,255,0.92)"/><circle cx="40" cy="42" r="0.6" fill="rgba(0,0,0,0.4)"/><circle cx="36" cy="42" r="0.6" fill="rgba(0,0,0,0.4)"/><circle cx="44" cy="42" r="0.6" fill="rgba(0,0,0,0.4)"/>',
+    // Annie — products; shoulder-length hair + glasses
+    A: '<defs><radialGradient id="ra" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#ra)"/><path d="M40 17 C 28 17 22 25 22 36 C 22 42 25 47 29 50 L 26 60 L 16 68 L 13 80 L 67 80 L 64 68 L 54 60 L 51 50 C 55 47 58 42 58 36 C 58 25 52 17 40 17 Z" fill="rgba(255,255,255,0.92)"/><circle cx="34" cy="36" r="3.2" fill="none" stroke="rgba(0,0,0,0.45)" stroke-width="0.9"/><circle cx="46" cy="36" r="3.2" fill="none" stroke="rgba(0,0,0,0.45)" stroke-width="0.9"/><line x1="37.2" y1="36" x2="42.8" y2="36" stroke="rgba(0,0,0,0.45)" stroke-width="0.9"/>',
+    // Sophia — legal/risk; longer hair + earring
+    S: '<defs><radialGradient id="rs" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rs)"/><path d="M40 16 C 27 16 20 24 20 36 C 20 41 22 45 25 48 L 22 64 L 16 80 L 64 80 L 58 64 L 55 48 C 58 45 60 41 60 36 C 60 24 53 16 40 16 Z" fill="rgba(255,255,255,0.92)"/><circle cx="32" cy="48" r="0.9" fill="rgba(0,0,0,0.35)"/><circle cx="48" cy="48" r="0.9" fill="rgba(0,0,0,0.35)"/>',
+    // Maya — press; bob cut + bangs
+    M: '<defs><radialGradient id="rm" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rm)"/><path d="M40 17 C 28 17 22 25 22 35 C 22 36 22 36 22 37 L 22 50 L 27 50 L 30 56 L 16 60 L 10 80 L 70 80 L 64 60 L 50 56 L 53 50 L 58 50 L 58 35 C 58 25 52 17 40 17 Z" fill="rgba(255,255,255,0.92)"/><path d="M28 25 L 52 25" stroke="rgba(0,0,0,0.25)" stroke-width="1" fill="none"/>',
+  };
+  function ReporterPortrait({ code }) {
+    const portrait = REPORTER_PORTRAITS[code];
+    if (!portrait) {
+      // Fallback: letter-glyph (matches Phase-1 baseline)
+      return <div className="user-preview-thumb">{code}</div>;
+    }
+    return (
+      <div className="user-preview-thumb user-preview-thumb--portrait">
+        <svg viewBox="0 0 80 80" preserveAspectRatio="xMidYMax slice" dangerouslySetInnerHTML={{ __html: portrait }} aria-hidden="true" />
+      </div>
+    );
+  }
+
+  // ---- Waveform (audit E6) — small audio-suggesting waveform under reporter ----
+  function Waveform() {
+    return (
+      <span className="stv-waveform" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </span>
+    );
+  }
+
+  // ---- CountUp (audit 3.2 + D2) — animated numerical reveal ----
+  // Counts from 0 (or `from`) to `to` over `duration` ms with easeOutCubic.
+  // 60Hz tick. Settles exactly on `to`. Optional `format` for "+", "%", "k" etc.
+  function useCountUp(target, opts) {
+    const { duration = 1200, delay = 0, format = (v) => Math.round(v).toString(), enabled = true } = opts || {};
+    const [val, setVal] = useState(enabled ? 0 : target);
+    useEffect(() => {
+      if (!enabled) { setVal(target); return; }
+      let rafId = null;
+      let startTs = null;
+      const startTimer = setTimeout(() => {
+        const tick = (ts) => {
+          if (startTs === null) startTs = ts;
+          const elapsed = ts - startTs;
+          const t = Math.min(1, elapsed / duration);
+          // easeOutCubic
+          const eased = 1 - Math.pow(1 - t, 3);
+          setVal(target * eased);
+          if (t < 1) rafId = requestAnimationFrame(tick);
+          else setVal(target);
+        };
+        rafId = requestAnimationFrame(tick);
+      }, delay);
+      return () => {
+        clearTimeout(startTimer);
+        if (rafId) cancelAnimationFrame(rafId);
+      };
+    }, [target, duration, delay, enabled]);
+    return format(val);
+  }
+  function CountUp({ to, duration, delay, format, suffix, className, style }) {
+    const display = useCountUp(to, { duration, delay, format });
+    return (
+      <span className={className} style={style}>
+        {display}{suffix || ''}
+      </span>
+    );
+  }
 
   // ---- Config cache (per Beat 4 B.4.A) ----
   const configCache = new Map();
@@ -1900,11 +2209,28 @@
   // ============================================================================
   function BootSequence({ onComplete }) {
     const [exiting, setExiting] = useState(false);
+    const [checks, setChecks] = useState(0);
     useEffect(() => {
-      const exitTimer = setTimeout(() => setExiting(true), 3400);
-      const completeTimer = setTimeout(() => onComplete && onComplete(), 4200);
-      return () => { clearTimeout(exitTimer); clearTimeout(completeTimer); };
+      const checkTimers = [];
+      // Stagger 4 system-check lines after wordmark resolves (~2.4s onward)
+      [0, 1, 2, 3].forEach((i) => {
+        checkTimers.push(setTimeout(() => setChecks(i + 1), 2400 + i * 200));
+      });
+      const exitTimer = setTimeout(() => setExiting(true), 4400);
+      const completeTimer = setTimeout(() => onComplete && onComplete(), 5200);
+      return () => {
+        checkTimers.forEach(clearTimeout);
+        clearTimeout(exitTimer);
+        clearTimeout(completeTimer);
+      };
     }, [onComplete]);
+
+    const checkLines = [
+      '53 exchanges · synced',
+      '30 agents · live',
+      '24 integrity rules · loaded',
+      'Source feeds · authenticated',
+    ];
 
     return (
       <div className={`boot-stage ${exiting ? 'fading-out' : ''}`}>
@@ -1913,6 +2239,13 @@
           <div className="boot-wordmark">
             <span className="boot-wordmark-stocker">Stocker</span>
             <span className="boot-wordmark-tv">TV</span>
+          </div>
+          <div className="boot-checks" aria-live="polite">
+            {checkLines.slice(0, checks).map((line, i) => (
+              <div className="boot-check" key={i}>
+                <span className="boot-check-tick">✓</span> {line}
+              </div>
+            ))}
           </div>
           <div className="boot-status">
             <span className="boot-status-dot" />
@@ -1927,6 +2260,20 @@
   // HookScene (Beat 1 main)
   // ============================================================================
   function HookScene({ onContinue }) {
+    // E1 — living counter, page-load tied per Q1.b: N = secondsSinceLoad × 0.18
+    // (~47 after 4 minutes). Honest, no sim-badge needed.
+    const [storiesProcessed, setStoriesProcessed] = useState(0);
+    useEffect(() => {
+      const start = Date.now();
+      const tick = () => {
+        const seconds = (Date.now() - start) / 1000;
+        setStoriesProcessed(Math.floor(seconds * 0.18));
+      };
+      tick();
+      const id = setInterval(tick, 800);
+      return () => clearInterval(id);
+    }, []);
+
     return (
       <section className="hook-stage" aria-label="StockerTV unified demo · Hook">
         <div className="hook-eyebrow">
@@ -1937,13 +2284,19 @@
           Source-verified
         </div>
         <h1 className="hook-hero-number">
-          47<span className="hook-hero-unit">seconds.</span>
+          <CountUp to={47} duration={1400} delay={1100} />
+          <span className="hook-hero-unit">seconds.</span>
+          <span className="hook-hero-shimmer" aria-hidden="true" />
         </h1>
         <div className="hook-accent-line" aria-hidden="true" />
         <p className="hook-subline">
           From a published news article to a fully scripted, source-verified, multi-language broadcast segment.{' '}
           <span className="hook-subline-emphasis">AI-powered with human oversight · designed for regulated environments.</span>
         </p>
+        <div className="hook-counter">
+          Stories processed since this page loaded
+          <span className="hook-counter-value">{storiesProcessed}</span>
+        </div>
         <button className="hook-continue" onClick={onContinue} aria-label="Continue to next beat">
           Continue
           <span className="hook-continue-arrow" aria-hidden="true">→</span>
@@ -2758,24 +3111,27 @@
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
 
-    // 4 mocked broadcast cards. Each is what an end-user would see in a
-    // [brand] feed/widget/embedded surface. Reporters from the production
-    // 5-name roster; languages from the brand's multilang config.
-    const previewCards = [
-      { reporter: 'G', headline: 'BlackRock IBIT crosses cumulative inflow milestone, ETF flow data shows.', flag: 'GB', lang: 'EN', meta: '2m ago · Source: Bloomberg ETF flows', tone: 'accent', pillTxt: 'BTC ETF · 47s' },
-      { reporter: 'L', headline: 'European semiconductor orders rise; ASML books new high-NA backlog.',     flag: 'DE', lang: 'DE', meta: '14m ago · Source: Company filing',    tone: '',       pillTxt: 'Operations · 41s' },
-      { reporter: 'A', headline: 'Tesla expands robotaxi pilot to two new metros, operator count up 38%.',   flag: 'IT', lang: 'IT', meta: '1h ago · Source: DMV records',         tone: '',       pillTxt: 'Products · 38s' },
-      { reporter: 'S', headline: 'Teva wins EU regulatory approval for two generic biosimilars.',            flag: 'ES', lang: 'ES', meta: '2h ago · Source: EMA bulletin',        tone: '',       pillTxt: 'Legal/Risk · 44s' },
-    ];
+    // Live UTC clock — updates every 30 sec (BUG-2 fix).
+    const [now, setNow] = useState(() => new Date());
+    useEffect(() => {
+      const t = setInterval(() => setNow(new Date()), 30 * 1000);
+      return () => clearInterval(t);
+    }, []);
+    const utcTime = `${String(now.getUTCHours()).padStart(2,'0')}:${String(now.getUTCMinutes()).padStart(2,'0')} UTC`;
+    function ageLabel(mins) {
+      if (mins < 60) return `${mins}m ago`;
+      const h = Math.floor(mins / 60);
+      return `${h}h ago`;
+    }
 
-    const flagBg = {
-      GB: 'linear-gradient(180deg,#012169 33%,#fff 33% 66%,#C8102E 66%)',
-      DE: 'linear-gradient(180deg,#000 33%,#DD0000 33% 66%,#FFCE00 66%)',
-      IT: 'linear-gradient(90deg,#009246 33%,#fff 33% 66%,#CE2B37 66%)',
-      ES: 'linear-gradient(180deg,#aa151b 33%,#f1bf00 33% 66%,#aa151b 66%)',
-      FR: 'linear-gradient(90deg,#002654 33%,#fff 33% 66%,#ED2939 66%)',
-      US: 'linear-gradient(180deg,#b22234 0%,#b22234 100%)',
-    };
+    // 4 mocked broadcast cards. ageMins computed dynamically per render.
+    // BUG-2 fix: timestamps are page-load-tied, not hardcoded.
+    const previewCards = [
+      { reporter: 'G', headline: 'BlackRock IBIT crosses cumulative inflow milestone, ETF flow data shows.', flag: 'GB', lang: 'EN', ageMins: 2,   source: 'Bloomberg ETF flows',  tone: 'accent', pillTxt: 'BTC ETF · 47s' },
+      { reporter: 'L', headline: 'European semiconductor orders rise; ASML books new high-NA backlog.',     flag: 'DE', lang: 'DE', ageMins: 14,  source: 'Company filing',       tone: '',       pillTxt: 'Operations · 41s' },
+      { reporter: 'A', headline: 'Tesla expands robotaxi pilot to two new metros, operator count up 38%.',   flag: 'IT', lang: 'IT', ageMins: 60,  source: 'DMV records',          tone: '',       pillTxt: 'Products · 38s' },
+      { reporter: 'S', headline: 'Teva wins EU regulatory approval for two generic biosimilars.',            flag: 'ES', lang: 'ES', ageMins: 120, source: 'EMA bulletin',         tone: '',       pillTxt: 'Legal/Risk · 44s' },
+    ];
 
     return (
       <section className="output-scene" aria-label="Beat 6 · output through users' eyes">
@@ -2797,21 +3153,26 @@
             <div className="user-preview-bar">
               <span className="user-preview-dot" aria-hidden="true" />
               <span className="user-preview-name">{display} · Live</span>
-              <span className="user-preview-time">12:47 UTC</span>
+              <span className="user-preview-time">{utcTime}</span>
             </div>
             {previewCards.map((c, i) => (
               <div className="user-preview-card" key={i}>
-                <div className="user-preview-thumb">{c.reporter}</div>
+                <ReporterPortrait code={c.reporter} />
                 <div className="user-preview-body">
                   <div className="user-preview-meta">
-                    <span className="user-preview-meta-flag" aria-hidden="true" style={{ background: flagBg[c.flag] || flagBg.US }} />
+                    <span
+                      className="user-preview-meta-flag"
+                      aria-hidden="true"
+                      dangerouslySetInnerHTML={{ __html: flagSvg(c.flag) }}
+                    />
                     {c.lang}
                     <span style={{ color: 'var(--text-muted)' }}> · </span>
-                    {c.meta}
+                    {ageLabel(c.ageMins)} · Source: {c.source}
                   </div>
                   <p className="user-preview-headline">{c.headline}</p>
                   <div className="user-preview-foot">
                     <span className="user-preview-pill" data-tone={c.tone || 'neutral'}>{c.pillTxt}</span>
+                    <Waveform />
                     <span style={{ color: 'var(--text-muted)' }}>· source-verified · audit signed</span>
                   </div>
                 </div>
@@ -2839,12 +3200,12 @@
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="success">99.2%</div>
               <div className="ops-cell-label">Integrity pass rate</div>
-              <div className="ops-cell-foot">From scripts_archive (last 30d)</div>
+              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-27</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="accent">87.4</div>
               <div className="ops-cell-label">Quality avg · /110</div>
-              <div className="ops-cell-foot">From scripts_archive (last 30d)</div>
+              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-27</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value">99.94%</div>
@@ -3017,9 +3378,26 @@
         document.documentElement.dataset.theme = theme;
         localStorage.setItem('stv-theme', theme);
         const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', theme === 'light' ? '#FAF7F2' : '#0A0B0F');
+        if (meta) meta.setAttribute('content', theme === 'light' ? '#F4F0E8' : '#0A0B0F');
       } catch (e) { /* no-op */ }
     }, [theme]);
+
+    // Body data-beat attribute drives per-beat orb-position overrides (audit C1)
+    useEffect(() => {
+      try { document.body.dataset.beat = activeBeat; } catch (e) { /* no-op */ }
+    }, [activeBeat]);
+
+    // Mouse parallax for atmosphere orbs (audit C2). ±10px max.
+    useEffect(() => {
+      const onMove = (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;  // ±10px
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        document.documentElement.style.setProperty('--paraX', `${x.toFixed(1)}px`);
+        document.documentElement.style.setProperty('--paraY', `${y.toFixed(1)}px`);
+      };
+      window.addEventListener('pointermove', onMove, { passive: true });
+      return () => window.removeEventListener('pointermove', onMove);
+    }, []);
 
     // Keyboard navigation
     useEffect(() => {
