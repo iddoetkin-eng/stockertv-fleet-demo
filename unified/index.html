@@ -2519,6 +2519,133 @@
     }
     .output-subline strong { color: var(--text-primary); font-weight: 500; }
 
+    /* 1.1 — Bottom-right beat pager (replaces per-scene Continue buttons) */
+    .stv-pager {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 60;
+      padding: 0.625rem 0.875rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 28%, transparent) 0%, var(--border) 60%) border-box;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @media (max-width: 720px) {
+      .stv-pager {
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 1rem;
+      }
+    }
+    .stv-pager-current {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-right: 0.4rem;
+      border-right: 1px solid var(--border);
+    }
+    .stv-pager-current-num {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .stv-pager-current-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 11.5px;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+      text-transform: none;
+      margin-left: 4px;
+    }
+    .stv-pager-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stv-pager-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+      position: relative;
+    }
+    .stv-pager-dot:hover {
+      transform: scale(1.3);
+      border-color: var(--text-muted);
+    }
+    .stv-pager-dot[data-active='true'] {
+      background: var(--accent);
+      border-color: var(--accent);
+      width: 10px; height: 10px;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+    .stv-pager-dot[data-visited='true']:not([data-active='true']) {
+      background: color-mix(in srgb, var(--accent) 35%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    }
+    .stv-pager-keys {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      padding-left: 0.4rem;
+      border-left: 1px solid var(--border);
+    }
+    @media (max-width: 480px) {
+      .stv-pager-current { display: none; }
+      .stv-pager-keys { display: none; }
+    }
+
+    /* D1 — letter-spacing entry animation on text mounts */
+    .stv-letter-enter {
+      animation: stv-letter-spread 700ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    @keyframes stv-letter-spread {
+      from { letter-spacing: 0.08em; opacity: 0; }
+      to   { letter-spacing: inherit; opacity: 1; }
+    }
+
+    /* 3.6 — Continue button "ink fill" hover (where buttons remain after pager) */
+    .scene-continue {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .scene-continue::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateX(-101%);
+      transition: transform 320ms cubic-bezier(0.33, 1, 0.68, 1);
+      z-index: -1;
+    }
+    .scene-continue:hover::before {
+      transform: translateX(0);
+    }
+    .scene-continue:hover {
+      color: var(--surface);
+      border-color: var(--accent);
+      background: transparent;
+    }
+    .scene-continue:hover .scene-continue-arrow { transform: translateX(4px); }
+
     /* "Live data simulation" badge per L.1 */
     .sim-badge {
       position: fixed;
@@ -4070,14 +4197,14 @@
   ];
 
   const DECISION_TREE = [
-    { num: 1, label: 'Parse article structure',         conf: 0.99 },
-    { num: 2, label: 'Detect entity (BlackRock, IBIT)', conf: 0.97 },
-    { num: 3, label: 'Classify story type · ETF flow',  conf: 0.94 },
-    { num: 4, label: 'Check 72-hour freshness',         conf: 1.00 },
-    { num: 5, label: 'Cross-reference SEC EDGAR',       conf: 0.96 },
-    { num: 6, label: 'Select Gerardo (financial beat)', conf: 0.94 },
-    { num: 7, label: 'Generate · 110-130 word target',  conf: 0.92 },
-    { num: 8, label: 'Apply 24 integrity rules · L1+L2+L3', conf: 0.98 },
+    { num: 1, label: 'Parse article structure',         conf: 0.99, model: 'Haiku 4.5' },
+    { num: 2, label: 'Detect entity (BlackRock, IBIT)', conf: 0.97, model: 'Haiku 4.5' },
+    { num: 3, label: 'Classify story type · ETF flow',  conf: 0.94, model: 'Haiku 4.5' },
+    { num: 4, label: 'Check 72-hour freshness',         conf: 0.99, model: 'rule-based' },
+    { num: 5, label: 'Cross-reference SEC EDGAR',       conf: 0.96, model: 'EDGAR API' },
+    { num: 6, label: 'Select Gerardo (financial beat)', conf: 0.94, model: 'Haiku 4.5' },
+    { num: 7, label: 'Generate · 110-130 word target',  conf: 0.92, model: 'Sonnet 4.6' },
+    { num: 8, label: 'Apply 24 integrity rules · L1+L2+L3', conf: 0.98, model: 'L1+L2+L3' },
   ];
 
   function ThoughtStream({ rows }) {
@@ -4104,10 +4231,10 @@
             key={n.num}
             style={{ animationDelay: `${i * 90}ms` }}
             role="listitem"
+            title={`${(n.conf * 100).toFixed(0)}% confidence · ${n.model}`}
           >
             <span className="tree-node-num">{n.num}</span>
             <span className="tree-node-label">{n.label}</span>
-            {/* 1.6 — confidence bar */}
             <span className="tree-node-confbar">
               <span className="tree-node-confbar-fill" style={{ width: `${(n.conf * 100).toFixed(0)}%` }} />
             </span>
@@ -5216,7 +5343,43 @@
           audioOn={audioOn}
         />
         <main className="stv-app-content">{scene}</main>
+        <BeatPager
+          activeBeat={activeBeat}
+          onJump={(b) => setActiveBeat(b)}
+        />
       </div>
+    );
+  }
+
+  // ============================================================================
+  // BeatPager (audit 1.1) — fixed bottom-right beat navigator with 7 dots,
+  // current-beat label, and arrow-key cue. Persists across all post-Hook beats.
+  // ============================================================================
+  function BeatPager({ activeBeat, onJump }) {
+    const meta = BEAT_LABELS[activeBeat] || BEAT_LABELS.hook;
+    const activeIdx = BEAT_ORDER.indexOf(activeBeat);
+    return (
+      <nav className="stv-pager" aria-label="Beat navigation">
+        <div className="stv-pager-current">
+          <span className="stv-pager-current-num">{meta.num} / 07</span>
+          <span className="stv-pager-current-name">{meta.name}</span>
+        </div>
+        <div className="stv-pager-dots">
+          {BEAT_ORDER.map((b, i) => (
+            <button
+              key={b}
+              className="stv-pager-dot"
+              data-active={b === activeBeat}
+              data-visited={i < activeIdx}
+              onClick={() => onJump(b)}
+              aria-label={`Beat ${i + 1} · ${BEAT_LABELS[b].name}`}
+              aria-current={b === activeBeat ? 'step' : undefined}
+              title={BEAT_LABELS[b].name}
+            />
+          ))}
+        </div>
+        <div className="stv-pager-keys" aria-hidden="true">← →</div>
+      </nav>
     );
   }
 
