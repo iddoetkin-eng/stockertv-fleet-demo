@@ -67,6 +67,39 @@
     .display { font-family: 'Fraunces', Georgia, serif; font-feature-settings: 'liga', 'dlig'; }
     .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
 
+    /* Illustration base — audit 6.1 */
+    .illust {
+      display: block;
+      max-width: 100%;
+      color: var(--text-primary);
+      transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .illust--newsroom {
+      width: min(600px, 90vw);
+      height: 80px;
+      margin: 1.5rem auto 0;
+      opacity: 0;
+      animation: stv-fade-in 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 3500ms forwards;
+    }
+    .illust--stagemap {
+      width: 100%;
+      height: 60px;
+      margin: 0 auto 1.5rem;
+      opacity: 0.92;
+    }
+    .illust--phone {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+    }
+    .illust--horizon {
+      width: min(500px, 80vw);
+      height: 60px;
+      margin: 1.5rem auto 0;
+      opacity: 0;
+      animation: stv-fade-in 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 2600ms forwards;
+    }
+
     /* Reduced-motion respect per Beat 3.C */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -284,6 +317,16 @@
       opacity: 0;
       animation: stv-hook-enter 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 400ms forwards;
     }
+    /* Background wash beneath the Hook hero (audit 2.2.a) */
+    .hook-stage::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 45%, color-mix(in srgb, var(--accent) 9%, transparent) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .hook-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -470,12 +513,138 @@
       letter-spacing: -0.015em;
       font-weight: 500;
       color: var(--text-primary);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
     }
     .stv-topbar-mark .stv-mark-tv {
       color: var(--accent);
       font-style: italic;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
+    .stv-topbar-mark .stv-mark-for {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      opacity: 0.92;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stv-topbar-mark .stv-mark-divider {
+      color: var(--text-muted);
+      font-style: normal;
+      font-weight: 400;
+      opacity: 0.55;
+    }
+
+    /* Beat indicator ("03 / 07 · Scale reveal") audit 1.2 */
+    .stv-topbar-beat {
+      display: none;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding-left: 0.875rem;
+      margin-left: 0.5rem;
+      border-left: 1px solid var(--border);
+    }
+    .stv-topbar-beat-num {
+      color: var(--text-primary);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .stv-topbar-beat-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: -0.005em;
+      color: var(--text-primary);
+      text-transform: none;
+      opacity: 0.85;
+    }
+    @media (min-width: 880px) {
+      .stv-topbar-beat { display: inline-flex; }
+    }
+
+    /* Brand-switch full-screen flash (audit 1.4 + E2) */
+    .stv-brand-flash {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0;
+      background:
+        radial-gradient(ellipse at var(--flashX, 50%) var(--flashY, 50%),
+          color-mix(in srgb, var(--accent) 22%, transparent) 0%,
+          color-mix(in srgb, var(--accent) 8%, transparent) 30%,
+          transparent 65%);
+    }
+    .stv-brand-flash[data-firing='true'] {
+      animation: stv-brand-flash-anim 620ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    @keyframes stv-brand-flash-anim {
+      0%   { opacity: 0; transform: scale(0.6); }
+      35%  { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0; transform: scale(1.2); }
+    }
+
+    /* Brand-pill hover tooltip (audit 1.3) */
+    .stv-brand-pill {
+      position: relative;
+    }
+    .stv-brand-pill[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      background: var(--surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+      z-index: 51;
+    }
+    .stv-brand-pill[data-tooltip]:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .stv-brand-pill[data-tooltip]::before {
+      content: '';
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px; height: 6px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      transform: translateX(-50%) rotate(45deg);
+      opacity: 0;
+      transition: opacity 120ms ease;
+      z-index: 52;
+    }
+    .stv-brand-pill[data-tooltip]:hover::before { opacity: 1; }
+
+    /* Brand-pill active text contrast — explicit luminance handling per audit 1.3.b */
+    /* Use white text for green, blue, navy primaries (most brands); black for very light */
+    .stv-brand-pill[data-active='true'] .stv-brand-pill-initials { color: #fff; mix-blend-mode: normal; }
     .stv-topbar-divider {
       width: 1px;
       height: 22px;
@@ -538,9 +707,10 @@
     .stv-brand-pill[data-active='true'] {
       color: var(--text-primary);
       background: var(--accent);
-      transform: scale(1.02);
+      transform: scale(1.06);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
     }
-    .stv-brand-pill[data-active='true'] .stv-brand-pill-initials { color: #fff; mix-blend-mode: difference; }
+    /* Explicit override below in tooltip section sets active-text color to white via mix-blend-mode: normal */
     .stv-brand-pill-initials {
       display: inline-flex;
       align-items: center;
@@ -600,6 +770,17 @@
       padding: 4rem 2rem;
       text-align: center;
       gap: 0;
+      position: relative;
+    }
+    /* Background wash on brand scene */
+    .brand-scene::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 40%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: -1;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .brand-scene-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -999,13 +1180,15 @@
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Card chrome reused across safety-scene panels */
+    /* Card chrome reused across safety-scene panels — gradient edge per audit 2.2.c */
     .safety-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent) 0%, var(--border) 55%, color-mix(in srgb, var(--accent) 8%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
       padding: 1.25rem 1.25rem;
-      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1), border-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .safety-card-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -1467,13 +1650,16 @@
     .pipeline-callout {
       margin-top: 2.5rem;
       padding: 1.25rem 1.5rem;
-      background: var(--surface-elevated);
-      border: 1px solid var(--accent);
-      border-radius: 8px;
+      background:
+        linear-gradient(135deg, var(--surface-elevated) 0%, color-mix(in srgb, var(--accent) 4%, var(--surface-elevated)) 100%) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 60%, transparent) 0%, var(--accent) 50%, color-mix(in srgb, var(--accent) 35%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
       max-width: 720px;
       width: 100%;
       text-align: left;
-      transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1), background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 16%, transparent);
     }
     .pipeline-callout-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -1556,14 +1742,19 @@
 
     /* User surface preview (phone-ish mockup) */
     .user-preview {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent) 0%, var(--border) 55%, color-mix(in srgb, var(--accent) 12%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 16px;
       padding: 1rem;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.10);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.10),
+                  0 0 0 1px color-mix(in srgb, var(--accent) 6%, transparent),
+                  0 30px 80px color-mix(in srgb, var(--accent) 12%, transparent);
       max-width: 480px;
       width: 100%;
       margin: 0 auto;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .user-preview-frame {
       background: var(--surface-elevated);
@@ -1703,10 +1894,13 @@
 
     /* Operational metrics panel */
     .ops-panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent) 0%, var(--border) 55%, color-mix(in srgb, var(--accent) 8%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
       padding: 1.25rem;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .ops-panel-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -1814,6 +2008,16 @@
       text-align: center;
       position: relative;
     }
+    /* Background wash on close scene — wider, more prominent */
+    .close-scene::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 40% at 50% 50%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .close-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -1863,15 +2067,48 @@
     }
     .close-mark {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 14px;
-      letter-spacing: 0.1em;
+      font-size: 16px;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
       opacity: 0;
       animation: stv-fade-in 1000ms cubic-bezier(0.25, 0.1, 0.25, 1) 2200ms forwards;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.55rem;
     }
     .close-mark em {
       font-style: italic;
       color: var(--accent);
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .close-mark-stv { position: relative; color: var(--text-primary); }
+    /* E7 — wordmark shimmer animation */
+    .close-mark-shimmer {
+      position: absolute;
+      inset: -2px -4px;
+      background: linear-gradient(110deg, transparent 30%, color-mix(in srgb, var(--accent) 38%, transparent) 50%, transparent 70%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+      animation: stv-mark-shimmer 4000ms linear infinite;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      border-radius: 4px;
+    }
+    @keyframes stv-mark-shimmer {
+      0%   { background-position: -120% 0; }
+      35%  { background-position: 120% 0; }
+      100% { background-position: 120% 0; }
+    }
+    .close-mark-x {
+      color: var(--text-muted);
+      opacity: 0.6;
+      font-size: 14px;
+      font-style: normal;
+    }
+    .close-mark-brand {
+      color: var(--accent);
+      font-style: italic;
+      font-weight: 500;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .close-restart {
@@ -1923,6 +2160,9 @@
 
 <!-- Toast container — populated by React via portal-style direct DOM access -->
 <div class="stv-toast" id="stv-toast" data-visible="false" role="status" aria-live="polite"></div>
+
+<!-- Brand-switch flash overlay (audit 1.4) — animation triggered by React via data-firing -->
+<div class="stv-brand-flash" id="stv-brand-flash" data-firing="false" aria-hidden="true"></div>
 
 <script type="text/babel" data-presets="react">
   const { useState, useEffect, useRef, useCallback, useMemo } = React;
@@ -2055,6 +2295,288 @@
       </span>
     );
   }
+
+  // ============================================================================
+  // ILLUSTRATIONS (B1-B5) — editorial line-art SVGs
+  // ----------------------------------------------------------------------------
+  // Inline SVGs in WSJ-hedcut tradition: monochrome line work in --text-primary
+  // with selective fills in --accent. Stroke 1.4-1.8px. Sized via parent CSS.
+  // ============================================================================
+
+  // B1 — Newsroom-to-broadcast flow (Beat 1, 600x80)
+  function IllustrationNewsroomFlow() {
+    return (
+      <svg className="illust illust--newsroom" viewBox="0 0 600 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Connector — dotted base path through entire flow */}
+        <path d="M 56 40 Q 120 40 124 40 M 224 40 Q 240 40 244 40 M 344 40 Q 360 40 364 40 M 464 40 Q 480 40 484 40" strokeDasharray="2 4" opacity="0.5"/>
+        {/* Arrows on connectors */}
+        <path d="M118 36 L124 40 L118 44" opacity="0.65"/>
+        <path d="M238 36 L244 40 L238 44" opacity="0.65"/>
+        <path d="M358 36 L364 40 L358 44" opacity="0.65"/>
+        <path d="M478 36 L484 40 L478 44" opacity="0.65"/>
+
+        {/* (1) Article — page with corner fold + lines, x=60 */}
+        <g transform="translate(40 18)">
+          <path d="M0 0 L26 0 L34 8 L34 44 L0 44 Z"/>
+          <path d="M26 0 L26 8 L34 8" />
+          <line x1="6" y1="18" x2="28" y2="18" opacity="0.55"/>
+          <line x1="6" y1="24" x2="28" y2="24" opacity="0.55"/>
+          <line x1="6" y1="30" x2="22" y2="30" opacity="0.55"/>
+          <line x1="6" y1="36" x2="24" y2="36" opacity="0.55"/>
+        </g>
+
+        {/* (2) Typewriter — keys + carriage, x=180 */}
+        <g transform="translate(150 14)">
+          <rect x="0" y="14" width="48" height="24" rx="2"/>
+          <line x1="6" y1="0" x2="42" y2="0" />
+          <line x1="6" y1="0" x2="6" y2="14" opacity="0.45"/>
+          <line x1="42" y1="0" x2="42" y2="14" opacity="0.45"/>
+          {/* keys */}
+          <circle cx="11" cy="22" r="1.6" fill="currentColor"/>
+          <circle cx="18" cy="22" r="1.6" fill="currentColor"/>
+          <circle cx="25" cy="22" r="1.6" fill="currentColor"/>
+          <circle cx="32" cy="22" r="1.6" fill="currentColor"/>
+          <circle cx="39" cy="22" r="1.6" fill="currentColor"/>
+          <circle cx="14.5" cy="29" r="1.6" fill="currentColor"/>
+          <circle cx="21.5" cy="29" r="1.6" fill="currentColor"/>
+          <circle cx="28.5" cy="29" r="1.6" fill="currentColor"/>
+          <circle cx="35.5" cy="29" r="1.6" fill="currentColor"/>
+          {/* roller bar */}
+          <line x1="2" y1="6" x2="46" y2="6" opacity="0.55"/>
+        </g>
+
+        {/* (3) Script — document with bullet lines, x=300, brand-accent fill highlight */}
+        <g transform="translate(270 16)">
+          <rect x="0" y="0" width="34" height="48" rx="2" fill="color-mix(in srgb, var(--accent) 12%, transparent)" stroke="currentColor"/>
+          <line x1="5" y1="9" x2="29" y2="9"/>
+          <line x1="5" y1="16" x2="29" y2="16"/>
+          <line x1="5" y1="23" x2="22" y2="23"/>
+          <line x1="5" y1="30" x2="29" y2="30"/>
+          <line x1="5" y1="37" x2="20" y2="37"/>
+          <line x1="5" y1="44" x2="29" y2="44" opacity="0.45"/>
+        </g>
+
+        {/* (4) Microphone — capsule + stand, x=420 */}
+        <g transform="translate(396 12)">
+          <rect x="14" y="0" width="20" height="32" rx="10"/>
+          <line x1="22" y1="34" x2="22" y2="44"/>
+          <line x1="14" y1="44" x2="34" y2="44"/>
+          <path d="M8 22 Q 8 36 24 36 Q 40 36 40 22" opacity="0.55"/>
+        </g>
+
+        {/* (5) Globe — circle with meridians + equator, x=540 */}
+        <g transform="translate(514 12)">
+          <circle cx="26" cy="26" r="26" fill="color-mix(in srgb, var(--accent) 10%, transparent)" stroke="currentColor"/>
+          <ellipse cx="26" cy="26" rx="26" ry="9" opacity="0.55"/>
+          <ellipse cx="26" cy="26" rx="9" ry="26" opacity="0.55"/>
+          <line x1="0" y1="26" x2="52" y2="26" opacity="0.65"/>
+          {/* tiny brand dot */}
+          <circle cx="32" cy="22" r="1.8" fill="var(--accent)" stroke="none"/>
+        </g>
+      </svg>
+    );
+  }
+
+  // B3 — Antique-map illustrated stage timeline (Beat 5, 720x60)
+  function IllustrationStageMap() {
+    // 15 dotted-path "stops" with compass rose at start and microphone at end
+    const stops = [];
+    for (let i = 0; i < 15; i++) {
+      const x = 70 + i * (590 / 14);
+      stops.push(<circle key={i} cx={x} cy="30" r="2" fill={i === 12 ? 'var(--accent)' : 'currentColor'} />);
+    }
+    return (
+      <svg className="illust illust--stagemap" viewBox="0 0 720 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        {/* Compass rose at start */}
+        <g transform="translate(20 30)" opacity="0.85">
+          <circle cx="0" cy="0" r="14" />
+          <path d="M0 -12 L 3 0 L 0 12 L -3 0 Z" fill="currentColor" stroke="none"/>
+          <path d="M-12 0 L 0 -3 L 12 0 L 0 3 Z" fill="none"/>
+          <text x="0" y="-16" textAnchor="middle" fontSize="6" fill="currentColor" stroke="none" fontFamily="serif">N</text>
+        </g>
+        {/* Dotted path through stops */}
+        <path d="M 40 30 L 680 30" strokeDasharray="3 5" opacity="0.55"/>
+        {/* Stops */}
+        {stops}
+        {/* Wow-marker at stop 13 (index 12) */}
+        <circle cx={70 + 12 * (590 / 14)} cy="30" r="6" fill="none" stroke="var(--accent)" strokeWidth="1.2" opacity="0.85"/>
+        {/* Microphone at end */}
+        <g transform="translate(685 30)" opacity="0.85">
+          <rect x="-5" y="-12" width="10" height="16" rx="5" fill="var(--accent)" stroke="none"/>
+          <line x1="0" y1="6" x2="0" y2="12" stroke="currentColor"/>
+          <line x1="-5" y1="12" x2="5" y2="12" stroke="currentColor"/>
+        </g>
+      </svg>
+    );
+  }
+
+  // B4 — Phone with brand-accent signal arriving (Beat 6, 80x80)
+  function IllustrationPhone() {
+    return (
+      <svg className="illust illust--phone" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Brand-accent signal trace from top-left curving into top of phone */}
+        <path d="M 8 12 Q 24 18 30 30" stroke="var(--accent)" strokeWidth="1.6" strokeDasharray="3 3" opacity="0.85"/>
+        <circle cx="8" cy="12" r="2.2" fill="var(--accent)" stroke="none"/>
+        {/* Phone body */}
+        <rect x="26" y="20" width="32" height="52" rx="4"/>
+        <rect x="29" y="26" width="26" height="38" rx="1" fill="color-mix(in srgb, var(--accent) 14%, transparent)" stroke="currentColor" opacity="0.85"/>
+        <line x1="36" y1="68" x2="48" y2="68"/>
+        {/* Inside-screen mock content lines */}
+        <line x1="33" y1="32" x2="51" y2="32" opacity="0.6"/>
+        <line x1="33" y1="38" x2="49" y2="38" opacity="0.5"/>
+        <line x1="33" y1="44" x2="51" y2="44" opacity="0.6"/>
+        <line x1="33" y1="50" x2="46" y2="50" opacity="0.5"/>
+        <circle cx="42" cy="60" r="1.5" fill="var(--accent)" stroke="none"/>
+      </svg>
+    );
+  }
+
+  // B5 — Brand-locked city horizon (Beat 7, 500x60)
+  // Per-brand city + highlighted building from BRAND_CITY_MAP.
+  const BRAND_CITY_MAP = {
+    etoro:   { city: 'Tel Aviv',     skyline: 'telaviv',   highlightIdx: 4 },
+    ibkr:    { city: 'Greenwich, CT',skyline: 'lowrise',   highlightIdx: 5 },
+    bac:     { city: 'New York',     skyline: 'manhattan', highlightIdx: 6 },
+    jpm:     { city: 'New York',     skyline: 'manhattan', highlightIdx: 4 },
+    plus500: { city: 'Haifa',        skyline: 'haifa',     highlightIdx: 3 },
+    t212:    { city: 'London',       skyline: 'london',    highlightIdx: 5 },
+  };
+  function IllustrationCityHorizon({ brandSlug }) {
+    const meta = BRAND_CITY_MAP[brandSlug] || BRAND_CITY_MAP.etoro;
+    // Build a row of 9-12 building rectangles per skyline type. Heights vary
+    // by skyline; one building (highlightIdx) is filled with brand --accent.
+    let buildings = [];
+    if (meta.skyline === 'manhattan') {
+      // tall, varied — Empire-State silhouette in middle
+      buildings = [22, 30, 18, 42, 28, 50, 38, 24, 32, 20, 26];
+    } else if (meta.skyline === 'london') {
+      // spire + dome cluster — St Paul's-ish dome at idx 5
+      buildings = [16, 22, 18, 26, 20, 32, 24, 28, 18, 22, 16];
+    } else if (meta.skyline === 'telaviv') {
+      // mid-rise modernist
+      buildings = [18, 26, 22, 30, 28, 34, 24, 28, 22, 20];
+    } else if (meta.skyline === 'haifa') {
+      // hillside tier
+      buildings = [14, 18, 24, 30, 28, 24, 22, 20, 18];
+    } else {
+      // lowrise default (Greenwich, CT)
+      buildings = [16, 18, 20, 22, 18, 24, 20, 18, 16, 14];
+    }
+    const w = 500;
+    const baseY = 56;
+    const slotW = w / buildings.length;
+    return (
+      <svg className="illust illust--horizon" viewBox={`0 0 ${w} 60`} preserveAspectRatio="xMidYMax meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        {/* Horizon line */}
+        <line x1="0" y1={baseY} x2={w} y2={baseY} opacity="0.6"/>
+        {/* Buildings */}
+        {buildings.map((h, i) => {
+          const x = i * slotW + 4;
+          const bw = slotW - 8;
+          const y = baseY - h;
+          const isHighlight = i === meta.highlightIdx;
+          // London dome adjustment
+          if (meta.skyline === 'london' && i === 5) {
+            return (
+              <g key={i}>
+                <rect x={x} y={y + 4} width={bw} height={h - 4} fill={isHighlight ? 'var(--accent)' : 'none'} stroke="currentColor"/>
+                <ellipse cx={x + bw/2} cy={y + 4} rx={bw/2} ry="6" fill={isHighlight ? 'var(--accent)' : 'none'} stroke="currentColor"/>
+                <line x1={x + bw/2} y1={y - 6} x2={x + bw/2} y2={y - 2} stroke={isHighlight ? 'var(--accent)' : 'currentColor'}/>
+              </g>
+            );
+          }
+          return (
+            <rect
+              key={i}
+              x={x}
+              y={y}
+              width={bw}
+              height={h}
+              fill={isHighlight ? 'var(--accent)' : 'none'}
+              stroke="currentColor"
+              opacity={isHighlight ? 1 : 0.85}
+            />
+          );
+        })}
+        {/* City name label */}
+        <text x={w / 2} y="6" textAnchor="middle" fontSize="6" fill="currentColor" stroke="none" letterSpacing="2" fontFamily="'JetBrains Mono', monospace" opacity="0.5">
+          {meta.city.toUpperCase()}
+        </text>
+      </svg>
+    );
+  }
+
+  // ============================================================================
+  // AUDIO SYSTEM (audit A4) — procedural Web Audio, default OFF
+  // ----------------------------------------------------------------------------
+  // 4 sounds: click, gatePass, typewriter, closeChord. Tasteful frequencies.
+  // Lazy-init AudioContext on first toggle-on (user gesture required).
+  // ============================================================================
+  const audioState = {
+    ctx: null,
+    enabled: false,
+    init() {
+      if (this.ctx) return this.ctx;
+      try {
+        const C = window.AudioContext || window.webkitAudioContext;
+        if (!C) return null;
+        this.ctx = new C();
+      } catch (e) { return null; }
+      return this.ctx;
+    },
+    play(name) {
+      if (!this.enabled) return;
+      const ctx = this.init();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0;
+      master.connect(ctx.destination);
+      try {
+        if (name === 'click') {
+          const o = ctx.createOscillator();
+          o.type = 'sine'; o.frequency.value = 580;
+          o.connect(master);
+          master.gain.setValueAtTime(0, now);
+          master.gain.linearRampToValueAtTime(0.05, now + 0.005);
+          master.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+          o.start(now); o.stop(now + 0.1);
+        } else if (name === 'gatePass') {
+          // soft 220Hz → 330Hz pass tone
+          const o = ctx.createOscillator();
+          o.type = 'sine'; o.frequency.setValueAtTime(220, now);
+          o.frequency.exponentialRampToValueAtTime(330, now + 0.18);
+          o.connect(master);
+          master.gain.setValueAtTime(0, now);
+          master.gain.linearRampToValueAtTime(0.07, now + 0.04);
+          master.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+          o.start(now); o.stop(now + 0.34);
+        } else if (name === 'typewriter') {
+          // brief click — 1.5kHz quick triangle
+          const o = ctx.createOscillator();
+          o.type = 'triangle'; o.frequency.value = 1500;
+          o.connect(master);
+          master.gain.setValueAtTime(0, now);
+          master.gain.linearRampToValueAtTime(0.025, now + 0.002);
+          master.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+          o.start(now); o.stop(now + 0.03);
+        } else if (name === 'closeChord') {
+          // soft major triad — 261.6 (C) + 329.6 (E) + 392 (G)
+          [261.6, 329.6, 392].forEach((f, i) => {
+            const o = ctx.createOscillator();
+            o.type = 'sine'; o.frequency.value = f;
+            const g = ctx.createGain(); g.gain.value = 0;
+            o.connect(g); g.connect(master);
+            g.gain.setValueAtTime(0, now);
+            g.gain.linearRampToValueAtTime(0.08, now + 0.05 + i * 0.04);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+            o.start(now); o.stop(now + 1.7);
+          });
+          master.gain.setValueAtTime(1, now);
+        }
+      } catch (e) { /* swallow */ }
+    },
+  };
 
   // ---- CountUp (audit 3.2 + D2) — animated numerical reveal ----
   // Counts from 0 (or `from`) to `to` over `duration` ms with easeOutCubic.
@@ -2297,6 +2819,8 @@
           Stories processed since this page loaded
           <span className="hook-counter-value">{storiesProcessed}</span>
         </div>
+        <IllustrationNewsroomFlow />
+
         <button className="hook-continue" onClick={onContinue} aria-label="Continue to next beat">
           Continue
           <span className="hook-continue-arrow" aria-hidden="true">→</span>
@@ -2333,22 +2857,42 @@
 
   // ============================================================================
   // TopBar — persistent across Beats 2-7 (per Beat 2 spec)
+  // Audit upgrades: 7.2 co-brand mark, 1.2 beat indicator, 1.3 hover tooltips,
+  // 7.3 brand-pill mini-marks via per-brand display
   // ============================================================================
-  function TopBar({ brandSlug, brandConfig, onBrandSwitch, theme, onToggleTheme }) {
+  const BEAT_LABELS = {
+    hook:     { num: '01', name: 'Hook' },
+    brand:    { num: '02', name: 'Brand lock-in' },
+    scale:    { num: '03', name: 'Scale reveal' },
+    safety:   { num: '04', name: 'Safety net' },
+    pipeline: { num: '05', name: 'Full pipeline' },
+    output:   { num: '06', name: 'Output' },
+    close:    { num: '07', name: 'Close' },
+  };
+  function TopBar({ brandSlug, brandConfig, onBrandSwitch, theme, onToggleTheme, activeBeat, onAudioToggle, audioOn }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: brandSlug }).shortName;
+    const beatMeta = BEAT_LABELS[activeBeat] || BEAT_LABELS.hook;
 
     return (
       <header className="stv-topbar">
         <div className="stv-topbar-left">
           <div className="stv-topbar-mark">
-            Stocker<span className="stv-mark-tv">TV</span>
+            <span>Stocker<span className="stv-mark-tv">TV</span></span>
+            {/* 7.2 co-brand suffix — visible whenever a real client brand is locked */}
+            <span className="stv-mark-divider">·</span>
+            <span className="stv-mark-for">for {display}</span>
+          </div>
+          {/* 1.2 beat indicator */}
+          <div className="stv-topbar-beat">
+            <span className="stv-topbar-beat-num">{beatMeta.num} / 07</span>
+            <span className="stv-topbar-beat-name">{beatMeta.name}</span>
           </div>
           <div className="stv-topbar-divider" />
           <div className="stv-topbar-status">
             <span className="stv-topbar-status-dot" />
-            Live · {display}
+            Live
           </div>
         </div>
 
@@ -2361,9 +2905,11 @@
                 key={slug}
                 className="stv-brand-pill"
                 data-active={active}
+                data-tooltip={meta.shortName}
+                data-brand={slug}
                 onClick={() => onBrandSwitch(slug)}
-                title={`Preview as ${meta.shortName}`}
                 aria-pressed={active}
+                aria-label={`Preview as ${meta.shortName}`}
               >
                 <span className="stv-brand-pill-initials">{meta.initials}</span>
               </button>
@@ -2372,6 +2918,17 @@
         </nav>
 
         <div className="stv-topbar-right">
+          {onAudioToggle && (
+            <button
+              className="stv-icon-btn"
+              onClick={onAudioToggle}
+              title={audioOn ? 'Sound on (toggle off)' : 'Sound off (toggle on)'}
+              aria-label={audioOn ? 'Mute' : 'Unmute'}
+              data-active={audioOn}
+            >
+              <Icon name={audioOn ? 'activity' : 'eyeOff'} size={14} />
+            </button>
+          )}
           <button
             className="stv-icon-btn"
             onClick={onToggleTheme}
@@ -3074,6 +3631,8 @@
           </button>
         </div>
 
+        <IllustrationStageMap />
+
         <div className="pipeline-stages" role="list" aria-label="15 pipeline stages">
           {PIPELINE_STAGES.map((s) => (
             <div className="pipeline-stage-card" data-wow={!!s.wow} role="listitem" key={s.num}>
@@ -3147,6 +3706,8 @@
             This is what <em>your users</em> would experience &mdash; in their language, on their schedule.
           </h2>
         </div>
+
+        <IllustrationPhone />
 
         <div className="user-preview" aria-label="Mocked end-user broadcast surface">
           <div className="user-preview-frame">
@@ -3272,10 +3833,17 @@
           </h2>
         )}
 
+        <IllustrationCityHorizon brandSlug={brandSlug} />
+
         <div className="close-accent-line" aria-hidden="true" />
 
         <p className="close-mark">
-          Stocker<em>TV</em>
+          <span className="close-mark-stv">
+            Stocker<em>TV</em>
+            <span className="close-mark-shimmer" aria-hidden="true" />
+          </span>
+          <span className="close-mark-x" aria-hidden="true">×</span>
+          <span className="close-mark-brand">{display}</span>
         </p>
 
         <button className="close-restart" onClick={onRestart} aria-label="Restart demo">
@@ -3339,7 +3907,21 @@
       } catch (e) { return DEFAULT_SLUG; }
     });
     const [brandConfig, setBrandConfig] = useState(null);
+    const [audioOn, setAudioOn] = useState(false);
+    const [brandFlashKey, setBrandFlashKey] = useState(0);
     const switchInFlight = useRef(false);
+
+    // Trigger brand-flash overlay on every brand change (audit 1.4 + E2)
+    useEffect(() => {
+      if (brandFlashKey === 0) return; // skip first paint
+      const el = document.getElementById('stv-brand-flash');
+      if (!el) return;
+      el.setAttribute('data-firing', 'false');
+      // Force reflow so the animation re-fires
+      void el.offsetWidth;
+      el.setAttribute('data-firing', 'true');
+      audioState.play('click');
+    }, [brandFlashKey]);
 
     // Async config load on brandSlug change
     useEffect(() => {
@@ -3438,10 +4020,24 @@
     const handleBrandSwitch = useCallback((slug) => {
       if (slug === brandSlug) return;
       setBrandSlug(slug);
+      setBrandFlashKey((k) => k + 1);
     }, [brandSlug]);
 
     const handleToggleTheme = useCallback(() => {
       setTheme((t) => t === 'light' ? 'dark' : 'light');
+    }, []);
+
+    const handleAudioToggle = useCallback(() => {
+      setAudioOn((on) => {
+        const next = !on;
+        audioState.enabled = next;
+        if (next) {
+          // Init context on first toggle so user-gesture requirement is satisfied
+          audioState.init();
+          audioState.play('click');
+        }
+        return next;
+      });
     }, []);
 
     const goNext = useCallback(() => {
@@ -3536,6 +4132,9 @@
           onBrandSwitch={handleBrandSwitch}
           theme={theme}
           onToggleTheme={handleToggleTheme}
+          activeBeat={activeBeat}
+          onAudioToggle={handleAudioToggle}
+          audioOn={audioOn}
         />
         <main className="stv-app-content">{scene}</main>
       </div>
