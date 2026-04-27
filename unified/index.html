@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FAF7F2" id="theme-color-meta">
+  <title>StockerTV — Unified Demo</title>
+
+  <!-- Pre-paint theme to avoid flash. Light default per Beat 3 lock. Stateless,
+       try/catch around localStorage so private mode / sandboxed contexts work. -->
+  <script>
+    (function(){try{var t=localStorage.getItem('stv-theme')||'light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#FAF7F2':'#0A0B0F');}catch(e){document.documentElement.dataset.theme='light';}})();
+  </script>
+
+  <!-- Editorial typography per Beat 3.A: Fraunces (display) · Inter (UI) · JetBrains Mono (operational) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Locked CDN versions per Beat 5.A cross-cutting requirements. No @latest. -->
+  <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+
+  <style>
+    /* Neutral substrate CSS vars. Set ONCE on first paint, never change on
+       brand-switch (per Beat 4 B.4.D). Brand-specific vars (--accent,
+       --accent-deep, --accent-2, --green) are written by the brand-switch
+       handler at runtime, after the first config loads. */
+    :root[data-theme='dark'] {
+      --bg: #0A0B0F;
+      --text-primary: #FAF7F2;
+      --text-muted: #888c98;
+      --border: rgba(255,255,255,0.08);
+      --surface: #13151c;
+    }
+    :root[data-theme='light'] {
+      --bg: #FAF7F2;
+      --text-primary: #0A0B0F;
+      --text-muted: #666c78;
+      --border: rgba(0,0,0,0.08);
+      --surface: #FFFFFF;
+    }
+    :root {
+      /* Always-neutral signal colors (--green is brand-specific per Beat 4 hybrid 3-way rule
+         and gets set by the brand-switch handler). */
+      --red: #ef4444;
+      /* Conservative neutral fallback for --green when no brand is loaded. */
+      --green: #22c55e;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-feature-settings: 'cv11', 'ss01';
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    .display { font-family: 'Fraunces', Georgia, serif; font-feature-settings: 'liga', 'dlig'; }
+    .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
+    /* Reduced-motion respect — every animation degrades to instant per Beat 3.C */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    /* Scaffold-only placeholder styling. Beat 1 will replace #root contents. */
+    .scaffold-frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+    }
+    .scaffold-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .scaffold-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 24ch;
+    }
+    .scaffold-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 56ch;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<div id="root">
+  <div class="scaffold-frame">
+    <div class="scaffold-eyebrow">StockerTV · Unified Demo · Scaffold</div>
+    <h1 class="scaffold-title">Deployment pipeline ready.</h1>
+    <p class="scaffold-sub">Beats 1–7 will land here. Branch <code>unified-demo</code> · GitHub Pages subroute <code>/unified/</code>. Build begins on the next commit.</p>
+  </div>
+</div>
+
+<!-- Beat scripts will append here as the build progresses. -->
+<script type="text/babel" data-presets="react">
+  // Scaffold no-op. Verifies Babel + React are loaded.
+  (function(){
+    if (typeof React !== 'undefined' && typeof ReactDOM !== 'undefined') {
+      // Production scaffold: leave the static HTML in #root. Beat 1 will mount real React.
+      console.log('[stv-unified] scaffold ready · React', React.version, '· ReactDOM available · Three', (typeof THREE !== 'undefined' ? THREE.REVISION : 'pending'));
+    } else {
+      console.error('[stv-unified] scaffold init failed — React or ReactDOM missing');
+    }
+  })();
+</script>
+
+</body>
+</html>
