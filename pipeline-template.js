@@ -749,10 +749,10 @@
       },
       {
         key: "compliance",
-        title: "Compliance Gates",
+        title: "Integrity Gates",
         lines: [
           ['<span class="v">3 violations</span> caught &amp; rewritten before release'],
-          ['L1 + L2 + L3 passed · Quality <span class="v">95</span> · Compliance <span class="v">100</span>'],
+          ['L1 + L2 + L3 passed · Quality <span class="v">95</span> · Integrity <span class="v">100</span>'],
         ],
       },
       {
