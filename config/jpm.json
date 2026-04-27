@@ -22,13 +22,13 @@
     "pageTitle": "StockerTV — Pipeline · J.P. Morgan Self-Directed Demo"
   },
   "hero": {
-    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
     "ctaLabel": "Watch Demo",
     "ctaSub": "Curated JPM Self-Directed story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -37,11 +37,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -99,7 +99,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "JPM",
-  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "avatar_video_url": null,
   "showcase": {
     "meta": {
       "company": "JPMorgan Chase",
@@ -154,7 +154,7 @@
           "keyProducts": "J.P. Morgan Self-Directed Investing (commission-free stocks, ETFs, options, fractional shares from $5), J.P. Morgan Personal Advisors (remote advice), J.P. Morgan Private Client Advisors (branch-based), J.P. Morgan Private Bank, integrated Chase mobile banking ecosystem",
           "competitors": "Charles Schwab, Fidelity, Robinhood, Interactive Brokers, eToro, Merrill Edge, E*TRADE, Webull",
           "description": "J.P. Morgan Self-Directed Investing is JPMorgan Chase's commission-free retail trading platform, offering stocks, ETFs, options, and fractional shares from $5, integrated with Chase mobile banking. Self-Directed sits within J.P. Morgan Wealth Management (led by CEO Kristin Lemkau since December 2019), which operates under the firm's Asset & Wealth Management segment — JPM Wealth Management holds more than $1 trillion in client assets across 6,000+ advisors and 4,800+ Chase branches nationwide. Parent JPMorgan Chase & Co. (NYSE: JPM) is the largest U.S. bank by assets — founded 1799, headquartered in New York, led by Chairman and CEO Jamie Dimon.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

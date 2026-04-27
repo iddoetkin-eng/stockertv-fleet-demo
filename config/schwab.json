@@ -21,13 +21,13 @@
     "pageTitle": "StockerTV — Pipeline · Schwab Demo"
   },
   "hero": {
-    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
     "ctaLabel": "Watch Demo",
     "ctaSub": "Curated Schwab story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -36,11 +36,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -98,7 +98,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "Schwab",
-  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "avatar_video_url": null,
   "showcase": {
     "meta": {
       "company": "Schwab",
@@ -153,7 +153,7 @@
           "keyProducts": "Schwab One brokerage, Schwab Wealth Advisory, Schwab Bank, thinkorswim platform, Schwab Mobile, Schwab Intelligent Portfolios, Schwab Teen Investor Account, Forge Global (private markets)",
           "competitors": "Fidelity, Vanguard, Robinhood, Interactive Brokers, Morgan Stanley (E*TRADE)",
           "description": "NYSE-listed savings and loan holding company offering full-service wealth management, brokerage, banking, asset management and trading services. Founded 1971 by Charles R. Schwab in San Francisco; headquartered in Westlake, Texas since 2020. Serves 47.2M total client accounts with $11.77 trillion in client assets as of Q1 2026. President & CEO Rick Wurster since January 2025. Ranked #1 Overall Broker by StockBrokers.com two consecutive years.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

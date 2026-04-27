@@ -21,13 +21,13 @@
     "pageTitle": "StockerTV — Pipeline · IBKR Demo"
   },
   "hero": {
-    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
     "ctaLabel": "Watch Demo",
     "ctaSub": "Curated IBKR story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -36,11 +36,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -98,7 +98,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "IBKR",
-  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "avatar_video_url": null,
   "showcase": {
     "meta": {
       "company": "IBKR",
@@ -153,7 +153,7 @@
           "keyProducts": "Trader Workstation (TWS), IBKR Desktop, IBKR Mobile, IBKR GlobalTrader, Client Portal, Multi-asset brokerage across 170+ markets, crypto via zerohash/Paxos",
           "competitors": "Charles Schwab, Robinhood, eToro, Saxo Bank, Plus500",
           "description": "Nasdaq-listed automated global broker offering stocks, options, futures, currencies, bonds, mutual funds and crypto-assets to institutional and professional retail clients in 170+ markets worldwide. Founded 1993 by Thomas Peterffy (Chairman); Milan Galik serves as CEO since 2019. 4.65 million client accounts with $820B in client equity as of February 2026. Headquartered in Greenwich, Connecticut.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

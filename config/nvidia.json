@@ -16,7 +16,7 @@
     "ctaSub": "Curated NVIDIA story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -25,11 +25,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -130,7 +130,7 @@
           "keyProducts": "H100, H200, Blackwell B100/B200, GeForce RTX 50-series, DGX systems, CUDA platform",
           "competitors": "AMD, Intel, Broadcom, Marvell",
           "description": "Designs accelerated computing platforms, GPUs and networking systems for AI training and inference, scientific computing, professional visualization, gaming and automotive.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

@@ -23,13 +23,13 @@
     "pageTitle": "StockerTV — Pipeline · eToro Demo"
   },
   "hero": {
-    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
     "ctaLabel": "Watch Demo",
     "ctaSub": "Curated eToro story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -38,11 +38,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -100,7 +100,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "eToro",
-  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "avatar_video_url": null,
   "showcase": {
     "meta": {
       "company": "eToro",
@@ -155,7 +155,7 @@
           "keyProducts": "Multi-asset trading platform, CopyTrader, Smart Portfolios, eToro Money, Tori AI companion, eToro App Store, Zengo self-custody wallet",
           "competitors": "Robinhood, Interactive Brokers, Plus500, Trading 212",
           "description": "Multi-asset investment platform offering equities, cryptoassets, commodities, and currencies alongside social-investing tools such as CopyTrader and Smart Portfolios. Serves 40 million registered users across 75 countries; headquartered in Bnei Brak, Israel.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

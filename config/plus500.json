@@ -20,13 +20,13 @@
     "pageTitle": "StockerTV — Pipeline · Plus500 Demo"
   },
   "hero": {
-    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
     "ctaLabel": "Watch Demo",
     "ctaSub": "Curated Plus500 story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -35,11 +35,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -97,7 +97,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "Plus500",
-  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "avatar_video_url": null,
   "showcase": {
     "meta": {
       "company": "Plus500",
@@ -152,7 +152,7 @@
           "keyProducts": "Plus500 Trader (OTC CFDs across 2,500+ instruments), Plus500 Futures, Plus500 Invest, Prediction Markets (via Kalshi partnership), Mehta Equities (India)",
           "competitors": "eToro, IG Group, CMC Markets, Interactive Brokers, Robinhood",
           "description": "London-listed CFD broker serving retail investors globally. Multi-asset OTC platform covering equities, indices, forex, commodities, options, ETFs, and cryptocurrency across 2,500+ instruments. Headquartered in Haifa, Israel; founded 2008 by six Technion alumni. FTSE 250 constituent.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

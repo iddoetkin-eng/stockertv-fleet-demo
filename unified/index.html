@@ -1181,6 +1181,190 @@
       margin: 0 auto 1.5rem;
     }
     .safety-subline strong { color: var(--text-primary); font-weight: 500; }
+
+    /* ============ BEAT 5 — FULL PIPELINE (LINK-OUT) ============ */
+    .pipeline-scene {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.5rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .pipeline-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      max-width: 36ch;
+      margin: 0.5rem auto 0.75rem;
+    }
+    .pipeline-headline em {
+      color: var(--accent);
+      font-style: italic;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pipeline-subline {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--text-muted);
+      max-width: 64ch;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      margin-bottom: 2rem;
+    }
+    .pipeline-subline strong { color: var(--text-primary); font-weight: 500; }
+    .pipeline-cta-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1rem 0 2.5rem;
+    }
+    .pipeline-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.5rem;
+      background: linear-gradient(180deg, var(--accent-deep) 0%, var(--accent) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+      transition: transform 200ms ease, box-shadow 200ms ease, background 300ms ease;
+      text-decoration: none;
+      mix-blend-mode: normal;
+    }
+    .pipeline-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--accent) 40%, transparent);
+      background: linear-gradient(180deg, var(--accent-2) 0%, var(--accent-deep) 100%);
+    }
+    .pipeline-cta-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.78);
+      text-transform: uppercase;
+    }
+    .pipeline-cta-arrow {
+      display: inline-block;
+      transition: transform 200ms ease;
+    }
+    .pipeline-cta:hover .pipeline-cta-arrow { transform: translateX(4px); }
+
+    .pipeline-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.25rem;
+      background: var(--surface-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 200ms ease, background 200ms ease;
+    }
+    .pipeline-cta-secondary:hover {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    .pipeline-stages {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    @media (min-width: 720px) {
+      .pipeline-stages { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+    .pipeline-stage-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 0.75rem 0.6rem;
+      text-align: left;
+      transition: border-color 220ms ease, transform 220ms ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .pipeline-stage-card[data-wow='true'] {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .pipeline-stage-card[data-wow='true']::after {
+      content: 'WOW';
+      position: absolute;
+      top: 6px; right: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .pipeline-stage-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .pipeline-stage-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .pipeline-callout {
+      margin-top: 2.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      max-width: 720px;
+      width: 100%;
+      text-align: left;
+      transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1), background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pipeline-callout-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pipeline-callout-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin: 0 0 0.5rem 0;
+    }
+    .pipeline-callout-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
   </style>
 </head>
 <body>
@@ -2091,7 +2275,112 @@
   }
 
   // ============================================================================
-  // PlaceholderScene — for beats 5-7 until they ship
+  // PipelineScene — Beat 5 main. Link-out to pipeline-template?client=<slug>.
+  // ----------------------------------------------------------------------------
+  // The deep cinematic. New tab. Brand context preserved via URL param.
+  // The wow moment lives in Stage 13 (multi-language reveal) inside the
+  // linked pipeline; this scene previews and launches it.
+  // ============================================================================
+  const PIPELINE_STAGES = [
+    { num: 1,  name: 'Article input' },
+    { num: 2,  name: 'Story detection' },
+    { num: 3,  name: 'Company enrichment' },
+    { num: 4,  name: 'Fact extraction' },
+    { num: 5,  name: 'SEC EDGAR validation' },
+    { num: 6,  name: 'Cross-reference' },
+    { num: 7,  name: 'Reporter selection' },
+    { num: 8,  name: 'Script generation' },
+    { num: 9,  name: 'Chart suggestion' },
+    { num: 10, name: 'Thumbnail generation' },
+    { num: 11, name: 'Integrity red-pass' },
+    { num: 12, name: 'Integrity gates' },
+    { num: 13, name: 'Multi-language', wow: true },
+    { num: 14, name: 'Audit trail' },
+    { num: 15, name: 'Final output' },
+  ];
+
+  function PipelineScene({ brandSlug, brandConfig, onContinue }) {
+    const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
+      ? brandConfig.branding.shortName
+      : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
+
+    const buildPipelineUrl = useCallback(() => {
+      try {
+        const u = new URL('../pipeline-template.html', location.href);
+        u.searchParams.set('client', brandSlug);
+        return u.toString();
+      } catch (e) {
+        return `../pipeline-template.html?client=${encodeURIComponent(brandSlug)}`;
+      }
+    }, [brandSlug]);
+
+    return (
+      <section className="pipeline-scene" aria-label="Beat 5 · the full pipeline">
+        <div className="safety-eyebrow">
+          Beat 5
+          <span className="safety-eyebrow-dot" aria-hidden="true" />
+          The deep tour
+          <span className="safety-eyebrow-dot" aria-hidden="true" />
+          15 stages · 47 seconds · brand-locked to {display}
+        </div>
+
+        <h2 className="pipeline-headline">
+          One news article. Fifteen stages. <em>Forty-seven seconds.</em>
+        </h2>
+
+        <p className="pipeline-subline">
+          Click below to walk the full cinematic in a new tab. The pipeline retains{' '}
+          <strong>{display}'s</strong> brand throughout &mdash; every stage, every language column,
+          the audit document, the final-output card. Same engine, your surface.
+        </p>
+
+        <div className="pipeline-cta-row">
+          <a
+            className="pipeline-cta"
+            href={buildPipelineUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>See the full pipeline</span>
+            <span className="pipeline-cta-meta">BTC ETF · 47s</span>
+            <span className="pipeline-cta-arrow" aria-hidden="true">→</span>
+          </a>
+          <button
+            className="pipeline-cta-secondary"
+            onClick={onContinue}
+            aria-label="Skip to output beat"
+          >
+            Skip to output
+          </button>
+        </div>
+
+        <div className="pipeline-stages" role="list" aria-label="15 pipeline stages">
+          {PIPELINE_STAGES.map((s) => (
+            <div className="pipeline-stage-card" data-wow={!!s.wow} role="listitem" key={s.num}>
+              <div className="pipeline-stage-num">Stage {String(s.num).padStart(2, '0')}</div>
+              <div className="pipeline-stage-name">{s.name}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="pipeline-callout" role="note" aria-label="Wow moment callout">
+          <div className="pipeline-callout-eyebrow">Wow moment · Stage 13</div>
+          <div className="pipeline-callout-title">
+            Same script. Five native markets. Side by side.
+          </div>
+          <div className="pipeline-callout-body">
+            English &middot; Deutsch &middot; Italiano &middot; Español &middot; Français &mdash; each with the local
+            regulatory caption ('CONSOB-regulated since 2010', 'Spain · MiCA registered via CNMV (2025)', etc).
+            Not translations. Native variants with regulatory context built in. The 5-second beat your bankers will
+            quote tomorrow morning.
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ============================================================================
+  // PlaceholderScene — for beats 6-7 until they ship
   // ============================================================================
   function PlaceholderScene({ beatId, beatName, onContinue, onBack }) {
     return (
@@ -2276,9 +2565,16 @@
           onContinue={goNext}
         />
       );
+    } else if (activeBeat === BEATS.PIPELINE) {
+      scene = (
+        <PipelineScene
+          brandSlug={brandSlug}
+          brandConfig={brandConfig}
+          onContinue={goNext}
+        />
+      );
     } else {
       const beatLabels = {
-        [BEATS.PIPELINE]: { id: 5, name: 'Full pipeline' },
         [BEATS.OUTPUT]:   { id: 6, name: 'Output through users\' eyes' },
         [BEATS.CLOSE]:    { id: 7, name: 'Close' },
       };

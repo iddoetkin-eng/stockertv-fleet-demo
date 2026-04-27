@@ -25,13 +25,13 @@
     "pageTitle": "StockerTV — Pipeline · Merrill Edge Demo"
   },
   "hero": {
-    "eyebrow": "Article → Compliance-cleared script in under a minute",
+    "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready video, automatically.",
     "ctaLabel": "Watch Demo",
     "ctaSub": "Curated Merrill Edge story · 47 sec",
     "stats": [
       {
-        "value": "32,190",
+        "value": "32,000+",
         "label": "companies"
       },
       {
@@ -40,11 +40,11 @@
       },
       {
         "value": "30",
-        "label": "AI agents"
+        "label": "agents"
       },
       {
-        "value": "22",
-        "label": "compliance rules"
+        "value": "24",
+        "label": "integrity rules"
       }
     ]
   },
@@ -102,7 +102,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "Merrill Edge",
-  "avatar_video_url": "FILL_ME_avatar_video_url",
+  "avatar_video_url": null,
   "showcase": {
     "meta": {
       "company": "Bank of America",
@@ -157,7 +157,7 @@
           "keyProducts": "Merrill Edge Self-Directed (commission-free stocks, ETFs, options), Merrill Guided Investing (robo-advisory), Bank of America mobile banking integration, Preferred Rewards program, Merrill Lynch Wealth Management, Bank of America Private Bank",
           "competitors": "Charles Schwab, Fidelity, Robinhood, Interactive Brokers, J.P. Morgan Self-Directed, E*TRADE, Webull",
           "description": "Merrill Edge is Bank of America's self-directed retail trading platform, offering commission-free stock, ETF, and options trading with integrated Bank of America mobile banking and Preferred Rewards benefits. Merrill Edge sits within Consumer Investments, one of three sub-segments of BAC's Global Wealth & Investment Management (GWIM) — alongside Merrill Lynch Wealth Management (full-service advisors, led by Lindsay Hans and Eric Schimpf) and Bank of America Private Bank. As of year-end 2024, Consumer Investments held more than $500 billion in client assets across approximately 4 million accounts, including Merrill Edge Self-Directed and Merrill Guided Investing. Holly O'Neill serves as President of Consumer, Retail and Preferred at BAC, with oversight of the consumer divisions that house Merrill Edge. Parent Bank of America Corporation (NYSE: BAC) is among the largest U.S. banks by assets — founded 1904 via the predecessor Bank of Italy, headquartered in Charlotte, North Carolina, led by Chairman and CEO Brian Moynihan.",
-          "dbSize": "32,190",
+          "dbSize": "32,000+",
           "dbExchanges": "53"
         }
       },

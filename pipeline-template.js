@@ -1132,16 +1132,31 @@
   });
 
   // ── Avatar video modal ──────────────────────────────────────────────────
-  const AVATAR_VIDEO_URL =
-    window.__STV_AVATAR_VIDEO_URL ||
-    "https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4";
+  // Per Q4 lock + B.4.E avatar-CTA spec: hide CTA when avatar_video_url is
+  // null/empty/FILL_ME-prefixed. Iddo produces one branded 47-sec video per
+  // client; until that lands in Supabase Storage and the URL is pasted into
+  // the client config, Stage 15 closes on the Audit Trail card with no broken
+  // CTA, no "coming soon" placeholder.
+  const RAW_AVATAR_URL = window.__STV_AVATAR_VIDEO_URL;
+  const AVATAR_VIDEO_URL = (
+    typeof RAW_AVATAR_URL === 'string' &&
+    RAW_AVATAR_URL.length > 0 &&
+    !RAW_AVATAR_URL.startsWith('FILL_ME')
+  ) ? RAW_AVATAR_URL : null;
 
   const finalCta      = $("#final-cta");
-  const finalCtaLabel = finalCta.textContent;
+  const finalCtaLabel = finalCta ? finalCta.textContent : "";
   const modal         = $("#avatar-modal");
   const modalClose    = $("#avatar-modal-close");
   const modalStage    = $("#avatar-modal-stage");
   const modalVideo    = $("#avatar-modal-video");
+
+  // Hide the CTA entirely when no video URL is configured. Stage 15 still
+  // renders the final-output script card and the audit pill — this only
+  // removes the broken-click affordance.
+  if (!AVATAR_VIDEO_URL && finalCta) {
+    finalCta.style.display = "none";
+  }
 
   function setCtaLoading(loading) {
     if (loading) {
