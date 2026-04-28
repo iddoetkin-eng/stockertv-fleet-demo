@@ -679,20 +679,22 @@
     }
     .hook-hero-num-glyph { display: inline-block; position: relative; z-index: 2; }
 
-    /* R5 B3 — antique broadcast-tower backdrop, ~6% opacity */
+    /* R5 B3 → R8 C2 — backdrop swapped to portrait phone illustration */
     .hook-tower-bg {
       position: absolute;
       top: 50%; left: 50%;
-      transform: translate(-50%, -55%);
-      width: min(560px, 82vw);
+      transform: translate(-50%, -50%);
+      /* Portrait viewBox 320×560 → fix by height for vertical dominance */
+      width: auto;
+      height: min(620px, 78vh);
       pointer-events: none;
       opacity: 0.06;
       color: var(--text-primary);
       z-index: 0;
     }
-    .hook-tower-bg svg { width: 100%; height: auto; display: block; }
+    .hook-tower-bg svg { width: auto; height: 100%; display: block; }
     @media (max-width: 720px) {
-      .hook-tower-bg { width: min(420px, 88vw); opacity: 0.05; }
+      .hook-tower-bg { height: min(480px, 70vh); opacity: 0.05; }
     }
     /* Brand-accent glow under each hero number (audit 2.2.b) */
     .hook-hero-number::before {
@@ -788,35 +790,7 @@
       40%  { opacity: 0.85; }
       100% { opacity: 0; transform: translateX(50%); width: 80%; }
     }
-    /* E1 — living counter beneath hook scene */
-    .hook-counter {
-      margin-top: 3rem;
-      display: inline-flex;
-      align-items: baseline;
-      gap: 0.6rem;
-      padding: 0.5rem 1.1rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--surface);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      opacity: 0;
-      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4500ms forwards;
-      transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .hook-counter-value {
-      font-family: 'Fraunces', Georgia, serif;
-      font-style: italic;
-      font-size: 18px;
-      letter-spacing: -0.01em;
-      color: var(--accent);
-      font-feature-settings: 'liga', 'dlig', 'onum', 'tnum';
-      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-      text-transform: none;
-    }
+    /* R8 C1 — Stories-processed living counter REMOVED. */
     .hook-subline {
       font-family: 'Inter', sans-serif;
       font-size: clamp(13px, 1.5vw, 16px);
@@ -829,26 +803,46 @@
       animation: stv-fade-in 1000ms cubic-bezier(0.25, 0.1, 0.25, 1) 3000ms forwards;
     }
     .hook-subline-emphasis { color: var(--text-primary); font-weight: 500; }
+    /* R8 C3 — .hook-continue mirrors .scene-continue (prominent brand-accent fill) */
     .hook-continue {
       margin-top: 4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+      letter-spacing: 0.01em;
+      color: #fff;
+      text-transform: none;
       opacity: 0;
-      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4200ms forwards;
       cursor: pointer;
-      padding: 0.5rem 1rem;
-      transition: color 200ms ease, border-color 200ms ease;
-      border: 1px solid transparent;
-      border-radius: 2px;
-      background: transparent;
-      font-weight: 500;
+      padding: 16px 38px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4200ms forwards,
+                 stv-continue-breathe 2500ms ease-in-out 5000ms infinite;
+      transition: transform 200ms ease, background 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 300ms ease;
     }
-    .hook-continue:hover { color: var(--accent); border-color: var(--border); }
-    .hook-continue-arrow { display: inline-block; margin-left: 0.5rem; transition: transform 200ms ease; }
-    .hook-continue:hover .hook-continue-arrow { transform: translateX(4px); }
+    .hook-continue:hover {
+      transform: translateY(-1px);
+      background: var(--accent-deep);
+      box-shadow: 0 14px 36px color-mix(in srgb, var(--accent) 45%, transparent);
+    }
+    .hook-continue:active { transform: translateY(0); }
+    .hook-continue-arrow {
+      display: inline-block;
+      font-size: 1.15em;
+      line-height: 1;
+      transition: transform 200ms ease;
+    }
+    .hook-continue:hover .hook-continue-arrow { transform: translateX(5px); }
+    @media (max-width: 520px) {
+      .hook-continue { padding: 13px 28px; font-size: 1rem; margin-top: 2.5rem; }
+    }
     .hook-accent-line {
       width: 60px; height: 1px;
       background: var(--accent);
@@ -1402,33 +1396,60 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Continue control reused inside scenes */
+    /* R8 C3 — Continue button: prominent brand-accent fill, larger, with breathing glow.
+       Used by all 7 beats (HookScene, ScaleScene, SafetyScene, PipelineScene, OutputScene,
+       CloseScene's restart variant kept separate). Visible from across the meeting room. */
     .scene-continue {
-      margin-top: 2rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-      text-transform: uppercase;
+      margin-top: 3rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+      letter-spacing: 0.01em;
+      color: #fff;
+      text-transform: none;
       cursor: pointer;
-      padding: 0.6rem 1.25rem;
-      transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
-      border: 1px solid var(--border);
+      padding: 16px 38px;
+      border: none;
       border-radius: 999px;
-      background: transparent;
-      font-weight: 500;
+      background: var(--accent);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+      transition: transform 200ms ease, background 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 300ms ease;
+      animation: stv-continue-breathe 2500ms ease-in-out infinite;
     }
     .scene-continue:hover {
-      color: var(--text-primary);
-      border-color: var(--accent);
-      background: var(--surface-elevated);
+      transform: translateY(-1px);
+      background: var(--accent-deep);
+      box-shadow: 0 14px 36px color-mix(in srgb, var(--accent) 45%, transparent);
     }
+    .scene-continue:active { transform: translateY(0); }
     .scene-continue-arrow {
       display: inline-block;
-      margin-left: 0.5rem;
+      font-size: 1.15em;
+      line-height: 1;
       transition: transform 200ms ease;
     }
-    .scene-continue:hover .scene-continue-arrow { transform: translateX(4px); }
+    .scene-continue:hover .scene-continue-arrow { transform: translateX(5px); }
+    /* R8 C3 — soft brand-glow breathing pulse on the Continue button */
+    @keyframes stv-continue-breathe {
+      0%, 100% {
+        box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent),
+                    0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
+      }
+      50% {
+        box-shadow: 0 12px 32px color-mix(in srgb, var(--accent) 35%, transparent),
+                    0 0 28px 0 color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scene-continue { animation: none; }
+    }
+    @media (max-width: 520px) {
+      .scene-continue { padding: 13px 28px; font-size: 1rem; margin-top: 2rem; }
+    }
 
     /* ============ BEAT 3 — SCALE REVEAL ============ */
     .scale-scene {
@@ -1621,6 +1642,72 @@
       max-width: 920px;
       aspect-ratio: 1.6 / 1;
       margin: 1rem auto 1rem;
+    }
+    /* R8 C5 — click-to-explore hint, anchored right of globe centre on desktop;
+       stacks below globe on phone. Dismisses on first marker click (App-level state). */
+    .globe-hint {
+      position: absolute;
+      top: 50%;
+      right: 1.5rem;
+      transform: translateY(-50%);
+      max-width: 220px;
+      padding: 0.7rem 0.95rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 30%, var(--border)) 100%) border-box;
+      border: 1.5px solid transparent;
+      border-radius: 10px;
+      box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 12%, transparent);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      z-index: 5;
+      opacity: 0;
+      animation:
+        stv-globe-hint-in-desktop 600ms cubic-bezier(0.25, 0.1, 0.25, 1) 800ms forwards,
+        stv-globe-hint-pulse 2400ms ease-in-out 1500ms infinite;
+      pointer-events: none;
+    }
+    @keyframes stv-globe-hint-in-desktop {
+      from { opacity: 0; transform: translate(8px, -50%); }
+      to   { opacity: 1; transform: translate(0, -50%); }
+    }
+    @keyframes stv-globe-hint-in-mobile {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes stv-globe-hint-pulse {
+      0%, 100% { box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 12%, transparent); }
+      50%      { box-shadow: 0 12px 32px color-mix(in srgb, var(--accent) 32%, transparent); }
+    }
+    .globe-hint-arrow {
+      font-size: 22px;
+      line-height: 1;
+      flex-shrink: 0;
+      animation: stv-globe-hint-arrow-nudge 1800ms ease-in-out infinite;
+    }
+    @keyframes stv-globe-hint-arrow-nudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(-4px); }
+    }
+    .globe-hint-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+    @media (max-width: 720px) {
+      .globe-hint {
+        position: relative;
+        top: auto; right: auto;
+        transform: none;
+        max-width: 92%;
+        margin: 0.6rem auto 0;
+        animation:
+          stv-globe-hint-in-mobile 600ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards,
+          stv-globe-hint-pulse 2400ms ease-in-out 1300ms infinite;
+      }
     }
     /* Round 4 P3 — globe shape on phone: taller (squarer) so the planet doesn't shrink to nothing */
     @media (max-width: 720px) {
@@ -3337,32 +3424,40 @@
         justify-content: center;
       }
     }
+    /* R8 C3 — Beat 5 secondary Continue scaled up alongside the new prominent .scene-continue */
     .pipeline-cta-continue {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.875rem 1.5rem;
-      background: transparent;
-      color: var(--text-primary);
-      border: 1.5px solid var(--accent);
+      gap: 0.6rem;
+      padding: 16px 38px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
       border-radius: 999px;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
       font-weight: 600;
       letter-spacing: 0.01em;
       cursor: pointer;
-      transition: background 200ms ease, color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+      transition: background 300ms ease, transform 200ms ease, box-shadow 300ms ease;
+      animation: stv-continue-breathe 2500ms ease-in-out infinite;
     }
     .pipeline-cta-continue:hover {
-      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      background: var(--accent-deep);
       transform: translateY(-1px);
-      box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 18%, transparent);
+      box-shadow: 0 14px 36px color-mix(in srgb, var(--accent) 45%, transparent);
     }
     .pipeline-cta-continue .pipeline-cta-arrow {
+      font-size: 1.15em;
+      line-height: 1;
       transition: transform 200ms ease;
     }
     .pipeline-cta-continue:hover .pipeline-cta-arrow {
-      transform: translateX(4px);
+      transform: translateX(5px);
+    }
+    @media (max-width: 520px) {
+      .pipeline-cta-continue { padding: 13px 28px; font-size: 1rem; }
     }
     .pipeline-cta {
       display: inline-flex;
@@ -4536,30 +4631,8 @@
       to   { letter-spacing: inherit; opacity: 1; }
     }
 
-    /* 3.6 — Continue button "ink fill" hover (where buttons remain after pager) */
-    .scene-continue {
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-    .scene-continue::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent);
-      transform: translateX(-101%);
-      transition: transform 320ms cubic-bezier(0.33, 1, 0.68, 1);
-      z-index: -1;
-    }
-    .scene-continue:hover::before {
-      transform: translateX(0);
-    }
-    .scene-continue:hover {
-      color: var(--surface);
-      border-color: var(--accent);
-      background: transparent;
-    }
-    .scene-continue:hover .scene-continue-arrow { transform: translateX(4px); }
+    /* R1 3.6 ink-fill hover — DELETED in R8 C3 (the new prominent button is filled
+       by default, so the ink-fill-on-hover would conflict and look broken). */
 
     /* "Live data simulation" badge per L.1 */
     .sim-badge {
@@ -5402,58 +5475,56 @@
   }
 
   // ============================================================================
-  // R5 B3 — Antique broadcast tower backdrop (Beat 1 Hook)
+  // R8 C2 — Portrait phone/screen backdrop (replaces R5 broadcast-tower)
   // ----------------------------------------------------------------------------
-  // 1930s engraved-style line art: tower + electromagnetic waves emanating.
-  // Used as a faded backdrop behind the dual hero numbers at ~6% opacity.
+  // Vertical phone outline with a subtle play-triangle + waveform inside the
+  // screen, hinting at video content without being literal. Faded to ~6%
+  // opacity behind the dual hero numbers; brand-tints via currentColor.
+  // Connects Beat 1 visually to Beat 6 (where the actual iPhone widget lands).
   // ============================================================================
-  function IllustrationBroadcastTower() {
+  function IllustrationPortraitScreen() {
     return (
-      <svg viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Sky/horizon ground line */}
-        <line x1="40" y1="500" x2="520" y2="500" opacity="0.55"/>
-        <line x1="80" y1="510" x2="480" y2="510" opacity="0.4" strokeDasharray="3 5"/>
-        {/* Concentric electromagnetic waves (8 arcs at increasing radii) */}
-        {[120, 160, 200, 240, 280, 320, 360, 400].map((r, i) => (
-          <circle key={i} cx="280" cy="180" r={r} opacity={0.45 - i * 0.04} strokeDasharray={i % 2 === 0 ? '4 6' : '6 4'}/>
-        ))}
-        {/* Lightning bolts at top */}
-        <path d="M 240 110 L 252 130 L 246 138 L 260 158" opacity="0.5" strokeWidth="1.2"/>
-        <path d="M 320 110 L 308 130 L 314 138 L 300 158" opacity="0.5" strokeWidth="1.2"/>
-        {/* Tower base — wide trapezoid */}
-        <path d="M 200 500 L 240 460 L 240 380 L 220 360 L 200 500 Z" opacity="0.85"/>
-        <path d="M 360 500 L 320 460 L 320 380 L 340 360 L 360 500 Z" opacity="0.85"/>
-        {/* Tower middle — narrower trapezoid */}
-        <path d="M 240 380 L 260 340 L 260 240 L 250 230 L 240 380 Z" opacity="0.85"/>
-        <path d="M 320 380 L 300 340 L 300 240 L 310 230 L 320 380 Z" opacity="0.85"/>
-        {/* Cross-bracing (X-pattern lattice) */}
-        {[400, 380, 360, 340, 320, 300, 280, 260, 240].map((y, i) => {
-          const inset = (500 - y) * 0.12;
-          return (
-            <g key={i} opacity="0.55">
-              <line x1={200 + inset} y1={y} x2={360 - inset} y2={y - 22} />
-              <line x1={360 - inset} y1={y} x2={200 + inset} y2={y - 22} />
-              <line x1={200 + inset} y1={y - 22} x2={360 - inset} y2={y - 22} />
-            </g>
-          );
-        })}
-        {/* Tower top — narrow column */}
-        <path d="M 260 240 L 270 200 L 270 160 L 280 140 L 290 160 L 290 200 L 300 240 Z" opacity="0.95"/>
-        {/* Antenna spike */}
-        <line x1="280" y1="140" x2="280" y2="80" strokeWidth="1.6"/>
-        {/* Antenna disk + lightning rod */}
-        <circle cx="280" cy="105" r="4" fill="currentColor" stroke="none"/>
-        <line x1="270" y1="100" x2="290" y2="100" opacity="0.7"/>
-        <line x1="280" y1="80" x2="280" y2="60" strokeWidth="1.2"/>
-        <circle cx="280" cy="58" r="2.5" fill="currentColor" stroke="none"/>
-        {/* Engraved hatch shading on tower */}
-        {[260, 270, 280, 290, 300].map((x, i) => (
-          <line key={i} x1={x} y1="160" x2={x} y2="220" opacity="0.3" strokeWidth="0.8"/>
-        ))}
-        {/* Small text below tower (engraved label) */}
-        <text x="280" y="540" textAnchor="middle" fontSize="10" letterSpacing="3" fontFamily="serif" fill="currentColor" stroke="none" opacity="0.6">
-          STOCKERTV · BROADCAST
-        </text>
+      <svg viewBox="0 0 320 560" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {/* Phone outer frame — rounded portrait */}
+        <rect x="40" y="20" width="240" height="520" rx="36" />
+        {/* Inner screen */}
+        <rect x="52" y="32" width="216" height="496" rx="28" opacity="0.85" />
+        {/* Dynamic island — top centred */}
+        <rect x="130" y="46" width="60" height="20" rx="10" fill="currentColor" stroke="none" opacity="0.6"/>
+        {/* Side buttons (left + right) */}
+        <line x1="40" y1="120" x2="40" y2="160" strokeWidth="2.4" opacity="0.7"/>
+        <line x1="40" y1="180" x2="40" y2="220" strokeWidth="2.4" opacity="0.7"/>
+        <line x1="280" y1="160" x2="280" y2="210" strokeWidth="2.4" opacity="0.7"/>
+        {/* Play triangle — centred in the screen, hinting at video content */}
+        <g transform="translate(160 280)" opacity="0.85">
+          <circle cx="0" cy="0" r="48" />
+          <path d="M -16 -22 L 22 0 L -16 22 Z" fill="currentColor" stroke="none" opacity="0.92"/>
+        </g>
+        {/* Waveform bars below the play circle — abstract audio visualisation */}
+        <g transform="translate(160 380)" opacity="0.75">
+          {[-60, -40, -20, 0, 20, 40, 60].map((x, i) => {
+            const heights = [16, 28, 22, 36, 22, 28, 16];
+            const h = heights[i];
+            return (
+              <line key={i}
+                x1={x} y1={-h/2}
+                x2={x} y2={h/2}
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            );
+          })}
+        </g>
+        {/* Subtle horizontal lines suggesting captions / metadata below the waveform */}
+        <line x1="80" y1="430" x2="240" y2="430" opacity="0.35" strokeDasharray="2 4"/>
+        <line x1="100" y1="445" x2="220" y2="445" opacity="0.25" strokeDasharray="2 4"/>
+        {/* Home indicator at bottom */}
+        <rect x="125" y="510" width="70" height="3" rx="1.5" fill="currentColor" stroke="none" opacity="0.5"/>
+        {/* Small "LIVE" badge top-right inside screen */}
+        <g transform="translate(210 90)" opacity="0.65">
+          <rect x="0" y="-9" width="42" height="16" rx="3" />
+          <text x="21" y="2" textAnchor="middle" fontSize="9" letterSpacing="2" fontFamily="serif" fill="currentColor" stroke="none">LIVE</text>
+        </g>
       </svg>
     );
   }
@@ -6677,25 +6748,12 @@
   // HookScene (Beat 1 main)
   // ============================================================================
   function HookScene({ onContinue }) {
-    // E1 — living counter, page-load tied per Q1.b: N = secondsSinceLoad × 0.18
-    // (~47 after 4 minutes). Honest, no sim-badge needed.
-    const [storiesProcessed, setStoriesProcessed] = useState(0);
-    useEffect(() => {
-      const start = Date.now();
-      const tick = () => {
-        const seconds = (Date.now() - start) / 1000;
-        setStoriesProcessed(Math.floor(seconds * 0.18));
-      };
-      tick();
-      const id = setInterval(tick, 800);
-      return () => clearInterval(id);
-    }, []);
-
+    // R8 C1 — Stories-processed living counter REMOVED.
     return (
       <section className="hook-stage" aria-label="StockerTV unified demo · Hook">
-        {/* R5 B3 — antique broadcast tower backdrop, ~6% opacity */}
+        {/* R5 B3 → R8 C2 — backdrop swapped from broadcast tower to portrait phone */}
         <div className="hook-tower-bg" aria-hidden="true">
-          <IllustrationBroadcastTower />
+          <IllustrationPortraitScreen />
         </div>
         <div className="hook-eyebrow">
           StockerTV
@@ -6737,10 +6795,6 @@
           From a published news article to a fully scripted, source-verified, multi-language broadcast segment.{' '}
           <span className="hook-subline-emphasis">AI-powered with human oversight · designed for regulated environments.</span>
         </p>
-        <div className="hook-counter">
-          Stories processed since this page loaded
-          <span className="hook-counter-value">{storiesProcessed}</span>
-        </div>
         <IllustrationNewsroomFlow />
 
         <button className="hook-continue" onClick={onContinue} aria-label="Continue to next beat">
@@ -6791,7 +6845,7 @@
     output:   { num: '06', name: 'Output' },
     close:    { num: '07', name: 'Close' },
   };
-  function TopBar({ brandSlug, brandConfig, onBrandSwitch, theme, onToggleTheme, activeBeat, onAudioToggle, audioOn }) {
+  function TopBar({ brandSlug, brandConfig, onBrandSwitch, theme, onToggleTheme, activeBeat, onAudioToggle, audioOn, brandLocked }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: brandSlug }).shortName;
@@ -6818,26 +6872,30 @@
           </div>
         </div>
 
-        <nav className="stv-topbar-pills" aria-label="Switch demo brand">
-          {KNOWN_SLUGS.map((slug) => {
-            const meta = BRAND_DISPLAY_DEFAULTS[slug] || { initials: slug.slice(0, 2).toUpperCase(), shortName: slug };
-            const active = slug === brandSlug;
-            return (
-              <button
-                key={slug}
-                className="stv-brand-pill"
-                data-active={active}
-                data-tooltip={meta.shortName}
-                data-brand={slug}
-                onClick={() => onBrandSwitch(slug)}
-                aria-pressed={active}
-                aria-label={`Preview as ${meta.shortName}`}
-              >
-                <span className="stv-brand-pill-initials">{meta.initials}</span>
-              </button>
-            );
-          })}
-        </nav>
+        {/* R8 C4 — pills hidden when brand is locked via ?client= URL param.
+            Co-brand suffix in the topbar mark still identifies the active brand. */}
+        {!brandLocked && (
+          <nav className="stv-topbar-pills" aria-label="Switch demo brand">
+            {KNOWN_SLUGS.map((slug) => {
+              const meta = BRAND_DISPLAY_DEFAULTS[slug] || { initials: slug.slice(0, 2).toUpperCase(), shortName: slug };
+              const active = slug === brandSlug;
+              return (
+                <button
+                  key={slug}
+                  className="stv-brand-pill"
+                  data-active={active}
+                  data-tooltip={meta.shortName}
+                  data-brand={slug}
+                  onClick={() => onBrandSwitch(slug)}
+                  aria-pressed={active}
+                  aria-label={`Preview as ${meta.shortName}`}
+                >
+                  <span className="stv-brand-pill-initials">{meta.initials}</span>
+                </button>
+              );
+            })}
+          </nav>
+        )}
 
         <div className="stv-topbar-right">
           {onAudioToggle && (
@@ -7595,7 +7653,7 @@
     FR: { flag: 'FR', name: 'French' },
   };
 
-  function ScaleScene({ brandSlug, brandConfig, onContinue }) {
+  function ScaleScene({ brandSlug, brandConfig, onContinue, hintDismissed, onDismissHint }) {
     const [accent, setAccent] = useState(() => {
       try { return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6AAE22'; }
       catch (e) { return '#6AAE22'; }
@@ -7621,7 +7679,9 @@
     const handleMarkerClick = useCallback((ex) => {
       setOpenExchange(ex.code);
       setHoverPreview(null); // close preview when click commits
-    }, []);
+      // R8 C5 — first marker click dismisses the "click to explore" hint
+      if (onDismissHint) onDismissHint();
+    }, [onDismissHint]);
     const handleMarkerHover = useCallback((ex, x, y) => {
       setHoverPreview(ex ? { ex, x, y } : null);
     }, []);
@@ -7712,6 +7772,13 @@
           {/* R6 P3 — transient hover preview card; only renders when not over click panel */}
           {hoverPreview && hoverPreview.ex && !openExchange && (
             <ExchangeHoverPreview ex={hoverPreview.ex} x={hoverPreview.x} y={hoverPreview.y} />
+          )}
+          {/* R8 C5 — click-to-explore hint; dismisses on first marker click */}
+          {!hintDismissed && (
+            <div className="globe-hint" role="note" aria-label="Globe interaction hint">
+              <span className="globe-hint-arrow" aria-hidden="true">👉</span>
+              <span className="globe-hint-text">Click any exchange to explore scripts in native languages</span>
+            </div>
           )}
           <div className="scale-globe-vignette" aria-hidden="true" />
           <div className="scale-globe-overlay">
@@ -7899,19 +7966,19 @@
     { time: '02.3', code: 'REPORTER',   state: 'checked', msg: 'Gerardo selected · Financial earnings classifier · 0.94 confidence' },
     { time: '04.1', code: 'SCRIPT',     state: 'passed',  msg: 'Sonnet 4.6 · 117 words · 47-second target' },
     { time: '05.4', code: 'L1',         state: 'passed',  msg: 'Forbidden phrase scan · 0/24 patterns matched' },
-    { time: '06.2', code: 'L2',         state: 'passed',  msg: 'Semantic review · no implied guarantees · Haiku 4.5' },
+    { time: '06.2', code: 'L2',         state: 'passed',  msg: 'Semantic review · no implied guarantees · Gemini Flash 3.0' },
     { time: '08.6', code: 'L3',         state: 'passed',  msg: 'Holistic balance review · regulatory tone confirmed · Gemini 2.5' },
     { time: '09.0', code: 'GATE',       state: 'passed',  msg: 'Quality 95 · Integrity 98 · dual-gate cleared' },
     { time: '09.3', code: 'AUDIT',      state: 'passed',  msg: 'SHA-256 audit chain signed · DOC-ETOR-2026-0427-1' },
   ];
 
   const DECISION_TREE = [
-    { num: 1, label: 'Parse article structure',         conf: 0.99, model: 'Haiku 4.5' },
-    { num: 2, label: 'Detect entity (BlackRock, IBIT)', conf: 0.97, model: 'Haiku 4.5' },
-    { num: 3, label: 'Classify story type · ETF flow',  conf: 0.94, model: 'Haiku 4.5' },
+    { num: 1, label: 'Parse article structure',         conf: 0.99, model: 'Gemini Flash 3.0' },
+    { num: 2, label: 'Detect entity (BlackRock, IBIT)', conf: 0.97, model: 'Gemini Flash 3.0' },
+    { num: 3, label: 'Classify story type · ETF flow',  conf: 0.94, model: 'Gemini Flash 3.0' },
     { num: 4, label: 'Check 72-hour freshness',         conf: 0.99, model: 'rule-based' },
     { num: 5, label: 'Cross-reference SEC EDGAR',       conf: 0.96, model: 'EDGAR API' },
-    { num: 6, label: 'Select Gerardo (financial beat)', conf: 0.94, model: 'Haiku 4.5' },
+    { num: 6, label: 'Select Gerardo (financial beat)', conf: 0.94, model: 'Gemini Flash 3.0' },
     { num: 7, label: 'Generate · 110-130 word target',  conf: 0.92, model: 'Sonnet 4.6' },
     { num: 8, label: 'Apply 24 integrity rules · L1+L2+L3', conf: 0.98, model: 'L1+L2+L3' },
   ];
@@ -8160,7 +8227,7 @@
       eyebrow: 'Station 1 · Read',
       headline: <>Every story is <em>read end-to-end</em> before anything else happens.</>,
       body: <>Before a single word is generated, the system parses the article in full &mdash; structure, entities, dates, named amounts, sources cited. Nothing is skimmed. The detector looks for novelty, completeness, and ambiguity, then routes the story to the right desk only if it passes.</>,
-      meta: ['Haiku 4.5', '0.4 s · 6 facts extracted', '99% confidence'],
+      meta: ['Gemini Flash 3.0', '0.4 s · 6 facts extracted', '99% confidence'],
       Illust: IllustrationStationRead,
     },
     {
@@ -8626,7 +8693,7 @@
     },
     { num: 2,  name: 'Story detection',        ms: 400,
       detail: "A small classifier looks at the article and asks one question: is this newsworthy enough to warrant a script? It checks novelty against the last 7 days of content, scores the impact (price-moving, regulatory, structural), and routes the story to the right desk. Most input never makes it past this stage — and that's the point.",
-      meta: ['Haiku 4.5 · 92% novelty score', '7-day dedup window', '< 400ms'],
+      meta: ['Gemini Flash 3.0 · 92% novelty score', '7-day dedup window', '< 400ms'],
     },
     { num: 3,  name: 'Company enrichment',     ms: 600,
       detail: "Once a story is selected, the system pulls together everything it knows about the entities involved — ticker, exchange, sector, market cap, recent earnings, peer set. This context grounds the script in the company's actual market position. Without enrichment, you get scripts that sound plausible but drift from the real entity.",
@@ -9565,10 +9632,24 @@
         return KNOWN_SLUGS.includes(param) ? param : DEFAULT_SLUG;
       } catch (e) { return DEFAULT_SLUG; }
     });
+    // R8 C4 — brand lock: when ?client= is in URL with a known slug, hide pills
+    // + disable 1-6 keyboard switching. Set ONCE on mount; not affected by
+    // history.replaceState which keeps URL synced.
+    const isBrandLocked = useRef((() => {
+      try {
+        const param = new URLSearchParams(location.search).get('client');
+        return KNOWN_SLUGS.includes(param);
+      } catch (e) { return false; }
+    })()).current;
     const [brandConfig, setBrandConfig] = useState(null);
     const [audioOn, setAudioOn] = useState(false);
     const [brandFlashKey, setBrandFlashKey] = useState(0);
     const switchInFlight = useRef(false);
+    // R8 C5 — globe click hint dismissal. Lifted to App so it survives beat
+    // navigation within one session (state would reset if held in ScaleScene
+    // because ScaleScene unmounts when leaving Beat 3). Page reload re-arms.
+    const [globeHintDismissed, setGlobeHintDismissed] = useState(false);
+    const dismissGlobeHint = useCallback(() => setGlobeHintDismissed(true), []);
 
     // Trigger brand-flash overlay on every brand change (audit 1.4 + E2)
     useEffect(() => {
@@ -9628,6 +9709,21 @@
       try { document.body.dataset.beat = activeBeat; } catch (e) { /* no-op */ }
     }, [activeBeat]);
 
+    // R8 C7 — scroll-to-top on every beat change. Behaviour set by the caller
+    // via scrollBehaviorRef (smooth for Continue/arrow-key navigation, instant
+    // for pager-dot clicks). Initial mount also scrolls to top.
+    const scrollBehaviorRef = useRef('smooth');
+    useEffect(() => {
+      try {
+        window.scrollTo({ top: 0, behavior: scrollBehaviorRef.current });
+      } catch (e) {
+        try { window.scrollTo(0, 0); } catch (e2) { /* no-op */ }
+      }
+      // Reset to smooth as the default after each use; specific callers can
+      // override before calling setActiveBeat.
+      scrollBehaviorRef.current = 'smooth';
+    }, [activeBeat]);
+
     // R5 D5 — Ambient sound layer per beat (only plays when audioState.enabled).
     // Beat 3 trading-floor murmur · Beat 4 booth tone · Beat 6 broadcast-on tone.
     useEffect(() => {
@@ -9678,8 +9774,9 @@
     useEffect(() => {
       const onKey = (e) => {
         if (!booted) return;
-        // 1-6 → brand switch (works in any beat after Hook)
-        if (activeBeat !== BEATS.HOOK && /^[1-6]$/.test(e.key)) {
+        // 1-6 → brand switch (works in any beat after Hook).
+        // R8 C4 — disabled when brand is locked via ?client= URL param.
+        if (!isBrandLocked && activeBeat !== BEATS.HOOK && /^[1-6]$/.test(e.key)) {
           const idx = parseInt(e.key, 10) - 1;
           const slug = KNOWN_SLUGS[idx];
           if (slug && slug !== brandSlug) handleBrandSwitch(slug);
@@ -9774,6 +9871,8 @@
           brandSlug={brandSlug}
           brandConfig={brandConfig}
           onContinue={goNext}
+          hintDismissed={globeHintDismissed}
+          onDismissHint={dismissGlobeHint}
         />
       );
     } else if (activeBeat === BEATS.SAFETY) {
@@ -9834,11 +9933,17 @@
           activeBeat={activeBeat}
           onAudioToggle={handleAudioToggle}
           audioOn={audioOn}
+          brandLocked={isBrandLocked}
         />
         <main className="stv-app-content">{scene}</main>
         <BeatPager
           activeBeat={activeBeat}
-          onJump={(b) => setActiveBeat(b)}
+          onJump={(b) => {
+            // R8 C7 — pager dot clicks scroll instantly (user picked a specific
+            // destination; smooth scroll over a long page would feel sluggish).
+            scrollBehaviorRef.current = 'instant';
+            setActiveBeat(b);
+          }}
         />
       </div>
     );
