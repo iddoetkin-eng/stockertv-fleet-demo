@@ -359,6 +359,10 @@
       opacity: 0;
       animation: stv-hook-enter 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 400ms forwards;
     }
+    /* Round 4 P7 — tighter padding on phone so hero numbers + captions fit */
+    @media (max-width: 520px) {
+      .hook-stage { padding: 1.25rem 0.875rem; }
+    }
     /* Background wash beneath the Hook hero (audit 2.2.a) */
     .hook-stage::before {
       content: '';
@@ -850,6 +854,50 @@
       background: var(--bg);
     }
     .stv-icon-btn svg { width: 14px; height: 14px; }
+    /* Round 4 P7 — bump touch hit area on coarse pointers */
+    @media (hover: none) and (pointer: coarse) {
+      .stv-icon-btn { width: 40px; height: 40px; }
+      .stv-icon-btn svg { width: 16px; height: 16px; }
+    }
+
+    /* Round 4 P2 — top bar mobile compaction */
+    @media (max-width: 720px) {
+      .stv-topbar {
+        padding: 0.6rem 0.875rem;
+        gap: 0.5rem;
+      }
+      .stv-topbar-left { gap: 0.5rem; }
+      .stv-topbar-mark { font-size: 1rem; }
+      /* Hide co-brand suffix on small screens to save horizontal space */
+      .stv-topbar-mark .stv-mark-divider,
+      .stv-topbar-mark .stv-mark-for { display: none; }
+      .stv-topbar-divider { display: none; }
+      .stv-topbar-pills { padding: 3px; gap: 4px; }
+      .stv-brand-pill { min-width: 32px; height: 30px; padding: 0 0.45rem; font-size: 9.5px; }
+      .stv-brand-pill-initials { font-size: 10.5px; }
+      /* Bump tap target via padding pseudo, keep visual size */
+      .stv-brand-pill::before { content: none; }
+      .stv-brand-pill[data-tooltip]::after { display: none; } /* drop tooltips on touch */
+    }
+    @media (max-width: 520px) {
+      .stv-topbar {
+        padding: 0.55rem 0.65rem;
+        gap: 0.4rem;
+      }
+      /* Allow brand-pill row to scroll horizontally if it overflows */
+      .stv-topbar-pills {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        max-width: 60vw;
+      }
+      .stv-topbar-pills::-webkit-scrollbar { display: none; }
+      .stv-brand-pill { flex-shrink: 0; }
+      /* Drop the audio toggle entirely on phone — sound is meeting-room dependent */
+      .stv-topbar-right .stv-icon-btn[aria-label="Mute"],
+      .stv-topbar-right .stv-icon-btn[aria-label="Unmute"] { display: none; }
+    }
 
     /* ============ APP FRAME (post-Hook content area) ============ */
     .stv-app-frame {
@@ -1228,6 +1276,24 @@
       aspect-ratio: 1.6 / 1;
       margin: 1rem auto 1rem;
     }
+    /* Round 4 P3 — globe shape on phone: taller (squarer) so the planet doesn't shrink to nothing */
+    @media (max-width: 720px) {
+      .scale-globe-wrap { aspect-ratio: 1 / 1; max-width: 95vw; }
+      .scale-tower-row {
+        gap: 1rem 1.25rem;
+        padding-top: 0.75rem;
+      }
+      .scale-stat { min-width: 0; }
+      /* Allow flag row to scroll horizontally if 15 flags overflow */
+      .scale-stat-flagrow {
+        max-width: 110px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .scale-stat-flagrow::-webkit-scrollbar { display: none; }
+      .scale-stat-flagrow span { flex-shrink: 0; }
+    }
     .scale-globe-canvas {
       width: 100%;
       height: 100%;
@@ -1354,6 +1420,38 @@
     .exchange-panel[data-open='true'] {
       transform: translateX(0);
     }
+    /* Round 4 P3 — bottom-sheet pattern on phone instead of right-drawer */
+    @media (max-width: 720px) {
+      .exchange-panel {
+        top: auto;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        max-height: 75vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -16px 50px rgba(0,0,0,0.22);
+        transform: translateY(100%);
+        transition: transform 360ms cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .exchange-panel[data-open='true'] { transform: translateY(0); }
+      /* Add a small drag-affordance bar at the top of the sheet */
+      .exchange-panel::before {
+        content: '';
+        position: absolute;
+        top: 8px; left: 50%;
+        transform: translateX(-50%);
+        width: 38px; height: 4px;
+        background: var(--text-muted);
+        opacity: 0.45;
+        border-radius: 2px;
+        z-index: 1;
+      }
+      .exchange-panel-header { padding-top: 1.4rem; }
+    }
     .exchange-panel-header {
       display: flex;
       align-items: center;
@@ -1411,6 +1509,10 @@
     .exchange-panel-close:hover {
       color: var(--text-primary);
       background: var(--bg);
+    }
+    /* Round 4 P7 — touch-friendly close button on coarse pointers */
+    @media (hover: none) and (pointer: coarse) {
+      .exchange-panel-close { width: 44px; height: 44px; font-size: 22px; }
     }
     .exchange-panel-body {
       flex: 1;
@@ -2225,6 +2327,10 @@
       transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
       margin-left: 0.5rem;
     }
+    /* Round 4 P4 — hide dashboard toggle on phone; journey-only is the mobile path */
+    @media (max-width: 720px) {
+      .safety-view-toggle { display: none; }
+    }
     .safety-view-toggle:hover {
       border-color: var(--accent);
       color: var(--text-primary);
@@ -2515,6 +2621,14 @@
     .pipeline-cta-row--foot {
       margin: 2.5rem 0 1rem;
     }
+    /* Round 4 P5 — stack CTA buttons vertically on phone, full-width per row */
+    @media (max-width: 520px) {
+      .pipeline-cta-row { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+      .pipeline-cta, .pipeline-cta-continue, .pipeline-cta-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
     .pipeline-cta-continue {
       display: inline-flex;
       align-items: center;
@@ -2609,6 +2723,12 @@
     }
     @media (min-width: 720px) {
       .pipeline-stages { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+    /* Round 4 P5 — 2-column on narrow phones so each stage card stays readable */
+    @media (max-width: 414px) {
+      .pipeline-stages { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
+      .pipeline-stage-panel { padding: 1rem 1.1rem 1.1rem; }
+      .pipeline-stage-panel-name { font-size: clamp(1rem, 4.4vw, 1.25rem); }
     }
     /* Pipeline stage card — Round 2 Phase B5 reworked as a clickable button */
     .pipeline-stage-card {
@@ -3038,6 +3158,17 @@
         drop-shadow(0 8px 24px color-mix(in srgb, var(--accent) 16%, transparent));
       transition: filter 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* Round 4 P6 — phone showcase mobile: smaller iPhone, callouts as plain
+       vertical list below, ops cells go single-column. */
+    @media (max-width: 720px) {
+      .phone-stage { min-height: 380px; padding: 0.5rem; }
+      .brand-phone { max-width: 220px; }
+      .phone-callout { padding: 0.6rem 0.75rem; }
+    }
+    @media (max-width: 414px) {
+      .brand-phone { max-width: 200px; }
+      .phone-stage { min-height: 340px; }
+    }
     /* Annotation labels around the phone — connector lines drawn via ::before */
     .phone-callouts {
       display: flex;
@@ -3155,6 +3286,16 @@
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    /* Round 4 P6 — full-viewport video on phone (no max-width constraint) */
+    @media (max-width: 720px) {
+      .stv-video-modal { padding: 0.75rem; gap: 0.5rem; }
+      .stv-video-modal-stage { border-radius: 4px; max-width: 100%; }
+      .stv-video-modal-close {
+        top: 12px; right: 12px;
+        width: 44px; height: 44px;
+      }
+      .stv-video-modal-caption { font-size: 9.5px; padding: 0 0.5rem; text-align: center; }
     }
     .stv-video-modal-video {
       width: 100%;
@@ -3355,6 +3496,11 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 0.75rem 1rem;
     }
+    /* Round 4 P6 — ops cells are already 2-col which works at 375px;
+       on very narrow viewports drop to single column for breathing room */
+    @media (max-width: 360px) {
+      .ops-grid { grid-template-columns: 1fr; }
+    }
     .ops-cell {
       padding: 0.875rem 0.875rem;
       background: var(--surface-elevated);
@@ -3496,6 +3642,7 @@
       align-items: center;
       gap: 6px;
     }
+    /* Round 4 P7 — pager dots: visible at 8px, but click-target padded to 16px */
     .stv-pager-dot {
       width: 8px;
       height: 8px;
@@ -3506,6 +3653,15 @@
       padding: 0;
       transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
       position: relative;
+    }
+    /* Round 4 P7 — invisible 32×32 hit area on touch via padded ::before */
+    @media (hover: none) and (pointer: coarse) {
+      .stv-pager-dot::before {
+        content: '';
+        position: absolute;
+        inset: -12px;
+        border-radius: 50%;
+      }
     }
     .stv-pager-dot:hover {
       transform: scale(1.3);
@@ -5479,11 +5635,14 @@
         return;
       }
 
-      // Detect perf mode
+      // Detect perf mode (URL param OR auto-enabled on small viewports per Round 4 P3)
       let perfMode = false;
       try {
         perfMode = new URLSearchParams(location.search).get('perf') === '1';
       } catch (e) { /* no-op */ }
+      if (!perfMode && typeof window !== 'undefined' && window.innerWidth < 768) {
+        perfMode = true;
+      }
 
       const width = container.clientWidth || 800;
       const height = container.clientHeight || 500;
@@ -5566,14 +5725,26 @@
       const wire = new THREE.Mesh(wireGeom, wireMat);
       scene.add(wire);
 
+      // Round 4 P1 — read --accent-2 (lighter brand shade) for marker hover color
+      function readCssColor(varName, fallback) {
+        try {
+          const v = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+          if (v) return new THREE.Color(v);
+        } catch (e) {}
+        return new THREE.Color(fallback);
+      }
+      let hoverColor = readCssColor('--accent-2', '#A8D96E');
+
       // Exchange dots — 53 markers, brand-tinted, click/hover-pickable
       const dotsGroup = new THREE.Group();
       const blinkMaterials = [];
       const pickableMeshes = []; // raycasting targets — dots only
+      // Round 4 P1 — track materials per exchange code for hover-color swapping
+      const markerMatsByCode = new Map(); // code -> { dotMat, haloMat, phase, target }
       EXCHANGES_53.forEach((ex) => {
         const pos = latLngToVec3(ex.lat, ex.lng, 86);
         const dotGeom = new THREE.SphereGeometry(1.6, 10, 10); // slightly larger for easier clicking
-        const dotMat = new THREE.MeshBasicMaterial({ color: accentColor, transparent: true, opacity: 0.95 });
+        const dotMat = new THREE.MeshBasicMaterial({ color: accentColor.clone(), transparent: true, opacity: 0.95 });
         const dot = new THREE.Mesh(dotGeom, dotMat);
         dot.position.copy(pos);
         dot.userData.exchangeCode = ex.code;
@@ -5583,7 +5754,7 @@
         // Halo ring
         const haloGeom = new THREE.RingGeometry(1.8, 2.8, 16);
         const haloMat = new THREE.MeshBasicMaterial({
-          color: accentColor,
+          color: accentColor.clone(),
           transparent: true,
           opacity: 0.35,
           side: THREE.DoubleSide,
@@ -5594,6 +5765,8 @@
         halo.userData.exchangeCode = ex.code; // also pickable for easier clicks
         dotsGroup.add(halo);
         pickableMeshes.push(halo);
+        // Round 4 P1 — register per-marker materials for color tween
+        markerMatsByCode.set(ex.code, { dotMat, haloMat, phase: 0, target: 0 });
         // Airplane-blink — tiny pulsing dot just above each marker (E3)
         const blinkMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
         const blink = new THREE.Mesh(new THREE.SphereGeometry(0.55, 6, 6), blinkMat);
@@ -5617,11 +5790,21 @@
         return hits[0].object.userData.exchangeCode || null;
       }
       function onPointerMove(e) {
-        // Round 3 P3 — markers no longer trigger tooltips on hover. Only the
-        // cursor changes (data-hovering attribute drives `cursor: pointer`),
-        // making the marker discoverable as clickable without visual change.
+        // Round 3 P3 — no tooltips, only cursor change.
+        // Round 4 P1 — also shift the hovered marker's material color to the
+        // lighter --accent-2 (subtle "click me" affordance, no scale change).
         const code = pickAt(e.clientX, e.clientY);
         if (code !== hoveredCode) {
+          // Restore previous hovered marker
+          if (hoveredCode) {
+            const prev = markerMatsByCode.get(hoveredCode);
+            if (prev) prev.target = 0;
+          }
+          // Light up new hovered marker
+          if (code) {
+            const next = markerMatsByCode.get(code);
+            if (next) next.target = 1;
+          }
           hoveredCode = code;
           renderer.domElement.setAttribute('data-hovering', code ? 'true' : 'false');
         }
@@ -5773,8 +5956,15 @@
       const speed = perfMode ? 0.0006 : 0.0008;
       const cloudSpeed = speed * 0.4; // clouds drift slower than planet
       let rafId = null;
+      // Round 4 P1 — marker hover-color tween: lerp phase toward target each frame.
+      // 200ms total transition at 60fps ≈ 12 frames → step ≈ 0.083 per frame.
+      const HOVER_TWEEN_STEP = 0.083;
+      let lastFrameTs = performance.now();
       const animate = () => {
         const tNow = performance.now() * 0.001;
+        const ts = performance.now();
+        const dt = ts - lastFrameTs;
+        lastFrameTs = ts;
         sphere.rotation.y += speed;
         haze.rotation.y += speed;
         wire.rotation.y += speed;
@@ -5792,6 +5982,26 @@
         blinkMaterials.forEach((b) => {
           b.mat.opacity = (Math.sin(tNow * 2.5 + b.phase) + 1) * 0.5 * 0.55;
         });
+        // Round 4 P1 — tween marker hover colors toward target (200ms ease)
+        const stepSize = HOVER_TWEEN_STEP * (dt / 16.67); // normalise to 60fps
+        // Read live colors from stateRef so brand-switch is reflected in tweens
+        const liveAccent = (stateRef.current && stateRef.current.accentColor) || accentColor;
+        const liveHover = (stateRef.current && stateRef.current.hoverColor) || hoverColor;
+        markerMatsByCode.forEach((m) => {
+          // Always update unhovered markers to current accent (handles brand switch)
+          if (m.phase === 0 && m.target === 0) {
+            if (!m.dotMat.color.equals(liveAccent)) {
+              m.dotMat.color.copy(liveAccent);
+              m.haloMat.color.copy(liveAccent);
+            }
+            return;
+          }
+          if (m.phase < m.target) m.phase = Math.min(m.target, m.phase + stepSize);
+          else if (m.phase > m.target) m.phase = Math.max(m.target, m.phase - stepSize);
+          // Lerp dot+halo color between accent (phase=0) and hover (phase=1)
+          m.dotMat.color.copy(liveAccent).lerp(liveHover, m.phase);
+          m.haloMat.color.copy(liveAccent).lerp(liveHover, m.phase);
+        });
         renderer.render(scene, camera);
         rafId = requestAnimationFrame(animate);
       };
@@ -5808,7 +6018,7 @@
       };
       window.addEventListener('resize', onResize);
 
-      stateRef.current = { renderer, scene, dotsGroup, accentColor, hazeMat, blinkMaterials, orbitParticles };
+      stateRef.current = { renderer, scene, dotsGroup, accentColor, hoverColor, hazeMat, blinkMaterials, orbitParticles };
 
       return () => {
         if (rafId) cancelAnimationFrame(rafId);
@@ -5845,6 +6055,12 @@
       if (!s || typeof THREE === 'undefined') return;
       const newColor = new THREE.Color(accent || '#6AAE22');
       s.accentColor = newColor;
+      // Round 4 P1 — also refresh the lighter --accent-2 hover color so the
+      // hover-color tween stays in the new brand family
+      try {
+        const v = getComputedStyle(document.documentElement).getPropertyValue('--accent-2').trim();
+        if (v) s.hoverColor = new THREE.Color(v);
+      } catch (e) {}
       s.dotsGroup.children.forEach((m) => {
         if (m.material && m.material.color) m.material.color.copy(newColor);
       });
@@ -6549,9 +6765,16 @@
     const [treeIdx, setTreeIdx] = useState(0);
     const [runId, setRunId] = useState(0);
     const [genActive, setGenActive] = useState(false);
-    // Round 2 Phase B4 — view mode: 'journey' (default) or 'dashboard' (legacy)
+    // Round 2 Phase B4 — view mode: 'journey' (default) or 'dashboard' (legacy).
+    // Round 4 P4 — force journey on phone; dashboard layout doesn't fit ≤720px.
     const [viewMode, setViewMode] = useState(readSafetyViewMode);
-    const isDashboard = viewMode === 'dashboard';
+    const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 720);
+    useEffect(() => {
+      const onResize = () => setIsMobile(window.innerWidth <= 720);
+      window.addEventListener('resize', onResize, { passive: true });
+      return () => window.removeEventListener('resize', onResize);
+    }, []);
+    const isDashboard = viewMode === 'dashboard' && !isMobile;
     // 3.1 — ambient mode after phase 4
     const ambient = phase >= 4;
 
