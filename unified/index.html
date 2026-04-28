@@ -4655,13 +4655,14 @@
       font-style: italic;
       font-variation-settings: 'opsz' 144;
     }
-    /* R6 P6 — two interlinked circles (Olympic-style collaboration mark) */
+    /* R6 P6 + R7 Fix 1 — two interlinked circles (rebuilt as inline SVG so
+       text-anchor positions each label OUT of the overlap region). */
     .close-circles {
       margin: 0 auto 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1.1rem;
       opacity: 0;
       animation: stv-close-circles-in 1400ms cubic-bezier(0.25, 0.1, 0.25, 1) 300ms forwards;
     }
@@ -4669,81 +4670,12 @@
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .close-circles-pair {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      /* Negative gap creates the overlap: each circle is ~clamp(120px, 22vw, 170px) */
-    }
-    .close-circle {
-      width: clamp(120px, 22vw, 170px);
-      height: clamp(120px, 22vw, 170px);
-      border-radius: 50%;
-      border: 1.5px solid color-mix(in srgb, var(--text-primary) 22%, transparent);
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 1.5rem;
-      box-sizing: border-box;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
-      transition: border-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    /* Right circle gets a brand-accent inner ring suggesting "linked" status */
-    .close-circle--right {
-      border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
-      box-shadow: 0 12px 32px color-mix(in srgb, var(--accent) 12%, transparent);
-    }
-    .close-circle--left {
-      /* Pull the right circle into overlap (~30% of own width) */
-      margin-right: calc(-1 * clamp(36px, 6.6vw, 50px));
-      z-index: 1;
-    }
-    .close-circle--right { z-index: 1; }
-    .close-circle-wordmark {
-      text-align: center;
-      line-height: 1;
-      white-space: nowrap;
-    }
-    .close-circle-wordmark--stv {
-      font-family: 'Fraunces', Georgia, serif;
-      font-weight: 500;
-      font-size: clamp(1.5rem, 4vw, 2.1rem);
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      font-variation-settings: 'opsz' 96;
-    }
-    .close-circle-wordmark--stv em {
-      font-style: italic;
-      color: #b8c4c8;  /* silver/light-gray per R6 P6 spec — "edition" tone */
-    }
-    .close-circle-wordmark--brand {
-      color: var(--accent);
-      transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
-      line-height: 1;
-    }
-    /* Center "×" sits in the overlap region between the two circles */
-    .close-circles-x {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Fraunces', Georgia, serif;
-      font-style: italic;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
-      color: var(--accent);
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0.85;
-      transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
-      background: var(--surface);
-      width: 2em; height: 2em;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .close-circles-svg {
+      width: clamp(300px, 80vw, 420px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 12px 32px rgba(0,0,0,0.06))
+              drop-shadow(0 12px 32px color-mix(in srgb, var(--accent) 10%, transparent));
     }
     .close-circles-caption {
       font-family: 'Helvetica', Arial, sans-serif;
@@ -4758,14 +4690,11 @@
       height: 1px;
       background: var(--text-muted);
       opacity: 0.3;
-      margin-top: -0.5rem;
+      margin-top: -0.4rem;
     }
     @media (max-width: 720px) {
-      .close-circles { gap: 1rem; }
+      .close-circles { gap: 0.85rem; }
       .close-circles-caption { font-size: 11px; letter-spacing: 0.22em; padding: 0 1rem; text-align: center; }
-    }
-    @media (max-width: 520px) {
-      .close-circle { padding: 0 0.875rem; }
     }
     .close-accent-line {
       width: 80px;
@@ -9484,31 +9413,88 @@
     t212:    { text: 'Trading 212',   font: 'Helvetica, Arial, sans-serif',     weight: 700, letterSpacing: '-0.01em', size: 'clamp(1.2rem, 3.4vw, 1.75rem)' },
   };
 
+  // R7 Fix 1 — text positioning needs sub-pixel precision so the labels stay
+  // OUT of the overlap region. SVG <text> with text-anchor lets us anchor each
+  // label at the geometric center of its respective non-overlap zone — much
+  // more reliable than CSS flex centering inside a circle div.
+  // Geometry: r=110, d=160 (centre-to-centre). Overlap spans x=160-220.
+  // Left non-overlap centre = x=80. Right non-overlap centre = x=300.
+  // viewBox 380×220 leaves 25px padding around the bounding box of both circles.
+  // SVG <text> font-size in px sizes; for brand-aware wordmark we map the CSS
+  // size to the SVG number space.
   function TwoLinkedCircles({ brandSlug, display }) {
-    const brand = BRAND_CLOSE_WORDMARK[brandSlug] || { text: display, font: 'Helvetica, Arial, sans-serif', weight: 700, letterSpacing: '-0.02em', size: 'clamp(1.6rem, 4.5vw, 2.4rem)' };
+    const brand = BRAND_CLOSE_WORDMARK[brandSlug] || { text: display, font: 'Helvetica, Arial, sans-serif', weight: 700, letterSpacing: '-0.02em' };
+    // Map brand to SVG-space font-size (px in viewBox units, since viewBox 1:1)
+    // Default ~30; smaller for long names like "J.P. Morgan" / "Trading 212" / "Merrill Edge"
+    const SVG_BRAND_SIZE = {
+      etoro:   34,
+      ibkr:    34,
+      bac:     22, // "Merrill Edge"
+      jpm:     22, // "J.P. Morgan"
+      plus500: 30,
+      t212:    24, // "Trading 212"
+    };
+    const brandFontSize = SVG_BRAND_SIZE[brandSlug] || 30;
     return (
       <div className="close-circles" aria-hidden="true">
-        <div className="close-circles-pair">
-          <div className="close-circle close-circle--left">
-            <div className="close-circle-wordmark close-circle-wordmark--stv">
-              Stocker<em>TV</em>
-            </div>
-          </div>
-          <div className="close-circle close-circle--right">
-            <div
-              className="close-circle-wordmark close-circle-wordmark--brand"
-              style={{
-                fontFamily: brand.font,
-                fontWeight: brand.weight,
-                letterSpacing: brand.letterSpacing,
-                fontSize: brand.size,
-              }}
-            >
-              {brand.text}
-            </div>
-          </div>
-          <div className="close-circles-x" aria-hidden="true">×</div>
-        </div>
+        <svg
+          className="close-circles-svg"
+          viewBox="0 0 380 220"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+        >
+          {/* Left circle — neutral cream/white border */}
+          <circle
+            cx="110" cy="110" r="110"
+            fill="var(--surface)"
+            stroke="color-mix(in srgb, var(--text-primary) 22%, transparent)"
+            strokeWidth="1.5"
+          />
+          {/* Right circle — brand-accent border to suggest the link */}
+          <circle
+            cx="270" cy="110" r="110"
+            fill="var(--surface)"
+            stroke="color-mix(in srgb, var(--accent) 50%, var(--border))"
+            strokeWidth="1.5"
+          />
+          {/* StockerTV — anchored at center of LEFT non-overlap zone (x=80) */}
+          <text
+            x="80" y="118"
+            textAnchor="middle"
+            fontFamily="'Fraunces', Georgia, serif"
+            fontSize="30"
+            fontWeight="500"
+            letterSpacing="-0.02em"
+          >
+            <tspan fill="var(--text-primary)">Stocker</tspan>
+            <tspan fill="#b8c4c8" fontStyle="italic">TV</tspan>
+          </text>
+          {/* Brand wordmark — anchored at center of RIGHT non-overlap zone (x=300) */}
+          <text
+            x="300" y="120"
+            textAnchor="middle"
+            fontFamily={brand.font}
+            fontSize={brandFontSize}
+            fontWeight={brand.weight}
+            letterSpacing={brand.letterSpacing}
+            fill="var(--accent)"
+          >
+            {brand.text}
+          </text>
+          {/* × in OVERLAP region (x=190 = midpoint between circle centers) */}
+          <circle cx="190" cy="110" r="20" fill="var(--surface)" stroke="var(--border)" strokeWidth="0.8" opacity="0.95"/>
+          <text
+            x="190" y="120"
+            textAnchor="middle"
+            fontFamily="'Fraunces', Georgia, serif"
+            fontStyle="italic"
+            fontSize="28"
+            fill="var(--accent)"
+            opacity="0.9"
+          >
+            ×
+          </text>
+        </svg>
         <div className="close-circles-caption">Built for trading platforms &amp; banks</div>
         <div className="close-circles-rule" aria-hidden="true" />
       </div>

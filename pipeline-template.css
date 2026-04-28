@@ -1975,6 +1975,122 @@ body::before {
   .avatar-modal-close { top: 12px; right: 12px; }
 }
 
+/* ── R7 Fix 2 — eToro broadcast modal (auto-fires after Stage 15) ───────── */
+.broadcast-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 24px;
+  animation: broadcast-modal-in 320ms ease;
+}
+.broadcast-modal[hidden] { display: none; }
+@keyframes broadcast-modal-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.broadcast-modal-stage {
+  width: 100%;
+  max-width: 1024px;
+  position: relative;
+  border-radius: var(--r-lg, 8px);
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  animation: broadcast-modal-stage-in 360ms var(--ease-enter, cubic-bezier(0.25, 0.1, 0.25, 1));
+}
+@keyframes broadcast-modal-stage-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.broadcast-modal-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  background: #000;
+  outline: none;
+}
+.broadcast-modal-close {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 221;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+.broadcast-modal-close:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: scale(1.06);
+}
+.broadcast-modal-caption {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+/* "Tap to unmute" overlay button — appears when autoplay-with-audio is blocked */
+.broadcast-modal-unmute {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 222;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  font-family: var(--ui, 'Inter', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 160ms ease, transform 160ms ease;
+  animation: broadcast-unmute-pulse 1800ms ease-in-out infinite;
+}
+.broadcast-modal-unmute[hidden] { display: none; }
+.broadcast-modal-unmute:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+@keyframes broadcast-unmute-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); }
+  50%      { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+}
+.broadcast-modal-unmute-icon { font-size: 17px; line-height: 1; }
+@media (max-width: 900px) {
+  .broadcast-modal { padding: 16px 10px; gap: 10px; }
+  .broadcast-modal-close { top: 12px; right: 12px; }
+  .broadcast-modal-caption { font-size: 9.5px; letter-spacing: 0.14em; }
+  .broadcast-modal-unmute { padding: 11px 18px; font-size: 13px; }
+}
+
 /* ── Launch stats row (under Watch Demo CTA) ───────────────────────────── */
 .launch-stats {
   margin-top: 28px;
