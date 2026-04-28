@@ -3053,10 +3053,14 @@
     .output-scene--r10 {
       max-width: 1240px;
     }
+    /* R10 hotfix: explicit middle-column width. Original `auto` track sized to
+       content, which combined with the iPhone's `width: 100%; max-width: 380px`
+       resolved to 0px (intrinsic sizing recursion). The 0×0 element rendered
+       but was invisible — the bug Iddo flagged after R10 deploy. */
     .iphone-sim-wrap {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) 380px minmax(0, 1fr);
       gap: 1.5rem;
       align-items: center;
       justify-items: center;
