@@ -822,8 +822,10 @@
       align-items: center;
       gap: 0.55rem;
       box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+      /* R10 C — breathing pulse delayed 8s after the button finishes fading in
+         (fade-in completes at 5000ms; breathing starts at 13000ms = 5000+8000). */
       animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 4200ms forwards,
-                 stv-continue-breathe 2500ms ease-in-out 5000ms infinite;
+                 stv-continue-breathe 2500ms ease-in-out 13000ms infinite;
       transition: transform 200ms ease, background 300ms cubic-bezier(0.4, 0, 0.2, 1),
                   box-shadow 300ms ease;
     }
@@ -1418,7 +1420,9 @@
       box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
       transition: transform 200ms ease, background 300ms cubic-bezier(0.4, 0, 0.2, 1),
                   box-shadow 300ms ease;
-      animation: stv-continue-breathe 2500ms ease-in-out infinite;
+      /* R10 C — breathing pulse delayed 8s from beat mount so it doesn't pull eye
+         from beat content (especially Beat 4's 5-station auto-advance journey). */
+      animation: stv-continue-breathe 2500ms ease-in-out 8000ms infinite;
     }
     .scene-continue:hover {
       transform: translateY(-1px);
@@ -1708,6 +1712,63 @@
           stv-globe-hint-in-mobile 600ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards,
           stv-globe-hint-pulse 2400ms ease-in-out 1300ms infinite;
       }
+    }
+
+    /* R10 D — drag-to-rotate affordance hint, bottom-right pill on globe */
+    .globe-drag-hint {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0;
+      animation:
+        stv-drag-hint-in 500ms cubic-bezier(0.25, 0.1, 0.25, 1) 1200ms forwards,
+        stv-drag-hint-wobble 2200ms ease-in-out 2000ms 3,
+        stv-drag-hint-out 400ms cubic-bezier(0.4, 0, 0.2, 1) 7600ms forwards;
+    }
+    .globe-drag-hint-icon {
+      font-size: 13px;
+      color: var(--accent);
+      animation: stv-drag-hint-spin 2200ms ease-in-out infinite;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-drag-hint-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes stv-drag-hint-out {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(4px); }
+    }
+    @keyframes stv-drag-hint-wobble {
+      0%, 100% { transform: translateX(0); }
+      25%      { transform: translateX(-3px); }
+      75%      { transform: translateX(3px); }
+    }
+    @keyframes stv-drag-hint-spin {
+      0%, 100% { transform: rotate(0deg); }
+      50%      { transform: rotate(140deg); }
+    }
+    @media (max-width: 720px) {
+      .globe-drag-hint { bottom: 0.6rem; right: 0.6rem; padding: 4px 9px; font-size: 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .globe-drag-hint { animation: stv-drag-hint-in 500ms forwards; }
+      .globe-drag-hint-icon { animation: none; }
     }
     /* Round 4 P3 — globe shape on phone: taller (squarer) so the planet doesn't shrink to nothing */
     @media (max-width: 720px) {
@@ -2986,6 +3047,1109 @@
       51%, 100% { opacity: 0; }
     }
 
+    /* ============================================================================
+       R10 BEAT 6 — INTERACTIVE iPHONE SIMULATION
+       ============================================================================ */
+    .output-scene--r10 {
+      max-width: 1240px;
+    }
+    .iphone-sim-wrap {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: center;
+      justify-items: center;
+      padding: 1.25rem 0 2rem;
+      position: relative;
+    }
+    @media (max-width: 980px) {
+      .iphone-sim-wrap {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+    /* Country selector positioned ABOVE iphone (spans all 3 cols on desktop) */
+    .iphone-country-selector {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .iphone-country-selector .country-pill { /* reuse existing country-pill styling */ }
+
+    /* Annotations on the LEFT (desktop) / stacked below (mobile) */
+    .iphone-annotations {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-width: 280px;
+      align-self: center;
+      grid-column: 1;
+    }
+    @media (max-width: 980px) {
+      .iphone-annotations { grid-column: 1; max-width: 100%; }
+    }
+    .iphone-annotation {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 0.6rem;
+      padding: 0.7rem 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+    }
+    .iphone-annotation:hover {
+      transform: translateX(2px);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .iphone-annotation-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .iphone-annotation-body { min-width: 0; }
+    .iphone-annotation-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.25;
+      margin-bottom: 0.2rem;
+      letter-spacing: -0.01em;
+    }
+    .iphone-annotation-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    /* iPhone simulation — outer container */
+    .iphone-sim {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 9 / 19.5;
+      background: #0E1218;
+      border-radius: 38px;
+      box-shadow:
+        0 0 0 4px #1a1f28,
+        0 0 0 5px #2a2f38,
+        0 24px 60px rgba(0,0,0,0.4),
+        0 8px 24px color-mix(in srgb, var(--accent) 14%, transparent);
+      grid-column: 2;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    @media (max-width: 980px) {
+      .iphone-sim { grid-column: 1; max-width: 340px; }
+    }
+    @media (max-width: 520px) {
+      .iphone-sim { max-width: 300px; }
+    }
+    .iphone-sim-frame {
+      position: absolute;
+      inset: 8px;
+      border-radius: 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Dynamic island */
+    .iphone-sim-notch {
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      width: 90px; height: 26px;
+      background: #000;
+      border-radius: 13px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    /* Side buttons (decorative) */
+    .iphone-sim-button {
+      position: absolute;
+      background: #2a2f38;
+      border-radius: 1px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .iphone-sim-button--left { left: -2px; top: 110px; width: 3px; height: 28px; }
+    .iphone-sim-button--left2 { left: -2px; top: 150px; width: 3px; height: 50px; }
+    .iphone-sim-button--right { right: -2px; top: 130px; width: 3px; height: 70px; }
+
+    /* Inner screen */
+    .iphone-sim-screen {
+      position: absolute;
+      inset: 8px;
+      background: #0E1218;
+      border-radius: 30px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+    .iphone-sim-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      color: #fff;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    .iphone-sim-content::-webkit-scrollbar { width: 4px; }
+    .iphone-sim-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+    /* Status bar (top of every screen) */
+    .ip-statusbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 22px 4px;
+      font-family: 'SF Pro Text', -apple-system, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+      height: 28px;
+    }
+    .ip-statusbar-time { font-variant-numeric: tabular-nums; }
+    .ip-statusbar-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ip-statusbar-signal { font-size: 11px; opacity: 0.95; }
+    .ip-statusbar-battery {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      color: #fff;
+    }
+    .ip-statusbar-battery-pct {
+      position: absolute;
+      left: 4px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 8px;
+      font-weight: 700;
+      color: #0E1218;
+    }
+
+    /* Generic screen container */
+    .ip-screen {
+      padding: 0;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar — back / search / icons row */
+    .ip-screen-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      flex-shrink: 0;
+    }
+    .ip-screen-topbar--full { gap: 10px; }
+    .ip-screen-topbar--center { justify-content: center; }
+    .ip-topbar-icon {
+      width: 32px; height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .ip-topbar-icon svg { width: 20px; height: 20px; }
+    .ip-topbar-title {
+      flex: 1;
+      text-align: center;
+    }
+    .ip-topbar-title-ticker {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ip-topbar-title-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #8B95A1;
+    }
+    .ip-search {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      color: #8B95A1;
+    }
+    .ip-search-icon { width: 14px; height: 14px; flex-shrink: 0; }
+    .ip-search-placeholder {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #8B95A1;
+      flex: 1;
+    }
+
+    /* Stock detail screen */
+    .ip-stock-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .ip-stock-video-el {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .ip-stock-video-banner {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.78);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0;
+      text-align: left;
+      transition: background 200ms ease;
+    }
+    .ip-stock-video-banner:hover { background: rgba(0, 0, 0, 0.9); }
+    .ip-banner-icon { font-size: 14px; flex-shrink: 0; }
+    .ip-banner-ticker { font-weight: 700; }
+    .ip-banner-price { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .ip-banner-chg { font-weight: 600; font-size: 11px; }
+    .ip-banner-chg.is-up { color: #34D982; }
+    .ip-banner-chg.is-down { color: #FF6B6B; }
+    .ip-banner-arrow {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #34D982;
+      letter-spacing: 0.03em;
+    }
+
+    /* Native mode (chart + Buy/Sell) */
+    .ip-stock-native {
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ip-stock-native-back {
+      align-self: flex-start;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #8B95A1;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      cursor: pointer;
+      transition: color 200ms ease, border-color 200ms ease;
+    }
+    .ip-stock-native-back:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+    .ip-stock-native-chart {
+      width: 100%;
+      height: 120px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 10px;
+      color: #34D982;
+    }
+    .ip-stock-native-chart svg { width: 100%; height: 100%; }
+    .ip-stock-native-chart svg path { stroke: #34D982 !important; stroke-width: 1.6 !important; }
+    .ip-stock-native-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ip-stock-buy, .ip-stock-sell {
+      padding: 12px 0;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+    }
+    .ip-stock-buy { background: #34D982; color: #0E1218; }
+    .ip-stock-sell { background: #FF4D6D; }
+    .ip-stock-native-position {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #8B95A1;
+      text-align: center;
+    }
+
+    /* Stock info section (below video / native) */
+    .ip-stock-info {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ip-stock-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .ip-stock-price-large {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .ip-stock-chg-pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .ip-stock-chg-pill.is-up { background: rgba(52, 217, 130, 0.16); color: #34D982; }
+    .ip-stock-chg-pill.is-down { background: rgba(255, 107, 107, 0.16); color: #FF6B6B; }
+    .ip-stock-mini-chart {
+      width: 100%; height: 32px;
+      color: #FF6B6B;
+    }
+    .ip-stock-mini-chart svg path { stroke-width: 1.4 !important; }
+    .ip-stock-tabs {
+      display: flex;
+      gap: 18px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .ip-stock-tab {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #8B95A1;
+      padding-bottom: 6px;
+    }
+    .ip-stock-tab.is-active {
+      color: #fff;
+      border-bottom: 2px solid #34D982;
+      font-weight: 600;
+    }
+    .ip-stock-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #C9D1DA;
+      margin: 0;
+    }
+
+    /* Watchlist screen */
+    .ip-screen-h1 {
+      padding: 4px 18px 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .ip-screen-h1-chev { color: #8B95A1; font-size: 14px; margin-left: 4px; }
+    .ip-screen-h2 {
+      padding: 16px 18px 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ip-filter-pills {
+      display: flex;
+      gap: 8px;
+      padding: 6px 14px 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .ip-filter-pills::-webkit-scrollbar { display: none; }
+    .ip-filter-pill {
+      flex-shrink: 0;
+      padding: 5px 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #C9D1DA;
+      white-space: nowrap;
+    }
+    .ip-filter-pill.is-active {
+      background: rgba(52, 217, 130, 0.18);
+      color: #34D982;
+      font-weight: 600;
+    }
+    .ip-section-head {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: #8B95A1;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .ip-stock-rows {
+      display: flex;
+      flex-direction: column;
+    }
+    .ip-stock-row {
+      display: grid;
+      grid-template-columns: 1fr 60px auto;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      text-align: left;
+      transition: background 150ms ease;
+    }
+    .ip-stock-row:hover { background: rgba(255,255,255,0.04); }
+    .ip-stock-row-left { min-width: 0; }
+    .ip-stock-row-ticker {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ip-stock-row-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #8B95A1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ip-stock-row-spark {
+      width: 50px; height: 20px;
+    }
+    .ip-stock-row-spark svg { width: 100%; height: 100%; }
+    .ip-stock-row-right {
+      text-align: right;
+      min-width: 78px;
+    }
+    .ip-stock-row-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .ip-stock-row-chg {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .ip-stock-row-chg.is-up { color: #34D982; }
+    .ip-stock-row-chg.is-down { color: #FF6B6B; }
+    .ip-chg-large { font-size: 18px; }
+
+    /* Discover screen */
+    .ip-disc-tabs {
+      display: flex;
+      gap: 14px;
+      padding: 4px 18px 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .ip-disc-tabs::-webkit-scrollbar { display: none; }
+    .ip-disc-tab {
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      color: #8B95A1;
+      padding-bottom: 8px;
+      white-space: nowrap;
+    }
+    .ip-disc-tab.is-active {
+      color: #fff;
+      border-bottom: 2px solid #34D982;
+      font-weight: 600;
+      margin-bottom: -1px;
+    }
+    .ip-feature-card {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      width: calc(100% - 28px);
+      margin: 0 14px;
+      padding: 14px;
+      background: linear-gradient(135deg, #1a3322 0%, #0f2417 100%);
+      border: 1px solid rgba(52, 217, 130, 0.4);
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+    .ip-feature-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(52, 217, 130, 0.22);
+    }
+    .ip-feature-card-mark {
+      width: 56px; height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(52, 217, 130, 0.18);
+      border: 1px solid rgba(52, 217, 130, 0.4);
+      border-radius: 12px;
+    }
+    .ip-feature-card-mark-stv {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .ip-feature-card-mark-stv em {
+      color: #34D982;
+      font-style: italic;
+    }
+    .ip-feature-card-body { min-width: 0; }
+    .ip-feature-card-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .ip-feature-card-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5px;
+      color: #8B95A1;
+    }
+    .ip-feature-card-arrow {
+      color: #34D982;
+      font-size: 18px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Home screen */
+    .ip-verify-card {
+      margin: 8px 14px 12px;
+      padding: 14px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+    }
+    .ip-verify-progress {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 10px;
+    }
+    .ip-verify-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: #8B95A1;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ip-verify-dot--done { background: #34D982; color: #0E1218; }
+    .ip-verify-dot--active { background: #fff; color: #0E1218; }
+    .ip-verify-line {
+      flex: 1;
+      height: 1.5px;
+      background: rgba(255,255,255,0.08);
+    }
+    .ip-verify-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .ip-verify-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5px;
+      color: #8B95A1;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .ip-cta-green {
+      width: 100%;
+      padding: 11px 16px;
+      background: #34D982;
+      color: #0E1218;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 200ms ease, transform 200ms ease;
+    }
+    .ip-cta-green:hover { background: #29c374; transform: translateY(-1px); }
+
+    .ip-stv-broadcast-card {
+      margin: 0 14px 14px;
+      padding: 16px;
+      width: calc(100% - 28px);
+      min-height: 130px;
+      background: linear-gradient(135deg, #1a3322 0%, #0a1d11 100%);
+      border: 1px solid rgba(52, 217, 130, 0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+    .ip-stv-broadcast-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(52, 217, 130, 0.25);
+    }
+    .ip-stv-broadcast-mark {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+    }
+    .ip-stv-broadcast-mark em {
+      color: #34D982;
+      font-style: italic;
+    }
+    .ip-stv-broadcast-headline {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #C9D1DA;
+      line-height: 1.35;
+      max-width: 65%;
+    }
+    .ip-stv-broadcast-tag {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      color: #34D982;
+      margin-bottom: 4px;
+    }
+    .ip-stv-broadcast-play {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+    }
+    .ip-bigmovers {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 14px;
+      padding: 12px 30px 16px;
+      height: 100px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .ip-bigmover-bar {
+      flex: 1;
+      max-width: 36px;
+      background: linear-gradient(180deg, #34D982 0%, #1a8c52 100%);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+    }
+    .ip-bigmover-pct {
+      position: absolute;
+      bottom: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #34D982;
+      white-space: nowrap;
+    }
+
+    /* Portfolio screen */
+    .ip-portfolio-value {
+      padding: 14px 18px 6px;
+    }
+    .ip-portfolio-value-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .ip-portfolio-value-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #8B95A1;
+    }
+    .ip-empty-state {
+      padding: 24px 18px;
+      text-align: center;
+      color: #8B95A1;
+    }
+    .ip-empty-icon {
+      color: rgba(255,255,255,0.18);
+      margin: 0 auto 12px;
+      display: block;
+    }
+    .ip-empty-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .ip-empty-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #8B95A1;
+      line-height: 1.5;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .ip-portfolio-cash {
+      padding: 12px 18px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin: 0 14px;
+    }
+    .ip-portfolio-cash-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      color: #8B95A1;
+    }
+    .ip-portfolio-cash-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ip-portfolio-stv-hint {
+      margin: 12px 14px;
+      width: calc(100% - 28px);
+      padding: 10px 14px;
+      background: rgba(52, 217, 130, 0.10);
+      border: 1px solid rgba(52, 217, 130, 0.3);
+      border-radius: 10px;
+      color: #34D982;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 200ms ease;
+    }
+    .ip-portfolio-stv-hint:hover { background: rgba(52, 217, 130, 0.18); }
+    .ip-portfolio-stv-hint-arrow { margin-left: auto; }
+    .ip-cta-green {
+      margin: 12px 14px;
+      width: calc(100% - 28px);
+    }
+
+    /* Menu screen */
+    .ip-menu-wordmark {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.04em;
+    }
+    .ip-menu-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .ip-menu-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #34D982 0%, #1a8c52 100%);
+      color: #0E1218;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ip-menu-profile-body { flex: 1; min-width: 0; }
+    .ip-menu-profile-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ip-menu-profile-prog {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 4px 0;
+    }
+    .ip-menu-profile-prog-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .ip-menu-profile-prog-fill {
+      height: 100%;
+      background: #34D982;
+      border-radius: 2px;
+    }
+    .ip-menu-profile-prog-pct {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      color: #34D982;
+      font-weight: 600;
+    }
+    .ip-menu-profile-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #34D982;
+      text-decoration: none;
+    }
+    .ip-menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+    .ip-menu-item {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #fff;
+      cursor: pointer;
+      text-align: left;
+      transition: background 150ms ease;
+    }
+    .ip-menu-item:hover { background: rgba(255,255,255,0.04); }
+    .ip-menu-item-icon {
+      font-size: 18px;
+      width: 28px;
+      text-align: center;
+    }
+    .ip-menu-item-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+    }
+    .ip-menu-item-arrow {
+      color: #8B95A1;
+      font-size: 18px;
+    }
+    .ip-menu-deposit { margin-top: 16px; }
+    .ip-menu-virtual {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #34D982;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Bottom nav */
+    .ip-bottomnav {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px 14px;
+      background: #0a0d12;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .ip-bottomnav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 4px 0;
+      background: transparent;
+      border: none;
+      color: #8B95A1;
+      cursor: pointer;
+      transition: color 200ms ease;
+    }
+    .ip-bottomnav-tab[data-active='true'] { color: #34D982; }
+    .ip-bottomnav-icon {
+      width: 22px; height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ip-bottomnav-icon svg { width: 22px; height: 22px; }
+    .ip-bottomnav-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    /* Foot note below iPhone */
+    .iphone-foot-note {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      opacity: 0.78;
+    }
+
+    /* Academy modal */
+    .academy-modal-stage {
+      max-width: 480px;
+      padding: 32px 28px;
+      background: var(--surface);
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .academy-modal-icon {
+      font-size: 44px;
+      margin-bottom: 14px;
+    }
+    .academy-modal-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      letter-spacing: -0.018em;
+    }
+    .academy-modal-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      max-width: 38ch;
+      margin: 0 auto;
+    }
+
+    /* Empty state pie icon styling */
+    .ip-empty-icon { stroke: rgba(255,255,255,0.18); }
+
+    /* R10 A — "When something is wrong" panel: pre-empts legal-team objections.
+       4-cell grid (icon + title + text). Editorial register matches Beat 4 stations. */
+    .when-wrong {
+      grid-column: 1 / -1;
+      margin: 1.25rem 0 0.5rem;
+      padding: 1.5rem 1.5rem 1.4rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 20%, transparent) 0%, var(--border) 60%, color-mix(in srgb, var(--accent) 6%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .when-wrong-head {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+    .when-wrong-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin: 0 0 0.4rem;
+      letter-spacing: -0.018em;
+    }
+    .when-wrong-subline {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.4;
+    }
+    .when-wrong-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
+    }
+    @media (min-width: 720px) {
+      .when-wrong-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem 1.25rem; }
+    }
+    @media (min-width: 1100px) {
+      .when-wrong-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .when-wrong-cell {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      gap: 0.7rem;
+      padding: 0.75rem 0.85rem;
+      background: var(--surface-elevated);
+      border-radius: 6px;
+      border-left: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+      transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .when-wrong-cell-icon {
+      width: 24px; height: 24px;
+      color: var(--accent);
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      align-self: start;
+    }
+    .when-wrong-cell-icon svg { width: 100%; height: 100%; display: block; }
+    .when-wrong-cell-body { min-width: 0; }
+    .when-wrong-cell-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+      letter-spacing: -0.005em;
+    }
+    .when-wrong-cell-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
     /* Trust badges */
     .trust-row {
       grid-column: 1 / -1;
@@ -2995,7 +4159,8 @@
       margin-top: 0.5rem;
     }
     @media (min-width: 720px) {
-      .trust-row { grid-template-columns: repeat(4, 1fr); }
+      /* R10 B — 5 badges across (was 4) to fit the new "Built with" stack provenance */
+      .trust-row { grid-template-columns: repeat(5, 1fr); gap: 0.6rem; }
     }
     .trust-badge {
       padding: 0.875rem 1rem;
@@ -3050,12 +4215,27 @@
       color: var(--text-primary);
       line-height: 1.3;
     }
+    /* R10 B — mono variant for the "Built with" stack list (vendor list reads as code) */
+    .trust-badge-value--mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+      line-height: 1.45;
+    }
     .trust-badge-foot {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
       color: var(--text-muted);
       line-height: 1.4;
     }
+    /* R10 B — TrustBadgeStack viz */
+    .trust-viz--stack {
+      color: var(--accent);
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      width: 60px;
+    }
+    .trust-viz--stack svg { width: 100%; height: auto; display: block; }
 
     .safety-foot {
       grid-column: 1 / -1;
@@ -3441,7 +4621,8 @@
       cursor: pointer;
       box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
       transition: background 300ms ease, transform 200ms ease, box-shadow 300ms ease;
-      animation: stv-continue-breathe 2500ms ease-in-out infinite;
+      /* R10 C — breathing pulse delayed 8s from beat mount */
+      animation: stv-continue-breathe 2500ms ease-in-out 8000ms infinite;
     }
     .pipeline-cta-continue:hover {
       background: var(--accent-deep);
@@ -5626,6 +6807,77 @@
     },
   ];
 
+  // R10 Beat 6 — Interactive iPhone simulation: per-stock video URLs.
+  // CORS verified 2026-04-29: IBKR URL returns 200 + Access-Control-Allow-Origin: *.
+  const IBKR_VIDEO_URL = 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/Interactive%20Brokers%20Update.mp4';
+
+  // Stock data for the 5 stocks visible across the interactive iPhone screens.
+  // Each stock has: ticker, name, price, change %, change abs, embedded video URL,
+  // sparkline tone (red/green), and a brief description. Prices/changes are
+  // illustrative ("Demo content · illustrative only" footer applies).
+  const STOCKS = {
+    NVDA: {
+      ticker: 'NVDA',
+      name: 'NVIDIA Corporation',
+      price: '$212.45',
+      chgPct: -0.34,
+      chgAbs: -0.72,
+      currency: '$',
+      video: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4',
+      sparkSeed: 11,
+      sparkDir: -0.4,
+      desc: 'NVIDIA designs and manufactures graphics processing units (GPUs) and accelerated computing solutions for AI, gaming, and data centers.',
+    },
+    GOOG: {
+      ticker: 'GOOG',
+      name: 'Alphabet Inc.',
+      price: '$174.20',
+      chgPct: 0.71,
+      chgAbs: 1.24,
+      currency: '$',
+      video: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/GERMAN%20VIDEO.mp4',
+      sparkSeed: 7,
+      sparkDir: 0.5,
+      desc: 'Alphabet is the parent company of Google, YouTube, and Waymo, operating across search, advertising, cloud computing, and autonomous mobility.',
+    },
+    BAX: {
+      ticker: 'BAX',
+      name: 'Baxter International',
+      price: '$32.15',
+      chgPct: -1.29,
+      chgAbs: -0.42,
+      currency: '$',
+      video: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/FRENCH%20VIDEO.mp4',
+      sparkSeed: 13,
+      sparkDir: -0.6,
+      desc: 'Baxter International is a global medical-device and pharmaceutical company providing critical-care, kidney-care, and pharmaceutical products to hospitals worldwide.',
+    },
+    BN: {
+      ticker: 'BN',
+      name: 'Danone S.A.',
+      price: '€58.40',
+      chgPct: 0.31,
+      chgAbs: 0.18,
+      currency: '€',
+      video: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/ARABIC%20VIDEO.mp4',
+      sparkSeed: 19,
+      sparkDir: 0.3,
+      desc: 'Danone is a multinational food-products corporation headquartered in Paris, operating dairy, plant-based, water, and specialized-nutrition divisions globally.',
+    },
+    IBKR: {
+      ticker: 'IBKR',
+      name: 'Interactive Brokers Group',
+      price: '$185.30',
+      chgPct: 1.17,
+      chgAbs: 2.15,
+      currency: '$',
+      video: IBKR_VIDEO_URL,
+      sparkSeed: 23,
+      sparkDir: 0.7,
+      desc: 'Interactive Brokers is an automated global electronic broker serving institutional and active retail traders across stocks, options, futures, forex, and bonds.',
+    },
+  };
+
   function BrandPhoneMockup({ brandSlug, brandConfig, videoRef, onClickWidget, videoUrl, videoCaption }) {
     const preset = BRAND_PHONE_PRESETS[brandSlug] || BRAND_PHONE_PRESETS.etoro;
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
@@ -6204,7 +7456,10 @@
         if (rafId) cancelAnimationFrame(rafId);
       };
     }, [target, delay, stiffness, damping, enabled]);
-    return format(val);
+    // R10 E — clamp displayed value at target so the spring overshoot (47→49→47)
+    // doesn't show "49" briefly. Internal spring physics keeps its settle feel;
+    // only the value passed to format() is clamped.
+    return format(Math.min(val, target));
   }
   function SpringCountUp({ to, delay, format, suffix, stiffness, damping, className, style }) {
     const display = useSpringCountUp(to, { delay, format, stiffness, damping });
@@ -7051,15 +8306,17 @@
     return new THREE.CanvasTexture(canvas);
   }
 
-  function SimpleGlobe({ accent, onArcLand, onMarkerClick, onMarkerHover }) {
+  function SimpleGlobe({ accent, onArcLand, onMarkerClick, onMarkerHover, onDragStart }) {
     const containerRef = useRef(null);
     const stateRef = useRef(null);
     const onArcLandRef = useRef(onArcLand);
     const onMarkerClickRef = useRef(onMarkerClick);
     const onMarkerHoverRef = useRef(onMarkerHover);
+    const onDragStartRef = useRef(onDragStart);
     useEffect(() => { onArcLandRef.current = onArcLand; }, [onArcLand]);
     useEffect(() => { onMarkerClickRef.current = onMarkerClick; }, [onMarkerClick]);
     useEffect(() => { onMarkerHoverRef.current = onMarkerHover; }, [onMarkerHover]);
+    useEffect(() => { onDragStartRef.current = onDragStart; }, [onDragStart]);
 
     useEffect(() => {
       const container = containerRef.current;
@@ -7273,6 +8530,8 @@
         dragStartY = e.clientY;
         dragStartRotY = dotsGroup.rotation.y;
         dragStartRotX = dotsGroup.rotation.x;
+        // R10 D — fire onDragStart so the affordance hint can dismiss
+        if (onDragStartRef.current) onDragStartRef.current();
         renderer.domElement.setAttribute('data-dragging', 'true');
         try { renderer.domElement.setPointerCapture(e.pointerId); } catch (err) {}
         // Clear any active hover preview during drag
@@ -7653,7 +8912,22 @@
     FR: { flag: 'FR', name: 'French' },
   };
 
-  function ScaleScene({ brandSlug, brandConfig, onContinue, hintDismissed, onDismissHint }) {
+  // R10 D — drag-to-rotate affordance hint: bottom-right pill on the globe.
+  // Auto-dismisses after 8s OR on first drag (parent passes onDismiss).
+  function GlobeDragHint({ onDismiss }) {
+    useEffect(() => {
+      const t = setTimeout(() => { if (onDismiss) onDismiss(); }, 8000);
+      return () => clearTimeout(t);
+    }, [onDismiss]);
+    return (
+      <div className="globe-drag-hint" role="note" aria-label="Globe drag hint">
+        <span className="globe-drag-hint-icon" aria-hidden="true">↻</span>
+        <span className="globe-drag-hint-text">Drag to rotate</span>
+      </div>
+    );
+  }
+
+  function ScaleScene({ brandSlug, brandConfig, onContinue, hintDismissed, onDismissHint, dragHintDismissed, onDismissDragHint }) {
     const [accent, setAccent] = useState(() => {
       try { return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6AAE22'; }
       catch (e) { return '#6AAE22'; }
@@ -7768,6 +9042,7 @@
             onArcLand={handleArcLand}
             onMarkerClick={handleMarkerClick}
             onMarkerHover={handleMarkerHover}
+            onDragStart={onDismissDragHint}
           />
           {/* R6 P3 — transient hover preview card; only renders when not over click panel */}
           {hoverPreview && hoverPreview.ex && !openExchange && (
@@ -7780,6 +9055,8 @@
               <span className="globe-hint-text">Click any exchange to explore scripts in native languages</span>
             </div>
           )}
+          {/* R10 D — drag-to-rotate affordance hint (auto-dismisses after 8s or on first drag) */}
+          {!dragHintDismissed && <GlobeDragHint onDismiss={onDismissDragHint} />}
           <div className="scale-globe-vignette" aria-hidden="true" />
           <div className="scale-globe-overlay">
             {currentArc && !openExchange && (
@@ -8136,6 +9413,18 @@
       <div className="trust-viz--monitor">
         <svg viewBox="0 0 100 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
           <path d="M0 9 L 18 9 L 22 4 L 28 14 L 32 9 L 60 9 L 64 6 L 70 12 L 100 9" />
+        </svg>
+      </div>
+    );
+  }
+  // R10 B — Stack viz: 4 stacked layers in accent (suggests modular tech stack)
+  function TrustBadgeStack() {
+    return (
+      <div className="trust-viz--stack">
+        <svg viewBox="0 0 60 18" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="30,2 4,7 30,12 56,7" fill="currentColor" opacity="0.85" stroke="none"/>
+          <polyline points="4,11 30,16 56,11" opacity="0.7"/>
+          <polyline points="4,7 30,12 56,7" opacity="0.5"/>
         </svg>
       </div>
     );
@@ -8631,6 +9920,69 @@
 
         </>)}
 
+        {/* R10 A — "When something is wrong" panel: pre-empts the legal team's first
+            question. Bullet 1+2 describe currently-implemented behaviour; bullets 3+4
+            frame forward-looking commitments (transparency dashboard / pilot agreements). */}
+        <div className="when-wrong">
+          <div className="when-wrong-head">
+            <h3 className="when-wrong-headline">What happens when the system gets it wrong</h3>
+            <p className="when-wrong-subline">Every script ships with multiple safety layers.</p>
+          </div>
+          <div className="when-wrong-grid">
+            <div className="when-wrong-cell">
+              <div className="when-wrong-cell-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+              </div>
+              <div className="when-wrong-cell-body">
+                <div className="when-wrong-cell-title">Audit chain</div>
+                <div className="when-wrong-cell-text">Every reviewer decision tracked from input to output.</div>
+              </div>
+            </div>
+            <div className="when-wrong-cell">
+              <div className="when-wrong-cell-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="1 4 1 10 7 10"/>
+                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                </svg>
+              </div>
+              <div className="when-wrong-cell-body">
+                <div className="when-wrong-cell-title">Recall mechanism</div>
+                <div className="when-wrong-cell-text">Any published script can be revoked from all subscribed surfaces within 60 seconds via the audit archive.</div>
+              </div>
+            </div>
+            <div className="when-wrong-cell">
+              <div className="when-wrong-cell-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"/>
+                  <line x1="12" y1="20" x2="12" y2="4"/>
+                  <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+              </div>
+              <div className="when-wrong-cell-body">
+                <div className="when-wrong-cell-title">Transparency</div>
+                <div className="when-wrong-cell-text">Integrity pass rates published quarterly in production dashboards.</div>
+              </div>
+            </div>
+            <div className="when-wrong-cell">
+              <div className="when-wrong-cell-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="9" y1="13" x2="15" y2="13"/>
+                  <line x1="9" y1="17" x2="13" y2="17"/>
+                </svg>
+              </div>
+              <div className="when-wrong-cell-body">
+                <div className="when-wrong-cell-title">Liability framework</div>
+                <div className="when-wrong-cell-text">Documented separately in the pilot agreement before any production go-live.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* TRUST BADGES — full width with 4.5 micro-viz · always visible (journey + dashboard) */}
         <div className="trust-row">
           <div className="trust-badge">
@@ -8656,6 +10008,13 @@
             <div className="trust-badge-value">24/7 monitored</div>
             <div className="trust-badge-foot">Sentry · Pipeline Health Monitor · Telegram alerts</div>
             <div className="trust-badge-viz"><TrustBadgeMonitor /></div>
+          </div>
+          {/* R10 B — "Built with" stack provenance (factual, not partnership claim) */}
+          <div className="trust-badge trust-badge--stack">
+            <div className="trust-badge-label"><Icon name="layers" size={11} /> Built with</div>
+            <div className="trust-badge-value trust-badge-value--mono">Anthropic · Google · Perplexity · Supabase · Upstash</div>
+            <div className="trust-badge-foot">Production AI + storage + queue stack</div>
+            <div className="trust-badge-viz"><TrustBadgeStack /></div>
           </div>
         </div>
 
@@ -9069,34 +10428,75 @@
   // "Live data simulation" badge (L.1). Honest about the simulation;
   // every metric defensible per K.7.
   // ============================================================================
+  // ============================================================================
+  // R10 Beat 6 — Interactive iPhone simulation (replaces the R2/R3/R6 BrandPhoneMockup)
+  // ----------------------------------------------------------------------------
+  // 6 navigable screens (StockDetail × broadcast/native variants, Watchlist,
+  // Discover, Home, Portfolio, Menu). Per-stock videos. Country selector
+  // visible ONLY on initial home/default NVDA screen — hides on any navigation.
+  // ============================================================================
   function OutputScene({ brandSlug, brandConfig, onContinue }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
+    const isEtoro = brandSlug === 'etoro';
 
-    // Live UTC clock — updates every 30 sec (BUG-2 fix).
-    const [now, setNow] = useState(() => new Date());
-    useEffect(() => {
-      const t = setInterval(() => setNow(new Date()), 30 * 1000);
-      return () => clearInterval(t);
-    }, []);
+    // ---- State machine for the iPhone simulation ----
+    const [activeScreen, setActiveScreen] = useState('stock_detail');
+    const [activeStock, setActiveStock] = useState('NVDA');
+    const [detailMode, setDetailMode] = useState('broadcast'); // broadcast | native
+    const [hasNavigated, setHasNavigated] = useState(false);
+    const [countryKey, setCountryKey] = useState('us'); // default USA → NVDA English
+    const [academyModalOpen, setAcademyModalOpen] = useState(false);
 
-    // R3 P5 — embedded iPhone video + click-to-expand video modal
-    // R6 P5 — eToro brand additionally gets a 5-country selector
     const iphoneVideoRef = useRef(null);
     const modalVideoRef = useRef(null);
     const [videoModalOpen, setVideoModalOpen] = useState(false);
-    const isEtoro = brandSlug === 'etoro';
-    const [countryKey, setCountryKey] = useState('fr'); // default eToro France
-    const activeVariant = isEtoro
-      ? (ETORO_COUNTRY_VARIANTS.find((v) => v.key === countryKey) || ETORO_COUNTRY_VARIANTS[0])
-      : null;
-    const activeVideoUrl = activeVariant ? activeVariant.videoUrl : STV_DEMO_VIDEO_URL;
-    const activeCaption = activeVariant ? activeVariant.caption : null;
-    // Reset country selection when switching brands
-    useEffect(() => { if (isEtoro) setCountryKey('fr'); }, [brandSlug, isEtoro]);
+
+    // Active video URL: country selector overrides ONLY on default NVDA screen
+    // (when user hasn't navigated away yet). Otherwise stock's dedicated video.
+    const stock = STOCKS[activeStock] || STOCKS.NVDA;
+    const onDefaultNvda = !hasNavigated && activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
+    const countryVariant = onDefaultNvda ? ETORO_COUNTRY_VARIANTS.find((v) => v.key === countryKey) : null;
+    const activeVideoUrl = countryVariant ? countryVariant.videoUrl : stock.video;
+
+    // Reset to default state when switching brands
+    useEffect(() => {
+      setActiveScreen('stock_detail');
+      setActiveStock('NVDA');
+      setDetailMode('broadcast');
+      setHasNavigated(false);
+      setCountryKey('us');
+    }, [brandSlug]);
+
+    // Navigation handlers
+    const navigateToScreen = useCallback((screen) => {
+      setActiveScreen(screen);
+      setHasNavigated(true);
+      setDetailMode('broadcast');
+      audioState.play('click');
+    }, []);
+
+    const navigateToStock = useCallback((ticker) => {
+      setActiveStock(ticker);
+      setActiveScreen('stock_detail');
+      setDetailMode('broadcast');
+      setHasNavigated(true);
+      audioState.play('click');
+    }, []);
+
+    const swapToNativeMode = useCallback(() => {
+      setDetailMode('native');
+      audioState.play('click');
+    }, []);
+
+    const swapToBroadcastMode = useCallback(() => {
+      setDetailMode('broadcast');
+      audioState.play('click');
+    }, []);
+
+    // Video modal — opens when user clicks the embedded video player
     const openVideoModal = useCallback(() => {
-      // Pause iPhone preview before showing modal so two videos don't play at once
       if (iphoneVideoRef.current) {
         try { iphoneVideoRef.current.pause(); } catch (e) {}
       }
@@ -9105,59 +10505,30 @@
     }, []);
     const closeVideoModal = useCallback(() => {
       setVideoModalOpen(false);
-      // Resume iPhone preview after modal closes
       if (iphoneVideoRef.current) {
         try { iphoneVideoRef.current.play().catch(() => {}); } catch (e) {}
       }
     }, []);
-    // ESC closes
     useEffect(() => {
-      if (!videoModalOpen) return;
-      const onKey = (e) => { if (e.key === 'Escape') closeVideoModal(); };
+      if (!videoModalOpen && !academyModalOpen) return;
+      const onKey = (e) => {
+        if (e.key !== 'Escape') return;
+        if (academyModalOpen) setAcademyModalOpen(false);
+        else if (videoModalOpen) closeVideoModal();
+      };
       window.addEventListener('keydown', onKey);
       return () => window.removeEventListener('keydown', onKey);
-    }, [videoModalOpen, closeVideoModal]);
-    // Lock body scroll when modal open
+    }, [videoModalOpen, academyModalOpen, closeVideoModal]);
     useEffect(() => {
-      if (!videoModalOpen) return;
+      if (!videoModalOpen && !academyModalOpen) return;
       const prev = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       return () => { document.body.style.overflow = prev; };
-    }, [videoModalOpen]);
-
-    // E6 — slow oscillating screen reflection on the user-preview phone mockup
-    useEffect(() => {
-      let raf;
-      const start = performance.now();
-      const tick = () => {
-        const t = (performance.now() - start) / 1000;
-        const pos = 30 + Math.sin(t * 0.35) * 28; // oscillates 2-58%
-        document.documentElement.style.setProperty('--reflectPos', `${pos.toFixed(1)}%`);
-        raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-      return () => cancelAnimationFrame(raf);
-    }, []);
-    const utcTime = `${String(now.getUTCHours()).padStart(2,'0')}:${String(now.getUTCMinutes()).padStart(2,'0')} UTC`;
-    function ageLabel(mins) {
-      if (mins < 60) return `${mins}m ago`;
-      const h = Math.floor(mins / 60);
-      return `${h}h ago`;
-    }
-
-    // 4 mocked broadcast cards. ageMins computed dynamically per render.
-    // BUG-2 fix: timestamps are page-load-tied, not hardcoded.
-    const previewCards = [
-      { reporter: 'G', headline: 'BlackRock IBIT crosses cumulative inflow milestone, ETF flow data shows.', flag: 'GB', lang: 'EN', ageMins: 2,   source: 'Bloomberg ETF flows',  tone: 'accent', pillTxt: 'BTC ETF · 47s' },
-      { reporter: 'L', headline: 'European semiconductor orders rise; ASML books new high-NA backlog.',     flag: 'DE', lang: 'DE', ageMins: 14,  source: 'Company filing',       tone: '',       pillTxt: 'Operations · 41s' },
-      { reporter: 'A', headline: 'Tesla expands robotaxi pilot to two new metros, operator count up 38%.',   flag: 'IT', lang: 'IT', ageMins: 60,  source: 'DMV records',          tone: '',       pillTxt: 'Products · 38s' },
-      { reporter: 'S', headline: 'Teva wins EU regulatory approval for two generic biosimilars.',            flag: 'ES', lang: 'ES', ageMins: 120, source: 'EMA bulletin',         tone: '',       pillTxt: 'Legal/Risk · 44s' },
-    ];
+    }, [videoModalOpen, academyModalOpen]);
 
     return (
-      <section className="output-scene" aria-label="Beat 6 · output through users' eyes">
+      <section className="output-scene output-scene--r10" aria-label="Beat 6 · output through users' eyes">
         <div className="output-header">
-          {/* R5 A5 — chapter heading */}
           <div className="chapter-heading" aria-hidden="true">
             <span className="chapter-heading-num">Six</span>
             <span className="chapter-heading-divider">·</span>
@@ -9170,7 +10541,6 @@
             <span className="output-eyebrow-dot" aria-hidden="true" />
             Brand-locked to {display}
           </div>
-          {/* R5 A6 — "your users" promoted to italic-display moment, line-broken */}
           <h2 className="output-headline output-headline--magazine">
             This is what
             <span className="output-headline-promo">your users</span>
@@ -9178,84 +10548,93 @@
           </h2>
         </div>
 
-        {/* Round 2 Phase B6 + Round 3 P5 + R6 P5 — brand-specific iPhone with country selector */}
-        <div className="phone-showcase" aria-label={`${display} mobile app illustration with the embedded StockerTV widget`}>
-          <div className="phone-stage">
-            {/* R6 P5 — country selector visible only when brand=eToro */}
-            {isEtoro && (
-              <div className="country-selector" role="tablist" aria-label="Select country variant">
-                {ETORO_COUNTRY_VARIANTS.map((v) => {
-                  const active = v.key === countryKey;
-                  return (
-                    <button
-                      key={v.key}
-                      role="tab"
-                      aria-selected={active}
-                      data-active={active}
-                      className="country-pill"
-                      onClick={() => { setCountryKey(v.key); audioState.play('click'); }}
-                      title={`${v.label} · ${v.caption}`}
-                    >
-                      <span className="country-pill-flag" dangerouslySetInnerHTML={{ __html: flagSvg(v.flag) }} aria-hidden="true" />
-                      <span className="country-pill-label">{v.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-            <BrandPhoneMockup
-              brandSlug={brandSlug}
-              brandConfig={brandConfig}
-              videoRef={iphoneVideoRef}
-              onClickWidget={openVideoModal}
-              videoUrl={activeVideoUrl}
-              videoCaption={activeCaption}
-            />
-          </div>
-          <div className="phone-callouts" role="list" aria-label="Phone mockup callouts">
-            <div className="phone-callout" role="listitem">
-              <span className="phone-callout-num" aria-hidden="true">01</span>
-              <div className="phone-callout-body">
-                <div className="phone-callout-title">Brand-locked top nav</div>
-                <div className="phone-callout-text">Your colors, your wordmark, your icons. The user never leaves <strong>{display}</strong>.</div>
+        {/* R10 Beat 6 — interactive iPhone simulation */}
+        <div className="iphone-sim-wrap">
+          {/* Annotation labels — desktop side, mobile stacked below */}
+          <div className="iphone-annotations" role="list" aria-label="What this demo is showing">
+            <div className="iphone-annotation" role="listitem">
+              <span className="iphone-annotation-num" aria-hidden="true">01</span>
+              <div className="iphone-annotation-body">
+                <div className="iphone-annotation-title">Native eToro UI &middot; untouched</div>
+                <div className="iphone-annotation-text">The host app's own surface — colors, nav, search, all preserved.</div>
               </div>
             </div>
-            <div className="phone-callout" role="listitem">
-              <span className="phone-callout-num" aria-hidden="true">02</span>
-              <div className="phone-callout-body">
-                <div className="phone-callout-title">StockerTV widget &middot; localized per market</div>
-                <div className="phone-callout-text">A fixed-height card inside the home screen. Auto-refreshing video segment in the user's market language &mdash; <strong>47-sec script &middot; 5-min broadcast-ready video</strong>. Click the widget to expand.</div>
+            <div className="iphone-annotation" role="listitem">
+              <span className="iphone-annotation-num" aria-hidden="true">02</span>
+              <div className="iphone-annotation-body">
+                <div className="iphone-annotation-title">StockerTV widget &middot; embedded throughout</div>
+                <div className="iphone-annotation-text">Every stock detail surfaces a 47-second broadcast in the user's language.</div>
               </div>
             </div>
-            <div className="phone-callout" role="listitem">
-              <span className="phone-callout-num" aria-hidden="true">03</span>
-              <div className="phone-callout-body">
-                <div className="phone-callout-title">Native to your platform</div>
-                <div className="phone-callout-text">Same nav, same tabs, same surface. The widget composes in &mdash; no separate app, no second login, no integration tax.</div>
+            <div className="iphone-annotation" role="listitem">
+              <span className="iphone-annotation-num" aria-hidden="true">03</span>
+              <div className="iphone-annotation-body">
+                <div className="iphone-annotation-title">Tap any stock &middot; localized broadcast</div>
+                <div className="iphone-annotation-text">Watchlist or Discover &mdash; click a row to navigate. The widget switches video instantly.</div>
               </div>
             </div>
-            <div className="phone-callout" role="listitem">
-              <span className="phone-callout-num" aria-hidden="true">04</span>
-              <div className="phone-callout-body">
-                <div className="phone-callout-title">Source-verified &middot; audit signed</div>
-                <div className="phone-callout-text">Every segment carries the same integrity proofs you saw in Beat 4. Visible to your users; queryable by your regulators.</div>
+            <div className="iphone-annotation" role="listitem">
+              <span className="iphone-annotation-num" aria-hidden="true">04</span>
+              <div className="iphone-annotation-body">
+                <div className="iphone-annotation-title">Built-in trade execution preserved</div>
+                <div className="iphone-annotation-text">Click the price banner over any video to see the native trading UI underneath.</div>
               </div>
             </div>
           </div>
-          <div className="phone-foot-note">
+
+          {/* Country selector — visible only on default NVDA screen, only for eToro brand */}
+          {isEtoro && onDefaultNvda && (
+            <div className="iphone-country-selector" role="tablist" aria-label="Select country variant">
+              {ETORO_COUNTRY_VARIANTS.map((v) => {
+                const active = v.key === countryKey;
+                return (
+                  <button
+                    key={v.key}
+                    role="tab"
+                    aria-selected={active}
+                    data-active={active}
+                    className="country-pill"
+                    onClick={() => { setCountryKey(v.key); audioState.play('click'); }}
+                    title={`${v.label} · ${v.caption}`}
+                  >
+                    <span className="country-pill-flag" dangerouslySetInnerHTML={{ __html: flagSvg(v.flag) }} aria-hidden="true" />
+                    <span className="country-pill-label">{v.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* The interactive iPhone */}
+          <InteractiveIPhone
+            activeScreen={activeScreen}
+            activeStock={activeStock}
+            detailMode={detailMode}
+            activeVideoUrl={activeVideoUrl}
+            stock={stock}
+            iphoneVideoRef={iphoneVideoRef}
+            navigateToScreen={navigateToScreen}
+            navigateToStock={navigateToStock}
+            swapToNativeMode={swapToNativeMode}
+            swapToBroadcastMode={swapToBroadcastMode}
+            onClickWidget={openVideoModal}
+            onAcademyClick={() => setAcademyModalOpen(true)}
+          />
+
+          <div className="iphone-foot-note">
             <span className="phone-foot-note-dot" aria-hidden="true" />
-            Illustration &middot; representative integration, not a screenshot
+            Interactive simulation &middot; representative integration, not a screenshot &middot; Demo content &middot; illustrative only
             <span className="phone-foot-note-dot" aria-hidden="true" />
           </div>
         </div>
 
-        {/* Round 3 P5 — full-screen video modal */}
+        {/* Full-screen video modal — opens when user clicks the embedded video */}
         {videoModalOpen && (
           <div
             className="stv-video-modal"
             role="dialog"
             aria-modal="true"
-            aria-label="StockerTV demo video — full size"
+            aria-label="StockerTV broadcast — full size"
             onClick={(e) => { if (e.target === e.currentTarget) closeVideoModal(); }}
           >
             <button
@@ -9274,127 +10653,621 @@
                 playsInline
                 preload="metadata"
                 className="stv-video-modal-video"
-                aria-label="StockerTV demo video"
+                aria-label="StockerTV broadcast video"
               />
             </div>
             <div className="stv-video-modal-caption">
-              {activeCaption ? `${activeCaption} · ` : ''}StockerTV demo &middot; 47-sec script &middot; 5-min broadcast-ready video
+              {stock.ticker} &middot; {stock.name} &middot; StockerTV broadcast &middot; 47-sec script &middot; 5-min video
             </div>
           </div>
         )}
 
-        <div className="user-preview" aria-label="Mocked end-user broadcast surface">
-          <div className="user-preview-frame">
-            <div className="user-preview-bar">
-              <span className="user-preview-dot" aria-hidden="true" />
-              <span className="user-preview-name">{display} · Live</span>
-              <span className="user-preview-time">{utcTime}</span>
-            </div>
-            {previewCards.map((c, i) => (
-              <div className="user-preview-card" key={i}>
-                <ReporterPortrait code={c.reporter} />
-                <div className="user-preview-body">
-                  <div className="user-preview-meta">
-                    <span
-                      className="user-preview-meta-flag"
-                      aria-hidden="true"
-                      dangerouslySetInnerHTML={{ __html: flagSvg(c.flag) }}
-                    />
-                    {c.lang}
-                    <span style={{ color: 'var(--text-muted)' }}> · </span>
-                    {ageLabel(c.ageMins)} · Source: {c.source}
-                  </div>
-                  <p className="user-preview-headline">{c.headline}</p>
-                  <div className="user-preview-foot">
-                    <span className="user-preview-pill" data-tone={c.tone || 'neutral'}>{c.pillTxt}</span>
-                    <Waveform />
-                    <span style={{ color: 'var(--text-muted)' }}>· source-verified · audit signed</span>
-                  </div>
-                </div>
+        {/* Academy modal — fired from the menu screen Academy row */}
+        {academyModalOpen && (
+          <div
+            className="stv-video-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Academy info"
+            onClick={(e) => { if (e.target === e.currentTarget) setAcademyModalOpen(false); }}
+          >
+            <button
+              className="stv-video-modal-close"
+              onClick={() => setAcademyModalOpen(false)}
+              aria-label="Close"
+              type="button"
+            >×</button>
+            <div className="academy-modal-stage">
+              <div className="academy-modal-icon">🎓</div>
+              <div className="academy-modal-title">StockerTV-powered Academy</div>
+              <div className="academy-modal-body">
+                47-second briefings on every major market move &mdash; sourced, scripted, and audit-signed in your user's native language.
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="ops-panel" aria-label="Operational metrics">
-          <div className="ops-panel-eyebrow">
-            <span className="ops-panel-eyebrow-dot" aria-hidden="true" />
-            Operational metrics · last 30d
-          </div>
-          <div className="ops-grid">
-            {/* R5 E1 — Scripts generated cell upgraded to a real area chart */}
-            <div className="ops-cell ops-cell--wide">
-              <div className="ops-cell-value">
-                <CountUp to={8400} duration={1400} delay={200} format={(v) => Math.round(v).toLocaleString()} />
-              </div>
-              <AreaChart
-                data={genSparkData(11, 30, 1)}
-                weeks={['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4']}
-                height={56}
-              />
-              <div className="ops-cell-label">Scripts generated · 30d</div>
-              <div className="ops-cell-foot">Weekly cadence · per Stockertv internal counter</div>
-            </div>
-            <div className="ops-cell">
-              <div className="ops-cell-value" data-tone="accent">
-                <CountUp to={15} duration={1100} delay={350} />
-              </div>
-              <Sparkline data={genSparkData(7, 30, 0.4)} />
-              <div className="ops-cell-label">Languages live</div>
-              <div className="ops-cell-foot">EN · DE · IT · ES · FR · PT · NL · JA · ZH · KO · AR · HE · HI · TR · ID</div>
-            </div>
-            <div className="ops-cell">
-              <div className="ops-cell-value" data-tone="success">
-                <CountUp to={99.2} duration={1300} delay={500} format={(v) => v.toFixed(1)} suffix="%" />
-              </div>
-              <Sparkline data={genSparkData(3, 30, 0)} />
-              <div className="ops-cell-label">Integrity pass rate</div>
-              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-28</div>
-            </div>
-            <div className="ops-cell">
-              <div className="ops-cell-value" data-tone="accent">
-                <CountUp to={87.4} duration={1300} delay={650} format={(v) => v.toFixed(1)} />
-              </div>
-              <Sparkline data={genSparkData(13, 30, 0.3)} />
-              <div className="ops-cell-label">Quality avg · /110</div>
-              <div className="ops-cell-foot">Demo baseline · refreshed 2026-04-28</div>
-            </div>
-            <div className="ops-cell">
-              <div className="ops-cell-value">
-                <CountUp to={99.94} duration={1100} delay={800} format={(v) => v.toFixed(2)} suffix="%" />
-              </div>
-              <Sparkline data={genSparkData(19, 30, 0)} />
-              <div className="ops-cell-label">Uptime · 30d</div>
-              <div className="ops-cell-foot">Sentry + Pipeline Health Monitor</div>
-            </div>
-            <div className="ops-cell">
-              <div className="ops-cell-value">
-                <CountUp to={12.4} duration={1100} delay={950} format={(v) => v.toFixed(1)} suffix="s" />
-              </div>
-              <Sparkline data={genSparkData(23, 30, -0.4)} />
-              <div className="ops-cell-label">Latency p50</div>
-              <div className="ops-cell-foot">Event ingest → script ready</div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="output-foot">
           <p className="output-subline">
-            From a published article to <strong>{display}-branded broadcast in five languages</strong>, source-verified
-            and audit-signed, in 47 seconds. Every story your team would otherwise have written by hand.
-            Every story your users would otherwise never see in their language.
+            <strong>One widget, every stock, every language.</strong>{' '}
+            From a published article to a {display}-branded broadcast inside the user's own surface,
+            source-verified and audit-signed, in 47 seconds.
           </p>
           <button className="scene-continue" onClick={onContinue} aria-label="Continue to close">
             Continue to close
             <span className="scene-continue-arrow" aria-hidden="true">→</span>
           </button>
         </div>
-
-        {/* Honest "this is a simulation" badge per L.1 */}
-        <div className="sim-badge" aria-label="Demo data note">
-          <strong>Live data simulation</strong> &middot; production telemetry available on request
-        </div>
       </section>
+    );
+  }
+
+  // ============================================================================
+  // R10 — InteractiveIPhone: outer SVG-shaped frame + inner React-rendered screens
+  // ============================================================================
+  function InteractiveIPhone(props) {
+    const { activeScreen, activeStock, detailMode, activeVideoUrl, stock, iphoneVideoRef,
+            navigateToScreen, navigateToStock, swapToNativeMode, swapToBroadcastMode,
+            onClickWidget, onAcademyClick } = props;
+
+    return (
+      <div className="iphone-sim" aria-label="Interactive eToro app simulation">
+        <div className="iphone-sim-frame" aria-hidden="true" />
+        <div className="iphone-sim-screen">
+          <IphoneStatusBar />
+          <div className="iphone-sim-content">
+            {activeScreen === 'stock_detail' && (
+              <StockDetailScreen
+                stock={stock}
+                detailMode={detailMode}
+                videoUrl={activeVideoUrl}
+                videoRef={iphoneVideoRef}
+                onClickVideo={onClickWidget}
+                onSwapToNative={swapToNativeMode}
+                onSwapToBroadcast={swapToBroadcastMode}
+              />
+            )}
+            {activeScreen === 'watchlist' && (
+              <WatchlistScreen onStockClick={navigateToStock} activeTicker={activeStock} />
+            )}
+            {activeScreen === 'discover' && (
+              <DiscoverScreen onStockClick={navigateToStock} />
+            )}
+            {activeScreen === 'home' && (
+              <HomeScreen onBroadcastClick={() => navigateToStock('NVDA')} />
+            )}
+            {activeScreen === 'portfolio' && (
+              <PortfolioScreen onWatchlistClick={() => navigateToScreen('watchlist')} />
+            )}
+            {activeScreen === 'menu' && (
+              <MenuScreen onAcademyClick={onAcademyClick} />
+            )}
+          </div>
+          <IphoneBottomNav active={activeScreen} onChange={navigateToScreen} />
+        </div>
+        <div className="iphone-sim-notch" aria-hidden="true" />
+        <div className="iphone-sim-button iphone-sim-button--left" aria-hidden="true" />
+        <div className="iphone-sim-button iphone-sim-button--left2" aria-hidden="true" />
+        <div className="iphone-sim-button iphone-sim-button--right" aria-hidden="true" />
+      </div>
+    );
+  }
+
+  // ---- Status bar (top of every screen) ----
+  function IphoneStatusBar() {
+    return (
+      <div className="ip-statusbar" aria-hidden="true">
+        <span className="ip-statusbar-time">1:17</span>
+        <span className="ip-statusbar-right">
+          <span className="ip-statusbar-signal">5G</span>
+          <span className="ip-statusbar-battery">
+            <svg viewBox="0 0 25 12" width="22" height="10" fill="none" stroke="currentColor" strokeWidth="0.8">
+              <rect x="0.5" y="0.5" width="20" height="11" rx="2.5"/>
+              <rect x="22" y="3.5" width="2" height="5" rx="0.5" fill="currentColor"/>
+              <rect x="2" y="2" width="16" height="8" rx="1" fill="currentColor"/>
+            </svg>
+            <span className="ip-statusbar-battery-pct">80</span>
+          </span>
+        </span>
+      </div>
+    );
+  }
+
+  // ---- Bottom nav (5 tabs) ----
+  function IphoneBottomNav({ active, onChange }) {
+    const tabs = [
+      { key: 'home', label: 'Home', icon: 'home' },
+      { key: 'watchlist', label: 'Watchlist', icon: 'star' },
+      { key: 'portfolio', label: 'Portfolio', icon: 'pie' },
+      { key: 'discover', label: 'Discover', icon: 'compass' },
+      { key: 'menu', label: 'Wallet', icon: 'wallet' },
+    ];
+    // stock_detail = home tab effectively, since the default screen is NVDA stock detail
+    const activeTab = active === 'stock_detail' ? 'home' : active;
+    return (
+      <nav className="ip-bottomnav" role="tablist" aria-label="App navigation">
+        {tabs.map((t) => (
+          <button
+            key={t.key}
+            role="tab"
+            aria-selected={t.key === activeTab}
+            data-active={t.key === activeTab}
+            className="ip-bottomnav-tab"
+            onClick={() => onChange(t.key)}
+          >
+            <span className="ip-bottomnav-icon" data-icon={t.icon} aria-hidden="true">
+              <IphoneNavIcon name={t.icon} />
+            </span>
+            <span className="ip-bottomnav-label">{t.label}</span>
+          </button>
+        ))}
+      </nav>
+    );
+  }
+
+  function IphoneNavIcon({ name }) {
+    if (name === 'home') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    );
+    if (name === 'star') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12,2 15,9 22,10 17,15 18,22 12,18 6,22 7,15 2,10 9,9"/>
+      </svg>
+    );
+    if (name === 'pie') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15.5A9 9 0 1 1 8.5 3"/>
+        <path d="M21 12A9 9 0 0 0 12 3v9z"/>
+      </svg>
+    );
+    if (name === 'compass') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polygon points="16,8 13,13 8,16 11,11"/>
+      </svg>
+    );
+    if (name === 'wallet') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M19 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7H6"/>
+        <circle cx="17" cy="14" r="1.2" fill="currentColor"/>
+      </svg>
+    );
+    return null;
+  }
+
+  // ---- Stock Detail Screen (broadcast mode = video; native mode = chart + Buy/Sell) ----
+  function StockDetailScreen({ stock, detailMode, videoUrl, videoRef, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
+    const isUp = stock.chgPct >= 0;
+    return (
+      <div className="ip-screen ip-screen--stock-detail">
+        <div className="ip-screen-topbar">
+          <button className="ip-topbar-icon" aria-label="Back" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <div className="ip-topbar-title">
+            <div className="ip-topbar-title-ticker">{stock.ticker}</div>
+            <div className="ip-topbar-title-name">{stock.name}</div>
+          </div>
+          <button className="ip-topbar-icon" aria-label="Favorite" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="12,2 15,9 22,10 17,15 18,22 12,18 6,22 7,15 2,10 9,9"/>
+            </svg>
+          </button>
+        </div>
+
+        {detailMode === 'broadcast' && (
+          <div className="ip-stock-video" onClick={onClickVideo}>
+            <video
+              key={videoUrl}
+              ref={videoRef}
+              src={videoUrl}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="ip-stock-video-el"
+              aria-label={`${stock.ticker} broadcast video`}
+            />
+            <button
+              className="ip-stock-video-banner"
+              onClick={(e) => { e.stopPropagation(); onSwapToNative(); }}
+              aria-label={`Open ${stock.ticker} native trading UI`}
+              type="button"
+            >
+              <span className="ip-banner-icon" aria-hidden="true">📈</span>
+              <span className="ip-banner-ticker">{stock.ticker}</span>
+              <span className="ip-banner-price">{stock.price}</span>
+              <span className={`ip-banner-chg ${isUp ? 'is-up' : 'is-down'}`}>
+                {isUp ? '▲' : '▼'} {Math.abs(stock.chgPct).toFixed(2)}%
+              </span>
+              <span className="ip-banner-arrow" aria-hidden="true">Open in eToro →</span>
+            </button>
+          </div>
+        )}
+
+        {detailMode === 'native' && (
+          <div className="ip-stock-native">
+            <button
+              className="ip-stock-native-back"
+              onClick={onSwapToBroadcast}
+              type="button"
+              aria-label="Back to broadcast"
+            >
+              ← back to broadcast
+            </button>
+            <div className="ip-stock-native-chart">
+              <Sparkline data={genSparkData(stock.sparkSeed, 30, stock.sparkDir)} width={300} height={120} />
+            </div>
+            <div className="ip-stock-native-buttons">
+              <button className="ip-stock-buy" type="button">Buy</button>
+              <button className="ip-stock-sell" type="button">Sell</button>
+            </div>
+            <div className="ip-stock-native-position">Position: 0 &middot; Last trade: —</div>
+          </div>
+        )}
+
+        <div className="ip-stock-info">
+          <div className="ip-stock-price-row">
+            <div className="ip-stock-price-large">{stock.price}</div>
+            <div className={`ip-stock-chg-pill ${isUp ? 'is-up' : 'is-down'}`}>
+              {isUp ? '▲' : '▼'} {Math.abs(stock.chgPct).toFixed(2)}% ({stock.chgAbs > 0 ? '+' : ''}{stock.chgAbs.toFixed(2)})
+            </div>
+          </div>
+          {detailMode === 'broadcast' && (
+            <div className="ip-stock-mini-chart">
+              <Sparkline data={genSparkData(stock.sparkSeed, 30, stock.sparkDir)} width={300} height={32} />
+            </div>
+          )}
+          <div className="ip-stock-tabs">
+            <span className="ip-stock-tab is-active">Overview</span>
+            <span className="ip-stock-tab">Stats</span>
+            <span className="ip-stock-tab">News</span>
+            <span className="ip-stock-tab">Trades</span>
+          </div>
+          <p className="ip-stock-desc">{stock.desc}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Watchlist Screen ----
+  function WatchlistScreen({ onStockClick, activeTicker }) {
+    const tickers = ['NVDA', 'GOOG', 'BAX', 'BN', 'IBKR'];
+    return (
+      <div className="ip-screen ip-screen--watchlist">
+        <div className="ip-screen-topbar ip-screen-topbar--full">
+          <button className="ip-topbar-icon" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div className="ip-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ip-search-icon">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span className="ip-search-placeholder">Search stocks, people…</span>
+          </div>
+          <button className="ip-topbar-icon" aria-label="AI" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/>
+              <circle cx="19" cy="5" r="1" fill="currentColor"/>
+              <circle cx="5" cy="19" r="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <button className="ip-topbar-icon" aria-label="Notifications" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </button>
+        </div>
+        <div className="ip-screen-h1">My Watchlist <span className="ip-screen-h1-chev">▾</span></div>
+        <div className="ip-filter-pills">
+          <span className="ip-filter-pill is-active">All</span>
+          <span className="ip-filter-pill">Market Open</span>
+          <span className="ip-filter-pill">People</span>
+          <span className="ip-filter-pill">Crypto</span>
+          <span className="ip-filter-pill">Stocks</span>
+        </div>
+        <div className="ip-section-head">
+          <span>Markets</span>
+          <span>Change 1D</span>
+        </div>
+        <div className="ip-stock-rows">
+          {tickers.map((ticker) => {
+            const s = STOCKS[ticker];
+            const isUp = s.chgPct >= 0;
+            return (
+              <button
+                key={ticker}
+                className="ip-stock-row"
+                onClick={() => onStockClick(ticker)}
+                type="button"
+                aria-label={`Open ${ticker} ${s.name}`}
+              >
+                <div className="ip-stock-row-left">
+                  <div className="ip-stock-row-ticker">{ticker}</div>
+                  <div className="ip-stock-row-name">{s.name}</div>
+                </div>
+                <div className="ip-stock-row-spark">
+                  <Sparkline data={genSparkData(s.sparkSeed, 18, s.sparkDir)} width={50} height={20} />
+                </div>
+                <div className="ip-stock-row-right">
+                  <div className="ip-stock-row-price">{s.price}</div>
+                  <div className={`ip-stock-row-chg ${isUp ? 'is-up' : 'is-down'}`}>
+                    {isUp ? '▲' : '▼'} {Math.abs(s.chgAbs).toFixed(2)} ({Math.abs(s.chgPct).toFixed(2)}%)
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Discover Screen ----
+  function DiscoverScreen({ onStockClick }) {
+    return (
+      <div className="ip-screen ip-screen--discover">
+        <div className="ip-screen-topbar ip-screen-topbar--full">
+          <button className="ip-topbar-icon" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div className="ip-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ip-search-icon">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span className="ip-search-placeholder">Discover</span>
+          </div>
+          <button className="ip-topbar-icon" aria-label="Notifications" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </button>
+        </div>
+        <div className="ip-disc-tabs">
+          <span className="ip-disc-tab is-active">Overview</span>
+          <span className="ip-disc-tab">Stocks</span>
+          <span className="ip-disc-tab">Crypto</span>
+          <span className="ip-disc-tab">Pro Investors</span>
+          <span className="ip-disc-tab">SmartPortfolios</span>
+        </div>
+
+        <div className="ip-screen-h2">Explore Markets</div>
+        <button
+          className="ip-feature-card"
+          onClick={() => onStockClick('NVDA')}
+          type="button"
+          aria-label="Open StockerTV Picks featured story"
+        >
+          <div className="ip-feature-card-mark">
+            <span className="ip-feature-card-mark-stv">Stocker<em>TV</em></span>
+          </div>
+          <div className="ip-feature-card-body">
+            <div className="ip-feature-card-title">StockerTV Picks &middot; Featured</div>
+            <div className="ip-feature-card-sub">5 broadcast-ready stories &middot; this week</div>
+          </div>
+          <div className="ip-feature-card-arrow" aria-hidden="true">→</div>
+        </button>
+
+        <div className="ip-screen-h2">Daily Movers</div>
+        <div className="ip-stock-rows">
+          {[
+            { ticker: 'NVDA', pct: 8.42 },
+            { ticker: 'GOOG', pct: 3.18 },
+            { ticker: 'IBKR', pct: 1.17 },
+          ].map(({ ticker, pct }) => {
+            const s = STOCKS[ticker];
+            return (
+              <button
+                key={ticker}
+                className="ip-stock-row"
+                onClick={() => onStockClick(ticker)}
+                type="button"
+              >
+                <div className="ip-stock-row-left">
+                  <div className="ip-stock-row-ticker">{ticker}</div>
+                  <div className="ip-stock-row-name">{s.name}</div>
+                </div>
+                <div className="ip-stock-row-right">
+                  <div className="ip-stock-row-chg is-up ip-chg-large">▲ {pct.toFixed(2)}%</div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Home Screen ----
+  function HomeScreen({ onBroadcastClick }) {
+    return (
+      <div className="ip-screen ip-screen--home">
+        <div className="ip-screen-topbar ip-screen-topbar--full">
+          <button className="ip-topbar-icon" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div className="ip-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ip-search-icon">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span className="ip-search-placeholder">Search</span>
+          </div>
+          <button className="ip-topbar-icon" aria-label="Notifications" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </button>
+        </div>
+
+        <div className="ip-verify-card">
+          <div className="ip-verify-progress">
+            <span className="ip-verify-dot ip-verify-dot--done">✓</span>
+            <span className="ip-verify-line" />
+            <span className="ip-verify-dot ip-verify-dot--active">2</span>
+            <span className="ip-verify-line" />
+            <span className="ip-verify-dot">3</span>
+          </div>
+          <div className="ip-verify-title">You're almost ready to trade</div>
+          <div className="ip-verify-text">Verifying your identity helps us prevent someone else from creating an account in your name.</div>
+          <button className="ip-cta-green" type="button">Verify Your Account</button>
+        </div>
+
+        {/* StockerTV broadcast card — replaces eToro's "Let's Talk Verification" card */}
+        <button
+          className="ip-stv-broadcast-card"
+          onClick={onBroadcastClick}
+          type="button"
+          aria-label="Open NVDA broadcast"
+        >
+          <div className="ip-stv-broadcast-mark">
+            Stocker<em>TV</em>
+          </div>
+          <div className="ip-stv-broadcast-headline">
+            <span className="ip-stv-broadcast-tag">NVIDIA Q4 RECORD</span>
+            47-second analysis &middot; broadcast
+          </div>
+          <div className="ip-stv-broadcast-play">
+            <svg viewBox="0 0 60 60" width="56" height="56" fill="none">
+              <circle cx="30" cy="30" r="29" fill="rgba(255,255,255,0.95)" />
+              <polygon points="24,18 24,42 44,30" fill="#0E1218"/>
+            </svg>
+          </div>
+        </button>
+
+        <div className="ip-section-head">
+          <span>Big Movers</span>
+        </div>
+        <div className="ip-bigmovers">
+          <div className="ip-bigmover-bar" style={{ height: '90%' }}>
+            <span className="ip-bigmover-pct">3.05%</span>
+          </div>
+          <div className="ip-bigmover-bar" style={{ height: '55%' }}>
+            <span className="ip-bigmover-pct">1.60%</span>
+          </div>
+          <div className="ip-bigmover-bar" style={{ height: '32%' }}>
+            <span className="ip-bigmover-pct">0.95%</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Portfolio Screen ----
+  function PortfolioScreen({ onWatchlistClick }) {
+    return (
+      <div className="ip-screen ip-screen--portfolio">
+        <div className="ip-screen-topbar ip-screen-topbar--full">
+          <button className="ip-topbar-icon" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div className="ip-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ip-search-icon">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span className="ip-search-placeholder">Search</span>
+          </div>
+          <button className="ip-topbar-icon" aria-label="Notifications" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </button>
+        </div>
+        <div className="ip-portfolio-value">
+          <div className="ip-portfolio-value-num">$0.00</div>
+          <div className="ip-portfolio-value-label">My Portfolio ▾</div>
+        </div>
+        <div className="ip-filter-pills">
+          <span className="ip-filter-pill is-active">Orders</span>
+          <span className="ip-filter-pill">Trades</span>
+          <span className="ip-filter-pill">Market Open</span>
+        </div>
+        <div className="ip-empty-state">
+          <svg viewBox="0 0 80 80" width="68" height="68" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ip-empty-icon">
+            <path d="M40 40m0-32a32 32 0 1 0 0 64a32 32 0 1 0 0-64"/>
+            <path d="M40 8 a32 32 0 0 1 32 32 L 40 40 Z" opacity="0.45"/>
+          </svg>
+          <div className="ip-empty-title">Your portfolio is empty</div>
+          <div className="ip-empty-text">Start exploring investment opportunities by copying people and investing in markets or SmartPortfolios.</div>
+        </div>
+        <div className="ip-portfolio-cash">
+          <div className="ip-portfolio-cash-label">Total Available Cash</div>
+          <div className="ip-portfolio-cash-num">$0.00</div>
+        </div>
+        <button className="ip-cta-green" type="button">Deposit</button>
+        <button className="ip-portfolio-stv-hint" onClick={onWatchlistClick} type="button">
+          <span aria-hidden="true">💡</span>
+          Discover stocks via StockerTV broadcasts
+          <span className="ip-portfolio-stv-hint-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    );
+  }
+
+  // ---- Menu Screen (also wallet tab) ----
+  function MenuScreen({ onAcademyClick }) {
+    const items = [
+      { label: 'Copy Pro Investors', icon: '📊' },
+      { label: 'Economic Calendar', icon: '📅' },
+      { label: 'eToro Club', icon: '🎖' },
+      { label: 'Invite Friends', icon: '📢' },
+      { label: 'Withdraw Funds', icon: '💰' },
+      { label: 'Settings', icon: '⚙' },
+      { label: 'Help & Resources', icon: '❓' },
+      { label: 'Academy', icon: '🎓', onClick: onAcademyClick },
+      { label: 'Logout', icon: '➡' },
+    ];
+    return (
+      <div className="ip-screen ip-screen--menu">
+        <div className="ip-screen-topbar ip-screen-topbar--center">
+          <span className="ip-menu-wordmark">eToro</span>
+        </div>
+        <div className="ip-menu-profile">
+          <div className="ip-menu-avatar">DU</div>
+          <div className="ip-menu-profile-body">
+            <div className="ip-menu-profile-name">Demo User</div>
+            <div className="ip-menu-profile-prog">
+              <div className="ip-menu-profile-prog-bar">
+                <div className="ip-menu-profile-prog-fill" style={{ width: '90%' }} />
+              </div>
+              <span className="ip-menu-profile-prog-pct">90% Complete</span>
+            </div>
+            <a className="ip-menu-profile-link" href="#" onClick={(e) => e.preventDefault()}>Complete Profile</a>
+          </div>
+        </div>
+        <div className="ip-menu-items">
+          {items.map((it) => (
+            <button
+              key={it.label}
+              className="ip-menu-item"
+              onClick={(e) => { e.preventDefault(); if (it.onClick) it.onClick(); }}
+              type="button"
+            >
+              <span className="ip-menu-item-icon" aria-hidden="true">{it.icon}</span>
+              <span className="ip-menu-item-label">{it.label}</span>
+              <span className="ip-menu-item-arrow" aria-hidden="true">›</span>
+            </button>
+          ))}
+        </div>
+        <button className="ip-cta-green ip-menu-deposit" type="button">Deposit Funds</button>
+        <a className="ip-menu-virtual" href="#" onClick={(e) => e.preventDefault()}>Switch to Virtual</a>
+      </div>
     );
   }
 
@@ -9650,6 +11523,10 @@
     // because ScaleScene unmounts when leaving Beat 3). Page reload re-arms.
     const [globeHintDismissed, setGlobeHintDismissed] = useState(false);
     const dismissGlobeHint = useCallback(() => setGlobeHintDismissed(true), []);
+    // R10 D — globe DRAG-to-rotate affordance hint, separate state (independent
+    // dismissal). Same lifecycle pattern: dismisses on first drag OR after 8s.
+    const [globeDragHintDismissed, setGlobeDragHintDismissed] = useState(false);
+    const dismissGlobeDragHint = useCallback(() => setGlobeDragHintDismissed(true), []);
 
     // Trigger brand-flash overlay on every brand change (audit 1.4 + E2)
     useEffect(() => {
@@ -9873,6 +11750,8 @@
           onContinue={goNext}
           hintDismissed={globeHintDismissed}
           onDismissHint={dismissGlobeHint}
+          dragHintDismissed={globeDragHintDismissed}
+          onDismissDragHint={dismissGlobeDragHint}
         />
       );
     } else if (activeBeat === BEATS.SAFETY) {
