@@ -204,7 +204,179 @@
       to   { transform: translateX(-50%); }
     }
 
+    /* ============ R5 C1 — PER-BEAT CHROMATIC TINT (visual journey across 7 beats) */
+    /* A subtle environmental tint layered ABOVE atmosphere but BELOW content.
+       Renders as a fixed full-viewport ::before on body keyed by data-beat. */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1200ms cubic-bezier(0.4, 0, 0.2, 1),
+                  background 1200ms cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: opacity, background;
+    }
+    body[data-beat]::before { opacity: 1; }
+    /* Beat 1 — warm paper light from above */
+    body[data-beat='hook']::before {
+      background:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(212, 165, 116, 0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 30% at 50% 100%, rgba(247, 233, 211, 0.06) 0%, transparent 60%);
+    }
+    /* Beat 2 — brand-saturated backwash */
+    body[data-beat='brand']::before {
+      background: radial-gradient(ellipse 90% 70% at 50% 50%, color-mix(in srgb, var(--accent) 9%, transparent) 0%, transparent 70%);
+    }
+    /* Beat 3 — cool deep-night ocean */
+    body[data-beat='scale']::before {
+      background:
+        linear-gradient(180deg, rgba(11, 18, 36, 0.18) 0%, transparent 30%, transparent 70%, rgba(11, 18, 36, 0.10) 100%),
+        radial-gradient(ellipse 60% 35% at 50% 110%, rgba(60, 90, 150, 0.10) 0%, transparent 70%);
+    }
+    /* Beat 4 — warm cream editorial */
+    body[data-beat='safety']::before {
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 30%, rgba(232, 200, 154, 0.08) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(232, 200, 154, 0.04) 0%, transparent 60%);
+    }
+    /* Beat 5 — institutional slate */
+    body[data-beat='pipeline']::before {
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(70, 78, 96, 0.12) 0%, transparent 65%),
+        linear-gradient(180deg, transparent 60%, rgba(48, 56, 72, 0.10) 100%);
+    }
+    /* Beat 6 — paper cream warm (around the iPhone) */
+    body[data-beat='output']::before {
+      background:
+        radial-gradient(ellipse 50% 35% at 30% 45%, rgba(250, 235, 210, 0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 40% at 70% 55%, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 70%);
+    }
+    /* Beat 7 — brand gold twilight (full-bleed glow) */
+    body[data-beat='close']::before {
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 50%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 70%),
+        linear-gradient(180deg, transparent 0%, rgba(15, 12, 18, 0.10) 100%);
+    }
+    /* In dark mode, blend the warm tints LIGHTER not darker */
+    :root[data-theme='dark'] body[data-beat='hook']::before,
+    :root[data-theme='dark'] body[data-beat='safety']::before,
+    :root[data-theme='dark'] body[data-beat='output']::before {
+      mix-blend-mode: screen;
+    }
+
+    /* ============ R5 A5 — CHAPTER HEADING (small caps Fraunces with rule) */
+    .chapter-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin: 0 auto 0.875rem;
+      padding-bottom: 0.625rem;
+      position: relative;
+      font-feature-settings: 'smcp', 'c2sc', 'liga';
+      font-variant-caps: all-small-caps;
+    }
+    .chapter-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.55;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .chapter-heading-num {
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .chapter-heading-divider {
+      color: var(--text-muted);
+      opacity: 0.55;
+      font-weight: 400;
+    }
+    @media (max-width: 520px) {
+      .chapter-heading { font-size: 10px; letter-spacing: 0.32em; gap: 0.6rem; }
+      .chapter-heading::after { width: 28px; }
+    }
+
+    /* ============ R5 C5 — HALFTONE-DOT PATTERN UTILITY */
+    .stv-halftone {
+      background-image: radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--accent) 22%, transparent) 0.7px,
+        transparent 0.85px
+      );
+      background-size: 5px 5px;
+      background-position: 0 0;
+    }
+    .stv-halftone--green {
+      background-image: radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--green) 28%, transparent) 0.7px,
+        transparent 0.85px
+      );
+      background-size: 5px 5px;
+    }
+
+    /* ============ R5 C4 — ANIMATED GRAIN with idle color shift */
+    /* Default static grain is .stv-grain above. The idle shift kicks in via JS
+       attaching body[data-idle='true'] after 5+ seconds of no interaction. */
+    @keyframes stv-grain-drift {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(2%, -2%); }
+      50%  { transform: translate(-2%, 2%); }
+      75%  { transform: translate(2%, 2%); }
+      100% { transform: translate(0, 0); }
+    }
+    body[data-idle='true'] .stv-grain {
+      animation: stv-grain-drift 60s linear infinite;
+      mix-blend-mode: overlay;
+      opacity: 0.06;
+    }
+    :root[data-theme='dark'] body[data-idle='true'] .stv-grain {
+      mix-blend-mode: screen;
+      opacity: 0.05;
+    }
+    /* Subtle accent-tint wash on idle, pulses very slowly */
+    @keyframes stv-idle-tint-pulse {
+      0%, 100% { opacity: 0; }
+      50%      { opacity: 1; }
+    }
+    body[data-idle='true']::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 70%);
+      opacity: 0;
+      animation: stv-idle-tint-pulse 12s ease-in-out infinite;
+    }
+
+    /* ============ R5 D4 — IDLE BREATH UTILITY (subtle 1.0 ↔ 1.005 over 4s) */
+    @keyframes stv-breath {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.005); }
+    }
+    body[data-idle='true'] .stv-breathe {
+      animation: stv-breath 4s ease-in-out infinite;
+    }
+
     /* ============ BEAT 1 — HOOK ============ */
+    /* R5 F2 — Boot cinematic (8s sequence): dark void → letter emergence →
+       wordmark coalesce → brand pulse → coverage trace → system checks → status. */
     .boot-stage {
       position: fixed; inset: 0;
       background: var(--bg);
@@ -217,11 +389,85 @@
     .boot-stage::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse at center, transparent 0%, var(--bg) 95%);
-      opacity: 0.6;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 50%, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 70%),
+        radial-gradient(ellipse at center, transparent 0%, var(--bg) 95%);
+      opacity: 0.85;
       pointer-events: none;
+      animation: stv-boot-bg-breath 8s ease-in-out infinite;
+    }
+    @keyframes stv-boot-bg-breath {
+      0%, 100% { opacity: 0.85; }
+      50%      { opacity: 1.0; }
     }
     .boot-content { text-align: center; position: relative; z-index: 1; }
+
+    /* R5 F2 — letter-by-letter Fraunces emergence */
+    .boot-letters {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(4rem, 9vw, 7rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variation-settings: 'opsz' 144;
+      position: relative;
+    }
+    /* During emergence: extra horizontal spacing between letters that closes
+       on coalesce. */
+    .boot-letters[data-phase='0'] { letter-spacing: 0.18em; }
+    .boot-letters[data-phase='1'] { letter-spacing: -0.03em; transition: letter-spacing 700ms cubic-bezier(0.25, 0.1, 0.25, 1); }
+    .boot-letters[data-phase='2'],
+    .boot-letters[data-phase='3'],
+    .boot-letters[data-phase='4'],
+    .boot-letters[data-phase='5'],
+    .boot-letters[data-phase='6'] { letter-spacing: -0.03em; }
+    .boot-letter {
+      display: inline-block;
+      color: var(--text-primary);
+      opacity: 0;
+      transform: translateY(8px);
+      filter: blur(12px);
+      animation: stv-boot-letter-in 850ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    @keyframes stv-boot-letter-in {
+      from { opacity: 0; transform: translateY(8px); filter: blur(12px); }
+      to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    /* The TV letters get italic + brand-accent (matches in-app wordmark) */
+    .boot-letter[data-tv='true'] {
+      color: var(--accent);
+      font-style: italic;
+      transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Brand pulse — radial accent glow that expands + fades after letters coalesce */
+    .boot-pulse {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 140%;
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      background: radial-gradient(circle at center,
+        color-mix(in srgb, var(--accent) 30%, transparent) 0%,
+        color-mix(in srgb, var(--accent) 8%, transparent) 25%,
+        transparent 55%);
+      filter: blur(20px);
+      opacity: 0;
+      z-index: -1;
+    }
+    .boot-pulse[data-phase='2'] {
+      animation: stv-boot-pulse 1400ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    @keyframes stv-boot-pulse {
+      0%   { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+      35%  { transform: translate(-50%, -50%) scale(1.0); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+    }
+
     .boot-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -229,22 +475,12 @@
       color: var(--text-muted);
       text-transform: uppercase;
       opacity: 0;
-      animation: stv-fade-in 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) 200ms forwards;
       margin-bottom: 1.5rem;
+      transition: opacity 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
     }
-    /* Round 3 P1 — bumped wordmark to clamp(4rem, 9vw, 7rem) with accent-glow base */
-    .boot-wordmark {
-      font-family: 'Fraunces', Georgia, serif;
-      font-weight: 400;
-      font-size: clamp(4rem, 9vw, 7rem);
-      line-height: 1;
-      letter-spacing: -0.03em;
-      filter: blur(20px);
-      opacity: 0;
-      animation: stv-blur-focus 1800ms cubic-bezier(0.25, 0.1, 0.25, 1) 600ms forwards;
-      position: relative;
-      display: inline-block;
-    }
+    .boot-eyebrow[data-show='true'] { opacity: 1; }
+
+    /* Wordmark glow base (kept for back-compat references in code) */
     .boot-wordmark::before {
       content: '';
       position: absolute;
@@ -256,9 +492,8 @@
       pointer-events: none;
       transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .boot-wordmark-stocker { color: var(--text-primary); }
-    .boot-wordmark-tv { color: var(--accent); font-style: italic; transition: color 600ms cubic-bezier(0.4, 0, 0.2, 1); }
-    /* Round 3 P1 — coverage line under wordmark */
+
+    /* Coverage line — handwriting-style left→right reveal via clip-path */
     .boot-coverage {
       margin-top: 1.25rem;
       font-family: 'Inter', sans-serif;
@@ -268,7 +503,13 @@
       color: var(--text-muted);
       text-transform: none;
       opacity: 0;
-      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 2200ms forwards;
+      clip-path: inset(0 100% 0 0);
+      transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+                  clip-path 1100ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .boot-coverage[data-show='true'] {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
     }
     .boot-coverage-dot {
       display: inline-block;
@@ -312,8 +553,9 @@
       color: var(--text-muted);
       text-transform: uppercase;
       opacity: 0;
-      animation: stv-fade-in 800ms cubic-bezier(0.25, 0.1, 0.25, 1) 3800ms forwards;
+      transition: opacity 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
     }
+    .boot-status[data-show='true'] { opacity: 1; }
     .boot-status-dot {
       display: inline-block;
       width: 6px; height: 6px;
@@ -424,6 +666,73 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0.35rem;
+    }
+    /* R5 F3+A1 — italic display variant: bigger, italic, with multi-layer shadow */
+    .hook-hero-number--italic {
+      font-size: clamp(7rem, 14vw, 12rem);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      font-variation-settings: 'opsz' 144;
+      filter:
+        drop-shadow(0 18px 40px rgba(0, 0, 0, 0.18))
+        drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12))
+        drop-shadow(-3px -3px 0 color-mix(in srgb, var(--accent) 22%, transparent));
+    }
+    :root[data-theme='dark'] .hook-hero-number--italic {
+      filter:
+        drop-shadow(0 24px 56px rgba(0, 0, 0, 0.55))
+        drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45))
+        drop-shadow(-3px -3px 0 color-mix(in srgb, var(--accent) 32%, transparent));
+    }
+    .hook-hero-num-glyph { display: inline-block; position: relative; z-index: 2; }
+
+    /* R5 F3 — pen-stroke trace overlay along italic letterform path */
+    .hook-hero-trace {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      color: var(--accent);
+      opacity: 0;
+      mix-blend-mode: screen;
+      animation: stv-hero-trace-show 600ms cubic-bezier(0.4, 0, 0.2, 1) 2400ms forwards;
+      z-index: 3;
+    }
+    .hook-hero-trace path {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: stv-hero-trace-draw 4000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 2400ms infinite;
+      opacity: 0.55;
+    }
+    @keyframes stv-hero-trace-show {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes stv-hero-trace-draw {
+      0%   { stroke-dashoffset: 100; opacity: 0; }
+      20%  { opacity: 0.6; }
+      55%  { stroke-dashoffset: 0; opacity: 0.65; }
+      80%  { opacity: 0.45; }
+      100% { stroke-dashoffset: -100; opacity: 0; }
+    }
+    :root[data-theme='light'] .hook-hero-trace { mix-blend-mode: multiply; }
+
+    /* R5 B3 — antique broadcast-tower backdrop, ~6% opacity */
+    .hook-tower-bg {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -55%);
+      width: min(560px, 82vw);
+      pointer-events: none;
+      opacity: 0.06;
+      color: var(--text-primary);
+      z-index: 0;
+    }
+    .hook-tower-bg svg { width: 100%; height: auto; display: block; }
+    @media (max-width: 720px) {
+      .hook-tower-bg { width: min(420px, 88vw); opacity: 0.05; }
     }
     /* Brand-accent glow under each hero number (audit 2.2.b) */
     .hook-hero-number::before {
@@ -704,6 +1013,47 @@
       0%   { opacity: 0; transform: scale(0.6); }
       35%  { opacity: 1; transform: scale(1.05); }
       100% { opacity: 0; transform: scale(1.2); }
+    }
+    /* R5 C2 — RGB-split chromatic aberration overlays during brand-flash peak.
+       Two extra colored copies of the radial pulse offset 4px R/L; both fade out
+       over ~120ms so the split is felt, not seen. Used ONCE per brand-switch. */
+    .stv-brand-flash::before,
+    .stv-brand-flash::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+    }
+    .stv-brand-flash::before {
+      background: radial-gradient(ellipse at var(--flashX, 50%) var(--flashY, 50%),
+        rgba(255, 80, 80, 0.45) 0%,
+        rgba(255, 80, 80, 0.10) 30%,
+        transparent 60%);
+    }
+    .stv-brand-flash::after {
+      background: radial-gradient(ellipse at var(--flashX, 50%) var(--flashY, 50%),
+        rgba(80, 180, 255, 0.45) 0%,
+        rgba(80, 180, 255, 0.10) 30%,
+        transparent 60%);
+    }
+    .stv-brand-flash[data-firing='true']::before {
+      animation: stv-brand-flash-rgb-r 280ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    .stv-brand-flash[data-firing='true']::after {
+      animation: stv-brand-flash-rgb-b 280ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    @keyframes stv-brand-flash-rgb-r {
+      0%   { opacity: 0; transform: translate(0, 0) scale(0.7); }
+      30%  { opacity: 1; transform: translate(4px, 0) scale(1.05); }
+      100% { opacity: 0; transform: translate(0, 0) scale(1.1); }
+    }
+    @keyframes stv-brand-flash-rgb-b {
+      0%   { opacity: 0; transform: translate(0, 0) scale(0.7); }
+      30%  { opacity: 1; transform: translate(-4px, 0) scale(1.05); }
+      100% { opacity: 0; transform: translate(0, 0) scale(1.1); }
     }
 
     /* Brand-pill hover tooltip (audit 1.3) */
@@ -1201,6 +1551,42 @@
       margin-top: 0.6rem;
       margin-bottom: 1.5rem;
     }
+    /* R5 A3 — magazine kerning treatment on "32,000+" */
+    .scale-tower-magazine {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+    }
+    .scale-mag-32 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+    }
+    .scale-mag-comma {
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 400;
+      margin: 0 -0.06em 0 -0.04em;
+      transform: translateY(0.05em);
+      display: inline-block;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scale-mag-000 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+    }
+    .scale-mag-plus {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 0.6em;
+      color: var(--accent);
+      margin-left: 0.02em;
+      transform: rotate(-8deg) translateY(-0.55em);
+      display: inline-block;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
     /* Round 2 — supporting stats row at half-scale below 32k+ hero */
     .scale-tower-row .scale-stat-value { font-size: clamp(1.1rem, 1.9vw, 1.5rem); }
     .scale-tower-row {
@@ -1312,6 +1698,194 @@
       align-items: center;
       justify-content: center;
     }
+    /* R5 F1 — 24-hour exchange-opening ribbon */
+    .ribbon {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto 1.5rem;
+      padding: 1rem 1.25rem;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 26%, transparent) 0%, var(--border) 60%, color-mix(in srgb, var(--accent) 8%, transparent) 100%) border-box;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 8%, transparent);
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ribbon-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .ribbon-head-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .ribbon-head-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: stv-pulse 2200ms ease-in-out infinite;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ribbon-head-divider { color: var(--text-muted); opacity: 0.5; }
+    .ribbon-head-utc {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .ribbon-head-stat {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+    .ribbon-head-stat-num {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ribbon-head-stat-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .ribbon-grid {
+      position: relative;
+      padding-top: 18px;
+    }
+    .ribbon-axis {
+      position: absolute;
+      top: 0; left: 96px; right: 0;
+      height: 14px;
+      border-bottom: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
+    }
+    .ribbon-axis-tick {
+      position: absolute;
+      top: 0;
+      width: 0; height: 14px;
+      border-left: 1px solid var(--border);
+    }
+    .ribbon-axis-lbl {
+      position: absolute;
+      top: -2px;
+      left: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .ribbon-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 6px;
+    }
+    .ribbon-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      align-items: center;
+      gap: 8px;
+      height: 16px;
+      transition: opacity 300ms ease;
+    }
+    .ribbon-row:not([data-live='true']) { opacity: 0.55; }
+    .ribbon-row-lbl {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: right;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .ribbon-row[data-live='true'] .ribbon-row-lbl {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .ribbon-row-pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent);
+      animation: stv-ribbon-pulse 1800ms ease-in-out infinite;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes stv-ribbon-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent); }
+      50%      { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 0%, transparent); }
+    }
+    .ribbon-row-track {
+      position: relative;
+      height: 8px;
+      background: var(--surface-elevated);
+      border-radius: 2px;
+    }
+    .ribbon-row-bar {
+      position: absolute;
+      top: 0; bottom: 0;
+      background: color-mix(in srgb, var(--accent) 32%, transparent);
+      border-radius: 1px;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ribbon-row[data-live='true'] .ribbon-row-bar {
+      background: var(--accent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+    .ribbon-now-line {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 0;
+      border-left: 1.5px solid var(--accent);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent);
+      transform: translateX(-1px);
+      pointer-events: none;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      /* Constrained to the bars, not labels */
+      margin-left: 96px;
+      width: calc(100% - 96px);
+      border-left: 1.5px solid var(--accent);
+      background: transparent;
+    }
+    /* Re-do via single absolute positioned inside ribbon-rows wrapper to scope to bar area */
+    .ribbon-grid > .ribbon-now-line {
+      left: 96px;
+      width: calc(100% - 96px);
+    }
+    .ribbon-now-line-marker {
+      position: absolute;
+      top: 0;
+      left: -4px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @media (max-width: 720px) {
+      .ribbon { padding: 0.85rem 0.85rem; }
+      .ribbon-row { grid-template-columns: 64px 1fr; height: 14px; }
+      .ribbon-row-lbl { font-size: 9.5px; }
+      .ribbon-axis { left: 64px; }
+      .ribbon-grid > .ribbon-now-line { left: 64px; width: calc(100% - 64px); }
+      .ribbon-axis-lbl { font-size: 7.5px; }
+      .ribbon-head-stat-num { font-size: 1.25rem; }
+    }
+
     .scale-arc-card {
       pointer-events: none;
       background: var(--surface);
@@ -1658,6 +2232,30 @@
       grid-column: 1 / -1;
       text-align: center;
       margin-bottom: 0.5rem;
+      position: relative;
+    }
+    /* R5 A4 — background ghost "24" anchors Beat 4 editorially */
+    .safety-ghost-num {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -42%);
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 200;
+      font-size: clamp(14rem, 28vw, 24rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--text-primary);
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: -1;
+      font-variation-settings: 'opsz' 144;
+      font-feature-settings: 'onum';
+      user-select: none;
+    }
+    :root[data-theme='dark'] .safety-ghost-num { opacity: 0.06; }
+    @media (max-width: 720px) {
+      .safety-ghost-num { font-size: clamp(8rem, 30vw, 16rem); opacity: 0.05; }
     }
     .safety-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -2265,7 +2863,29 @@
       gap: 0.4rem;
       text-align: left;
       transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
+    /* R5 C5 — halftone-dot pattern over trust-row backgrounds */
+    .trust-badge::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--green) 22%, transparent) 0.7px,
+        transparent 0.85px
+      );
+      background-size: 5px 5px;
+      pointer-events: none;
+      opacity: 0.45;
+      mix-blend-mode: multiply;
+    }
+    :root[data-theme='dark'] .trust-badge::after {
+      mix-blend-mode: screen;
+      opacity: 0.35;
+    }
+    .trust-badge > * { position: relative; z-index: 1; }
     .trust-badge-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 9px;
@@ -2531,15 +3151,44 @@
       color: var(--text-primary);
     }
     .station-illust {
-      width: 88px;
-      height: 88px;
+      width: 120px;
+      height: 120px;
       flex-shrink: 0;
       color: var(--text-primary);
       opacity: 0.85;
       transition: opacity 380ms cubic-bezier(0.4, 0, 0.2, 1), transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
       align-self: center;
       justify-self: end;
+      position: relative;
     }
+    /* R5 B2 — unifying medallion frame (William Morris ornament register) */
+    .station-illust-medallion {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .station-medallion-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      color: var(--accent);
+      opacity: 0.7;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 380ms ease;
+    }
+    .station[data-active='true'] .station-medallion-frame { opacity: 1; }
+    .station-medallion-inner {
+      position: relative;
+      width: 70%;
+      height: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .station-medallion-inner > svg { width: 100%; height: 100%; display: block; }
     @media (max-width: 720px) {
       .station-illust { justify-self: start; opacity: 0.7; transform: scale(0.85); }
     }
@@ -2794,6 +3443,41 @@
       color: var(--text-muted);
       opacity: 0.7;
       transition: color 200ms ease, opacity 200ms ease;
+    }
+    /* R5 E2 — proportional duration bar at the bottom of each stage card */
+    .pipeline-stage-duration {
+      position: relative;
+      margin-top: 0.55rem;
+      padding-top: 0.45rem;
+      border-top: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
+      height: 8px;
+    }
+    .pipeline-stage-duration-fill {
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 1.5px;
+      opacity: 0.55;
+      transition: background 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+    }
+    .pipeline-stage-card:hover .pipeline-stage-duration-fill,
+    .pipeline-stage-card[data-expanded='true'] .pipeline-stage-duration-fill {
+      opacity: 0.95;
+    }
+    .pipeline-stage-duration-lbl {
+      position: absolute;
+      right: 0; top: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      opacity: 0.65;
+    }
+    .pipeline-stage-card[data-wow='true'] .pipeline-stage-duration-lbl {
+      color: var(--accent);
+      opacity: 0.95;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .pipeline-stage-card:hover .pipeline-stage-expand,
     .pipeline-stage-card[data-expanded='true'] .pipeline-stage-expand {
@@ -3121,6 +3805,24 @@
     .output-headline em {
       color: var(--accent);
       font-style: italic;
+      transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* R5 A6 — "your users" promoted to italic-display moment with line-break */
+    .output-headline--magazine {
+      max-width: 24ch;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .output-headline-promo {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-variation-settings: 'opsz' 96;
+      margin: 0.15em 0;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -3508,6 +4210,31 @@
       position: relative;
       overflow: hidden;
     }
+    /* R5 E1 — wide ops cell spans 2 columns to host the area chart */
+    .ops-cell--wide {
+      grid-column: 1 / -1;
+      padding: 1rem 1rem;
+    }
+    .ops-area {
+      margin: 0.55rem 0 0.6rem;
+      width: 100%;
+    }
+    .ops-area-svg {
+      width: 100%;
+      height: 56px;
+      display: block;
+    }
+    .ops-area-axis {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
     /* 4.7 — Sparkline on ops cells */
     .ops-cell-sparkline {
       width: 100%;
@@ -3806,6 +4533,36 @@
       font-style: italic;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* R5 A7 — XL close line: bigger Fraunces at full opsz */
+    .close-line--xl {
+      font-size: clamp(4rem, 12vw, 9rem);
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      max-width: 18ch;
+      font-variation-settings: 'opsz' 144;
+    }
+    .close-line--xl em {
+      font-style: italic;
+      font-variation-settings: 'opsz' 144;
+    }
+    /* R5 B5 — close medallion sizing + entrance */
+    .close-medallion {
+      width: clamp(120px, 22vw, 180px);
+      height: auto;
+      color: var(--text-primary);
+      margin: 0 auto 1.25rem;
+      display: block;
+      opacity: 0;
+      transform: scale(0.85);
+      animation: stv-close-medallion-in 1400ms cubic-bezier(0.25, 0.1, 0.25, 1) 200ms forwards;
+    }
+    @keyframes stv-close-medallion-in {
+      from { opacity: 0; transform: scale(0.85) rotate(-4deg); }
+      to   { opacity: 0.92; transform: scale(1) rotate(0); }
+    }
+    @media (max-width: 520px) {
+      .close-medallion { width: 110px; margin-bottom: 0.875rem; }
+    }
     .close-accent-line {
       width: 80px;
       height: 1px;
@@ -4031,6 +4788,13 @@
     eyeOff:       '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>',
     activity:     '<polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>',
     refreshCw:    '<polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+    /* R5 B4 — custom pictogram set (5 highest-value subjects) in chunky 2px-stroke
+       house style. Replaces Lucide for these 5 specific spots only. */
+    edgar:        '<rect x="2" y="20" width="20" height="2" rx="0.5"/><rect x="3" y="9" width="2" height="11"/><rect x="11" y="9" width="2" height="11"/><rect x="19" y="9" width="2" height="11"/><rect x="7" y="9" width="2" height="11"/><rect x="15" y="9" width="2" height="11"/><polygon points="2,9 12,3 22,9"/><circle cx="12" cy="6" r="0.7" fill="currentColor"/>',
+    auditSeal:    '<circle cx="12" cy="11" r="7"/><path d="M9 11l2 2 4-4"/><path d="M7 19l-1 3 6-2 6 2-1-3" stroke-linejoin="round"/>',
+    quill:        '<path d="M21 3l-9 9-3 3 1.5 1.5 3-3 9-9z"/><path d="M9 15l-4 4 1.5 1.5 4-4"/><path d="M5 19l-2 2"/><circle cx="20" cy="4" r="0.6" fill="currentColor"/>',
+    antenna:      '<line x1="12" y1="2" x2="12" y2="14"/><circle cx="12" cy="14" r="2.5"/><path d="M7 9c0-3 2-5 5-5s5 2 5 5"/><path d="M3 6c0-5 4-7 9-7s9 2 9 7"/><line x1="9" y1="22" x2="15" y2="22"/><line x1="12" y1="17" x2="12" y2="22"/>',
+    column:       '<rect x="3" y="3" width="18" height="2"/><rect x="3" y="19" width="18" height="2"/><rect x="3" y="21" width="18" height="2"/><rect x="5" y="5" width="2" height="14"/><rect x="11" y="5" width="2" height="14"/><rect x="17" y="5" width="2" height="14"/>',
   };
   function Icon({ name, size, className, style }) {
     const path = ICONS[name];
@@ -4053,20 +4817,113 @@
     );
   }
 
-  // ---- Reporter portraits (audit B6-B10) — abstract editorial line-art SVGs ----
-  // 80x80 viewBox; mounted inside .user-preview-thumb (56x56). Stylized
-  // silhouettes per reporter; brand-accent gradient bg stays as framing.
+  // ---- R5 B1 — Reporter portraits redesigned in Saul Bass / Constructivist register ----
+  // 80x80 viewBox; bold geometric primitives, brand-accent inks, distinct silhouette
+  // per reporter. Each one reads as a unique character through SHAPE language alone.
+  // Mounted inside .user-preview-thumb (56x56).
   const REPORTER_PORTRAITS = {
-    // Gerardo — financial anchor; mid-length dark hair, jacket collar
-    G: '<defs><radialGradient id="rg" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rg)"/><path d="M40 18 C 30 18 24 25 24 35 C 24 42 28 47 32 49 L 30 56 L 16 60 L 10 80 L 70 80 L 64 60 L 50 56 L 48 49 C 52 47 56 42 56 35 C 56 25 50 18 40 18 Z" fill="rgba(255,255,255,0.92)"/><path d="M40 49 L 40 56 M 30 56 L 50 56" stroke="rgba(0,0,0,0.18)" stroke-width="0.8" fill="none"/>',
-    // Liam — operations; shorter hair, stubble
-    L: '<defs><radialGradient id="rl" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rl)"/><path d="M40 19 C 31 19 26 26 26 34 C 26 41 30 46 33 48 L 31 55 L 17 59 L 11 80 L 69 80 L 63 59 L 49 55 L 47 48 C 50 46 54 41 54 34 C 54 26 49 19 40 19 Z" fill="rgba(255,255,255,0.92)"/><circle cx="40" cy="42" r="0.6" fill="rgba(0,0,0,0.4)"/><circle cx="36" cy="42" r="0.6" fill="rgba(0,0,0,0.4)"/><circle cx="44" cy="42" r="0.6" fill="rgba(0,0,0,0.4)"/>',
-    // Annie — products; shoulder-length hair + glasses
-    A: '<defs><radialGradient id="ra" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#ra)"/><path d="M40 17 C 28 17 22 25 22 36 C 22 42 25 47 29 50 L 26 60 L 16 68 L 13 80 L 67 80 L 64 68 L 54 60 L 51 50 C 55 47 58 42 58 36 C 58 25 52 17 40 17 Z" fill="rgba(255,255,255,0.92)"/><circle cx="34" cy="36" r="3.2" fill="none" stroke="rgba(0,0,0,0.45)" stroke-width="0.9"/><circle cx="46" cy="36" r="3.2" fill="none" stroke="rgba(0,0,0,0.45)" stroke-width="0.9"/><line x1="37.2" y1="36" x2="42.8" y2="36" stroke="rgba(0,0,0,0.45)" stroke-width="0.9"/>',
-    // Sophia — legal/risk; longer hair + earring
-    S: '<defs><radialGradient id="rs" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rs)"/><path d="M40 16 C 27 16 20 24 20 36 C 20 41 22 45 25 48 L 22 64 L 16 80 L 64 80 L 58 64 L 55 48 C 58 45 60 41 60 36 C 60 24 53 16 40 16 Z" fill="rgba(255,255,255,0.92)"/><circle cx="32" cy="48" r="0.9" fill="rgba(0,0,0,0.35)"/><circle cx="48" cy="48" r="0.9" fill="rgba(0,0,0,0.35)"/>',
-    // Maya — press; bob cut + bangs
-    M: '<defs><radialGradient id="rm" cx="50%" cy="35%"><stop offset="0%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="80" height="80" fill="url(#rm)"/><path d="M40 17 C 28 17 22 25 22 35 C 22 36 22 36 22 37 L 22 50 L 27 50 L 30 56 L 16 60 L 10 80 L 70 80 L 64 60 L 50 56 L 53 50 L 58 50 L 58 35 C 58 25 52 17 40 17 Z" fill="rgba(255,255,255,0.92)"/><path d="M28 25 L 52 25" stroke="rgba(0,0,0,0.25)" stroke-width="1" fill="none"/>',
+    // Gerardo — financial anchor: square jaw + slicked-back hair + tie geometry
+    G: `
+      <defs><linearGradient id="rg-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="color-mix(in srgb, var(--accent) 14%, transparent)"/><stop offset="100%" stop-color="color-mix(in srgb, var(--accent) 4%, transparent)"/></linearGradient></defs>
+      <rect width="80" height="80" fill="url(#rg-bg)"/>
+      <!-- Hair (slicked back, sharp angled) -->
+      <path d="M16 36 L 22 18 L 58 18 L 64 36 L 58 32 L 22 32 Z" fill="var(--accent)" opacity="0.92"/>
+      <!-- Face (square jaw) -->
+      <path d="M22 32 L 22 50 L 28 58 L 52 58 L 58 50 L 58 32 Z" fill="rgba(255,255,255,0.95)"/>
+      <!-- Glasses (rectangular) -->
+      <rect x="26" y="38" width="10" height="6" fill="none" stroke="var(--text-primary)" stroke-width="1.4" rx="1"/>
+      <rect x="44" y="38" width="10" height="6" fill="none" stroke="var(--text-primary)" stroke-width="1.4" rx="1"/>
+      <line x1="36" y1="41" x2="44" y2="41" stroke="var(--text-primary)" stroke-width="1.4"/>
+      <!-- Mouth -->
+      <line x1="34" y1="51" x2="46" y2="51" stroke="var(--text-primary)" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Tie / collar geometry -->
+      <path d="M 28 58 L 36 60 L 40 78 L 44 60 L 52 58 L 50 80 L 30 80 Z" fill="var(--text-primary)"/>
+      <path d="M 36 60 L 40 68 L 44 60 L 40 64 Z" fill="var(--accent)"/>
+    `,
+    // Liam — operations: round face + beard + headset
+    L: `
+      <defs><linearGradient id="rl-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="color-mix(in srgb, var(--accent) 14%, transparent)"/><stop offset="100%" stop-color="color-mix(in srgb, var(--accent) 4%, transparent)"/></linearGradient></defs>
+      <rect width="80" height="80" fill="url(#rl-bg)"/>
+      <!-- Hair (short, textured) -->
+      <path d="M22 28 L 24 18 L 56 18 L 58 28 Z" fill="var(--accent)" opacity="0.92"/>
+      <circle cx="28" cy="22" r="3" fill="var(--accent)" opacity="0.92"/>
+      <circle cx="40" cy="20" r="3" fill="var(--accent)" opacity="0.92"/>
+      <circle cx="52" cy="22" r="3" fill="var(--accent)" opacity="0.92"/>
+      <!-- Face (round) -->
+      <circle cx="40" cy="42" r="18" fill="rgba(255,255,255,0.95)"/>
+      <!-- Beard (geometric curve) -->
+      <path d="M24 48 Q 28 60 40 62 Q 52 60 56 48 L 52 50 Q 40 56 28 50 Z" fill="var(--text-primary)"/>
+      <!-- Eyes (dots) -->
+      <circle cx="34" cy="40" r="1.3" fill="var(--text-primary)"/>
+      <circle cx="46" cy="40" r="1.3" fill="var(--text-primary)"/>
+      <!-- Headset arc + earpiece -->
+      <path d="M22 32 Q 22 18 40 18 Q 58 18 58 32" fill="none" stroke="var(--text-primary)" stroke-width="1.6" opacity="0.85"/>
+      <rect x="20" y="32" width="5" height="9" rx="2" fill="var(--text-primary)"/>
+      <!-- Shoulders -->
+      <path d="M16 80 L 22 64 L 58 64 L 64 80 Z" fill="var(--text-primary)" opacity="0.9"/>
+    `,
+    // Annie — products: triangular bob + earring + arched brow
+    A: `
+      <defs><linearGradient id="ra-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="color-mix(in srgb, var(--accent) 14%, transparent)"/><stop offset="100%" stop-color="color-mix(in srgb, var(--accent) 4%, transparent)"/></linearGradient></defs>
+      <rect width="80" height="80" fill="url(#ra-bg)"/>
+      <!-- Triangular bob hair -->
+      <path d="M14 56 L 26 16 L 54 16 L 66 56 L 58 50 L 22 50 Z" fill="var(--accent)" opacity="0.92"/>
+      <!-- Face -->
+      <path d="M22 32 L 22 52 Q 22 60 30 60 L 50 60 Q 58 60 58 52 L 58 32 Z" fill="rgba(255,255,255,0.95)"/>
+      <!-- Arched brows -->
+      <path d="M26 36 Q 30 33 34 36" fill="none" stroke="var(--text-primary)" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M46 36 Q 50 33 54 36" fill="none" stroke="var(--text-primary)" stroke-width="1.4" stroke-linecap="round"/>
+      <!-- Eyes -->
+      <circle cx="30" cy="42" r="1.4" fill="var(--text-primary)"/>
+      <circle cx="50" cy="42" r="1.4" fill="var(--text-primary)"/>
+      <!-- Lips (filled curve) -->
+      <path d="M34 51 Q 40 55 46 51 Q 40 53 34 51 Z" fill="var(--accent)"/>
+      <!-- Earring (circle accent) -->
+      <circle cx="60" cy="48" r="2.5" fill="var(--accent)"/>
+      <!-- Shoulders/collar -->
+      <path d="M16 80 L 22 62 L 58 62 L 64 80 Z" fill="var(--text-primary)" opacity="0.92"/>
+      <path d="M30 62 L 40 70 L 50 62" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+    `,
+    // Sophia — legal/risk: long flowing hair + serious expression + collar pin
+    S: `
+      <defs><linearGradient id="rs-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="color-mix(in srgb, var(--accent) 14%, transparent)"/><stop offset="100%" stop-color="color-mix(in srgb, var(--accent) 4%, transparent)"/></linearGradient></defs>
+      <rect width="80" height="80" fill="url(#rs-bg)"/>
+      <!-- Long flowing hair (cascading wedges) -->
+      <path d="M14 78 L 18 22 Q 26 12 40 12 Q 54 12 62 22 L 66 78 L 58 70 L 56 32 Q 48 26 40 26 Q 32 26 24 32 L 22 70 Z" fill="var(--accent)" opacity="0.92"/>
+      <!-- Face (oval) -->
+      <ellipse cx="40" cy="44" rx="14" ry="18" fill="rgba(255,255,255,0.95)"/>
+      <!-- Eyes (closed/serious) -->
+      <line x1="30" y1="42" x2="36" y2="42" stroke="var(--text-primary)" stroke-width="1.6" stroke-linecap="round"/>
+      <line x1="44" y1="42" x2="50" y2="42" stroke="var(--text-primary)" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- Mouth (subtle) -->
+      <line x1="36" y1="54" x2="44" y2="54" stroke="var(--text-primary)" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Shoulders / blazer with collar pin -->
+      <path d="M14 80 L 18 66 L 62 66 L 66 80 Z" fill="var(--text-primary)" opacity="0.92"/>
+      <circle cx="36" cy="72" r="1.5" fill="var(--accent)"/>
+    `,
+    // Maya — press / breaking: blunt bangs + circular face + microphone
+    M: `
+      <defs><linearGradient id="rm-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="color-mix(in srgb, var(--accent) 14%, transparent)"/><stop offset="100%" stop-color="color-mix(in srgb, var(--accent) 4%, transparent)"/></linearGradient></defs>
+      <rect width="80" height="80" fill="url(#rm-bg)"/>
+      <!-- Hair: blunt bangs + side cascade -->
+      <path d="M22 32 L 22 18 L 58 18 L 58 32 L 56 30 L 24 30 Z" fill="var(--accent)" opacity="0.92"/>
+      <path d="M22 22 L 18 56 L 22 50 L 22 30 Z" fill="var(--accent)" opacity="0.92"/>
+      <path d="M58 22 L 62 56 L 58 50 L 58 30 Z" fill="var(--accent)" opacity="0.92"/>
+      <!-- Face (round) -->
+      <circle cx="40" cy="44" r="16" fill="rgba(255,255,255,0.95)"/>
+      <!-- Bangs over forehead -->
+      <path d="M24 32 L 56 32 L 56 38 L 24 38 Z" fill="var(--accent)" opacity="0.92"/>
+      <!-- Eyes -->
+      <circle cx="34" cy="44" r="1.4" fill="var(--text-primary)"/>
+      <circle cx="46" cy="44" r="1.4" fill="var(--text-primary)"/>
+      <!-- Mouth (open, speaking) -->
+      <ellipse cx="40" cy="53" rx="3.5" ry="1.5" fill="var(--text-primary)"/>
+      <!-- Shoulders -->
+      <path d="M16 80 L 22 64 L 58 64 L 64 80 Z" fill="var(--text-primary)" opacity="0.92"/>
+      <!-- Microphone -->
+      <rect x="46" y="56" width="6" height="9" rx="2" fill="var(--accent)"/>
+      <line x1="49" y1="65" x2="49" y2="72" stroke="var(--text-primary)" stroke-width="1.2"/>
+    `,
   };
   function ReporterPortrait({ code }) {
     const portrait = REPORTER_PORTRAITS[code];
@@ -4295,6 +5152,167 @@
         {/* City name label */}
         <text x={w / 2} y="6" textAnchor="middle" fontSize="6" fill="currentColor" stroke="none" letterSpacing="2" fontFamily="'JetBrains Mono', monospace" opacity="0.5">
           {meta.city.toUpperCase()}
+        </text>
+      </svg>
+    );
+  }
+
+  // ============================================================================
+  // R5 F1 — 24-hour exchange-opening ribbon (Beat 3)
+  // ----------------------------------------------------------------------------
+  // Horizontal timeline showing 12 anchor exchanges across UTC hours.
+  // Each exchange = colored rectangle spanning open hours (with wrap if needed).
+  // A vertical "now line" tracks the user's actual UTC clock and pulses live
+  // exchanges with brand-accent dots. Updates every 30 seconds.
+  // ============================================================================
+  const RIBBON_EXCHANGES = [
+    { code: 'TYO',     name: 'Tokyo',         openUtc: 0,    closeUtc: 6,    region: 'APAC' },
+    { code: 'HKEX',    name: 'Hong Kong',     openUtc: 1.5,  closeUtc: 8,    region: 'APAC' },
+    { code: 'BSE',     name: 'Mumbai',        openUtc: 3.75, closeUtc: 10,   region: 'APAC' },
+    { code: 'DFM',     name: 'Dubai',         openUtc: 6,    closeUtc: 10.5, region: 'MEA' },
+    { code: 'JSE',     name: 'Johannesburg',  openUtc: 7,    closeUtc: 15,   region: 'MEA' },
+    { code: 'LSE',     name: 'London',        openUtc: 8,    closeUtc: 16.5, region: 'EU' },
+    { code: 'XETRA',   name: 'Frankfurt',     openUtc: 8,    closeUtc: 16.5, region: 'EU' },
+    { code: 'EURONEXT',name: 'Paris',         openUtc: 8,    closeUtc: 16.5, region: 'EU' },
+    { code: 'B3',      name: 'São Paulo',     openUtc: 13,   closeUtc: 20,   region: 'LATAM' },
+    { code: 'NYSE',    name: 'New York',      openUtc: 14.5, closeUtc: 21,   region: 'NA' },
+    { code: 'NASDAQ',  name: 'Nasdaq',        openUtc: 14.5, closeUtc: 21,   region: 'NA' },
+    { code: 'BMV',     name: 'Mexico City',   openUtc: 15.5, closeUtc: 22,   region: 'NA' },
+    { code: 'ASX',     name: 'Sydney',        openUtc: 23,   closeUtc: 30,   region: 'APAC' }, // wraps past 24
+  ];
+
+  function isOpenAt(ex, utcHr) {
+    if (ex.closeUtc <= 24) return utcHr >= ex.openUtc && utcHr < ex.closeUtc;
+    // Wrapped (ASX): open if utcHr ≥ openUtc OR utcHr < (closeUtc - 24)
+    return utcHr >= ex.openUtc || utcHr < (ex.closeUtc - 24);
+  }
+
+  function ExchangeOpeningRibbon() {
+    const [now, setNow] = useState(() => new Date());
+    useEffect(() => {
+      const t = setInterval(() => setNow(new Date()), 30000);
+      return () => clearInterval(t);
+    }, []);
+    const utcHr = now.getUTCHours() + now.getUTCMinutes() / 60;
+    const nowPct = (utcHr / 24) * 100;
+    const utcLabel = `${String(now.getUTCHours()).padStart(2,'0')}:${String(now.getUTCMinutes()).padStart(2,'0')} UTC`;
+    const openExchanges = RIBBON_EXCHANGES.filter((e) => isOpenAt(e, utcHr));
+
+    return (
+      <div className="ribbon" aria-label={`Exchange-opening ribbon · ${utcLabel} · ${openExchanges.length} exchanges currently live`}>
+        <div className="ribbon-head">
+          <div className="ribbon-head-eyebrow">
+            <span className="ribbon-head-dot" aria-hidden="true" />
+            Live coverage
+            <span className="ribbon-head-divider" aria-hidden="true">·</span>
+            <span className="ribbon-head-utc">{utcLabel}</span>
+          </div>
+          <div className="ribbon-head-stat">
+            <span className="ribbon-head-stat-num">{openExchanges.length}</span>
+            <span className="ribbon-head-stat-lbl">currently live</span>
+          </div>
+        </div>
+        <div className="ribbon-grid">
+          {/* Hour ticks 00 / 06 / 12 / 18 / 24 */}
+          <div className="ribbon-axis" aria-hidden="true">
+            {[0, 6, 12, 18, 24].map((h) => (
+              <div key={h} className="ribbon-axis-tick" style={{ left: `${(h / 24) * 100}%` }}>
+                <span className="ribbon-axis-lbl">{String(h).padStart(2, '0')}</span>
+              </div>
+            ))}
+          </div>
+          {/* Per-exchange row */}
+          <div className="ribbon-rows">
+            {RIBBON_EXCHANGES.map((ex) => {
+              const live = isOpenAt(ex, utcHr);
+              // Render bar(s). For wrapped exchanges, render two bars.
+              const bars = [];
+              if (ex.closeUtc <= 24) {
+                bars.push({ left: (ex.openUtc / 24) * 100, width: ((ex.closeUtc - ex.openUtc) / 24) * 100 });
+              } else {
+                bars.push({ left: (ex.openUtc / 24) * 100, width: ((24 - ex.openUtc) / 24) * 100 });
+                bars.push({ left: 0, width: ((ex.closeUtc - 24) / 24) * 100 });
+              }
+              return (
+                <div className="ribbon-row" key={ex.code} data-live={live}>
+                  <span className="ribbon-row-lbl">
+                    {live && <span className="ribbon-row-pulse" aria-hidden="true" />}
+                    {ex.name}
+                  </span>
+                  <div className="ribbon-row-track">
+                    {bars.map((b, i) => (
+                      <div
+                        key={i}
+                        className="ribbon-row-bar"
+                        style={{ left: `${b.left}%`, width: `${b.width}%` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Vertical "now" line */}
+          <div className="ribbon-now-line" style={{ left: `${nowPct}%` }} aria-hidden="true">
+            <div className="ribbon-now-line-marker" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================================
+  // R5 B3 — Antique broadcast tower backdrop (Beat 1 Hook)
+  // ----------------------------------------------------------------------------
+  // 1930s engraved-style line art: tower + electromagnetic waves emanating.
+  // Used as a faded backdrop behind the dual hero numbers at ~6% opacity.
+  // ============================================================================
+  function IllustrationBroadcastTower() {
+    return (
+      <svg viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Sky/horizon ground line */}
+        <line x1="40" y1="500" x2="520" y2="500" opacity="0.55"/>
+        <line x1="80" y1="510" x2="480" y2="510" opacity="0.4" strokeDasharray="3 5"/>
+        {/* Concentric electromagnetic waves (8 arcs at increasing radii) */}
+        {[120, 160, 200, 240, 280, 320, 360, 400].map((r, i) => (
+          <circle key={i} cx="280" cy="180" r={r} opacity={0.45 - i * 0.04} strokeDasharray={i % 2 === 0 ? '4 6' : '6 4'}/>
+        ))}
+        {/* Lightning bolts at top */}
+        <path d="M 240 110 L 252 130 L 246 138 L 260 158" opacity="0.5" strokeWidth="1.2"/>
+        <path d="M 320 110 L 308 130 L 314 138 L 300 158" opacity="0.5" strokeWidth="1.2"/>
+        {/* Tower base — wide trapezoid */}
+        <path d="M 200 500 L 240 460 L 240 380 L 220 360 L 200 500 Z" opacity="0.85"/>
+        <path d="M 360 500 L 320 460 L 320 380 L 340 360 L 360 500 Z" opacity="0.85"/>
+        {/* Tower middle — narrower trapezoid */}
+        <path d="M 240 380 L 260 340 L 260 240 L 250 230 L 240 380 Z" opacity="0.85"/>
+        <path d="M 320 380 L 300 340 L 300 240 L 310 230 L 320 380 Z" opacity="0.85"/>
+        {/* Cross-bracing (X-pattern lattice) */}
+        {[400, 380, 360, 340, 320, 300, 280, 260, 240].map((y, i) => {
+          const inset = (500 - y) * 0.12;
+          return (
+            <g key={i} opacity="0.55">
+              <line x1={200 + inset} y1={y} x2={360 - inset} y2={y - 22} />
+              <line x1={360 - inset} y1={y} x2={200 + inset} y2={y - 22} />
+              <line x1={200 + inset} y1={y - 22} x2={360 - inset} y2={y - 22} />
+            </g>
+          );
+        })}
+        {/* Tower top — narrow column */}
+        <path d="M 260 240 L 270 200 L 270 160 L 280 140 L 290 160 L 290 200 L 300 240 Z" opacity="0.95"/>
+        {/* Antenna spike */}
+        <line x1="280" y1="140" x2="280" y2="80" strokeWidth="1.6"/>
+        {/* Antenna disk + lightning rod */}
+        <circle cx="280" cy="105" r="4" fill="currentColor" stroke="none"/>
+        <line x1="270" y1="100" x2="290" y2="100" opacity="0.7"/>
+        <line x1="280" y1="80" x2="280" y2="60" strokeWidth="1.2"/>
+        <circle cx="280" cy="58" r="2.5" fill="currentColor" stroke="none"/>
+        {/* Engraved hatch shading on tower */}
+        {[260, 270, 280, 290, 300].map((x, i) => (
+          <line key={i} x1={x} y1="160" x2={x} y2="220" opacity="0.3" strokeWidth="0.8"/>
+        ))}
+        {/* Small text below tower (engraved label) */}
+        <text x="280" y="540" textAnchor="middle" fontSize="10" letterSpacing="3" fontFamily="serif" fill="currentColor" stroke="none" opacity="0.6">
+          STOCKERTV · BROADCAST
         </text>
       </svg>
     );
@@ -4762,6 +5780,85 @@
         }
       } catch (e) { /* swallow */ }
     },
+
+    // R5 D5 — Ambient sound layer per beat (default OFF; only plays when audio enabled)
+    ambient: { source: null, gain: null, lfo: null, lfoGain: null, beat: null },
+    startAmbient(beat) {
+      if (!this.enabled) return;
+      const ctx = this.init();
+      if (!ctx) return;
+      // Don't restart if already on the same beat
+      if (this.ambient.beat === beat) return;
+      this.stopAmbient();
+      const now = ctx.currentTime;
+      try {
+        if (beat === 'scale') {
+          // Trading-floor murmur — filtered white noise, very low volume
+          const bufLen = ctx.sampleRate * 2;
+          const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+          const data = buf.getChannelData(0);
+          for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+          const src = ctx.createBufferSource();
+          src.buffer = buf; src.loop = true;
+          const lp = ctx.createBiquadFilter();
+          lp.type = 'lowpass'; lp.frequency.value = 380;
+          const hp = ctx.createBiquadFilter();
+          hp.type = 'highpass'; hp.frequency.value = 80;
+          const g = ctx.createGain();
+          g.gain.value = 0;
+          g.gain.linearRampToValueAtTime(0.012, now + 1.5);
+          src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(ctx.destination);
+          src.start();
+          this.ambient = { source: src, gain: g, lfo: null, lfoGain: null, beat };
+        } else if (beat === 'safety') {
+          // Broadcast-booth tone — 60Hz hum + slow LFO amplitude wobble
+          const o = ctx.createOscillator();
+          o.type = 'sine'; o.frequency.value = 60;
+          const g = ctx.createGain(); g.gain.value = 0;
+          // LFO modulates gain at 0.4Hz for an organic breathing
+          const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.4;
+          const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.005;
+          lfo.connect(lfoGain); lfoGain.connect(g.gain);
+          g.gain.setValueAtTime(0, now);
+          g.gain.linearRampToValueAtTime(0.012, now + 1.5);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(); lfo.start();
+          this.ambient = { source: o, gain: g, lfo, lfoGain, beat };
+        } else if (beat === 'output') {
+          // Broadcast-on tone — soft 220Hz sine with subtle 4Hz tremolo
+          const o = ctx.createOscillator();
+          o.type = 'sine'; o.frequency.value = 220;
+          const g = ctx.createGain(); g.gain.value = 0;
+          const trem = ctx.createOscillator(); trem.type = 'sine'; trem.frequency.value = 4;
+          const tremGain = ctx.createGain(); tremGain.gain.value = 0.004;
+          trem.connect(tremGain); tremGain.connect(g.gain);
+          g.gain.setValueAtTime(0, now);
+          g.gain.linearRampToValueAtTime(0.010, now + 1.5);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(); trem.start();
+          this.ambient = { source: o, gain: g, lfo: trem, lfoGain: tremGain, beat };
+        }
+      } catch (e) { /* swallow */ }
+    },
+    stopAmbient() {
+      const ctx = this.ctx;
+      if (!ctx) return;
+      const a = this.ambient;
+      if (!a || !a.source) { this.ambient = { source: null, gain: null, lfo: null, lfoGain: null, beat: null }; return; }
+      try {
+        const now = ctx.currentTime;
+        if (a.gain) {
+          a.gain.gain.cancelScheduledValues(now);
+          a.gain.gain.setValueAtTime(a.gain.gain.value, now);
+          a.gain.gain.linearRampToValueAtTime(0.0001, now + 0.4);
+        }
+        setTimeout(() => {
+          try { if (a.source && a.source.stop) a.source.stop(); } catch (e) {}
+          try { if (a.lfo && a.lfo.stop) a.lfo.stop(); } catch (e) {}
+        }, 500);
+      } catch (e) {}
+      this.ambient = { source: null, gain: null, lfo: null, lfoGain: null, beat: null };
+    },
   };
 
   // ---- CountUp (audit 3.2 + D2) — animated numerical reveal ----
@@ -4796,6 +5893,53 @@
   }
   function CountUp({ to, duration, delay, format, suffix, className, style }) {
     const display = useCountUp(to, { duration, delay, format });
+    return (
+      <span className={className} style={style}>
+        {display}{suffix || ''}
+      </span>
+    );
+  }
+
+  // ---- R5 D1 — Spring-physics CountUp (4% overshoot, then settle) ----
+  // Used for the Beat 1 hero numbers. Spring sim: F = k(target - x) - c·v.
+  // k=180 (stiffness), c=11 (damping → ~4-6% overshoot, settle in ~1.6s).
+  function useSpringCountUp(target, opts) {
+    const { delay = 0, format = (v) => Math.round(v).toString(), stiffness = 180, damping = 11, enabled = true } = opts || {};
+    const [val, setVal] = useState(enabled ? 0 : target);
+    useEffect(() => {
+      if (!enabled) { setVal(target); return; }
+      let rafId = null;
+      let lastTs = null;
+      let x = 0;
+      let v = 0;
+      const startTimer = setTimeout(() => {
+        const tick = (ts) => {
+          if (lastTs === null) lastTs = ts;
+          const dt = Math.min(0.04, (ts - lastTs) / 1000); // clamp to 25fps slowdown safety
+          lastTs = ts;
+          // Spring step
+          const force = stiffness * (target - x) - damping * v;
+          v += force * dt;
+          x += v * dt;
+          setVal(x);
+          // Settle when both displacement and velocity are small enough
+          if (Math.abs(target - x) < 0.05 && Math.abs(v) < 0.05) {
+            setVal(target);
+            return;
+          }
+          rafId = requestAnimationFrame(tick);
+        };
+        rafId = requestAnimationFrame(tick);
+      }, delay);
+      return () => {
+        clearTimeout(startTimer);
+        if (rafId) cancelAnimationFrame(rafId);
+      };
+    }, [target, delay, stiffness, damping, enabled]);
+    return format(val);
+  }
+  function SpringCountUp({ to, delay, format, suffix, stiffness, damping, className, style }) {
+    const display = useSpringCountUp(to, { delay, format, stiffness, damping });
     return (
       <span className={className} style={style}>
         {display}{suffix || ''}
@@ -5248,25 +6392,43 @@
   };
 
   // ============================================================================
-  // BootSequence (Beat 1 entry)
+  // BootSequence (Beat 1 entry) — Round 5 F2 cinematic intro
+  // ----------------------------------------------------------------------------
+  // 8-second deliberate visual statement BEFORE Beat 1.
+  // Phase 0 (0-1.4s):   letter-by-letter Fraunces emergence (S-T-O-C-K-E-R-T-V)
+  // Phase 1 (1.4-2.4s): wordmark coalesces (letter-spacing closes), eyebrow shows
+  // Phase 2 (2.4-3.8s): brand pulse fires outward
+  // Phase 3 (3.8-4.8s): coverage line traces in (handwriting reveal)
+  // Phase 4 (4.8-6.5s): 4 system checks scroll
+  // Phase 5 (6.5-7.2s): status line + final hold
+  // Phase 6 (7.2-8.0s): fade out
+  // 8.0s: onComplete → Beat 1 (Hook)
   // ============================================================================
+  const BOOT_LETTERS = ['S','t','o','c','k','e','r','T','V'];
   function BootSequence({ onComplete }) {
-    const [exiting, setExiting] = useState(false);
+    const [phase, setPhase] = useState(0);
     const [checks, setChecks] = useState(0);
+    const [exiting, setExiting] = useState(false);
     useEffect(() => {
-      const checkTimers = [];
-      // Round 3 P1 — coverage line fades in at 2.2s (CSS animation), then ticks
-      // begin at 3.0s so they don't compete visually with the coverage line.
+      const t = [];
+      // Phase 1 — coalesce + eyebrow at 1400ms
+      t.push(setTimeout(() => setPhase(1), 1400));
+      // Phase 2 — brand pulse at 2400ms
+      t.push(setTimeout(() => setPhase(2), 2400));
+      // Phase 3 — coverage line at 3800ms
+      t.push(setTimeout(() => setPhase(3), 3800));
+      // Phase 4 — checks scroll, staggered
       [0, 1, 2, 3].forEach((i) => {
-        checkTimers.push(setTimeout(() => setChecks(i + 1), 3000 + i * 200));
+        t.push(setTimeout(() => setChecks(i + 1), 4800 + i * 350));
       });
-      const exitTimer = setTimeout(() => setExiting(true), 5000);
-      const completeTimer = setTimeout(() => onComplete && onComplete(), 5800);
-      return () => {
-        checkTimers.forEach(clearTimeout);
-        clearTimeout(exitTimer);
-        clearTimeout(completeTimer);
-      };
+      t.push(setTimeout(() => setPhase(4), 4800));
+      // Phase 5 — status line at 6500ms
+      t.push(setTimeout(() => setPhase(5), 6500));
+      // Phase 6 — exit at 7200ms
+      t.push(setTimeout(() => { setPhase(6); setExiting(true); }, 7200));
+      // Complete at 8000ms (handoff to Beat 1)
+      t.push(setTimeout(() => onComplete && onComplete(), 8000));
+      return () => t.forEach(clearTimeout);
     }, [onComplete]);
 
     const checkLines = [
@@ -5279,13 +6441,19 @@
     return (
       <div className={`boot-stage ${exiting ? 'fading-out' : ''}`}>
         <div className="boot-content">
-          <div className="boot-eyebrow">StockerTV · Live Operations</div>
-          <div className="boot-wordmark">
-            <span className="boot-wordmark-stocker">Stocker</span>
-            <span className="boot-wordmark-tv">TV</span>
+          <div className="boot-pulse" data-phase={phase} aria-hidden="true" />
+          <div className="boot-eyebrow" data-show={phase >= 1}>StockerTV · Live Operations</div>
+          <div className="boot-letters" data-phase={phase} aria-label="StockerTV">
+            {BOOT_LETTERS.map((ch, i) => (
+              <span
+                className="boot-letter"
+                key={i}
+                data-tv={i >= 7}
+                style={{ animationDelay: `${i * 110}ms` }}
+              >{ch}</span>
+            ))}
           </div>
-          {/* Round 3 P1 — coverage line under wordmark, before system checks */}
-          <div className="boot-coverage" aria-label="Coverage summary">
+          <div className="boot-coverage" data-show={phase >= 3} aria-label="Coverage summary">
             Tracking 32,000+ companies
             <span className="boot-coverage-dot" aria-hidden="true" />
             53 exchanges
@@ -5299,7 +6467,7 @@
               </div>
             ))}
           </div>
-          <div className="boot-status">
+          <div className="boot-status" data-show={phase >= 5}>
             <span className="boot-status-dot" />
             Pre-market intelligence active
           </div>
@@ -5328,6 +6496,10 @@
 
     return (
       <section className="hook-stage" aria-label="StockerTV unified demo · Hook">
+        {/* R5 B3 — antique broadcast tower backdrop, ~6% opacity */}
+        <div className="hook-tower-bg" aria-hidden="true">
+          <IllustrationBroadcastTower />
+        </div>
         <div className="hook-eyebrow">
           StockerTV
           <span className="hook-eyebrow-dot" aria-hidden="true" />
@@ -5335,12 +6507,26 @@
           <span className="hook-eyebrow-dot" aria-hidden="true" />
           Source-verified
         </div>
+        {/* R5 F3 + A1 + C3 — italic display hero with pen-stroke trace + multi-shadow */}
         <div className="hook-hero-flow" role="presentation">
           <div className="hook-hero-block">
-            <h1 className="hook-hero-number">
-              <CountUp to={47} duration={1400} delay={1100} />
+            <h1 className="hook-hero-number hook-hero-number--italic stv-breathe">
+              <span className="hook-hero-num-glyph">
+                <SpringCountUp to={47} delay={1100} />
+              </span>
               <span className="hook-hero-unit">sec</span>
               <span className="hook-hero-shimmer" aria-hidden="true" />
+              <svg className="hook-hero-trace" viewBox="0 0 200 200" aria-hidden="true">
+                <path
+                  d="M 28 168 L 90 32 L 152 32 M 60 110 L 130 110"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  pathLength="100"
+                />
+              </svg>
             </h1>
             <div className="hook-hero-caption">to a finished script</div>
           </div>
@@ -5351,9 +6537,22 @@
             </svg>
           </div>
           <div className="hook-hero-block">
-            <h1 className="hook-hero-number">
-              <CountUp to={5} duration={1000} delay={1700} />
+            <h1 className="hook-hero-number hook-hero-number--italic stv-breathe">
+              <span className="hook-hero-num-glyph">
+                <SpringCountUp to={5} delay={1700} />
+              </span>
               <span className="hook-hero-unit">min</span>
+              <svg className="hook-hero-trace" viewBox="0 0 200 200" aria-hidden="true">
+                <path
+                  d="M 70 32 L 70 152 Q 70 168 88 168 L 130 168"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  pathLength="100"
+                />
+              </svg>
             </h1>
             <div className="hook-hero-caption">to a broadcast-ready video</div>
           </div>
@@ -6123,6 +7322,12 @@
 
     return (
       <section className="scale-scene" aria-label="Beat 3 · scale reveal">
+        {/* R5 A5 — chapter heading frames the beat as a deliberate act */}
+        <div className="chapter-heading" aria-hidden="true">
+          <span className="chapter-heading-num">Three</span>
+          <span className="chapter-heading-divider">·</span>
+          <span>Coverage</span>
+        </div>
         <div className="scale-eyebrow">
           Beat 3
           <span className="scale-eyebrow-dot" aria-hidden="true" />
@@ -6135,10 +7340,16 @@
           We track every market <em>your users</em> care about.
         </h2>
 
-        {/* Round 2 — 32k+ promoted to dominant hero */}
+        {/* R5 F1 — 24-hour exchange-opening ribbon (live now-line tied to user clock) */}
+        <ExchangeOpeningRibbon />
+
+        {/* Round 2 — 32k+ promoted to dominant hero. R5 A3 — magazine kerning treatment. */}
         <div className="scale-tower">
-          <div className="scale-tower-primary">
-            <CountUp to={32000} duration={1600} delay={300} format={(v) => Math.round(v).toLocaleString()} suffix="+" />
+          <div className="scale-tower-primary scale-tower-magazine" aria-label="32,000+ companies">
+            <span className="scale-mag-32">32</span>
+            <span className="scale-mag-comma">,</span>
+            <span className="scale-mag-000">000</span>
+            <span className="scale-mag-plus">+</span>
           </div>
           <div className="scale-tower-primary-label">Companies tracked across 53+ exchanges worldwide</div>
           <div className="scale-tower-row">
@@ -6720,7 +7931,42 @@
                   </div>
                 </div>
                 <div className="station-illust">
-                  <Illust />
+                  {/* R5 B2 — unifying medallion frame around each station illustration */}
+                  <div className="station-illust-medallion" aria-hidden="true">
+                    <svg className="station-medallion-frame" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                      {/* Outer ring */}
+                      <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.65"/>
+                      {/* Inner ring */}
+                      <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.5" strokeDasharray="2 3"/>
+                      {/* 8-petal scallop edge marks (William Morris register) */}
+                      {Array.from({ length: 16 }).map((_, k) => {
+                        const a = (k / 16) * Math.PI * 2 - Math.PI / 2;
+                        const inner = 56;
+                        const outer = 60;
+                        return (
+                          <line key={k}
+                            x1={60 + Math.cos(a) * inner}
+                            y1={60 + Math.sin(a) * inner}
+                            x2={60 + Math.cos(a) * outer}
+                            y2={60 + Math.sin(a) * outer}
+                            stroke="currentColor"
+                            strokeWidth="0.7"
+                            opacity="0.55"
+                          />
+                        );
+                      })}
+                      {/* Top + bottom keystone marks (small filled triangles) */}
+                      <path d="M 60 0 L 56 6 L 64 6 Z" fill="currentColor" opacity="0.7"/>
+                      <path d="M 60 120 L 56 114 L 64 114 Z" fill="currentColor" opacity="0.7"/>
+                      {/* Roman numeral indicating station number */}
+                      <text x="60" y="14" textAnchor="middle" fontSize="6.5" fontFamily="serif" fill="currentColor" opacity="0.7" letterSpacing="1">
+                        {['I','II','III','IV','V'][s.n - 1]}
+                      </text>
+                    </svg>
+                    <div className="station-medallion-inner">
+                      <Illust />
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
@@ -6816,6 +8062,14 @@
     return (
       <section className="safety-scene" aria-label="Beat 4 · the safety net">
         <div className="safety-header">
+          {/* R5 A4 — background ghost "24" anchors the beat editorially */}
+          <div className="safety-ghost-num" aria-hidden="true">24</div>
+          {/* R5 A5 — chapter heading */}
+          <div className="chapter-heading" aria-hidden="true">
+            <span className="chapter-heading-num">Four</span>
+            <span className="chapter-heading-divider">·</span>
+            <span>The safety net</span>
+          </div>
           <div className="safety-eyebrow">
             Beat 4
             <span className="safety-eyebrow-dot" aria-hidden="true" />
@@ -6947,7 +8201,7 @@
         {/* TRUST BADGES — full width with 4.5 micro-viz · always visible (journey + dashboard) */}
         <div className="trust-row">
           <div className="trust-badge">
-            <div className="trust-badge-label"><Icon name="penTool" size={11} /> Audit</div>
+            <div className="trust-badge-label"><Icon name="auditSeal" size={11} /> Audit</div>
             <div className="trust-badge-value">Audit trail kept</div>
             <div className="trust-badge-foot">Every approved script signed &amp; archived to Supabase</div>
             <div className="trust-badge-viz"><TrustBadgeAudit /></div>
@@ -6965,7 +8219,7 @@
             <div className="trust-badge-viz"><TrustBadgePrivacy /></div>
           </div>
           <div className="trust-badge">
-            <div className="trust-badge-label"><Icon name="activity" size={11} /> Monitor</div>
+            <div className="trust-badge-label"><Icon name="antenna" size={11} /> Monitor</div>
             <div className="trust-badge-value">24/7 monitored</div>
             <div className="trust-badge-foot">Sentry · Pipeline Health Monitor · Telegram alerts</div>
             <div className="trust-badge-viz"><TrustBadgeMonitor /></div>
@@ -6997,68 +8251,72 @@
   // Round 2 Phase B5 — each stage has a plain-language explanation
   // (~3 sentences, educational, jargon-light) + meta pills (model/latency/output).
   // Click any card to expand the explanation in a panel below the grid.
+  // R5 E2 — `ms` field added: total = 47,000ms across 15 stages, drives
+  // duration bars at the bottom of each card.
   const PIPELINE_STAGES = [
-    { num: 1,  name: 'Article input',
+    { num: 1,  name: 'Article input',          ms: 100,
       detail: "The story arrives as raw text — usually a wire article, an issuer press release, or a regulator filing. Before anything else happens, the system normalizes its structure (headline, body, byline, date, source domain) so every later stage is reading the same shape. No script generation begins until the input is complete and parseable.",
       meta: ['Wire / press release / filing', 'Domain whitelist enforced', '< 100ms'],
     },
-    { num: 2,  name: 'Story detection',
+    { num: 2,  name: 'Story detection',        ms: 400,
       detail: "A small classifier looks at the article and asks one question: is this newsworthy enough to warrant a script? It checks novelty against the last 7 days of content, scores the impact (price-moving, regulatory, structural), and routes the story to the right desk. Most input never makes it past this stage — and that's the point.",
       meta: ['Haiku 4.5 · 92% novelty score', '7-day dedup window', '< 400ms'],
     },
-    { num: 3,  name: 'Company enrichment',
+    { num: 3,  name: 'Company enrichment',     ms: 600,
       detail: "Once a story is selected, the system pulls together everything it knows about the entities involved — ticker, exchange, sector, market cap, recent earnings, peer set. This context grounds the script in the company's actual market position. Without enrichment, you get scripts that sound plausible but drift from the real entity.",
       meta: ['Internal DB · 32,000+ companies', '53 exchanges', '~600ms'],
     },
-    { num: 4,  name: 'Fact extraction',
+    { num: 4,  name: 'Fact extraction',        ms: 1500,
       detail: "Every numeric, dated, or attributed claim in the article is pulled out as a structured fact. Each fact gets a span back to where it appeared in the source text. This is the system's working memory for the rest of the pipeline — every later stage works against these facts, not the original prose.",
       meta: ['Sonnet 4.6', '~6 facts per article', 'Sources tagged inline'],
     },
-    { num: 5,  name: 'SEC EDGAR validation',
+    { num: 5,  name: 'SEC EDGAR validation',   ms: 1200,
       detail: "Every extracted fact that touches a public company is matched against the SEC's EDGAR filings — earnings releases, 8-Ks, 10-Qs, issuer statements. If the article claims revenue of $X, EDGAR has to back it. Facts that fail validation are flagged and not used in the script.",
       meta: ['EDGAR API · live filings', 'Regulator-side ground truth', '~1.2s'],
     },
-    { num: 6,  name: 'Cross-reference',
+    { num: 6,  name: 'Cross-reference',        ms: 800,
       detail: "Validated facts are tied back to a network of related entities, peer companies, and prior reporting. This stage gives the script context — what's the precedent, what's the comparison, what's the broader story arc. It's how a one-line earnings beat becomes a story with depth.",
       meta: ['Knowledge graph traversal', 'Peer + sector linkage', '~800ms'],
     },
-    { num: 7,  name: 'Reporter selection',
+    { num: 7,  name: 'Reporter selection',     ms: 200,
       detail: "Five reporters cover different beats — financial earnings, macro, crypto, structural news, and breaking. A classifier picks the one whose voice and beat fit the story. For all client demos, Gerardo (financial anchor) is locked as the on-camera voice — same face, same delivery, every time.",
       meta: ['5 reporters · 1 selected', 'Beat classifier 0.94 conf', 'Locked: Gerardo (demo)'],
     },
-    { num: 8,  name: 'Script generation',
+    { num: 8,  name: 'Script generation',      ms: 3500,
       detail: "Given the validated facts, the chosen reporter's voice, and a 47-second target runtime, Sonnet 4.6 writes the script. Output is roughly 110-130 words. The model is constrained to use only the validated facts — no embellishment, no ad-libbing, no numbers that didn't come through validation.",
       meta: ['Sonnet 4.6', '110-130 words · 47s target', '~3.5s'],
     },
-    { num: 9,  name: 'Chart suggestion',
+    { num: 9,  name: 'Chart suggestion',       ms: 400,
       detail: "If the story has a quantitative spine — a price move, an earnings trajectory, an inflow trend — the system proposes the chart that best illustrates it. The chart type, time window, and series are inferred from the facts. The producer can override; defaults are usually right.",
       meta: ['Inferred from facts', 'Type · window · series', '~400ms'],
     },
-    { num: 10, name: 'Thumbnail generation',
+    { num: 10, name: 'Thumbnail generation',   ms: 800,
       detail: "A still frame for the broadcast — headline phrase, key number, brand mark. Multiple options are generated; the highest-scoring one is recommended. Brand colors and typography come from the active client config so the thumbnail matches the rest of the surface.",
       meta: ['3-5 candidates per story', 'Brand-locked palette', '~800ms'],
     },
-    { num: 11, name: 'Integrity red-pass',
+    { num: 11, name: 'Integrity red-pass',     ms: 2000,
       detail: "A first-pass review specifically tuned for high-risk language: implied performance promises, unattributed predictions, regulatory boilerplate gaps. Anything flagged is rewritten in place. The red-pass is aggressive — it would rather over-correct than let a single problem line through.",
       meta: ['Sonnet 4.6 reviewer', 'Auto-rewrite enabled', '~2s'],
     },
-    { num: 12, name: 'Integrity gates',
+    { num: 12, name: 'Integrity gates',        ms: 2900,
       detail: "Three independent gates run in sequence. L1 (forbidden phrases) is a fast regex pass — milliseconds. L2 (semantic meaning) reads the script with a different model and asks 'would a regulator object?' L3 (tone & balance) is the holistic check. All three must pass; if any blocks, the script returns to red-pass for rework.",
       meta: ['L1 15ms · L2 812ms · L3 2.1s', '24 rules · 0 violations', 'All independent models'],
     },
-    { num: 13, name: 'Multi-language', wow: true,
+    { num: 13, name: 'Multi-language', wow: true, ms: 28000,
       detail: "The cleared English script is rendered into native variants for each market the client serves — typically 5 European languages plus English; up to 15 supported. These are not translations. Each variant carries its own regulatory context (CONSOB, CNMV, BaFin-aligned) and the words a native viewer expects from a financial broadcast in their language.",
       meta: ['Up to 15 languages live', 'Native (not translated)', 'Per-market regulatory context'],
     },
-    { num: 14, name: 'Audit trail',
-      detail: "Every input, every facto, every model call, every reviewer decision is signed and written to a permanent audit document. The doc has a unique ID (DOC-XXX-YYYY-MM-DD-N) that ties to the script forever. Three months from now, regulators can ask for the trail of any specific script and get it in one query.",
+    { num: 14, name: 'Audit trail',            ms: 1200,
+      detail: "Every input, every fact, every model call, every reviewer decision is signed and written to a permanent audit document. The doc has a unique ID (DOC-XXX-YYYY-MM-DD-N) that ties to the script forever. Three months from now, regulators can ask for the trail of any specific script and get it in one query.",
       meta: ['SHA-256 chain', 'DOC-ID per script', 'Supabase archive · forever'],
     },
-    { num: 15, name: 'Final output',
+    { num: 15, name: 'Final output',           ms: 3400,
       detail: "The approved script, the chart, the thumbnail, the multi-language variants, the audit document — all delivered to the broadcast surface. The reporter's avatar speaks the script in 47 seconds. From article input to broadcast-ready video: end-to-end, the whole pipeline runs in under a minute.",
       meta: ['Reporter avatar (Gerardo)', '47-second runtime', 'Broadcast-ready'],
     },
   ];
+  // R5 E2 — total budget for proportional duration bars
+  const PIPELINE_TOTAL_MS = PIPELINE_STAGES.reduce((s, st) => s + (st.ms || 0), 0);
 
   // ============================================================================
   // STAGE13_PREVIEW — 5 native-language scripts shown inline on Beat 5
@@ -7127,6 +8385,12 @@
 
     return (
       <section className="pipeline-scene" aria-label="Beat 5 · the full pipeline">
+        {/* R5 A5 — chapter heading */}
+        <div className="chapter-heading" aria-hidden="true">
+          <span className="chapter-heading-num">Five</span>
+          <span className="chapter-heading-divider">·</span>
+          <span>The deep tour</span>
+        </div>
         <div className="safety-eyebrow">
           Beat 5
           <span className="safety-eyebrow-dot" aria-hidden="true" />
@@ -7163,6 +8427,8 @@
         <div className="pipeline-stages" role="list" aria-label="15 pipeline stages — click any stage to expand">
           {PIPELINE_STAGES.map((s) => {
             const isExpanded = expandedStageNum === s.num;
+            const pct = s.ms ? (s.ms / PIPELINE_TOTAL_MS) * 100 : 0;
+            const msLabel = s.ms < 1000 ? `${s.ms}ms` : `${(s.ms / 1000).toFixed(s.ms < 10000 ? 1 : 0)}s`;
             return (
               <button
                 type="button"
@@ -7174,11 +8440,16 @@
                 onClick={() => toggleStage(s.num)}
                 aria-expanded={isExpanded}
                 aria-controls="pipeline-stage-panel"
-                title={`Click to expand: ${s.name}`}
+                title={`${s.name} · ${msLabel} of 47s · click to expand`}
               >
                 <div className="pipeline-stage-num">Stage {String(s.num).padStart(2, '0')}</div>
                 <div className="pipeline-stage-name">{s.name}</div>
                 <span className="pipeline-stage-expand" aria-hidden="true">{isExpanded ? '−' : '+'}</span>
+                {/* R5 E2 — proportional duration bar (47s budget across 15 stages) */}
+                <div className="pipeline-stage-duration" aria-hidden="true">
+                  <div className="pipeline-stage-duration-fill" style={{ width: `${Math.max(2, pct)}%` }} />
+                  <span className="pipeline-stage-duration-lbl">{msLabel}</span>
+                </div>
               </button>
             );
           })}
@@ -7312,6 +8583,53 @@
   }
 
   // ============================================================================
+  // R5 E1 — AreaChart: small area-fill chart with weekly axis labels
+  // ----------------------------------------------------------------------------
+  // Used in Beat 6 ops panel for "Scripts generated · 30d". Renders 30 daily
+  // values as a smooth gradient-filled area + 4 weekly axis labels below.
+  // ============================================================================
+  function AreaChart({ data, weeks, height }) {
+    const h = height || 56;
+    const w = 280;
+    const pad = 4;
+    if (!data || data.length === 0) return null;
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const range = (max - min) || 1;
+    const stepX = (w - pad * 2) / (data.length - 1);
+    const points = data.map((v, i) => {
+      const x = pad + i * stepX;
+      const y = h - pad - ((v - min) / range) * (h - pad * 2);
+      return [x, y];
+    });
+    const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+    const areaPath = `${linePath} L ${points[points.length - 1][0]} ${h} L ${points[0][0]} ${h} Z`;
+    const last = points[points.length - 1];
+    return (
+      <div className="ops-area">
+        <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true" className="ops-area-svg">
+          <defs>
+            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.40" />
+              <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.02" />
+            </linearGradient>
+          </defs>
+          <path d={areaPath} fill="url(#areaGradient)" />
+          <path d={linePath} fill="none" stroke="var(--accent)" strokeWidth="1.4" opacity="0.95" />
+          <circle cx={last[0]} cy={last[1]} r="2.2" fill="var(--accent)" />
+        </svg>
+        {weeks && (
+          <div className="ops-area-axis">
+            {weeks.map((w, i) => (
+              <span key={i}>{w}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ============================================================================
   // OutputScene — Beat 6 main. "This is what your users would see."
   // ----------------------------------------------------------------------------
   // Mocked broadcast surface preview + operational metrics panel + the
@@ -7396,6 +8714,12 @@
     return (
       <section className="output-scene" aria-label="Beat 6 · output through users' eyes">
         <div className="output-header">
+          {/* R5 A5 — chapter heading */}
+          <div className="chapter-heading" aria-hidden="true">
+            <span className="chapter-heading-num">Six</span>
+            <span className="chapter-heading-divider">·</span>
+            <span>Output through their eyes</span>
+          </div>
           <div className="output-eyebrow">
             Beat 6
             <span className="output-eyebrow-dot" aria-hidden="true" />
@@ -7403,8 +8727,11 @@
             <span className="output-eyebrow-dot" aria-hidden="true" />
             Brand-locked to {display}
           </div>
-          <h2 className="output-headline">
-            This is what <em>your users</em> would experience &mdash; in their language, on their schedule.
+          {/* R5 A6 — "your users" promoted to italic-display moment, line-broken */}
+          <h2 className="output-headline output-headline--magazine">
+            This is what
+            <span className="output-headline-promo">your users</span>
+            would experience &mdash; in their language, on their schedule.
           </h2>
         </div>
 
@@ -7527,13 +8854,18 @@
             Operational metrics · last 30d
           </div>
           <div className="ops-grid">
-            <div className="ops-cell">
+            {/* R5 E1 — Scripts generated cell upgraded to a real area chart */}
+            <div className="ops-cell ops-cell--wide">
               <div className="ops-cell-value">
                 <CountUp to={8400} duration={1400} delay={200} format={(v) => Math.round(v).toLocaleString()} />
               </div>
-              <Sparkline data={genSparkData(11, 30, 1)} />
-              <div className="ops-cell-label">Scripts generated</div>
-              <div className="ops-cell-foot">Per Stockertv internal counter</div>
+              <AreaChart
+                data={genSparkData(11, 30, 1)}
+                weeks={['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4']}
+                height={56}
+              />
+              <div className="ops-cell-label">Scripts generated · 30d</div>
+              <div className="ops-cell-foot">Weekly cadence · per Stockertv internal counter</div>
             </div>
             <div className="ops-cell">
               <div className="ops-cell-value" data-tone="accent">
@@ -7615,16 +8947,25 @@
 
     return (
       <section className="close-scene" aria-label="Beat 7 · close">
+        {/* R5 A5 — chapter heading */}
+        <div className="chapter-heading" aria-hidden="true">
+          <span className="chapter-heading-num">Seven</span>
+          <span className="chapter-heading-divider">·</span>
+          <span>Close</span>
+        </div>
         <div className="close-eyebrow">
           StockerTV
           <span className="close-eyebrow-dot" aria-hidden="true" />
           End of demo
         </div>
 
+        {/* R5 B5 — Stocker × Brand medallion above the close line */}
+        <CloseMedallion display={display} />
+
         {overrideLine ? (
-          <h2 className="close-line">{overrideLine}</h2>
+          <h2 className="close-line close-line--xl">{overrideLine}</h2>
         ) : (
-          <h2 className="close-line">
+          <h2 className="close-line close-line--xl">
             Built for <em>{display}</em>.<br />
             Ready when you are.
           </h2>
@@ -7648,6 +8989,62 @@
           Restart from Hook
         </button>
       </section>
+    );
+  }
+
+  // ============================================================================
+  // R5 B5 — Close medallion: hand-drawn Stocker × Brand seal
+  // ----------------------------------------------------------------------------
+  // Circular geometric frame, "EST. 2026" + dual mark inside. Anchors Beat 7
+  // visually before the close line lands.
+  // ============================================================================
+  function CloseMedallion({ display }) {
+    return (
+      <svg className="close-medallion" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        {/* Outer ring */}
+        <circle cx="80" cy="80" r="76" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.65"/>
+        {/* Inner double ring */}
+        <circle cx="80" cy="80" r="68" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.45" strokeDasharray="3 4"/>
+        <circle cx="80" cy="80" r="56" fill="none" stroke="var(--accent)" strokeWidth="0.8" opacity="0.7"/>
+        {/* 24 ornamental scallop ticks around outer ring */}
+        {Array.from({ length: 24 }).map((_, k) => {
+          const a = (k / 24) * Math.PI * 2 - Math.PI / 2;
+          const inner = 76, outer = 82;
+          return (
+            <line key={k}
+              x1={80 + Math.cos(a) * inner}
+              y1={80 + Math.sin(a) * inner}
+              x2={80 + Math.cos(a) * outer}
+              y2={80 + Math.sin(a) * outer}
+              stroke="currentColor"
+              strokeWidth="0.7"
+              opacity="0.45"
+            />
+          );
+        })}
+        {/* "EST. 2026" curved text top + brand text bottom */}
+        <defs>
+          <path id="close-arc-top" d="M 30 80 A 50 50 0 0 1 130 80" fill="none"/>
+          <path id="close-arc-bot" d="M 30 80 A 50 50 0 0 0 130 80" fill="none"/>
+        </defs>
+        <text fontFamily="'JetBrains Mono', monospace" fontSize="7" letterSpacing="3" fill="currentColor" opacity="0.7">
+          <textPath href="#close-arc-top" startOffset="50%" textAnchor="middle">EST · 2026</textPath>
+        </text>
+        <text fontFamily="'JetBrains Mono', monospace" fontSize="6.5" letterSpacing="2.5" fill="currentColor" opacity="0.6">
+          <textPath href="#close-arc-bot" startOffset="50%" textAnchor="middle">{display.toUpperCase()} EDITION</textPath>
+        </text>
+        {/* Center mark: stylized × between StockerTV monogram and Brand initial */}
+        <text x="80" y="76" textAnchor="middle" fontFamily="'Fraunces', Georgia, serif" fontSize="22" fontWeight="500" fill="currentColor">
+          <tspan>S</tspan>
+          <tspan fill="var(--accent)" fontStyle="italic">TV</tspan>
+        </text>
+        <text x="80" y="100" textAnchor="middle" fontFamily="'Fraunces', Georgia, serif" fontSize="14" fontStyle="italic" fill="var(--accent)" opacity="0.85">
+          ×
+        </text>
+        {/* Top + bottom keystone diamonds (small filled rotated squares) */}
+        <rect x="77" y="-2" width="6" height="6" transform="rotate(45 80 1)" fill="var(--accent)" opacity="0.85"/>
+        <rect x="77" y="156" width="6" height="6" transform="rotate(45 80 159)" fill="var(--accent)" opacity="0.85"/>
+      </svg>
     );
   }
 
@@ -7778,6 +9175,40 @@
       try { document.body.dataset.beat = activeBeat; } catch (e) { /* no-op */ }
     }, [activeBeat]);
 
+    // R5 D5 — Ambient sound layer per beat (only plays when audioState.enabled).
+    // Beat 3 trading-floor murmur · Beat 4 booth tone · Beat 6 broadcast-on tone.
+    useEffect(() => {
+      if (!booted) return;
+      if (activeBeat === BEATS.SCALE)        audioState.startAmbient('scale');
+      else if (activeBeat === BEATS.SAFETY)  audioState.startAmbient('safety');
+      else if (activeBeat === BEATS.OUTPUT)  audioState.startAmbient('output');
+      else                                    audioState.stopAmbient();
+    }, [activeBeat, booted]);
+
+    // R5 C4 + D4 — Idle detection: after 8s of no interaction, set body[data-idle='true']
+    // to enable: animated grain drift, idle-tint pulse, breath animation on .stv-breathe
+    useEffect(() => {
+      let idleTimer = null;
+      const goActive = () => {
+        document.body.removeAttribute('data-idle');
+        if (idleTimer) clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          document.body.setAttribute('data-idle', 'true');
+        }, 8000);
+      };
+      ['pointermove', 'pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => {
+        window.addEventListener(ev, goActive, { passive: true });
+      });
+      goActive();
+      return () => {
+        if (idleTimer) clearTimeout(idleTimer);
+        ['pointermove', 'pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => {
+          window.removeEventListener(ev, goActive);
+        });
+        document.body.removeAttribute('data-idle');
+      };
+    }, []);
+
     // Mouse parallax for atmosphere orbs (audit C2). ±10px max.
     useEffect(() => {
       const onMove = (e) => {
@@ -7844,10 +9275,16 @@
           // Init context on first toggle so user-gesture requirement is satisfied
           audioState.init();
           audioState.play('click');
+          // R5 D5 — when re-enabling audio mid-beat, fire ambient for current beat
+          if (activeBeat === BEATS.SCALE)        audioState.startAmbient('scale');
+          else if (activeBeat === BEATS.SAFETY)  audioState.startAmbient('safety');
+          else if (activeBeat === BEATS.OUTPUT)  audioState.startAmbient('output');
+        } else {
+          audioState.stopAmbient();
         }
         return next;
       });
-    }, []);
+    }, [activeBeat]);
 
     const goNext = useCallback(() => {
       const i = BEAT_ORDER.indexOf(activeBeat);
