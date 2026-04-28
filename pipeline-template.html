@@ -585,6 +585,34 @@
   </div>
 </div>
 
+<!-- R7 Fix 2 — eToro broadcast modal (auto-fires 2s after Stage 15 when client=etoro) -->
+<div class="broadcast-modal" id="broadcast-modal" hidden>
+  <button class="broadcast-modal-close" id="broadcast-modal-close" type="button" aria-label="Close video">×</button>
+  <div class="broadcast-modal-stage" id="broadcast-modal-stage">
+    <video
+      class="broadcast-modal-video"
+      id="broadcast-modal-video"
+      controls
+      playsinline
+      preload="metadata"
+      src="https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/eToro%20App%20Store%20Launch%20Update_1080p.mp4"
+    ></video>
+    <button
+      class="broadcast-modal-unmute"
+      id="broadcast-modal-unmute"
+      type="button"
+      hidden
+      aria-label="Tap to unmute"
+    >
+      <span class="broadcast-modal-unmute-icon" aria-hidden="true">🔊</span>
+      Tap to unmute
+    </button>
+  </div>
+  <div class="broadcast-modal-caption">
+    eToro App Store Launch &middot; broadcast preview &middot; auto-played after the 15-stage cinematic
+  </div>
+</div>
+
 <!-- Wave 5 · Batch 4 — Premium signals (grain, paper fibre) -->
 <div class="w5-grain" aria-hidden="true"></div>
 <div class="w5-paper-fiber" aria-hidden="true"></div>

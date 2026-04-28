@@ -953,9 +953,76 @@
       setMode("COMPLETE");
       const fab = $("#replay-fab");
       if (fab) fab.hidden = false;
+      // R7 Fix 2 — auto-play eToro broadcast modal 2s after Stage 15 completes
+      maybeAutoPlayBroadcast();
     } finally {
       clearInterval(clockTimer);
     }
+  }
+
+  // ── R7 Fix 2 — eToro broadcast modal (auto-fires after Stage 15) ────────
+  // Single-fire per page load. Brand-conditional: only when ?client=etoro.
+  // 2-second delay after pipeline completes so the user perceives Stage 15
+  // landing first, then the modal taking over.
+  let broadcastModalFired = false;
+  function maybeAutoPlayBroadcast() {
+    if (broadcastModalFired) return;
+    let clientSlug = '';
+    try {
+      clientSlug = (new URLSearchParams(location.search).get('client') || '').toLowerCase();
+    } catch (e) {}
+    // Default brand when no client param = nvidia per client-loader. Only fire for explicit etoro.
+    if (clientSlug !== 'etoro') return;
+    broadcastModalFired = true;
+    setTimeout(openBroadcastModal, 2000);
+  }
+  const broadcastModal      = $("#broadcast-modal");
+  const broadcastModalClose = $("#broadcast-modal-close");
+  const broadcastModalStage = $("#broadcast-modal-stage");
+  const broadcastModalVideo = $("#broadcast-modal-video");
+  const broadcastModalUnmute = $("#broadcast-modal-unmute");
+  function openBroadcastModal() {
+    if (!broadcastModal || !broadcastModalVideo) return;
+    broadcastModal.hidden = false;
+    document.body.style.overflow = "hidden";
+    if (broadcastModalUnmute) broadcastModalUnmute.hidden = true;
+    // Try autoplay-with-audio first; on rejection, fall back to muted + show unmute button.
+    broadcastModalVideo.muted = false;
+    const p = broadcastModalVideo.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => {
+        // Autoplay-with-audio blocked by browser policy. Try muted autoplay.
+        broadcastModalVideo.muted = true;
+        if (broadcastModalUnmute) broadcastModalUnmute.hidden = false;
+        const p2 = broadcastModalVideo.play();
+        if (p2 && typeof p2.catch === "function") p2.catch(() => {});
+      });
+    }
+  }
+  function closeBroadcastModal() {
+    if (!broadcastModal || broadcastModal.hidden) return;
+    broadcastModal.hidden = true;
+    document.body.style.overflow = "";
+    try { broadcastModalVideo.pause(); } catch (e) {}
+    if (broadcastModalUnmute) broadcastModalUnmute.hidden = true;
+  }
+  if (broadcastModalClose) broadcastModalClose.addEventListener("click", closeBroadcastModal);
+  if (broadcastModal) {
+    broadcastModal.addEventListener("click", (e) => {
+      // Click outside the video stage closes the modal; clicks on the stage
+      // (or the video / its native controls) do not.
+      if (broadcastModalStage && !broadcastModalStage.contains(e.target)) closeBroadcastModal();
+    });
+  }
+  if (broadcastModalUnmute) {
+    broadcastModalUnmute.addEventListener("click", () => {
+      try {
+        broadcastModalVideo.muted = false;
+        const p = broadcastModalVideo.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } catch (e) {}
+      broadcastModalUnmute.hidden = true;
+    });
   }
 
   const TOTAL_STAGES = $$(".stage").length || 15;
@@ -1009,6 +1076,8 @@
     });
     setMode("READY");
     $("#meta-clock").textContent = "00:00.0";
+    // R7 Fix 2 — re-arm the broadcast modal so a Replay can fire it again.
+    broadcastModalFired = false;
 
     // Clear key dynamic regions
     $("#fact-list").innerHTML = "";
@@ -1222,6 +1291,8 @@
     if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) return;
 
     if (e.key === "Escape") {
+      // R7 Fix 2 — broadcast modal closes first if open (it sits above avatar)
+      if (broadcastModal && !broadcastModal.hidden) { closeBroadcastModal(); return; }
       if (!modal.hidden) closeAvatarModal();
       return;
     }
