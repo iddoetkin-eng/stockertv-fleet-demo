@@ -3053,48 +3053,70 @@
     .output-scene--r10 {
       max-width: 1240px;
     }
-    /* R10 hotfix: explicit middle-column width. Original `auto` track sized to
-       content, which combined with the iPhone's `width: 100%; max-width: 380px`
-       resolved to 0px (intrinsic sizing recursion). The 0×0 element rendered
-       but was invisible — the bug Iddo flagged after R10 deploy. */
+    /* R10.1 Fix 1 — Beat 6 layout: 2-col grid (annotations LEFT, iPhone RIGHT).
+       Original 3-col `auto`-track grid had auto-placement bug where country-selector
+       (grid-column: 1/-1) forced to row 2 and iPhone (grid-column: 2) couldn't
+       backfill row 1 col 2 under sparse auto-flow → all elements appeared stacked.
+       Fix: nest country-selector + iPhone + foot-note into .iphone-sim-right,
+       drop to 2-col, and use flex inside the right wrapper for vertical order.
+       Mobile (≤980px): single col with flex-order putting iPhone before annotations. */
     .iphone-sim-wrap {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px minmax(0, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+      gap: 2rem;
       align-items: center;
       justify-items: center;
-      padding: 1.25rem 0 2rem;
+      padding: 1rem 0 2rem;
       position: relative;
+      max-width: 880px;
+      margin: 0 auto;
     }
     @media (max-width: 980px) {
       .iphone-sim-wrap {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        max-width: 480px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
     }
-    /* Country selector positioned ABOVE iphone (spans all 3 cols on desktop) */
+
+    /* Annotations: LEFT column (desktop) / below iPhone (mobile via flex-order) */
+    .iphone-annotations {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      width: 100%;
+      max-width: 320px;
+      align-self: center;
+      grid-column: 1;
+    }
+    @media (max-width: 980px) {
+      .iphone-annotations { order: 2; max-width: 100%; }
+    }
+
+    /* Right column: country selector ABOVE iPhone, foot-note BELOW. */
+    .iphone-sim-right {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.875rem;
+      width: 100%;
+    }
+    @media (max-width: 980px) {
+      .iphone-sim-right { grid-column: 1; order: 1; }
+    }
+
     .iphone-country-selector {
-      grid-column: 1 / -1;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
       gap: 0.4rem;
-    }
-    .iphone-country-selector .country-pill { /* reuse existing country-pill styling */ }
-
-    /* Annotations on the LEFT (desktop) / stacked below (mobile) */
-    .iphone-annotations {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      max-width: 280px;
-      align-self: center;
-      grid-column: 1;
-    }
-    @media (max-width: 980px) {
-      .iphone-annotations { grid-column: 1; max-width: 100%; }
+      max-width: 100%;
     }
     .iphone-annotation {
       display: grid;
@@ -3136,11 +3158,13 @@
       color: var(--text-muted);
     }
 
-    /* iPhone simulation — outer container */
+    /* iPhone simulation — outer container.
+       R10.1 Fix 1: now nested inside .iphone-sim-right (flex column), no longer
+       directly placed in the .iphone-sim-wrap grid. width: 380px explicit. */
     .iphone-sim {
       position: relative;
-      width: 100%;
-      max-width: 380px;
+      width: 380px;
+      max-width: 100%;
       aspect-ratio: 9 / 19.5;
       background: #0E1218;
       border-radius: 38px;
@@ -3149,12 +3173,11 @@
         0 0 0 5px #2a2f38,
         0 24px 60px rgba(0,0,0,0.4),
         0 8px 24px color-mix(in srgb, var(--accent) 14%, transparent);
-      grid-column: 2;
       overflow: hidden;
       isolation: isolate;
     }
     @media (max-width: 980px) {
-      .iphone-sim { grid-column: 1; max-width: 340px; }
+      .iphone-sim { width: 340px; }
     }
     @media (max-width: 520px) {
       .iphone-sim { max-width: 300px; }
@@ -3979,6 +4002,51 @@
     .ip-menu-item-label {
       font-family: 'Inter', sans-serif;
       font-size: 14px;
+    }
+    /* R10.1 Fix 2 — StockerTV menu row: text-decoration:none on the <a> wrapper,
+       Fraunces label with eToro green TV italic. */
+    .ip-menu-item--stockertv {
+      text-decoration: none;
+      color: #fff;
+    }
+    .ip-menu-item-icon--stockertv {
+      font-size: inherit;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ip-menu-stv-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: rgba(52, 217, 130, 0.16);
+      border: 1px solid rgba(52, 217, 130, 0.5);
+      border-radius: 6px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .ip-menu-stv-mark-stocker { color: #fff; }
+    .ip-menu-stv-mark-tv {
+      color: #34D982;
+      font-style: italic;
+    }
+    .ip-menu-item-label--stockertv {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .ip-menu-item-label--stockertv em {
+      color: #34D982;
+      font-style: italic;
     }
     .ip-menu-item-arrow {
       color: #8B95A1;
@@ -10586,49 +10654,54 @@
             </div>
           </div>
 
-          {/* Country selector — visible only on default NVDA screen, only for eToro brand */}
-          {isEtoro && onDefaultNvda && (
-            <div className="iphone-country-selector" role="tablist" aria-label="Select country variant">
-              {ETORO_COUNTRY_VARIANTS.map((v) => {
-                const active = v.key === countryKey;
-                return (
-                  <button
-                    key={v.key}
-                    role="tab"
-                    aria-selected={active}
-                    data-active={active}
-                    className="country-pill"
-                    onClick={() => { setCountryKey(v.key); audioState.play('click'); }}
-                    title={`${v.label} · ${v.caption}`}
-                  >
-                    <span className="country-pill-flag" dangerouslySetInnerHTML={{ __html: flagSvg(v.flag) }} aria-hidden="true" />
-                    <span className="country-pill-label">{v.label}</span>
-                  </button>
-                );
-              })}
+          {/* R10.1 Fix 1 — country selector + iPhone + foot-note nested into a single
+              right-column wrapper so the 2-col layout (annotations LEFT / iPhone RIGHT)
+              renders cleanly. Mobile order via flex-order puts iPhone before annotations. */}
+          <div className="iphone-sim-right">
+            {/* Country selector — visible only on default NVDA screen, only for eToro brand */}
+            {isEtoro && onDefaultNvda && (
+              <div className="iphone-country-selector" role="tablist" aria-label="Select country variant">
+                {ETORO_COUNTRY_VARIANTS.map((v) => {
+                  const active = v.key === countryKey;
+                  return (
+                    <button
+                      key={v.key}
+                      role="tab"
+                      aria-selected={active}
+                      data-active={active}
+                      className="country-pill"
+                      onClick={() => { setCountryKey(v.key); audioState.play('click'); }}
+                      title={`${v.label} · ${v.caption}`}
+                    >
+                      <span className="country-pill-flag" dangerouslySetInnerHTML={{ __html: flagSvg(v.flag) }} aria-hidden="true" />
+                      <span className="country-pill-label">{v.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* The interactive iPhone */}
+            <InteractiveIPhone
+              activeScreen={activeScreen}
+              activeStock={activeStock}
+              detailMode={detailMode}
+              activeVideoUrl={activeVideoUrl}
+              stock={stock}
+              iphoneVideoRef={iphoneVideoRef}
+              navigateToScreen={navigateToScreen}
+              navigateToStock={navigateToStock}
+              swapToNativeMode={swapToNativeMode}
+              swapToBroadcastMode={swapToBroadcastMode}
+              onClickWidget={openVideoModal}
+              onAcademyClick={() => setAcademyModalOpen(true)}
+            />
+
+            <div className="iphone-foot-note">
+              <span className="phone-foot-note-dot" aria-hidden="true" />
+              Interactive simulation &middot; representative integration, not a screenshot &middot; Demo content &middot; illustrative only
+              <span className="phone-foot-note-dot" aria-hidden="true" />
             </div>
-          )}
-
-          {/* The interactive iPhone */}
-          <InteractiveIPhone
-            activeScreen={activeScreen}
-            activeStock={activeStock}
-            detailMode={detailMode}
-            activeVideoUrl={activeVideoUrl}
-            stock={stock}
-            iphoneVideoRef={iphoneVideoRef}
-            navigateToScreen={navigateToScreen}
-            navigateToStock={navigateToStock}
-            swapToNativeMode={swapToNativeMode}
-            swapToBroadcastMode={swapToBroadcastMode}
-            onClickWidget={openVideoModal}
-            onAcademyClick={() => setAcademyModalOpen(true)}
-          />
-
-          <div className="iphone-foot-note">
-            <span className="phone-foot-note-dot" aria-hidden="true" />
-            Interactive simulation &middot; representative integration, not a screenshot &middot; Demo content &middot; illustrative only
-            <span className="phone-foot-note-dot" aria-hidden="true" />
           </div>
         </div>
 
@@ -10778,13 +10851,14 @@
   }
 
   // ---- Bottom nav (5 tabs) ----
+  // R10.1 Fix 2 — last tab renamed Wallet → Settings (gear icon).
   function IphoneBottomNav({ active, onChange }) {
     const tabs = [
       { key: 'home', label: 'Home', icon: 'home' },
       { key: 'watchlist', label: 'Watchlist', icon: 'star' },
       { key: 'portfolio', label: 'Portfolio', icon: 'pie' },
       { key: 'discover', label: 'Discover', icon: 'compass' },
-      { key: 'menu', label: 'Wallet', icon: 'wallet' },
+      { key: 'menu', label: 'Settings', icon: 'settings' },
     ];
     // stock_detail = home tab effectively, since the default screen is NVDA stock detail
     const activeTab = active === 'stock_detail' ? 'home' : active;
@@ -10836,6 +10910,13 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M19 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7H6"/>
         <circle cx="17" cy="14" r="1.2" fill="currentColor"/>
+      </svg>
+    );
+    // R10.1 Fix 2 — Settings/gear icon (replaces wallet for the last bottom-nav tab)
+    if (name === 'settings') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
       </svg>
     );
     return null;
@@ -11226,8 +11307,12 @@
 
   // ---- Menu Screen (also wallet tab) ----
   function MenuScreen({ onAcademyClick }) {
+    // R10.1 Fix 2 — `stockertv` row inserted at index 1 (between Copy Pro Investors
+    // and Economic Calendar). Custom render: Fraunces "Stocker" white + italic
+    // "TV" eToro green. Click opens https://www.stockertv.com in a new tab.
     const items = [
       { label: 'Copy Pro Investors', icon: '📊' },
+      { label: 'StockerTV', kind: 'stockertv', href: 'https://www.stockertv.com' },
       { label: 'Economic Calendar', icon: '📅' },
       { label: 'eToro Club', icon: '🎖' },
       { label: 'Invite Friends', icon: '📢' },
@@ -11256,18 +11341,43 @@
           </div>
         </div>
         <div className="ip-menu-items">
-          {items.map((it) => (
-            <button
-              key={it.label}
-              className="ip-menu-item"
-              onClick={(e) => { e.preventDefault(); if (it.onClick) it.onClick(); }}
-              type="button"
-            >
-              <span className="ip-menu-item-icon" aria-hidden="true">{it.icon}</span>
-              <span className="ip-menu-item-label">{it.label}</span>
-              <span className="ip-menu-item-arrow" aria-hidden="true">›</span>
-            </button>
-          ))}
+          {items.map((it) => {
+            // R10.1 Fix 2 — StockerTV row: real <a> with target=_blank
+            if (it.kind === 'stockertv') {
+              return (
+                <a
+                  key={it.label}
+                  className="ip-menu-item ip-menu-item--stockertv"
+                  href={it.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open StockerTV in a new tab"
+                >
+                  <span className="ip-menu-item-icon ip-menu-item-icon--stockertv" aria-hidden="true">
+                    <span className="ip-menu-stv-mark">
+                      <span className="ip-menu-stv-mark-stocker">S</span><span className="ip-menu-stv-mark-tv">TV</span>
+                    </span>
+                  </span>
+                  <span className="ip-menu-item-label ip-menu-item-label--stockertv">
+                    Stocker<em>TV</em>
+                  </span>
+                  <span className="ip-menu-item-arrow" aria-hidden="true">›</span>
+                </a>
+              );
+            }
+            return (
+              <button
+                key={it.label}
+                className="ip-menu-item"
+                onClick={(e) => { e.preventDefault(); if (it.onClick) it.onClick(); }}
+                type="button"
+              >
+                <span className="ip-menu-item-icon" aria-hidden="true">{it.icon}</span>
+                <span className="ip-menu-item-label">{it.label}</span>
+                <span className="ip-menu-item-arrow" aria-hidden="true">›</span>
+              </button>
+            );
+          })}
         </div>
         <button className="ip-cta-green ip-menu-deposit" type="button">Deposit Funds</button>
         <a className="ip-menu-virtual" href="#" onClick={(e) => e.preventDefault()}>Switch to Virtual</a>
