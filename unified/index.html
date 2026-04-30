@@ -941,14 +941,13 @@
       line-height: 1;
       padding-top: 0.4rem;
     }
-    /* R11.1 — abstract bar centered above the "citi" wordmark */
+    /* R11.2 Fix 3 — arc anchored above the right portion of "citi" so dot lands on second "i" */
     .stv-topbar-mark .stv-mark-citi-arc {
       position: absolute;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1.4rem;
-      height: 0.4rem;
+      right: -0.1em;
+      width: 1.55rem;
+      height: 0.7rem;
       pointer-events: none;
     }
 
@@ -1331,14 +1330,13 @@
       color: #003B70;
       padding-top: 0.4em;
     }
-    /* R11.1 — abstract bar centered above the "citi" wordmark */
+    /* R11.2 Fix 3 — arc anchored above the right portion of "citi" so dot lands on second "i" */
     .brand-scene-citi-arc {
       position: absolute;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0.5em;
-      height: 0.18em;
+      right: -0.05em;
+      width: 0.55em;
+      height: 0.32em;
       pointer-events: none;
     }
     @keyframes stv-brand-name-pop {
@@ -3122,13 +3120,14 @@
     .iphone-sim-wrap {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(380px, auto) minmax(0, 1fr);
+      /* R11.2 Fix 2 — guarantee annotations have ≥300px to fit titles on one line */
+      grid-template-columns: minmax(300px, 340px) minmax(380px, auto) minmax(300px, 340px);
       gap: 2rem;
       align-items: center;
       justify-items: center;
       padding: 1rem 0 2rem;
       position: relative;
-      max-width: 1100px;
+      max-width: 1140px;
       margin: 0 auto;
     }
     @media (max-width: 980px) {
@@ -3149,7 +3148,7 @@
       flex-direction: column;
       gap: 0.85rem;
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
       align-self: center;
       justify-self: end;
       grid-column: 1;
@@ -3181,11 +3180,11 @@
       gap: 0.4rem;
       max-width: 100%;
     }
+    /* R11.2 Fix 2 — annotation card restructured: number badge stacks ABOVE
+       title (was inline-left grid), padding more comfortable, fonts larger. */
     .iphone-annotation {
-      display: grid;
-      grid-template-columns: 24px minmax(0, 1fr);
-      gap: 0.6rem;
-      padding: 0.7rem 0.85rem;
+      display: block;
+      padding: 1rem 1.1rem;
       background: var(--surface);
       border: 1px solid var(--border);
       border-left: 3px solid var(--accent);
@@ -3197,27 +3196,29 @@
       box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 12%, transparent);
     }
     .iphone-annotation-num {
+      display: block;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       font-weight: 700;
       color: var(--accent);
       letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .iphone-annotation-body { min-width: 0; }
     .iphone-annotation-title {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 13.5px;
+      font-size: 14.5px;
       font-weight: 500;
       color: var(--text-primary);
       line-height: 1.25;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.4rem;
       letter-spacing: -0.01em;
     }
     .iphone-annotation-text {
       font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      line-height: 1.45;
+      font-size: 12.5px;
+      line-height: 1.5;
       color: var(--text-muted);
     }
 
@@ -4163,12 +4164,11 @@
       line-height: 1;
       padding-top: 0.4em;
     }
-    /* R11.1 — abstract bar centered above the wordmark (was right-anchored swoosh+dot) */
+    /* R11.2 Fix 3 — arc right-anchored so dot lands on second "i" */
     .ip-citi-wordmark-arc {
       position: absolute;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      right: -0.1em;
       pointer-events: none;
     }
 
@@ -8663,9 +8663,10 @@
                 <span className="stv-mark-for-prefix">for</span>
                 <span className="stv-mark-citi-wordmark">
                   citi
-                  {/* R11.1 — abstract red accent bar (flat line), not a logo recreation */}
+                  {/* R11.2 Fix 3 — semicircle arc + dot restored (Option A) */}
                   <svg className="stv-mark-citi-arc" viewBox="0 0 30 14" aria-hidden="true">
-                    <line x1="6" y1="6" x2="24" y2="6" stroke="#D9261C" strokeWidth="2.2" strokeLinecap="round"/>
+                    <path d="M 8 11 Q 16 -1 24 11" stroke="#D9261C" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
+                    <circle cx="24" cy="11" r="1.6" fill="#D9261C"/>
                   </svg>
                 </span>
               </span>
@@ -8758,9 +8759,10 @@
           <div className="brand-scene-name brand-scene-name-citi" key={brandSlug} aria-label="citi">
             <span className="brand-scene-citi-wrap">
               citi
-              {/* R11.1 — abstract red accent bar (flat line), not a logo recreation */}
+              {/* R11.2 Fix 3 — semicircle arc + dot restored (Option A) */}
               <svg className="brand-scene-citi-arc" viewBox="0 0 100 36" aria-hidden="true">
-                <line x1="22" y1="20" x2="78" y2="20" stroke="#D9261C" strokeWidth="6" strokeLinecap="round"/>
+                <path d="M 28 30 Q 53 -6 78 30" stroke="#D9261C" strokeWidth="6" fill="none" strokeLinecap="round"/>
+                <circle cx="78" cy="30" r="4.6" fill="#D9261C"/>
               </svg>
             </span>
           </div>
@@ -9280,14 +9282,10 @@
         tick();
       }
 
-      // Fire arcs every 8 sec, cycling through ARC_EVENTS
-      let arcEventIdx = 0;
-      const arcInterval = setInterval(() => {
-        fireArc(arcEventIdx);
-        arcEventIdx++;
-      }, 8000);
-      // Fire first arc shortly after mount
-      const arcKickoff = setTimeout(() => { fireArc(arcEventIdx); arcEventIdx++; }, 1200);
+      // R11.2 Fix 1 — auto-arc loop removed (was setInterval(8000) + 1200ms kickoff).
+      // Both the Three.js arc visual and the popup card were wired to this fire chain;
+      // banker feedback flagged the popup as distracting from the globe itself.
+      // fireArc function kept defined for trivial revival later if needed.
 
       // Round 3 P3 — slowed rotation to feel meditative (~145s full revolution)
       // Was 0.0025 (≈8°/s); now 0.0008 (≈2.5°/s).
@@ -9414,8 +9412,7 @@
 
       return () => {
         if (rafId) cancelAnimationFrame(rafId);
-        clearInterval(arcInterval);
-        clearTimeout(arcKickoff);
+        // R11.2 Fix 1 — arcInterval / arcKickoff removed above; cleanup no-op
         window.removeEventListener('resize', onResize);
         renderer.domElement.removeEventListener('pointermove', onPointerMove);
         renderer.domElement.removeEventListener('pointermove', onPointerDrag);
@@ -9629,32 +9626,9 @@
           {!dragHintDismissed && <GlobeDragHint onDismiss={onDismissDragHint} />}
           <div className="scale-globe-vignette" aria-hidden="true" />
           <div className="scale-globe-overlay">
-            {currentArc && !openExchange && (
-              <div className="scale-arc-card" key={currentArc.key}>
-                <div className="scale-arc-meta">
-                  {(() => {
-                    const fromEx = EXCHANGES_53.find((e) => e.code === currentArc.fromCode);
-                    return fromEx ? fromEx.name.replace(' Stock Exchange', '').replace(' Exchanges', '') : currentArc.fromCode;
-                  })()}
-                  <span className="scale-arc-meta-dot" aria-hidden="true" />
-                  {ARC_LANG_META[currentArc.lang]?.name || currentArc.lang}
-                  <span className="scale-arc-meta-dot" aria-hidden="true" />
-                  Detected
-                </div>
-                <div className={`scale-arc-headline is-native-${currentArc.lang.toLowerCase()}`}>
-                  {currentArc.headline}
-                </div>
-                {currentArc.trans && (
-                  <div className="scale-arc-trans">{currentArc.trans}</div>
-                )}
-                <div className="scale-arc-foot">
-                  → {(() => {
-                    const toEx = EXCHANGES_53.find((e) => e.code === currentArc.toCode);
-                    return toEx ? toEx.name.replace(' Stock Exchange', '').replace(' Exchanges', '').toUpperCase() : currentArc.toCode;
-                  })()} · script ready · 47 seconds
-                </div>
-              </div>
-            )}
+            {/* R11.2 Fix 1 — auto-popping arc-landing card removed (banker feedback:
+                pulled focus from globe every 8s). Auto-arc loop also removed in
+                SimpleGlobe effect. currentArc state + handleArcLand kept (dead, harmless). */}
           </div>
           {/* Round 3 P3 — hover tooltip removed; markers only show side panel on click */}
         </div>
@@ -11952,9 +11926,10 @@
     return (
       <span className="ip-citi-wordmark" style={{ fontSize: `${size}px` }}>
         citi
-        {/* R11.1 — abstract red accent bar (flat line), not a logo recreation */}
+        {/* R11.2 Fix 3 — semicircle arc + dot restored (Option A) */}
         <svg className="ip-citi-wordmark-arc" viewBox="0 0 30 14" style={{ width: `${arcSize}px`, height: `${arcSize * 0.45}px` }} aria-hidden="true">
-          <line x1="6" y1="6" x2="24" y2="6" stroke="#D9261C" strokeWidth="2.2" strokeLinecap="round"/>
+          <path d="M 8 11 Q 16 -1 24 11" stroke="#D9261C" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
+          <circle cx="24" cy="11" r="1.6" fill="#D9261C"/>
         </svg>
       </span>
     );
@@ -12460,10 +12435,8 @@
           {/* Brand wordmark — anchored at center of RIGHT non-overlap zone (x=300) */}
           {brand.custom === 'citi-arc' ? (
             <g>
-              {/* R11.1 Fix 2 — "citi" recentered to right circle's geometric center (x=270).
-                  Abstract red bar above replaces the previous swoosh+dot. The triad
-                  lowercase citi + Citi Blue + small red accent above is enough brand
-                  recognition without being a 1:1 licensed-mark recreation. */}
+              {/* R11.2 Fix 3 — semicircle arc + dot (Option A) restored above the "t",
+                  ending at the second "i" position. Wordmark stays at R11.1 center (x=270). */}
               <text
                 x="270" y="126"
                 textAnchor="middle"
@@ -12475,13 +12448,14 @@
               >
                 citi
               </text>
-              {/* Abstract red accent bar — flat horizontal line, ~30px wide, ~12px above cap-height */}
-              <line
-                x1="255" y1="76" x2="285" y2="76"
+              <path
+                d="M 264 86 Q 280 56 296 88"
                 stroke="#D9261C"
-                strokeWidth="3.5"
+                strokeWidth="3"
+                fill="none"
                 strokeLinecap="round"
               />
+              <circle cx="296" cy="88" r="2.6" fill="#D9261C" />
             </g>
           ) : (
             <text
