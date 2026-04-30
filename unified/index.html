@@ -939,15 +939,15 @@
       color: #003B70;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-top: 0.4rem;
+      padding-top: 0.55rem;
     }
-    /* R11.2 Fix 3 — arc anchored above the right portion of "citi" so dot lands on second "i" */
+    /* R11.3 Item 2 — arc enlarged: width 1.55rem→1.85rem, height 0.7rem→0.95rem */
     .stv-topbar-mark .stv-mark-citi-arc {
       position: absolute;
       top: 0;
-      right: -0.1em;
-      width: 1.55rem;
-      height: 0.7rem;
+      right: -0.15em;
+      width: 1.85rem;
+      height: 0.95rem;
       pointer-events: none;
     }
 
@@ -1328,15 +1328,15 @@
       font-family: 'DM Sans', Helvetica, Arial, sans-serif;
       font-weight: 700;
       color: #003B70;
-      padding-top: 0.4em;
+      padding-top: 0.55em;
     }
-    /* R11.2 Fix 3 — arc anchored above the right portion of "citi" so dot lands on second "i" */
+    /* R11.3 Item 2 — arc enlarged: width 0.55em→0.7em, height 0.32em→0.42em */
     .brand-scene-citi-arc {
       position: absolute;
       top: 0;
-      right: -0.05em;
-      width: 0.55em;
-      height: 0.32em;
+      right: -0.07em;
+      width: 0.7em;
+      height: 0.42em;
       pointer-events: none;
     }
     @keyframes stv-brand-name-pop {
@@ -4162,13 +4162,13 @@
       color: #FFFFFF;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-top: 0.4em;
+      padding-top: 0.55em;
     }
-    /* R11.2 Fix 3 — arc right-anchored so dot lands on second "i" */
+    /* R11.3 Item 2 — arc width comes from inline style (arcSize), nudge right anchor */
     .ip-citi-wordmark-arc {
       position: absolute;
       top: 0;
-      right: -0.1em;
+      right: -0.15em;
       pointer-events: none;
     }
 
@@ -8663,10 +8663,10 @@
                 <span className="stv-mark-for-prefix">for</span>
                 <span className="stv-mark-citi-wordmark">
                   citi
-                  {/* R11.2 Fix 3 — semicircle arc + dot restored (Option A) */}
+                  {/* R11.3 Item 2 — semicircle arc enlarged */}
                   <svg className="stv-mark-citi-arc" viewBox="0 0 30 14" aria-hidden="true">
-                    <path d="M 8 11 Q 16 -1 24 11" stroke="#D9261C" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
-                    <circle cx="24" cy="11" r="1.6" fill="#D9261C"/>
+                    <path d="M 5 11 Q 15 -3 25 11" stroke="#D9261C" strokeWidth="2.6" fill="none" strokeLinecap="round"/>
+                    <circle cx="25" cy="11" r="1.9" fill="#D9261C"/>
                   </svg>
                 </span>
               </span>
@@ -8739,7 +8739,7 @@
   // ============================================================================
   // BrandScene (Beat 2 main) — the "this is yours, not ours" moment
   // ============================================================================
-  function BrandScene({ brandSlug, brandConfig, onBrandSwitch, onContinue }) {
+  function BrandScene({ brandSlug, brandConfig, onBrandSwitch, onContinue, brandLocked }) {
     const meta = BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: brandSlug };
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName) || meta.shortName;
 
@@ -8759,10 +8759,10 @@
           <div className="brand-scene-name brand-scene-name-citi" key={brandSlug} aria-label="citi">
             <span className="brand-scene-citi-wrap">
               citi
-              {/* R11.2 Fix 3 — semicircle arc + dot restored (Option A) */}
+              {/* R11.3 Item 2 — semicircle arc enlarged */}
               <svg className="brand-scene-citi-arc" viewBox="0 0 100 36" aria-hidden="true">
-                <path d="M 28 30 Q 53 -6 78 30" stroke="#D9261C" strokeWidth="6" fill="none" strokeLinecap="round"/>
-                <circle cx="78" cy="30" r="4.6" fill="#D9261C"/>
+                <path d="M 22 30 Q 50 -12 78 30" stroke="#D9261C" strokeWidth="7" fill="none" strokeLinecap="round"/>
+                <circle cx="78" cy="30" r="5.4" fill="#D9261C"/>
               </svg>
             </span>
           </div>
@@ -8772,34 +8772,45 @@
 
         <div className="brand-scene-line" aria-hidden="true" />
 
-        <p className="brand-scene-subline">
-          One demo, seven brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the linked pipeline. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
-        </p>
+        {/* R11.3 Item 1 — Beat 2 brand-lock leak fix: when ?client= URL locks the brand,
+            hide the 7-pill switcher + keyboard tip, and swap to a locked-mode subline.
+            Keys 1-7 are already gated by !isBrandLocked in App's keyboard handler. */}
+        {brandLocked ? (
+          <p className="brand-scene-subline">
+            One demo, fully brand-locked to <strong>{display}</strong>. Every surface &mdash; palette, typography accents, gates, integrity score, the linked pipeline &mdash; themed for your environment. <strong>Zero integration cost.</strong>
+          </p>
+        ) : (
+          <>
+            <p className="brand-scene-subline">
+              One demo, seven brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the linked pipeline. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
+            </p>
 
-        <div className="brand-scene-helper">
-          Tip — try it now. Or use{' '}
-          <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd>{' '}
-          to switch.
-        </div>
+            <div className="brand-scene-helper">
+              Tip — try it now. Or use{' '}
+              <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd>{' '}
+              to switch.
+            </div>
 
-        <div className="brand-scene-grid" role="group" aria-label="Brand previews">
-          {KNOWN_SLUGS.map((slug) => {
-            const m = BRAND_DISPLAY_DEFAULTS[slug];
-            return (
-              <button
-                key={slug}
-                className="brand-card"
-                data-active={slug === brandSlug}
-                onClick={() => onBrandSwitch(slug)}
-                title={`Lock to ${m.shortName}`}
-                aria-pressed={slug === brandSlug}
-              >
-                <span className="brand-card-swatch" style={{ background: m.seed }} aria-hidden="true" />
-                <span className="brand-card-label">{m.shortName}</span>
-              </button>
-            );
-          })}
-        </div>
+            <div className="brand-scene-grid" role="group" aria-label="Brand previews">
+              {KNOWN_SLUGS.map((slug) => {
+                const m = BRAND_DISPLAY_DEFAULTS[slug];
+                return (
+                  <button
+                    key={slug}
+                    className="brand-card"
+                    data-active={slug === brandSlug}
+                    onClick={() => onBrandSwitch(slug)}
+                    title={`Lock to ${m.shortName}`}
+                    aria-pressed={slug === brandSlug}
+                  >
+                    <span className="brand-card-swatch" style={{ background: m.seed }} aria-hidden="true" />
+                    <span className="brand-card-label">{m.shortName}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
 
         <button className="scene-continue" onClick={onContinue} aria-label="Continue to next beat">
           Continue to scale reveal
@@ -10095,7 +10106,13 @@
       key: 'sign',
       eyebrow: 'Station 5 · Sign',
       headline: <>Every approved script is <em>SHA-256 signed and archived</em>. Forever.</>,
-      body: <>Once a script clears all reviews, it gets a cryptographic signature and is written to immutable storage. Three months from now, when a regulator asks "show me the script that ran on April 27, 2026 about BlackRock IBIT," the answer is one query &mdash; with the original hash, the source citations, and every reviewer decision attached.</>,
+      // R11.3 Item 3C — body is a function so the example reference is brand-aware
+      body: (brandSlug) => {
+        const example = brandSlug === 'citi'
+          ? 'show me the script that ran on April 14, 2026 about Citigroup’s Q1 results'
+          : 'show me the script that ran on April 27, 2026 about BlackRock IBIT';
+        return <>Once a script clears all reviews, it gets a cryptographic signature and is written to immutable storage. Three months from now, when a regulator asks &ldquo;{example},&rdquo; the answer is one query &mdash; with the original hash, the source citations, and every reviewer decision attached.</>;
+      },
       meta: ['SHA-256 · Supabase archive', 'DOC-ID per script', 'Auditable on demand'],
       Illust: IllustrationStationSign,
     },
@@ -10113,7 +10130,7 @@
     try { localStorage.setItem(SAFETY_VIEW_KEY, mode); } catch (e) {}
   }
 
-  function StationJourney() {
+  function StationJourney({ brandSlug }) {
     // Active station index. Auto-advances every ~5s; clicking jumps.
     const [activeIdx, setActiveIdx] = useState(0);
     const [completed, setCompleted] = useState(() => new Set());
@@ -10189,7 +10206,7 @@
                 <div className="station-text">
                   <div className={`station-eyebrow ${isActive ? 'station-eyebrow-active' : ''}`}>{s.eyebrow}</div>
                   <h3 className="station-headline">{s.headline}</h3>
-                  <p className="station-body">{s.body}</p>
+                  <p className="station-body">{typeof s.body === 'function' ? s.body(brandSlug) : s.body}</p>
                   <div className="station-meta">
                     {s.meta.map((m, k) => (
                       <span className="station-meta-pill" key={k}>{m}</span>
@@ -10359,7 +10376,7 @@
         </div>
 
         {/* Round 2 Phase B4 — default 5-station journey replaces dense dashboard */}
-        {!isDashboard && <StationJourney />}
+        {!isDashboard && <StationJourney brandSlug={brandSlug} />}
 
         {isDashboard && (<>
 
@@ -10655,43 +10672,80 @@
   const PIPELINE_TOTAL_MS = PIPELINE_STAGES.reduce((s, st) => s + (st.ms || 0), 0);
 
   // ============================================================================
-  // STAGE13_PREVIEW — 5 native-language scripts shown inline on Beat 5
-  // (audit 4.6). Brings the locked WOW moment INSIDE the unified flow.
-  // Source: eToro App Store launch story (current pinned content per K.4).
+  // STAGE13_PREVIEW — 5 native-language scripts shown inline on Beat 5.
+  // R11.3 Item 3B — refactored from a single eToro const to a per-brand map.
+  // Brands without an entry fall back to STAGE13_PREVIEW_BY_BRAND.etoro.
   // Native typography auto-applies per data-lang via CSS rules.
   // ============================================================================
-  const STAGE13_PREVIEW = [
-    {
-      code: 'en', flag: 'GB', heading: 'English',
-      market: 'UK · 3.8M+ eToro users',
-      headline: "Nasdaq-listed eToro launches AI-enabled App Store",
-      body: "Marketplace lets developers and investors build, share, and access trading applications directly on the platform.",
-    },
-    {
-      code: 'de', flag: 'DE', heading: 'Deutsch',
-      market: 'Germany · #2 language on eToro',
-      headline: "eToro startet KI-gestützten App Store",
-      body: "Der Marktplatz ermöglicht es Entwicklern und Anlegern, Handelsanwendungen direkt auf der Plattform zu erstellen, zu teilen und zu nutzen.",
-    },
-    {
-      code: 'it', flag: 'IT', heading: 'Italiano',
-      market: 'Italy · CONSOB-regulated since 2010',
-      headline: "eToro lancia un App Store con intelligenza artificiale",
-      body: "Il marketplace consente a sviluppatori e investitori di creare, condividere e utilizzare applicazioni di trading direttamente sulla piattaforma.",
-    },
-    {
-      code: 'es', flag: 'ES', heading: 'Español',
-      market: 'Spain · MiCA registered via CNMV (2025)',
-      headline: "eToro lanza un App Store con inteligencia artificial",
-      body: "El marketplace permite a desarrolladores e inversores crear, compartir y utilizar aplicaciones de trading directamente en la plataforma.",
-    },
-    {
-      code: 'fr', flag: 'FR', heading: 'Français',
-      market: 'France · #3 language on eToro',
-      headline: "eToro lance un App Store dopé à l'IA",
-      body: "La marketplace permet aux développeurs et aux investisseurs de créer, partager et utiliser des applications de trading directement sur la plateforme.",
-    },
-  ];
+  const STAGE13_PREVIEW_BY_BRAND = {
+    etoro: [
+      {
+        code: 'en', flag: 'GB', heading: 'English',
+        market: 'UK · 3.8M+ eToro users',
+        headline: "Nasdaq-listed eToro launches AI-enabled App Store",
+        body: "Marketplace lets developers and investors build, share, and access trading applications directly on the platform.",
+      },
+      {
+        code: 'de', flag: 'DE', heading: 'Deutsch',
+        market: 'Germany · #2 language on eToro',
+        headline: "eToro startet KI-gestützten App Store",
+        body: "Der Marktplatz ermöglicht es Entwicklern und Anlegern, Handelsanwendungen direkt auf der Plattform zu erstellen, zu teilen und zu nutzen.",
+      },
+      {
+        code: 'it', flag: 'IT', heading: 'Italiano',
+        market: 'Italy · CONSOB-regulated since 2010',
+        headline: "eToro lancia un App Store con intelligenza artificiale",
+        body: "Il marketplace consente a sviluppatori e investitori di creare, condividere e utilizzare applicazioni di trading direttamente sulla piattaforma.",
+      },
+      {
+        code: 'es', flag: 'ES', heading: 'Español',
+        market: 'Spain · MiCA registered via CNMV (2025)',
+        headline: "eToro lanza un App Store con inteligencia artificial",
+        body: "El marketplace permite a desarrolladores e inversores crear, compartir y utilizar aplicaciones de trading directamente en la plataforma.",
+      },
+      {
+        code: 'fr', flag: 'FR', heading: 'Français',
+        market: 'France · #3 language on eToro',
+        headline: "eToro lance un App Store dopé à l'IA",
+        body: "La marketplace permet aux développeurs et aux investisseurs de créer, partager et utiliser des applications de trading directement sur la plateforme.",
+      },
+    ],
+    // R11.3 Item 3B — Citi Q1 2026 earnings story (matches config/citi.json showcase)
+    citi: [
+      {
+        code: 'en', flag: 'US', heading: 'English',
+        market: 'United States · Citi global headquarters',
+        headline: "Citigroup posts best quarterly revenue in a decade as Q1 net income surges 42%",
+        body: "Q1 2026 revenue $24.6B (+14% YoY), net income $5.8B, EPS $3.06; all five core businesses delivered growth.",
+      },
+      {
+        code: 'de', flag: 'DE', heading: 'Deutsch',
+        market: 'Germany · Citi Frankfurt European presence',
+        headline: "Citigroup verzeichnet stärksten Quartalsumsatz seit zehn Jahren — Q1-Nettogewinn steigt um 42%",
+        body: "Q1 2026 Umsatz 24,6 Mrd. USD (+14% YoY), Nettogewinn 5,8 Mrd. USD, EPS 3,06 USD; alle fünf Kerngeschäfte wuchsen.",
+      },
+      {
+        code: 'it', flag: 'IT', heading: 'Italiano',
+        market: 'Italy · Citi Milan institutional banking',
+        headline: "Citigroup registra il miglior fatturato trimestrale in dieci anni; utile netto Q1 +42%",
+        body: "Ricavi Q1 2026 di 24,6 mld USD (+14% YoY), utile netto 5,8 mld USD, EPS 3,06 USD; cinque segmenti tutti in crescita.",
+      },
+      {
+        code: 'es', flag: 'ES', heading: 'Español',
+        market: 'Spain · Citi Madrid private banking',
+        headline: "Citigroup registra el mejor ingreso trimestral en una década; beneficio neto Q1 sube 42%",
+        body: "Ingresos Q1 2026 de 24.600 M USD (+14% interanual), beneficio neto 5.800 M USD, BPA 3,06 USD; cinco segmentos al alza.",
+      },
+      {
+        code: 'fr', flag: 'FR', heading: 'Français',
+        market: 'France · Citi Paris EMEA hub',
+        headline: "Citigroup affiche son meilleur chiffre d'affaires trimestriel en dix ans ; bénéfice net du T1 en hausse de 42 %",
+        body: "CA T1 2026 de 24,6 Md USD (+14 % en glissement annuel), bénéfice net 5,8 Md USD, BPA 3,06 USD ; les cinq segments en croissance.",
+      },
+    ],
+  };
+  // Backwards-compat const (pre-R11.3 callers) — defaults to eToro preview
+  const STAGE13_PREVIEW = STAGE13_PREVIEW_BY_BRAND.etoro;
 
   function PipelineScene({ brandSlug, brandConfig, onContinue }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
@@ -10824,7 +10878,7 @@
             Stage 13 · multi-language reveal · live preview
           </div>
           <div className="stage13-grid">
-            {STAGE13_PREVIEW.map((c, i) => (
+            {(STAGE13_PREVIEW_BY_BRAND[brandSlug] || STAGE13_PREVIEW_BY_BRAND.etoro).map((c, i) => (
               <div
                 className="stage13-col"
                 data-lang={c.code}
@@ -11922,14 +11976,15 @@
 
   // Inline Citi wordmark (lowercase + red arc) — small variant for the menu/topbar context
   function CitiInlineWordmark({ size = 18 }) {
-    const arcSize = size * 0.55;
+    /* R11.3 Item 2 — arcSize bumped 0.55 → 0.72 for ~30% larger arc */
+    const arcSize = size * 0.72;
     return (
       <span className="ip-citi-wordmark" style={{ fontSize: `${size}px` }}>
         citi
-        {/* R11.2 Fix 3 — semicircle arc + dot restored (Option A) */}
-        <svg className="ip-citi-wordmark-arc" viewBox="0 0 30 14" style={{ width: `${arcSize}px`, height: `${arcSize * 0.45}px` }} aria-hidden="true">
-          <path d="M 8 11 Q 16 -1 24 11" stroke="#D9261C" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
-          <circle cx="24" cy="11" r="1.6" fill="#D9261C"/>
+        {/* R11.3 Item 2 — semicircle arc enlarged */}
+        <svg className="ip-citi-wordmark-arc" viewBox="0 0 30 14" style={{ width: `${arcSize}px`, height: `${arcSize * 0.5}px` }} aria-hidden="true">
+          <path d="M 5 11 Q 15 -3 25 11" stroke="#D9261C" strokeWidth="2.6" fill="none" strokeLinecap="round"/>
+          <circle cx="25" cy="11" r="1.9" fill="#D9261C"/>
         </svg>
       </span>
     );
@@ -12435,8 +12490,8 @@
           {/* Brand wordmark — anchored at center of RIGHT non-overlap zone (x=300) */}
           {brand.custom === 'citi-arc' ? (
             <g>
-              {/* R11.2 Fix 3 — semicircle arc + dot (Option A) restored above the "t",
-                  ending at the second "i" position. Wordmark stays at R11.1 center (x=270). */}
+              {/* R11.3 Item 2 — arc enlarged ~50% wider + apex pulled higher for stronger
+                  visual presence. Wordmark stays at R11.1 center (x=270). */}
               <text
                 x="270" y="126"
                 textAnchor="middle"
@@ -12449,13 +12504,13 @@
                 citi
               </text>
               <path
-                d="M 264 86 Q 280 56 296 88"
+                d="M 256 86 Q 280 48 304 88"
                 stroke="#D9261C"
-                strokeWidth="3"
+                strokeWidth="3.8"
                 fill="none"
                 strokeLinecap="round"
               />
-              <circle cx="296" cy="88" r="2.6" fill="#D9261C" />
+              <circle cx="304" cy="88" r="3.2" fill="#D9261C" />
             </g>
           ) : (
             <text
@@ -12792,6 +12847,7 @@
           brandConfig={brandConfig}
           onBrandSwitch={handleBrandSwitch}
           onContinue={goNext}
+          brandLocked={isBrandLocked}
         />
       );
     } else if (activeBeat === BEATS.SCALE) {
