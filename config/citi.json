@@ -1,0 +1,90 @@
+{
+  "$schema": "./config.schema.json",
+  "_note": "Citi config (placeholder, 2026-05-01). Branding palette uses Citi Blue #003B70 as primary and Citi Red #D9261C as secondary accent. Wordmark recreated stylistically (lowercase 'citi' sans-serif + red arc above the 't') — NOT the actual Citi logo asset, per Round 6 wordmark precedent. The branding section is production-ready for the unified demo's brand-switch (Beat 2 + Beat 7). Pipeline showcase content is placeholder; the unified demo (Beats 1-7) uses brand-locked colors + custom CitiWordmark component, not the pipeline-template content.",
+  "_research_gaps": [
+    "branding.logoUrl — intentionally null per user directive; Iddo will add later",
+    "avatar_video_url — intentionally null per Q4 lock; CTA hides until Iddo delivers Supabase URL",
+    "Pinned story selection — Citi pitch not yet locked; pipeline-template content stays placeholder until a Citi-specific story is chosen (Citi Q1 2026 earnings / Citi Self Invest launch / Citigold expansion / etc.)",
+    "Brand palette per Citi guidelines: #003B70 Ateneo Blue (Pantone 654 C, primary brand color); #D9261C Maximum Red (Pantone 485 C, the iconic arc accent). The unified demo uses --accent=#003B70, --accent-2=#D9261C; brand-switch flash uses Citi Blue gradient with red highlights. successColor falls back to neutral #22c55e (per Beat 4 B.4.D non-green-brand rule)."
+  ],
+  "branding": {
+    "clientName": "citi",
+    "logoUrl": null,
+    "primaryColor": "#003B70",
+    "accentColor": "#D9261C",
+    "accentDeep": "#002854",
+    "accent2": "#D9261C",
+    "shortName": "citi",
+    "themeMode": "light",
+    "pageTitle": "StockerTV — Pipeline · Citi Demo"
+  },
+  "hero": {
+    "eyebrow": "Article → source-verified script in under a minute",
+    "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready segments, automatically.",
+    "ctaLabel": "Watch Demo",
+    "ctaSub": "Curated story · 47 sec",
+    "stats": [
+      { "value": "32,000+", "label": "companies" },
+      { "value": "53", "label": "exchanges" },
+      { "value": "30", "label": "agents" },
+      { "value": "24", "label": "integrity rules" }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": ["$400M", "$300M", "$200M", "$100M", "$0"]
+  },
+  "audit": {
+    "docTitle": "Audit Trail",
+    "docSubtitle": "Citi · Demo Story",
+    "docId": "DOC-CITI-2026-0501"
+  },
+  "multilang": {
+    "combinedCapHeadline": "Same story · 5 markets · native quality",
+    "languages": [
+      { "id": "en", "countryCode": "US", "heading": "English", "marketCaption": "United States · Citi global headquarters" },
+      { "id": "en-gb", "countryCode": "GB", "heading": "English (UK)", "marketCaption": "United Kingdom · Citi London EMEA hub" },
+      { "id": "de", "countryCode": "DE", "heading": "Deutsch", "marketCaption": "Germany · Citi Frankfurt European presence" },
+      { "id": "ar", "countryCode": "AE", "heading": "العربية", "marketCaption": "UAE · Citi Dubai MENA presence" },
+      { "id": "zh", "countryCode": "HK", "heading": "中文", "marketCaption": "Hong Kong · Citi APAC institutional presence" }
+    ]
+  },
+  "final": {
+    "ctaLabel": "Generate Avatar Video →",
+    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+  },
+  "thumbnail_brand_mark": "citi",
+  "avatar_video_url": null,
+  "showcase": {
+    "meta": {
+      "company": "Citi",
+      "ticker": "C",
+      "exchange": "NYSE",
+      "articleSource": "Placeholder — pinned story TBD",
+      "totalDurationMs": 90000,
+      "sourceFiling": "Placeholder — pinned story TBD"
+    },
+    "stages": [
+      { "stage": 1, "name": "article_input", "delayMs": 400, "data": { "title": "Citi demo placeholder — pinned story to be locked before any Citi meeting", "source": "TBD", "publishedAt": "TBD", "wordCount": 0, "fullText": "Placeholder content. Pinned story will be authored before any Citi meeting." } },
+      { "stage": 2, "name": "watcher_detection", "delayMs": 3500, "data": { "source": "TBD", "publishedAt": "TBD", "ticker": "C", "exchange": "NYSE", "noveltyScore": 0, "noveltyReason": "Placeholder" } },
+      { "stage": 3, "name": "company_enrichment", "delayMs": 7000, "data": { "name": "Citigroup Inc.", "ticker": "C", "sector": "Financial Services", "industry": "Banks—Diversified", "ceo": "Jane Fraser", "headquarters": "New York, NY", "foundedYear": "1812 (predecessor City Bank of New York)", "marketCap": "TBD", "lastPrice": "TBD", "week52High": "TBD", "week52Low": "TBD", "keyProducts": "Consumer banking, commercial banking, institutional clients group, wealth management, Citi Self Invest, Citigold", "competitors": "JPMorgan Chase, Bank of America, Wells Fargo, HSBC", "description": "Placeholder", "dbSize": "32,000+", "dbExchanges": "53" } },
+      { "stage": 4, "name": "fact_extraction", "delayMs": 11000, "data": { "facts": [], "totalWords": 0, "fullText": "Placeholder" } },
+      { "stage": 5, "name": "sec_validation", "delayMs": 16500, "data": { "validations": [] } },
+      { "stage": 6, "name": "cross_reference", "delayMs": 23000, "data": { "center": "Citi", "nodes": [], "note": "Placeholder" } },
+      { "stage": 7, "name": "reporter_selection", "delayMs": 29500, "data": { "selected": "Gerardo", "reasoning": "Locked per Q5 — Gerardo is the consistent voice across all client videos." } },
+      { "stage": 8, "name": "script_generation", "delayMs": 34000, "data": { "model": "Claude Sonnet 4.6", "wordCount": 0, "script": ["Placeholder script — pinned story TBD."] } },
+      { "stage": 9, "name": "chart_suggestion", "delayMs": 41500, "data": { "type": "Placeholder", "series": [{ "q": "Q1", "v": 0 }] } },
+      { "stage": 10, "name": "thumbnail_generation", "delayMs": 46000, "data": { "options": [{ "headline": "Placeholder", "number": "TBD", "foot": "TBD", "recommended": true }] } },
+      { "stage": 11, "name": "compliance_red_pass", "delayMs": 50500, "data": { "draftScript": "Placeholder", "violations": [], "rewrittenScript": "Placeholder", "rewrites": [] } },
+      { "stage": 12, "name": "compliance_gates", "delayMs": 63000, "data": { "l1": { "ms": 15, "passed": true, "msg": "0 forbidden phrases" }, "l2": { "ms": 812, "passed": true, "msg": "Placeholder" }, "l3": { "ms": 2104, "passed": true, "msg": "Placeholder" }, "qualityScore": 95, "complianceScore": 98 } },
+      { "stage": 13, "name": "multilanguage", "delayMs": 72000, "data": { "languages": [
+        { "id": "en", "script": ["Placeholder English script — pinned story TBD."] },
+        { "id": "en-gb", "script": ["Placeholder UK English script — pinned story TBD."] },
+        { "id": "de", "script": ["Platzhalter — Story noch nicht festgelegt."] },
+        { "id": "ar", "script": ["نص تجريبي — لم يتم تحديد القصة بعد."] },
+        { "id": "zh", "script": ["占位符 — 故事尚未确定。"] }
+      ], "driftPct": 0 } },
+      { "stage": 14, "name": "audit_trail", "delayMs": 79500, "data": { "steps": 15, "durationSec": 47, "humanInterventions": 0 } },
+      { "stage": 15, "name": "final_output", "delayMs": 84000, "data": { "reporter": "Gerardo", "reporterRole": "Placeholder", "finalScript": "Placeholder Citi final script — to be authored before any Citi meeting.", "qualityScore": 95, "complianceScore": 98, "ticker": "C", "exchange": "NYSE", "source": "TBD", "totalSeconds": 47 } }
+    ]
+  }
+}

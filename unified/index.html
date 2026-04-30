@@ -18,8 +18,8 @@
   <!-- Editorial fonts (Fraunces/Inter/JetBrains Mono) + native-language flavor fonts (E5):
        Bitter (DE) · Cormorant Garamond (IT/PT/ES) · Marcellus (FR) · Noto Serif JP (JP).
        font-display: swap so they don't block paint. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Bitter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&family=Noto+Serif+JP:wght@400;500&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Bitter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Bitter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&family=Noto+Serif+JP:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Bitter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&family=Noto+Serif+JP:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- Locked CDN versions per Beat 5.A. No @latest. -->
   <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
@@ -915,6 +915,40 @@
       font-weight: 400;
       opacity: 0.55;
     }
+    /* R11 — Citi co-brand: lowercase "citi" in DM Sans + red arc */
+    .stv-topbar-mark .stv-mark-for-citi {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      font-style: normal;
+    }
+    .stv-topbar-mark .stv-mark-for-prefix {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--accent);
+      opacity: 0.9;
+    }
+    .stv-topbar-mark .stv-mark-citi-wordmark {
+      position: relative;
+      display: inline-block;
+      font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #003B70;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      padding-top: 0.3rem;
+    }
+    .stv-topbar-mark .stv-mark-citi-arc {
+      position: absolute;
+      top: -0.05rem;
+      right: -0.05rem;
+      width: 1.55rem;
+      height: 0.7rem;
+      pointer-events: none;
+    }
 
     /* Beat indicator ("03 / 07 · Scale reveal") audit 1.2 */
     .stv-topbar-beat {
@@ -1281,6 +1315,27 @@
       margin: 0.5rem 0 0 0;
       transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
       animation: stv-brand-name-pop 380ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    /* R11 — Citi brand-scene-name: lowercase DM Sans + red arc above "t" */
+    .brand-scene-name-citi {
+      font-style: normal;
+      letter-spacing: -0.045em;
+    }
+    .brand-scene-citi-wrap {
+      position: relative;
+      display: inline-block;
+      font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      color: #003B70;
+      padding-top: 0.35em;
+    }
+    .brand-scene-citi-arc {
+      position: absolute;
+      top: -0.15em;
+      right: -0.05em;
+      width: 0.55em;
+      height: 0.32em;
+      pointer-events: none;
     }
     @keyframes stv-brand-name-pop {
       0% { opacity: 0; filter: blur(8px); transform: scale(0.97); }
@@ -4064,6 +4119,369 @@
       font-weight: 600;
     }
 
+    /* ====================================================================== */
+    /* R11 — Citi iPhone styles. Banking-app palette: dark navy #0A1A2E base, */
+    /* Citi Blue #003B70 primary, red accent #D9261C, success green #00C775.  */
+    /* ====================================================================== */
+    .iphone-sim--citi .ip-bottomnav { background: #07111E; border-top: 1px solid rgba(255,255,255,0.08); }
+    .iphone-sim--citi .ip-bottomnav-tab[data-active='true'] { color: #5AA0E6; }
+    .iphone-sim--citi .ip-stock-tab.is-active { color: #5AA0E6; border-bottom-color: #5AA0E6; }
+
+    .ip-screen--citi {
+      background: #0A1A2E;
+      color: #E6EEF6;
+      font-family: 'DM Sans', 'Inter', Helvetica, Arial, sans-serif;
+    }
+    .ip-screen-topbar--citi {
+      background: #0A1A2E;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #E6EEF6;
+    }
+    .ip-citi-screen-title {
+      font-family: 'DM Sans', 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #E6EEF6;
+    }
+    .ip-citi-topbar-mark { display: inline-flex; align-items: center; }
+    .ip-citi-wordmark {
+      position: relative;
+      display: inline-block;
+      font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      padding-top: 0.3em;
+    }
+    .ip-citi-wordmark-arc {
+      position: absolute;
+      top: -0.05em;
+      right: -0.1em;
+      pointer-events: none;
+    }
+
+    /* Citi greeting line */
+    .ip-citi-greeting {
+      padding: 14px 16px 4px;
+      font-family: 'DM Sans', 'Inter', sans-serif;
+      font-size: 19px;
+      font-weight: 500;
+      color: #E6EEF6;
+      letter-spacing: -0.01em;
+    }
+
+    /* Citi account card */
+    .ip-citi-account-card {
+      margin: 12px 16px 14px;
+      background: linear-gradient(135deg, #003B70 0%, #002854 100%);
+      border-radius: 12px;
+      padding: 16px 18px;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .ip-citi-account-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .ip-citi-account-balance {
+      margin-top: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .ip-citi-account-foot {
+      margin-top: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      opacity: 0.78;
+    }
+
+    /* Citi quick action row */
+    .ip-citi-quick-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 0 16px 14px;
+    }
+    .ip-citi-quick {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 4px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      color: #E6EEF6;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .ip-citi-quick > span:first-child { font-size: 16px; line-height: 1; color: #5AA0E6; }
+
+    .ip-section-head--citi {
+      color: #9FB3CC;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+    }
+    .ip-citi-link { color: #5AA0E6; cursor: pointer; }
+
+    /* Transaction list */
+    .ip-citi-tx-list { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ip-citi-tx {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+    }
+    .ip-citi-tx-icon {
+      width: 36px; height: 36px;
+      background: rgba(0,59,112,0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .ip-citi-tx-name { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #E6EEF6; }
+    .ip-citi-tx-meta { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #9FB3CC; margin-top: 2px; }
+    .ip-citi-tx-amt { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #E6EEF6; }
+    .ip-citi-tx-amt.is-up-citi { color: #00C775; }
+
+    /* Citi action rows (Pay & Transfer + Cards screens) */
+    .ip-citi-section-h2 {
+      padding: 14px 16px 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #9FB3CC;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .ip-citi-action-row { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 12px; }
+    .ip-citi-action {
+      display: grid;
+      grid-template-columns: 32px 1fr 16px;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      color: #E6EEF6;
+      cursor: pointer;
+      text-align: left;
+    }
+    .ip-citi-action-icon { font-size: 18px; line-height: 1; }
+    .ip-citi-action-name { font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; }
+    .ip-citi-action-arrow { color: #5AA0E6; font-size: 18px; line-height: 1; }
+
+    /* Recipient row */
+    .ip-citi-recipient-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 0 16px 16px;
+    }
+    .ip-citi-recipient { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .ip-citi-recipient-avatar {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #003B70 0%, #002854 100%);
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.02em;
+    }
+    .ip-citi-recipient-avatar--add {
+      background: rgba(255,255,255,0.06);
+      color: #5AA0E6;
+      border: 1px dashed rgba(255,255,255,0.18);
+      font-size: 18px;
+    }
+    .ip-citi-recipient-name { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #9FB3CC; text-align: center; }
+
+    /* Disclosure footer */
+    .ip-citi-disclosure {
+      padding: 14px 16px 18px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: #6E89A6;
+      letter-spacing: 0.06em;
+    }
+
+    /* Invest screen */
+    .ip-citi-invest-summary { padding: 14px 16px 8px; }
+    .ip-citi-invest-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #9FB3CC;
+    }
+    .ip-citi-invest-value {
+      margin-top: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+    }
+    .ip-citi-invest-chg.is-up-citi { color: #00C775; font-family: 'DM Sans', sans-serif; font-size: 12px; margin-top: 2px; }
+    .ip-citi-invest-chg.is-down-citi { color: #D9261C; font-family: 'DM Sans', sans-serif; font-size: 12px; margin-top: 2px; }
+
+    .ip-citi-tabs {
+      display: flex;
+      gap: 14px;
+      padding: 12px 16px 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 8px;
+    }
+    .ip-citi-tab {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #9FB3CC;
+      padding-bottom: 8px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+    .ip-citi-tab.is-active { color: #5AA0E6; border-bottom-color: #5AA0E6; }
+
+    .ip-stock-row--citi { background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ip-stock-row--citi .ip-stock-row-ticker { color: #FFFFFF; }
+    .ip-stock-row--citi .ip-stock-row-name { color: #9FB3CC; }
+    .ip-stock-row--citi .ip-stock-row-price { color: #FFFFFF; }
+    .ip-stock-row--citi.is-active { background: rgba(0,59,112,0.35); }
+    .ip-stock-row-chg.is-up-citi { color: #00C775; }
+    .ip-stock-row-chg.is-down-citi { color: #D9261C; }
+
+    .ip-search--citi { background: rgba(255,255,255,0.06); color: #E6EEF6; }
+    .ip-search--citi .ip-search-placeholder { color: #9FB3CC; }
+
+    /* Cards screen */
+    .ip-citi-card-stack { padding: 14px 16px 4px; }
+    .ip-citi-card {
+      background: linear-gradient(135deg, #003B70 0%, #001F3D 100%);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .ip-citi-card-issuer { display: flex; align-items: center; }
+    .ip-citi-card-tier { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; opacity: 0.92; margin-top: 14px; }
+    .ip-citi-card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      margin-top: 14px;
+      color: #E6EEF6;
+    }
+    .ip-citi-card-foot {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      opacity: 0.85;
+      margin-top: 12px;
+      text-transform: uppercase;
+    }
+
+    .ip-citi-card-meta {
+      padding: 14px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ip-citi-card-meta-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+    }
+    .ip-citi-card-meta-label { font-family: 'DM Sans', sans-serif; font-size: 11.5px; color: #9FB3CC; letter-spacing: 0.02em; }
+    .ip-citi-card-meta-value { font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: #FFFFFF; font-weight: 600; }
+
+    /* Citi CTA button (replaces ip-cta-green for Citi screens) */
+    .ip-citi-cta {
+      display: block;
+      margin: 16px 16px 4px;
+      width: calc(100% - 32px);
+      background: #003B70;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background 200ms ease, transform 120ms ease;
+    }
+    .ip-citi-cta:hover { background: #004F92; }
+    .ip-citi-cta:active { transform: translateY(1px); }
+
+    /* Citi menu profile */
+    .ip-menu-profile--citi { background: linear-gradient(180deg, #07111E 0%, #0A1A2E 100%); }
+    .ip-menu-avatar--citi { background: #003B70; color: #FFFFFF; }
+    .ip-menu-profile-prog-fill--citi { background: #003B70; }
+    .ip-menu-profile-link--citi { color: #5AA0E6; }
+    .ip-menu-item--citi {
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #E6EEF6;
+    }
+    .ip-menu-item--citi .ip-menu-item-arrow { color: #5AA0E6; }
+
+    /* Citi broadcast card variant */
+    .ip-stv-broadcast-card--citi {
+      background: linear-gradient(135deg, #003B70 0%, #002854 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .ip-stv-broadcast-card--citi .ip-stv-broadcast-mark { color: #FFFFFF; }
+    .ip-stv-broadcast-card--citi .ip-stv-broadcast-mark em { color: #5AA0E6; }
+    .ip-stv-broadcast-card--citi .ip-stv-broadcast-tag { color: #D9261C; }
+
+    /* Stock-detail Citi-specific overrides */
+    .ip-screen--stock-detail.ip-screen--citi { background: #0A1A2E; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-info { background: #0A1A2E; color: #E6EEF6; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-price-large { color: #FFFFFF; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-tab { color: #9FB3CC; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-desc { color: #B5C5D5; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-chg-pill.is-up { background: rgba(0,199,117,0.18); color: #00C775; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-chg-pill.is-down { background: rgba(217,38,28,0.18); color: #D9261C; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-screen-topbar { background: #0A1A2E; color: #E6EEF6; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ip-screen--stock-detail.ip-screen--citi .ip-banner-arrow { color: #FFFFFF; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-stock-video-banner { background: linear-gradient(180deg, rgba(0,59,112,0.92) 0%, rgba(0,40,84,0.96) 100%); }
+    .ip-screen--stock-detail.ip-screen--citi .ip-banner-chg.is-up { color: #00C775; }
+    .ip-screen--stock-detail.ip-screen--citi .ip-banner-chg.is-down { color: #D9261C; }
+
     /* Bottom nav */
     .ip-bottomnav {
       flex-shrink: 0;
@@ -6157,7 +6575,9 @@
   const BEAT_ORDER = [BEATS.HOOK, BEATS.BRAND, BEATS.SCALE, BEATS.SAFETY, BEATS.PIPELINE, BEATS.OUTPUT, BEATS.CLOSE];
 
   // ---- Brand registry (per Beat 4 B.4.B) ----
-  const KNOWN_SLUGS = ['etoro', 'ibkr', 'bac', 'jpm', 'plus500', 't212'];
+  // R11 — Citi added as 7th brand. URL alias 'citibank' resolves to 'citi'.
+  const KNOWN_SLUGS = ['etoro', 'ibkr', 'bac', 'jpm', 'plus500', 't212', 'citi'];
+  const SLUG_ALIASES = { citibank: 'citi' };
   const DEFAULT_SLUG = 'etoro';
   const BRAND_DISPLAY_DEFAULTS = {
     etoro:   { initials: 'eT', shortName: 'eToro',        tagline: 'Built for eToro',        seed: '#6AAE22' },
@@ -6166,6 +6586,7 @@
     jpm:     { initials: 'JP', shortName: 'JPM',          tagline: 'Built for J.P. Morgan',  seed: '#117ACA' },
     plus500: { initials: 'P5', shortName: 'Plus500',      tagline: 'Built for Plus500',      seed: '#ec1c24' },
     t212:    { initials: 'T2', shortName: 'Trading 212',  tagline: 'Built for Trading 212',  seed: '#009cde' },
+    citi:    { initials: 'Ci', shortName: 'citi',         tagline: 'Built for citi',         seed: '#003B70' },
   };
 
   // ---- Real flag SVG library (from fleet/js/client-loader.js) ----
@@ -6882,6 +7303,48 @@
   // R10 Beat 6 — Interactive iPhone simulation: per-stock video URLs.
   // CORS verified 2026-04-29: IBKR URL returns 200 + Access-Control-Allow-Origin: *.
   const IBKR_VIDEO_URL = 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/Interactive%20Brokers%20Update.mp4';
+
+  // R11 — Citi country variants (5 markets aligned with config/citi.json multilang).
+  // Reuses the same Supabase video pool (CORS already verified). Captions reflect
+  // Citi's institutional positioning: USA HQ, EMEA London hub, Frankfurt presence,
+  // Dubai MENA, Hong Kong APAC.
+  const CITI_COUNTRY_VARIANTS = [
+    {
+      key: 'us',
+      label: 'Citi USA',
+      flag: 'US',
+      videoUrl: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4',
+      caption: 'NVIDIA · Q4 record financials',
+    },
+    {
+      key: 'fr',
+      label: 'Citi France',
+      flag: 'FR',
+      videoUrl: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/FRENCH%20VIDEO.mp4',
+      caption: 'BAXTER INTERNATIONAL · Q3 results',
+    },
+    {
+      key: 'de',
+      label: 'Citi Germany',
+      flag: 'DE',
+      videoUrl: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/GERMAN%20VIDEO.mp4',
+      caption: 'ALPHABET · German-language earnings preview',
+    },
+    {
+      key: 'ae',
+      label: 'Citi UAE',
+      flag: 'AE',
+      videoUrl: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/ARABIC%20VIDEO.mp4',
+      caption: 'DANONE · Arabic-language update',
+    },
+    {
+      key: 'gb',
+      label: 'Citi UK',
+      flag: 'GB',
+      videoUrl: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/Interactive%20Brokers%20Update.mp4',
+      caption: 'INTERACTIVE BROKERS · London EMEA brief',
+    },
+  ];
 
   // Stock data for the 5 stocks visible across the interactive iPhone screens.
   // Each stock has: ticker, name, price, change %, change abs, embedded video URL,
@@ -8185,7 +8648,20 @@
             <span>Stocker<span className="stv-mark-tv">TV</span></span>
             {/* 7.2 co-brand suffix — visible whenever a real client brand is locked */}
             <span className="stv-mark-divider">·</span>
-            <span className="stv-mark-for">for {display}</span>
+            {brandSlug === 'citi' ? (
+              <span className="stv-mark-for stv-mark-for-citi" aria-label="for citi">
+                <span className="stv-mark-for-prefix">for</span>
+                <span className="stv-mark-citi-wordmark">
+                  citi
+                  <svg className="stv-mark-citi-arc" viewBox="0 0 30 14" aria-hidden="true">
+                    <path d="M 4 12 Q 17 -2 26 12" stroke="#D9261C" strokeWidth="2" fill="none" strokeLinecap="round"/>
+                    <circle cx="26" cy="12" r="1.6" fill="#D9261C"/>
+                  </svg>
+                </span>
+              </span>
+            ) : (
+              <span className="stv-mark-for">for {display}</span>
+            )}
           </div>
           {/* 1.2 beat indicator */}
           <div className="stv-topbar-beat">
@@ -8268,17 +8744,29 @@
 
         <h2 className="brand-scene-builtfor">Built for</h2>
         {/* Use brandSlug as React key so the wordmark re-runs the brand-name-pop animation on every switch */}
-        <div className="brand-scene-name" key={brandSlug}>{display}</div>
+        {brandSlug === 'citi' ? (
+          <div className="brand-scene-name brand-scene-name-citi" key={brandSlug} aria-label="citi">
+            <span className="brand-scene-citi-wrap">
+              citi
+              <svg className="brand-scene-citi-arc" viewBox="0 0 100 36" aria-hidden="true">
+                <path d="M 18 32 Q 60 -6 88 32" stroke="#D9261C" strokeWidth="6" fill="none" strokeLinecap="round"/>
+                <circle cx="88" cy="32" r="4.6" fill="#D9261C"/>
+              </svg>
+            </span>
+          </div>
+        ) : (
+          <div className="brand-scene-name" key={brandSlug}>{display}</div>
+        )}
 
         <div className="brand-scene-line" aria-hidden="true" />
 
         <p className="brand-scene-subline">
-          One demo, six brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the linked pipeline. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
+          One demo, seven brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the linked pipeline. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
         </p>
 
         <div className="brand-scene-helper">
           Tip — try it now. Or use{' '}
-          <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd>{' '}
+          <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd>{' '}
           to switch.
         </div>
 
@@ -10512,6 +11000,10 @@
       ? brandConfig.branding.shortName
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
     const isEtoro = brandSlug === 'etoro';
+    const isCiti = brandSlug === 'citi';
+    // R11 — country selector now applies for both eToro and Citi (each has its own variants).
+    const countryVariants = isCiti ? CITI_COUNTRY_VARIANTS : ETORO_COUNTRY_VARIANTS;
+    const showCountrySelector = isEtoro || isCiti;
 
     // ---- State machine for the iPhone simulation ----
     const [activeScreen, setActiveScreen] = useState('stock_detail');
@@ -10529,7 +11021,7 @@
     // (when user hasn't navigated away yet). Otherwise stock's dedicated video.
     const stock = STOCKS[activeStock] || STOCKS.NVDA;
     const onDefaultNvda = !hasNavigated && activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
-    const countryVariant = onDefaultNvda ? ETORO_COUNTRY_VARIANTS.find((v) => v.key === countryKey) : null;
+    const countryVariant = (showCountrySelector && onDefaultNvda) ? countryVariants.find((v) => v.key === countryKey) : null;
     const activeVideoUrl = countryVariant ? countryVariant.videoUrl : stock.video;
 
     // Reset to default state when switching brands
@@ -10627,7 +11119,7 @@
             <div className="iphone-annotation" role="listitem">
               <span className="iphone-annotation-num" aria-hidden="true">01</span>
               <div className="iphone-annotation-body">
-                <div className="iphone-annotation-title">Native eToro UI &middot; untouched</div>
+                <div className="iphone-annotation-title">Native {display} UI &middot; untouched</div>
                 <div className="iphone-annotation-text">The host app's own surface — colors, nav, search, all preserved.</div>
               </div>
             </div>
@@ -10642,7 +11134,7 @@
               <span className="iphone-annotation-num" aria-hidden="true">03</span>
               <div className="iphone-annotation-body">
                 <div className="iphone-annotation-title">Tap any stock &middot; localized broadcast</div>
-                <div className="iphone-annotation-text">Watchlist or Discover &mdash; click a row to navigate. The widget switches video instantly.</div>
+                <div className="iphone-annotation-text">{isCiti ? 'Invest tab' : 'Watchlist or Discover'} &mdash; click a row to navigate. The widget switches video instantly.</div>
               </div>
             </div>
             <div className="iphone-annotation" role="listitem">
@@ -10658,10 +11150,10 @@
               right-column wrapper so the 2-col layout (annotations LEFT / iPhone RIGHT)
               renders cleanly. Mobile order via flex-order puts iPhone before annotations. */}
           <div className="iphone-sim-right">
-            {/* Country selector — visible only on default NVDA screen, only for eToro brand */}
-            {isEtoro && onDefaultNvda && (
+            {/* Country selector — visible only on default NVDA screen, for eToro AND Citi brands */}
+            {showCountrySelector && onDefaultNvda && (
               <div className="iphone-country-selector" role="tablist" aria-label="Select country variant">
-                {ETORO_COUNTRY_VARIANTS.map((v) => {
+                {countryVariants.map((v) => {
                   const active = v.key === countryKey;
                   return (
                     <button
@@ -10683,6 +11175,7 @@
 
             {/* The interactive iPhone */}
             <InteractiveIPhone
+              brandSlug={brandSlug}
               activeScreen={activeScreen}
               activeStock={activeStock}
               detailMode={detailMode}
@@ -10783,18 +11276,21 @@
   // R10 — InteractiveIPhone: outer SVG-shaped frame + inner React-rendered screens
   // ============================================================================
   function InteractiveIPhone(props) {
-    const { activeScreen, activeStock, detailMode, activeVideoUrl, stock, iphoneVideoRef,
+    const { brandSlug, activeScreen, activeStock, detailMode, activeVideoUrl, stock, iphoneVideoRef,
             navigateToScreen, navigateToStock, swapToNativeMode, swapToBroadcastMode,
             onClickWidget, onAcademyClick } = props;
+    const isCiti = brandSlug === 'citi';
+    const ariaLabel = isCiti ? 'Interactive Citi app simulation' : 'Interactive eToro app simulation';
 
     return (
-      <div className="iphone-sim" aria-label="Interactive eToro app simulation">
+      <div className={`iphone-sim ${isCiti ? 'iphone-sim--citi' : ''}`} aria-label={ariaLabel} data-brand={brandSlug}>
         <div className="iphone-sim-frame" aria-hidden="true" />
         <div className="iphone-sim-screen">
           <IphoneStatusBar />
           <div className="iphone-sim-content">
             {activeScreen === 'stock_detail' && (
               <StockDetailScreen
+                brandSlug={brandSlug}
                 stock={stock}
                 detailMode={detailMode}
                 videoUrl={activeVideoUrl}
@@ -10804,23 +11300,39 @@
                 onSwapToBroadcast={swapToBroadcastMode}
               />
             )}
-            {activeScreen === 'watchlist' && (
+            {activeScreen === 'watchlist' && !isCiti && (
               <WatchlistScreen onStockClick={navigateToStock} activeTicker={activeStock} />
             )}
-            {activeScreen === 'discover' && (
+            {activeScreen === 'discover' && !isCiti && (
               <DiscoverScreen onStockClick={navigateToStock} />
             )}
-            {activeScreen === 'home' && (
+            {activeScreen === 'home' && !isCiti && (
               <HomeScreen onBroadcastClick={() => navigateToStock('NVDA')} />
             )}
-            {activeScreen === 'portfolio' && (
+            {activeScreen === 'home' && isCiti && (
+              <CitiHomeScreen onBroadcastClick={() => navigateToStock('NVDA')} />
+            )}
+            {activeScreen === 'portfolio' && !isCiti && (
               <PortfolioScreen onWatchlistClick={() => navigateToScreen('watchlist')} />
             )}
-            {activeScreen === 'menu' && (
+            {activeScreen === 'menu' && !isCiti && (
               <MenuScreen onAcademyClick={onAcademyClick} />
             )}
+            {activeScreen === 'menu' && isCiti && (
+              <CitiSettingsScreen onAcademyClick={onAcademyClick} />
+            )}
+            {/* R11 — Citi-only screens */}
+            {activeScreen === 'pay_transfer' && isCiti && (
+              <CitiPayTransferScreen />
+            )}
+            {activeScreen === 'invest' && isCiti && (
+              <CitiInvestOverviewScreen onStockClick={navigateToStock} activeTicker={activeStock} />
+            )}
+            {activeScreen === 'cards' && isCiti && (
+              <CitiCardsScreen />
+            )}
           </div>
-          <IphoneBottomNav active={activeScreen} onChange={navigateToScreen} />
+          <IphoneBottomNav brandSlug={brandSlug} active={activeScreen} onChange={navigateToScreen} />
         </div>
         <div className="iphone-sim-notch" aria-hidden="true" />
         <div className="iphone-sim-button iphone-sim-button--left" aria-hidden="true" />
@@ -10852,16 +11364,28 @@
 
   // ---- Bottom nav (5 tabs) ----
   // R10.1 Fix 2 — last tab renamed Wallet → Settings (gear icon).
-  function IphoneBottomNav({ active, onChange }) {
-    const tabs = [
-      { key: 'home', label: 'Home', icon: 'home' },
-      { key: 'watchlist', label: 'Watchlist', icon: 'star' },
-      { key: 'portfolio', label: 'Portfolio', icon: 'pie' },
-      { key: 'discover', label: 'Discover', icon: 'compass' },
-      { key: 'menu', label: 'Settings', icon: 'settings' },
-    ];
-    // stock_detail = home tab effectively, since the default screen is NVDA stock detail
-    const activeTab = active === 'stock_detail' ? 'home' : active;
+  // R11 — brand-aware: Citi gets its own banking-app tab set.
+  function IphoneBottomNav({ brandSlug, active, onChange }) {
+    const isCiti = brandSlug === 'citi';
+    const tabs = isCiti
+      ? [
+          { key: 'home',         label: 'Home',           icon: 'home' },
+          { key: 'pay_transfer', label: 'Pay & Transfer', icon: 'transfer' },
+          { key: 'invest',       label: 'Invest',         icon: 'pie' },
+          { key: 'cards',        label: 'Cards',          icon: 'card' },
+          { key: 'menu',         label: 'Settings',       icon: 'settings' },
+        ]
+      : [
+          { key: 'home',      label: 'Home',      icon: 'home' },
+          { key: 'watchlist', label: 'Watchlist', icon: 'star' },
+          { key: 'portfolio', label: 'Portfolio', icon: 'pie' },
+          { key: 'discover',  label: 'Discover',  icon: 'compass' },
+          { key: 'menu',      label: 'Settings',  icon: 'settings' },
+        ];
+    // stock_detail maps to: 'invest' tab for Citi (Invest is the trading entry-point);
+    // 'home' tab for eToro (default landing screen).
+    const stockDetailTab = isCiti ? 'invest' : 'home';
+    const activeTab = active === 'stock_detail' ? stockDetailTab : active;
     return (
       <nav className="ip-bottomnav" role="tablist" aria-label="App navigation">
         {tabs.map((t) => (
@@ -10912,6 +11436,22 @@
         <circle cx="17" cy="14" r="1.2" fill="currentColor"/>
       </svg>
     );
+    // R11 — Citi: transfer (Pay & Transfer tab) + card (Cards tab)
+    if (name === 'transfer') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 9h13"/>
+        <polyline points="13,5 17,9 13,13"/>
+        <path d="M20 15H7"/>
+        <polyline points="11,19 7,15 11,11"/>
+      </svg>
+    );
+    if (name === 'card') return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2.5" y="5" width="19" height="14" rx="2"/>
+        <line x1="2.5" y1="10" x2="21.5" y2="10"/>
+        <line x1="6" y1="15" x2="10" y2="15"/>
+      </svg>
+    );
     // R10.1 Fix 2 — Settings/gear icon (replaces wallet for the last bottom-nav tab)
     if (name === 'settings') return (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -10923,10 +11463,15 @@
   }
 
   // ---- Stock Detail Screen (broadcast mode = video; native mode = chart + Buy/Sell) ----
-  function StockDetailScreen({ stock, detailMode, videoUrl, videoRef, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
+  function StockDetailScreen({ brandSlug, stock, detailMode, videoUrl, videoRef, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
     const isUp = stock.chgPct >= 0;
+    const isCiti = brandSlug === 'citi';
+    const bannerArrow = isCiti ? 'Trade on citi →' : 'Open in eToro →';
+    const tabs = isCiti
+      ? ['Overview', 'Quote', 'News', 'Research']
+      : ['Overview', 'Stats', 'News', 'Trades'];
     return (
-      <div className="ip-screen ip-screen--stock-detail">
+      <div className={`ip-screen ip-screen--stock-detail ${isCiti ? 'ip-screen--citi' : ''}`}>
         <div className="ip-screen-topbar">
           <button className="ip-topbar-icon" aria-label="Back" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -10970,7 +11515,7 @@
               <span className={`ip-banner-chg ${isUp ? 'is-up' : 'is-down'}`}>
                 {isUp ? '▲' : '▼'} {Math.abs(stock.chgPct).toFixed(2)}%
               </span>
-              <span className="ip-banner-arrow" aria-hidden="true">Open in eToro →</span>
+              <span className="ip-banner-arrow" aria-hidden="true">{bannerArrow}</span>
             </button>
           </div>
         )}
@@ -11009,10 +11554,9 @@
             </div>
           )}
           <div className="ip-stock-tabs">
-            <span className="ip-stock-tab is-active">Overview</span>
-            <span className="ip-stock-tab">Stats</span>
-            <span className="ip-stock-tab">News</span>
-            <span className="ip-stock-tab">Trades</span>
+            {tabs.map((t, i) => (
+              <span key={t} className={`ip-stock-tab ${i === 0 ? 'is-active' : ''}`}>{t}</span>
+            ))}
           </div>
           <p className="ip-stock-desc">{stock.desc}</p>
         </div>
@@ -11386,6 +11930,383 @@
   }
 
   // ============================================================================
+  // R11 — Citi-specific screens. Banking-app pattern (Citi Mobile).
+  // Background #0A1A2E (Citi dark navy), primary #003B70, up #00C775, down #D9261C.
+  // Note: NOT the licensed Citi Mobile app — a representative interpretation
+  // for demo only. "Demo content · illustrative only" footer applies.
+  // ============================================================================
+
+  // Inline Citi wordmark (lowercase + red arc) — small variant for the menu/topbar context
+  function CitiInlineWordmark({ size = 18 }) {
+    const arcSize = size * 0.55;
+    return (
+      <span className="ip-citi-wordmark" style={{ fontSize: `${size}px` }}>
+        citi
+        <svg className="ip-citi-wordmark-arc" viewBox="0 0 30 14" style={{ width: `${arcSize}px`, height: `${arcSize * 0.45}px` }} aria-hidden="true">
+          <path d="M 4 12 Q 17 -2 26 12" stroke="#D9261C" strokeWidth="2" fill="none" strokeLinecap="round"/>
+          <circle cx="26" cy="12" r="1.6" fill="#D9261C"/>
+        </svg>
+      </span>
+    );
+  }
+
+  // ---- Citi Home Screen ----
+  function CitiHomeScreen({ onBroadcastClick }) {
+    return (
+      <div className="ip-screen ip-screen--citi ip-screen--citi-home">
+        <div className="ip-screen-topbar ip-screen-topbar--full ip-screen-topbar--citi">
+          <button className="ip-topbar-icon" aria-label="Profile" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
+            </svg>
+          </button>
+          <div className="ip-citi-topbar-mark"><CitiInlineWordmark size={20} /></div>
+          <button className="ip-topbar-icon" aria-label="Notifications" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </button>
+        </div>
+
+        <div className="ip-citi-greeting">Good morning, Demo User</div>
+
+        <div className="ip-citi-account-card">
+          <div className="ip-citi-account-label">Citi Priority Checking · ••4271</div>
+          <div className="ip-citi-account-balance">$24,318.42</div>
+          <div className="ip-citi-account-foot">Available · USD</div>
+        </div>
+
+        <div className="ip-citi-quick-row">
+          <button className="ip-citi-quick" type="button"><span aria-hidden="true">↗</span><span>Pay</span></button>
+          <button className="ip-citi-quick" type="button"><span aria-hidden="true">⇄</span><span>Transfer</span></button>
+          <button className="ip-citi-quick" type="button"><span aria-hidden="true">📥</span><span>Deposit</span></button>
+          <button className="ip-citi-quick" type="button"><span aria-hidden="true">⋯</span><span>More</span></button>
+        </div>
+
+        {/* StockerTV broadcast card — Citi-branded variant */}
+        <button
+          className="ip-stv-broadcast-card ip-stv-broadcast-card--citi"
+          onClick={onBroadcastClick}
+          type="button"
+          aria-label="Open NVDA broadcast"
+        >
+          <div className="ip-stv-broadcast-mark">
+            Stocker<em>TV</em>
+          </div>
+          <div className="ip-stv-broadcast-headline">
+            <span className="ip-stv-broadcast-tag">NVIDIA Q4 RECORD</span>
+            47-second analysis · for Citi clients
+          </div>
+          <div className="ip-stv-broadcast-play">
+            <svg viewBox="0 0 60 60" width="56" height="56" fill="none">
+              <circle cx="30" cy="30" r="29" fill="rgba(255,255,255,0.95)" />
+              <polygon points="24,18 24,42 44,30" fill="#003B70"/>
+            </svg>
+          </div>
+        </button>
+
+        <div className="ip-section-head ip-section-head--citi">
+          <span>Recent activity</span>
+          <span className="ip-citi-link">See all</span>
+        </div>
+        <div className="ip-citi-tx-list">
+          <div className="ip-citi-tx">
+            <div className="ip-citi-tx-icon">☕</div>
+            <div className="ip-citi-tx-body">
+              <div className="ip-citi-tx-name">Blue Bottle Coffee</div>
+              <div className="ip-citi-tx-meta">Today · Card ••4271</div>
+            </div>
+            <div className="ip-citi-tx-amt">−$6.85</div>
+          </div>
+          <div className="ip-citi-tx">
+            <div className="ip-citi-tx-icon">🏠</div>
+            <div className="ip-citi-tx-body">
+              <div className="ip-citi-tx-name">Apt rent · ACH</div>
+              <div className="ip-citi-tx-meta">Yesterday · Recurring</div>
+            </div>
+            <div className="ip-citi-tx-amt">−$2,400.00</div>
+          </div>
+          <div className="ip-citi-tx">
+            <div className="ip-citi-tx-icon">💼</div>
+            <div className="ip-citi-tx-body">
+              <div className="ip-citi-tx-name">Direct deposit · Payroll</div>
+              <div className="ip-citi-tx-meta">Apr 26 · Citi Priority</div>
+            </div>
+            <div className="ip-citi-tx-amt is-up-citi">+$5,212.40</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Citi Pay & Transfer Screen ----
+  function CitiPayTransferScreen() {
+    return (
+      <div className="ip-screen ip-screen--citi ip-screen--citi-pay">
+        <div className="ip-screen-topbar ip-screen-topbar--center ip-screen-topbar--citi">
+          <span className="ip-citi-screen-title">Pay & Transfer</span>
+        </div>
+
+        <div className="ip-citi-section-h2">Send money</div>
+        <div className="ip-citi-action-row">
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">⇄</div>
+            <div className="ip-citi-action-name">Between Citi accounts</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">↗</div>
+            <div className="ip-citi-action-name">Zelle · Send money</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">🌐</div>
+            <div className="ip-citi-action-name">International wire</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">📱</div>
+            <div className="ip-citi-action-name">Pay a bill</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+        </div>
+
+        <div className="ip-citi-section-h2">Recent recipients</div>
+        <div className="ip-citi-recipient-row">
+          <div className="ip-citi-recipient">
+            <div className="ip-citi-recipient-avatar">SM</div>
+            <div className="ip-citi-recipient-name">Sarah M.</div>
+          </div>
+          <div className="ip-citi-recipient">
+            <div className="ip-citi-recipient-avatar">JK</div>
+            <div className="ip-citi-recipient-name">Jonathan K.</div>
+          </div>
+          <div className="ip-citi-recipient">
+            <div className="ip-citi-recipient-avatar">AL</div>
+            <div className="ip-citi-recipient-name">Alex L.</div>
+          </div>
+          <div className="ip-citi-recipient">
+            <div className="ip-citi-recipient-avatar ip-citi-recipient-avatar--add">+</div>
+            <div className="ip-citi-recipient-name">Add</div>
+          </div>
+        </div>
+
+        <div className="ip-citi-disclosure">
+          Demo content · illustrative only · Citi · Member FDIC
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Citi Invest Overview Screen ----
+  // Citi's investing entry point. Shows watchlist-style stock rows that route to
+  // the shared StockDetailScreen (which itself flips to Citi-styled banner + tabs).
+  function CitiInvestOverviewScreen({ onStockClick, activeTicker }) {
+    const tickers = ['NVDA', 'GOOG', 'BAX', 'BN', 'IBKR'];
+    return (
+      <div className="ip-screen ip-screen--citi ip-screen--citi-invest">
+        <div className="ip-screen-topbar ip-screen-topbar--full ip-screen-topbar--citi">
+          <button className="ip-topbar-icon" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div className="ip-search ip-search--citi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="ip-search-icon">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span className="ip-search-placeholder">Search securities</span>
+          </div>
+        </div>
+
+        <div className="ip-citi-invest-summary">
+          <div className="ip-citi-invest-label">Citi Self Invest · Portfolio</div>
+          <div className="ip-citi-invest-value">$148,402.18</div>
+          <div className="ip-citi-invest-chg is-up-citi">▲ $1,284.40 (+0.87%) today</div>
+        </div>
+
+        <div className="ip-citi-tabs">
+          <span className="ip-citi-tab is-active">Watchlist</span>
+          <span className="ip-citi-tab">Holdings</span>
+          <span className="ip-citi-tab">Research</span>
+        </div>
+
+        <div className="ip-section-head ip-section-head--citi">
+          <span>Markets</span>
+          <span>Change 1D</span>
+        </div>
+        <div className="ip-stock-rows">
+          {tickers.map((ticker) => {
+            const s = STOCKS[ticker];
+            const isUp = s.chgPct >= 0;
+            return (
+              <button
+                key={ticker}
+                className={`ip-stock-row ip-stock-row--citi ${ticker === activeTicker ? 'is-active' : ''}`}
+                onClick={() => onStockClick(ticker)}
+                type="button"
+                aria-label={`Open ${ticker} ${s.name}`}
+              >
+                <div className="ip-stock-row-left">
+                  <div className="ip-stock-row-ticker">{ticker}</div>
+                  <div className="ip-stock-row-name">{s.name}</div>
+                </div>
+                <div className="ip-stock-row-spark">
+                  <Sparkline data={genSparkData(s.sparkSeed, 18, s.sparkDir)} width={50} height={20} />
+                </div>
+                <div className="ip-stock-row-right">
+                  <div className="ip-stock-row-price">{s.price}</div>
+                  <div className={`ip-stock-row-chg ${isUp ? 'is-up-citi' : 'is-down-citi'}`}>
+                    {isUp ? '▲' : '▼'} {Math.abs(s.chgAbs).toFixed(2)} ({Math.abs(s.chgPct).toFixed(2)}%)
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Citi Cards Screen ----
+  function CitiCardsScreen() {
+    return (
+      <div className="ip-screen ip-screen--citi ip-screen--citi-cards">
+        <div className="ip-screen-topbar ip-screen-topbar--center ip-screen-topbar--citi">
+          <span className="ip-citi-screen-title">Cards</span>
+        </div>
+
+        <div className="ip-citi-card-stack">
+          <div className="ip-citi-card ip-citi-card--primary">
+            <div className="ip-citi-card-issuer"><CitiInlineWordmark size={20} /></div>
+            <div className="ip-citi-card-tier">Citi Double Cash</div>
+            <div className="ip-citi-card-num">•••• •••• •••• 4271</div>
+            <div className="ip-citi-card-foot">
+              <span>Demo User</span>
+              <span>05/29</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="ip-citi-card-meta">
+          <div className="ip-citi-card-meta-item">
+            <div className="ip-citi-card-meta-label">Current balance</div>
+            <div className="ip-citi-card-meta-value">$1,284.50</div>
+          </div>
+          <div className="ip-citi-card-meta-item">
+            <div className="ip-citi-card-meta-label">Available credit</div>
+            <div className="ip-citi-card-meta-value">$8,715.50</div>
+          </div>
+          <div className="ip-citi-card-meta-item">
+            <div className="ip-citi-card-meta-label">Min payment due</div>
+            <div className="ip-citi-card-meta-value">$35.00 · May 18</div>
+          </div>
+        </div>
+
+        <button className="ip-citi-cta" type="button">Make a payment</button>
+
+        <div className="ip-citi-section-h2">Card actions</div>
+        <div className="ip-citi-action-row">
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">🔒</div>
+            <div className="ip-citi-action-name">Lock card</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">💳</div>
+            <div className="ip-citi-action-name">Replace card</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+          <button className="ip-citi-action" type="button">
+            <div className="ip-citi-action-icon">🎁</div>
+            <div className="ip-citi-action-name">ThankYou Rewards</div>
+            <div className="ip-citi-action-arrow">›</div>
+          </button>
+        </div>
+
+        <div className="ip-citi-disclosure">Demo content · illustrative only</div>
+      </div>
+    );
+  }
+
+  // ---- Citi Settings Screen (replaces MenuScreen for Citi) ----
+  function CitiSettingsScreen({ onAcademyClick }) {
+    const items = [
+      { label: 'Profile & security', icon: '👤' },
+      { label: 'StockerTV', kind: 'stockertv', href: 'https://www.stockertv.com' },
+      { label: 'Statements & documents', icon: '📄' },
+      { label: 'Citi ThankYou Rewards', icon: '🎖' },
+      { label: 'Refer a friend', icon: '📢' },
+      { label: 'Travel notices', icon: '✈' },
+      { label: 'App preferences', icon: '⚙' },
+      { label: 'Help & support', icon: '❓' },
+      { label: 'Citi Wealth Insights', icon: '🎓', onClick: onAcademyClick },
+      { label: 'Sign out', icon: '➡' },
+    ];
+    return (
+      <div className="ip-screen ip-screen--citi ip-screen--citi-menu">
+        <div className="ip-screen-topbar ip-screen-topbar--center ip-screen-topbar--citi">
+          <span className="ip-menu-wordmark ip-menu-wordmark--citi"><CitiInlineWordmark size={22} /></span>
+        </div>
+        <div className="ip-menu-profile ip-menu-profile--citi">
+          <div className="ip-menu-avatar ip-menu-avatar--citi">DU</div>
+          <div className="ip-menu-profile-body">
+            <div className="ip-menu-profile-name">Demo User</div>
+            <div className="ip-menu-profile-prog">
+              <div className="ip-menu-profile-prog-bar">
+                <div className="ip-menu-profile-prog-fill ip-menu-profile-prog-fill--citi" style={{ width: '90%' }} />
+              </div>
+              <span className="ip-menu-profile-prog-pct">Profile 90% complete</span>
+            </div>
+            <a className="ip-menu-profile-link ip-menu-profile-link--citi" href="#" onClick={(e) => e.preventDefault()}>Complete profile</a>
+          </div>
+        </div>
+        <div className="ip-menu-items">
+          {items.map((it) => {
+            if (it.kind === 'stockertv') {
+              return (
+                <a
+                  key={it.label}
+                  className="ip-menu-item ip-menu-item--citi ip-menu-item--stockertv"
+                  href={it.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open StockerTV in a new tab"
+                >
+                  <span className="ip-menu-item-icon ip-menu-item-icon--stockertv" aria-hidden="true">
+                    <span className="ip-menu-stv-mark">
+                      <span className="ip-menu-stv-mark-stocker">S</span><span className="ip-menu-stv-mark-tv">TV</span>
+                    </span>
+                  </span>
+                  <span className="ip-menu-item-label ip-menu-item-label--stockertv">
+                    Stocker<em>TV</em>
+                  </span>
+                  <span className="ip-menu-item-arrow" aria-hidden="true">›</span>
+                </a>
+              );
+            }
+            return (
+              <button
+                key={it.label}
+                className="ip-menu-item ip-menu-item--citi"
+                onClick={(e) => { e.preventDefault(); if (it.onClick) it.onClick(); }}
+                type="button"
+              >
+                <span className="ip-menu-item-icon" aria-hidden="true">{it.icon}</span>
+                <span className="ip-menu-item-label">{it.label}</span>
+                <span className="ip-menu-item-arrow" aria-hidden="true">›</span>
+              </button>
+            );
+          })}
+        </div>
+        <button className="ip-citi-cta" type="button">Open new account</button>
+      </div>
+    );
+  }
+
+  // ============================================================================
   // CloseScene — Beat 7. "Built for [shortName]. Ready when you are."
   // ----------------------------------------------------------------------------
   // One slide. Brand-locked. No commercial commitments. Pilot terms verbal.
@@ -11465,6 +12386,8 @@
     jpm:     { text: 'J.P. Morgan',   font: '"Times New Roman", Times, serif',  weight: 700, letterSpacing: '-0.005em', size: 'clamp(1.2rem, 3.4vw, 1.7rem)' },
     plus500: { text: 'Plus500',       font: 'Helvetica, Arial, sans-serif',     weight: 700, letterSpacing: '-0.02em', size: 'clamp(1.5rem, 4.2vw, 2.2rem)' },
     t212:    { text: 'Trading 212',   font: 'Helvetica, Arial, sans-serif',     weight: 700, letterSpacing: '-0.01em', size: 'clamp(1.2rem, 3.4vw, 1.75rem)' },
+    // R11 — Citi: lowercase "citi" in DM Sans + red arc over the "t" (NOT the actual Citi logo asset)
+    citi:    { text: 'citi',          font: "'DM Sans', Helvetica, Arial, sans-serif", weight: 700, letterSpacing: '-0.03em', size: 'clamp(1.7rem, 4.6vw, 2.5rem)', custom: 'citi-arc' },
   };
 
   // R7 Fix 1 — text positioning needs sub-pixel precision so the labels stay
@@ -11487,6 +12410,7 @@
       jpm:     22, // "J.P. Morgan"
       plus500: 30,
       t212:    24, // "Trading 212"
+      citi:    44, // "citi" — short, lowercase, can render larger
     };
     const brandFontSize = SVG_BRAND_SIZE[brandSlug] || 30;
     return (
@@ -11524,17 +12448,45 @@
             <tspan fill="#b8c4c8" fontStyle="italic">TV</tspan>
           </text>
           {/* Brand wordmark — anchored at center of RIGHT non-overlap zone (x=300) */}
-          <text
-            x="300" y="120"
-            textAnchor="middle"
-            fontFamily={brand.font}
-            fontSize={brandFontSize}
-            fontWeight={brand.weight}
-            letterSpacing={brand.letterSpacing}
-            fill="var(--accent)"
-          >
-            {brand.text}
-          </text>
+          {brand.custom === 'citi-arc' ? (
+            <g>
+              {/* "citi" lowercase in DM Sans bold, Citi Blue */}
+              <text
+                x="300" y="124"
+                textAnchor="middle"
+                fontFamily={brand.font}
+                fontSize={brandFontSize}
+                fontWeight={brand.weight}
+                letterSpacing={brand.letterSpacing}
+                fill="#003B70"
+              >
+                citi
+              </text>
+              {/* Stylized red arc above the rightmost "i" — recreated, not the licensed Citi logo asset */}
+              {/* Arc positioned over second "t" + "i" portion of the wordmark */}
+              <path
+                d="M 297 95 Q 311 78 322 99"
+                stroke="#D9261C"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
+              {/* Red dot replacing the dot of the second "i" */}
+              <circle cx="322" cy="99" r="2.4" fill="#D9261C" />
+            </g>
+          ) : (
+            <text
+              x="300" y="120"
+              textAnchor="middle"
+              fontFamily={brand.font}
+              fontSize={brandFontSize}
+              fontWeight={brand.weight}
+              letterSpacing={brand.letterSpacing}
+              fill="var(--accent)"
+            >
+              {brand.text}
+            </text>
+          )}
           {/* × in OVERLAP region (x=190 = midpoint between circle centers) */}
           <circle cx="190" cy="110" r="20" fill="var(--surface)" stroke="var(--border)" strokeWidth="0.8" opacity="0.95"/>
           <text
@@ -11615,17 +12567,19 @@
     });
     const [brandSlug, setBrandSlug] = useState(() => {
       try {
-        const param = new URLSearchParams(location.search).get('client');
-        return KNOWN_SLUGS.includes(param) ? param : DEFAULT_SLUG;
+        const raw = (new URLSearchParams(location.search).get('client') || '').toLowerCase();
+        const resolved = SLUG_ALIASES[raw] || raw;
+        return KNOWN_SLUGS.includes(resolved) ? resolved : DEFAULT_SLUG;
       } catch (e) { return DEFAULT_SLUG; }
     });
     // R8 C4 — brand lock: when ?client= is in URL with a known slug, hide pills
-    // + disable 1-6 keyboard switching. Set ONCE on mount; not affected by
-    // history.replaceState which keeps URL synced.
+    // + disable 1-N keyboard switching. R11: aliases ('citibank' → 'citi') count as locked.
+    // Set ONCE on mount; not affected by history.replaceState which keeps URL synced.
     const isBrandLocked = useRef((() => {
       try {
-        const param = new URLSearchParams(location.search).get('client');
-        return KNOWN_SLUGS.includes(param);
+        const raw = (new URLSearchParams(location.search).get('client') || '').toLowerCase();
+        const resolved = SLUG_ALIASES[raw] || raw;
+        return KNOWN_SLUGS.includes(resolved);
       } catch (e) { return false; }
     })()).current;
     const [brandConfig, setBrandConfig] = useState(null);
@@ -11765,9 +12719,10 @@
     useEffect(() => {
       const onKey = (e) => {
         if (!booted) return;
-        // 1-6 → brand switch (works in any beat after Hook).
+        // 1-7 → brand switch (works in any beat after Hook).
         // R8 C4 — disabled when brand is locked via ?client= URL param.
-        if (!isBrandLocked && activeBeat !== BEATS.HOOK && /^[1-6]$/.test(e.key)) {
+        // R11 — extended to 7 brands (added Citi).
+        if (!isBrandLocked && activeBeat !== BEATS.HOOK && /^[1-7]$/.test(e.key)) {
           const idx = parseInt(e.key, 10) - 1;
           const slug = KNOWN_SLUGS[idx];
           if (slug && slug !== brandSlug) handleBrandSwitch(slug);
