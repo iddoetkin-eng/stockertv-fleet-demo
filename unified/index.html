@@ -939,14 +939,16 @@
       color: #003B70;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-top: 0.3rem;
+      padding-top: 0.4rem;
     }
+    /* R11.1 — abstract bar centered above the "citi" wordmark */
     .stv-topbar-mark .stv-mark-citi-arc {
       position: absolute;
-      top: -0.05rem;
-      right: -0.05rem;
-      width: 1.55rem;
-      height: 0.7rem;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1.4rem;
+      height: 0.4rem;
       pointer-events: none;
     }
 
@@ -1327,14 +1329,16 @@
       font-family: 'DM Sans', Helvetica, Arial, sans-serif;
       font-weight: 700;
       color: #003B70;
-      padding-top: 0.35em;
+      padding-top: 0.4em;
     }
+    /* R11.1 — abstract bar centered above the "citi" wordmark */
     .brand-scene-citi-arc {
       position: absolute;
-      top: -0.15em;
-      right: -0.05em;
-      width: 0.55em;
-      height: 0.32em;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0.5em;
+      height: 0.18em;
       pointer-events: none;
     }
     @keyframes stv-brand-name-pop {
@@ -3108,23 +3112,23 @@
     .output-scene--r10 {
       max-width: 1240px;
     }
-    /* R10.1 Fix 1 — Beat 6 layout: 2-col grid (annotations LEFT, iPhone RIGHT).
-       Original 3-col `auto`-track grid had auto-placement bug where country-selector
-       (grid-column: 1/-1) forced to row 2 and iPhone (grid-column: 2) couldn't
-       backfill row 1 col 2 under sparse auto-flow → all elements appeared stacked.
-       Fix: nest country-selector + iPhone + foot-note into .iphone-sim-right,
-       drop to 2-col, and use flex inside the right wrapper for vertical order.
+    /* R11.1 Fix 1 — Beat 6 layout: SYMMETRIC 3-column grid so iPhone sits at
+       page geometric center across all 7 brand variants. Annotations right-aligned
+       in column 1, iPhone column 2, empty visual spacer column 3.
+       Previous Round 10.1 layout (320px + 1fr) placed iPhone ~176px right of
+       page center — masked by light eToro content but exposed by Citi's dark
+       navy iPhone screen. Symmetric layout is the cleaner root-cause fix.
        Mobile (≤980px): single col with flex-order putting iPhone before annotations. */
     .iphone-sim-wrap {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(380px, auto) minmax(0, 1fr);
       gap: 2rem;
       align-items: center;
       justify-items: center;
       padding: 1rem 0 2rem;
       position: relative;
-      max-width: 880px;
+      max-width: 1100px;
       margin: 0 auto;
     }
     @media (max-width: 980px) {
@@ -3138,7 +3142,8 @@
       }
     }
 
-    /* Annotations: LEFT column (desktop) / below iPhone (mobile via flex-order) */
+    /* Annotations: LEFT column (desktop) / below iPhone (mobile via flex-order).
+       R11.1 — right-aligned within column 1 to sit visually adjacent to iPhone. */
     .iphone-annotations {
       display: flex;
       flex-direction: column;
@@ -3146,13 +3151,16 @@
       width: 100%;
       max-width: 320px;
       align-self: center;
+      justify-self: end;
       grid-column: 1;
     }
     @media (max-width: 980px) {
-      .iphone-annotations { order: 2; max-width: 100%; }
+      .iphone-annotations { order: 2; max-width: 100%; justify-self: center; }
     }
 
-    /* Right column: country selector ABOVE iPhone, foot-note BELOW. */
+    /* Center column: country selector ABOVE iPhone, foot-note BELOW.
+       R11.1 — moved from grid-column 2 (was right-1fr) to grid-column 2 (now center)
+       in the symmetric 3-col grid. Width is iPhone-sized (~380px). */
     .iphone-sim-right {
       grid-column: 2;
       display: flex;
@@ -4153,12 +4161,14 @@
       color: #FFFFFF;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-top: 0.3em;
+      padding-top: 0.4em;
     }
+    /* R11.1 — abstract bar centered above the wordmark (was right-anchored swoosh+dot) */
     .ip-citi-wordmark-arc {
       position: absolute;
-      top: -0.05em;
-      right: -0.1em;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
       pointer-events: none;
     }
 
@@ -8653,9 +8663,9 @@
                 <span className="stv-mark-for-prefix">for</span>
                 <span className="stv-mark-citi-wordmark">
                   citi
+                  {/* R11.1 — abstract red accent bar (flat line), not a logo recreation */}
                   <svg className="stv-mark-citi-arc" viewBox="0 0 30 14" aria-hidden="true">
-                    <path d="M 4 12 Q 17 -2 26 12" stroke="#D9261C" strokeWidth="2" fill="none" strokeLinecap="round"/>
-                    <circle cx="26" cy="12" r="1.6" fill="#D9261C"/>
+                    <line x1="6" y1="6" x2="24" y2="6" stroke="#D9261C" strokeWidth="2.2" strokeLinecap="round"/>
                   </svg>
                 </span>
               </span>
@@ -8748,9 +8758,9 @@
           <div className="brand-scene-name brand-scene-name-citi" key={brandSlug} aria-label="citi">
             <span className="brand-scene-citi-wrap">
               citi
+              {/* R11.1 — abstract red accent bar (flat line), not a logo recreation */}
               <svg className="brand-scene-citi-arc" viewBox="0 0 100 36" aria-hidden="true">
-                <path d="M 18 32 Q 60 -6 88 32" stroke="#D9261C" strokeWidth="6" fill="none" strokeLinecap="round"/>
-                <circle cx="88" cy="32" r="4.6" fill="#D9261C"/>
+                <line x1="22" y1="20" x2="78" y2="20" stroke="#D9261C" strokeWidth="6" strokeLinecap="round"/>
               </svg>
             </span>
           </div>
@@ -11942,9 +11952,9 @@
     return (
       <span className="ip-citi-wordmark" style={{ fontSize: `${size}px` }}>
         citi
+        {/* R11.1 — abstract red accent bar (flat line), not a logo recreation */}
         <svg className="ip-citi-wordmark-arc" viewBox="0 0 30 14" style={{ width: `${arcSize}px`, height: `${arcSize * 0.45}px` }} aria-hidden="true">
-          <path d="M 4 12 Q 17 -2 26 12" stroke="#D9261C" strokeWidth="2" fill="none" strokeLinecap="round"/>
-          <circle cx="26" cy="12" r="1.6" fill="#D9261C"/>
+          <line x1="6" y1="6" x2="24" y2="6" stroke="#D9261C" strokeWidth="2.2" strokeLinecap="round"/>
         </svg>
       </span>
     );
@@ -12450,9 +12460,12 @@
           {/* Brand wordmark — anchored at center of RIGHT non-overlap zone (x=300) */}
           {brand.custom === 'citi-arc' ? (
             <g>
-              {/* "citi" lowercase in DM Sans bold, Citi Blue */}
+              {/* R11.1 Fix 2 — "citi" recentered to right circle's geometric center (x=270).
+                  Abstract red bar above replaces the previous swoosh+dot. The triad
+                  lowercase citi + Citi Blue + small red accent above is enough brand
+                  recognition without being a 1:1 licensed-mark recreation. */}
               <text
-                x="300" y="124"
+                x="270" y="126"
                 textAnchor="middle"
                 fontFamily={brand.font}
                 fontSize={brandFontSize}
@@ -12462,17 +12475,13 @@
               >
                 citi
               </text>
-              {/* Stylized red arc above the rightmost "i" — recreated, not the licensed Citi logo asset */}
-              {/* Arc positioned over second "t" + "i" portion of the wordmark */}
-              <path
-                d="M 297 95 Q 311 78 322 99"
+              {/* Abstract red accent bar — flat horizontal line, ~30px wide, ~12px above cap-height */}
+              <line
+                x1="255" y1="76" x2="285" y2="76"
                 stroke="#D9261C"
-                strokeWidth="3"
-                fill="none"
+                strokeWidth="3.5"
                 strokeLinecap="round"
               />
-              {/* Red dot replacing the dot of the second "i" */}
-              <circle cx="322" cy="99" r="2.4" fill="#D9261C" />
             </g>
           ) : (
             <text
