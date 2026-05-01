@@ -955,6 +955,8 @@
       if (fab) fab.hidden = false;
       // R7 Fix 2 — auto-play eToro broadcast modal 2s after Stage 15 completes
       maybeAutoPlayBroadcast();
+      // R11.4 Fix 3 — auto-play Citi avatar modal 1s after Stage 15 completes
+      maybeAutoPlayAvatar();
     } finally {
       clearInterval(clockTimer);
     }
@@ -975,6 +977,24 @@
     if (clientSlug !== 'etoro') return;
     broadcastModalFired = true;
     setTimeout(openBroadcastModal, 2000);
+  }
+
+  // ── R11.4 Fix 3 — Citi avatar modal (auto-fires after Stage 15) ─────────
+  // Mirrors the broadcast pattern but uses the config-driven AVATAR_VIDEO_URL
+  // and the existing #avatar-modal infrastructure. Single-fire per page load.
+  // Brand-conditional: only when ?client=citi AND avatar_video_url is set.
+  // 1-second delay (vs eToro's 2s for the hardcoded broadcast modal).
+  let avatarModalFired = false;
+  function maybeAutoPlayAvatar() {
+    if (avatarModalFired) return;
+    let clientSlug = '';
+    try {
+      clientSlug = (new URLSearchParams(location.search).get('client') || '').toLowerCase();
+    } catch (e) {}
+    if (clientSlug !== 'citi') return;
+    if (!AVATAR_VIDEO_URL) return; // safety: no URL configured → no auto-open
+    avatarModalFired = true;
+    setTimeout(openAvatarModal, 1000);
   }
   const broadcastModal      = $("#broadcast-modal");
   const broadcastModalClose = $("#broadcast-modal-close");

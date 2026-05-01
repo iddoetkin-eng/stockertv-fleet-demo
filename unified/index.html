@@ -939,7 +939,8 @@
       color: #003B70;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-top: 0.55rem;
+      /* R11.4 Fix 2 — padding-top reset (was 0.55rem to clear the arc above) */
+      padding-top: 0;
     }
     /* R11.3 Item 2 — arc enlarged: width 1.55rem→1.85rem, height 0.7rem→0.95rem */
     .stv-topbar-mark .stv-mark-citi-arc {
@@ -1328,7 +1329,8 @@
       font-family: 'DM Sans', Helvetica, Arial, sans-serif;
       font-weight: 700;
       color: #003B70;
-      padding-top: 0.55em;
+      /* R11.4 Fix 2 — padding-top reset (was 0.55em to clear the arc above) */
+      padding-top: 0;
     }
     /* R11.3 Item 2 — arc enlarged: width 0.55em→0.7em, height 0.32em→0.42em */
     .brand-scene-citi-arc {
@@ -4162,7 +4164,8 @@
       color: #FFFFFF;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-top: 0.55em;
+      /* R11.4 Fix 2 — padding-top reset (was 0.55em to clear the arc above) */
+      padding-top: 0;
     }
     /* R11.3 Item 2 — arc width comes from inline style (arcSize), nudge right anchor */
     .ip-citi-wordmark-arc {
@@ -8663,11 +8666,7 @@
                 <span className="stv-mark-for-prefix">for</span>
                 <span className="stv-mark-citi-wordmark">
                   citi
-                  {/* R11.3 Item 2 — semicircle arc enlarged */}
-                  <svg className="stv-mark-citi-arc" viewBox="0 0 30 14" aria-hidden="true">
-                    <path d="M 5 11 Q 15 -3 25 11" stroke="#D9261C" strokeWidth="2.6" fill="none" strokeLinecap="round"/>
-                    <circle cx="25" cy="11" r="1.9" fill="#D9261C"/>
-                  </svg>
+                  {/* R11.4 Fix 2 — red arc SVG removed; wordmark only */}
                 </span>
               </span>
             ) : (
@@ -8759,11 +8758,7 @@
           <div className="brand-scene-name brand-scene-name-citi" key={brandSlug} aria-label="citi">
             <span className="brand-scene-citi-wrap">
               citi
-              {/* R11.3 Item 2 — semicircle arc enlarged */}
-              <svg className="brand-scene-citi-arc" viewBox="0 0 100 36" aria-hidden="true">
-                <path d="M 22 30 Q 50 -12 78 30" stroke="#D9261C" strokeWidth="7" fill="none" strokeLinecap="round"/>
-                <circle cx="78" cy="30" r="5.4" fill="#D9261C"/>
-              </svg>
+              {/* R11.4 Fix 2 — red arc SVG removed; wordmark only */}
             </span>
           </div>
         ) : (
@@ -11976,16 +11971,10 @@
 
   // Inline Citi wordmark (lowercase + red arc) — small variant for the menu/topbar context
   function CitiInlineWordmark({ size = 18 }) {
-    /* R11.3 Item 2 — arcSize bumped 0.55 → 0.72 for ~30% larger arc */
-    const arcSize = size * 0.72;
+    /* R11.4 Fix 2 — red arc SVG removed; wordmark only */
     return (
       <span className="ip-citi-wordmark" style={{ fontSize: `${size}px` }}>
         citi
-        {/* R11.3 Item 2 — semicircle arc enlarged */}
-        <svg className="ip-citi-wordmark-arc" viewBox="0 0 30 14" style={{ width: `${arcSize}px`, height: `${arcSize * 0.5}px` }} aria-hidden="true">
-          <path d="M 5 11 Q 15 -3 25 11" stroke="#D9261C" strokeWidth="2.6" fill="none" strokeLinecap="round"/>
-          <circle cx="25" cy="11" r="1.9" fill="#D9261C"/>
-        </svg>
       </span>
     );
   }
@@ -12490,8 +12479,8 @@
           {/* Brand wordmark — anchored at center of RIGHT non-overlap zone (x=300) */}
           {brand.custom === 'citi-arc' ? (
             <g>
-              {/* R11.3 Item 2 — arc enlarged ~50% wider + apex pulled higher for stronger
-                  visual presence. Wordmark stays at R11.1 center (x=270). */}
+              {/* R11.4 Fix 2 — red arc removed (legal-conservative shift).
+                  Wordmark in Citi Blue + lowercase carries brand recognition. */}
               <text
                 x="270" y="126"
                 textAnchor="middle"
@@ -12503,14 +12492,6 @@
               >
                 citi
               </text>
-              <path
-                d="M 256 86 Q 280 48 304 88"
-                stroke="#D9261C"
-                strokeWidth="3.8"
-                fill="none"
-                strokeLinecap="round"
-              />
-              <circle cx="304" cy="88" r="3.2" fill="#D9261C" />
             </g>
           ) : (
             <text

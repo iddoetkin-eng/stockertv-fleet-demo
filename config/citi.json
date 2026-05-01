@@ -53,7 +53,7 @@
     "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "citi",
-  "avatar_video_url": null,
+  "avatar_video_url": "https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/CITI%20GROUP%20(1).mp4",
   "showcase": {
     "meta": {
       "company": "Citigroup Inc.",
@@ -136,7 +136,7 @@
             { "text": "All metrics from Citigroup Form 8-K filed with SEC on April 14, 2026", "sourceSpan": [0, 60] }
           ],
           "totalWords": 6200,
-          "fullText": "NEW YORK, April 14, 2026 — Citigroup Inc. (NYSE: C) reported first quarter 2026 net income of $5.8 billion, or $3.06 per diluted share, on revenues of $24.6 billion. This compares to net income of $4.1 billion, or $1.96 per diluted share, on revenues of $21.6 billion in the first quarter 2025."
+          "fullText": "NEW YORK, April 14, 2026 — Citigroup Inc. (NYSE: C) reported first quarter 2026 net income of $5.8 billion, or $3.06 per diluted share, on revenues of $24.6 billion. This compares to net income of $4.1 billion, or $1.96 per diluted share, on revenues of $21.6 billion in the first quarter 2025.\n\nFirst quarter 2026 revenues increased 14% from the prior-year period. Excluding divestiture-related impacts, revenues increased 14%, driven by growth across all five interconnected businesses. Net income of $5.8 billion increased 42% from the prior-year period, driven by the higher revenues, partially offset by the higher cost of credit and the higher expenses. Earnings per share of $3.06 increased 56% from the prior-year period.\n\nServices revenues of $6.1 billion increased 17% from the prior-year period. Markets revenues of $7.2 billion increased 19%, with Equity markets revenues of $2.1 billion up 39% and Fixed income markets revenues of $5.2 billion up 13%. Banking revenues increased 15%, with investment banking revenues of $1.6 billion up 27%. Wealth revenues of $2.1 billion increased 11%, driven by 23% growth in non-interest revenue. U.S. Personal Banking revenues of $5.2 billion increased 2%.\n\nReturn on tangible common equity (RoTCE) was 13.1%, up from 9.1% in the prior-year period. CET1 Capital Ratio was 13.4%. The firm returned $2.8 billion to common shareholders in the form of dividends and share repurchases.\n\n\"This is the best quarter we've had in the last decade,\" said Citi CEO Jane Fraser. \"Driven by the continued execution of our strategy, we delivered positive operating leverage and revenue growth across each of our five businesses. We grew net income by 42%, and importantly, our return on tangible common equity reached 13.1%, putting us solidly on the path to our medium-term target.\"\n\nFull press release and supplementary materials available on Citigroup's investor relations site and SEC EDGAR."
         }
       },
       {
