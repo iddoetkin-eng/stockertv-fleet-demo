@@ -1202,6 +1202,45 @@
       .stv-icon-btn svg { width: 16px; height: 16px; }
     }
 
+    /* R11.6 — topbar website link (subtle, brand-aware hover via --accent) */
+    .stv-topbar-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      height: 32px;
+      padding: 0 0.7rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+      flex-shrink: 0;
+    }
+    .stv-topbar-link:hover,
+    .stv-topbar-link:focus-visible {
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+    }
+    .stv-topbar-link:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+      outline-offset: 2px;
+    }
+    .stv-topbar-link svg { opacity: 0.85; }
+    @media (max-width: 720px) {
+      .stv-topbar-link { padding: 0 0.55rem; gap: 0; }
+      .stv-topbar-link .stv-topbar-link-text { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stv-topbar-link { display: none; }
+    }
+
     /* Round 4 P2 — top bar mobile compaction */
     @media (max-width: 720px) {
       .stv-topbar {
@@ -6681,6 +6720,8 @@
     eyeOff:       '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>',
     activity:     '<polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>',
     refreshCw:    '<polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+    /* R11.6 — Lucide ExternalLink (used by topbar website link) */
+    externalLink: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/>',
     /* R5 B4 — custom pictogram set (5 highest-value subjects) in chunky 2px-stroke
        house style. Replaces Lucide for these 5 specific spots only. */
     edgar:        '<rect x="2" y="20" width="20" height="2" rx="0.5"/><rect x="3" y="9" width="2" height="11"/><rect x="11" y="9" width="2" height="11"/><rect x="19" y="9" width="2" height="11"/><rect x="7" y="9" width="2" height="11"/><rect x="15" y="9" width="2" height="11"/><polygon points="2,9 12,3 22,9"/><circle cx="12" cy="6" r="0.7" fill="currentColor"/>',
@@ -8713,6 +8754,18 @@
         )}
 
         <div className="stv-topbar-right">
+          {/* R11.6 — public website link, opens in new tab. Visible across all 7 beats + 7 brands. */}
+          <a
+            className="stv-topbar-link"
+            href="https://www.stockertv.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit StockerTV website (opens in new tab)"
+            title="stockertv.com — opens in new tab"
+          >
+            <span className="stv-topbar-link-text">stockertv.com</span>
+            <Icon name="externalLink" size={11} />
+          </a>
           {onAudioToggle && (
             <button
               className="stv-icon-btn"
