@@ -6633,7 +6633,7 @@
 
   // ---- Brand registry (per Beat 4 B.4.B) ----
   // R11 — Citi added as 7th brand. URL alias 'citibank' resolves to 'citi'.
-  const KNOWN_SLUGS = ['etoro', 'ibkr', 'bac', 'jpm', 'plus500', 't212', 'citi', 'hapoalim'];
+  const KNOWN_SLUGS = ['etoro', 'ibkr', 'bac', 'jpm', 'plus500', 't212', 'citi', 'hapoalim', 'leumi', 'onezero', 'fibi'];
   const SLUG_ALIASES = { citibank: 'citi' };
   const DEFAULT_SLUG = 'etoro';
   const BRAND_DISPLAY_DEFAULTS = {
@@ -6645,6 +6645,9 @@
     t212:    { initials: 'T2', shortName: 'Trading 212',  tagline: 'Built for Trading 212',  seed: '#009cde' },
     citi:    { initials: 'Ci', shortName: 'citi',         tagline: 'Built for citi',         seed: '#003B70' },
     hapoalim:{ initials: 'BH', shortName: 'Bank Hapoalim', tagline: 'Built for Bank Hapoalim', seed: '#EE3334' },
+    leumi:   { initials: 'BL', shortName: 'Bank Leumi',    tagline: 'Built for Bank Leumi',    seed: '#0066FF' },
+    onezero: { initials: '10', shortName: 'ONE ZERO',      tagline: 'Built for ONE ZERO',      seed: '#2D68F3' },
+    fibi:    { initials: 'FI', shortName: 'First International', tagline: 'Built for First International Bank', seed: '#102050' },
   };
 
   // ---- Real flag SVG library (from fleet/js/client-loader.js) ----
@@ -8841,12 +8844,12 @@
             Keys 1-7 are already gated by !isBrandLocked in App's keyboard handler. */}
         {brandLocked ? (
           <p className="brand-scene-subline">
-            One demo, fully brand-locked to <strong>{display}</strong>. Every surface &mdash; palette, typography accents, gates, integrity score, the linked pipeline &mdash; themed for your environment. <strong>Zero integration cost.</strong>
+            One demo, fully brand-locked to <strong>{display}</strong>. Every surface &mdash; palette, typography accents, gates, integrity score, the full flow &mdash; themed for your environment. <strong>Zero integration cost.</strong>
           </p>
         ) : (
           <>
             <p className="brand-scene-subline">
-              One demo, seven brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the linked pipeline. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
+              One demo, seven brand-locked surfaces. <strong>Click any pill in the top bar</strong> to retheme everything &mdash; palette, typography accents, gates, integrity score, the full flow. <strong>Zero integration cost.</strong> Adding a new client is a single config file plus one line.
             </p>
 
             <div className="brand-scene-helper">
@@ -10631,7 +10634,7 @@
           <div className="trust-badge">
             <div className="trust-badge-label"><Icon name="antenna" size={11} /> Monitor</div>
             <div className="trust-badge-value">24/7 monitored</div>
-            <div className="trust-badge-foot">Sentry · Pipeline Health Monitor · Telegram alerts</div>
+            <div className="trust-badge-foot">Sentry · Health Monitor · Telegram alerts</div>
             <div className="trust-badge-viz"><TrustBadgeMonitor /></div>
           </div>
           {/* R10 B — "Built with" stack provenance (factual, not partnership claim) */}
