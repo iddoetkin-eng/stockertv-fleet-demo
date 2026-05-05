@@ -6750,31 +6750,11 @@
         drop-shadow(0 0 32px color-mix(in srgb, var(--accent) 45%, transparent));
     }
 
-    /* The "Click any exchange" hint becomes ethereal floating text — no card.
-       The original component uses background-IMAGE (gradient) + colored
-       box-shadow + a thin border, so all three must be explicitly stripped. */
-    .globe-hint {
-      background: none !important;
-      background-image: none !important;
-      background-color: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-      padding: 0 !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-    }
-    .globe-hint::before, .globe-hint::after { display: none !important; }
-    .globe-hint .globe-hint-arrow { opacity: 0 !important; }       /* drop the emoji card-tail */
-    .globe-hint-text {
-      color: color-mix(in srgb, var(--accent) 80%, var(--text-primary, #111)) !important;
-      font-family: 'JetBrains Mono', ui-monospace, monospace !important;
-      font-size: 10.5px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.12em !important;
-      text-transform: uppercase !important;
-      text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
-    }
+    /* The original "Click any exchange" hint is a chrome'd chat-bubble with
+       gradient border, animated pulse box-shadow and an emoji tail — it
+       reads like a UI-kit nag balloon. The globe interactivity is self-
+       evident at hover; in v2 we simply hide the bubble. */
+    .globe-hint { display: none !important; }
 
     /* Brand-tinted aurora ring at globe centre — visible rim halo */
     .scale-globe-wrap { position: relative; }
