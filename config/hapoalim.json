@@ -1,11 +1,5 @@
 {
   "$schema": "./config.schema.json",
-  "_note": "Bank Hapoalim config (added 2026-05-06). Branding block ready for the unified demo's Beat 2 brand-switch + ?client=hapoalim deep link. Pipeline-template blocks retained as placeholders for schema parity but are unused: SHOW_PIPELINE_PAGE is currently false in unified/index.html.",
-  "_research_gaps": [
-    "branding.primaryColor #EE3334 — sampled 2026-05-06 from the official EN homepage logo (mean+median of 5,317 colored pixels in the wordmark, both converged on #EE3334). Source asset: https://www.bankhapoalim.com/sites/bnhpcom/files/%D7%9C%D7%95%D7%92%D7%95%20%D7%90%D7%A0%D7%92%D7%9C%D7%99%D7%AA.png (filename 'לוגו אנגלית.png' = 'logo English.png'). accentDeep #D31212 = primary at HSL lightness -12pp; accent2 #F26E6E = primary at HSL lightness +12pp.",
-    "branding.logoUrl — null. The EN homepage embeds the logo via CSS background-image only; no separately distributable PNG/SVG asset surface located on bankhapoalim.com. User to supply if/when needed.",
-    "Showcase block is a placeholder mirroring t212.json. Pipeline page is hidden (SHOW_PIPELINE_PAGE=false), so this data is unused at present."
-  ],
   "branding": {
     "clientName": "Bank Hapoalim",
     "logoUrl": null,
