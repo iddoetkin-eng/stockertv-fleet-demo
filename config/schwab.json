@@ -18,7 +18,7 @@
     "accentColor": "#10B981",
     "accentDeep": "#38BDF8",
     "accent2": "#7DD3FC",
-    "pageTitle": "StockerTV — Pipeline · Schwab Demo"
+    "pageTitle": "StockerTV — Schwab Demo"
   },
   "hero": {
     "eyebrow": "Article → source-verified script in under a minute",
@@ -95,7 +95,7 @@
   },
   "final": {
     "ctaLabel": "Generate Avatar Video →",
-    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+    "runtimeNote": "Demo runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "Schwab",
   "avatar_video_url": null,

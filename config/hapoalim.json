@@ -43,7 +43,7 @@
   },
   "final": {
     "ctaLabel": "Generate Avatar Video →",
-    "runtimeNote": "Pipeline runtime: 47 seconds · Demo replay slowed for visibility"
+    "runtimeNote": "Demo runtime: 47 seconds · Demo replay slowed for visibility"
   },
   "thumbnail_brand_mark": "Bank Hapoalim",
   "avatar_video_url": null,
@@ -57,7 +57,7 @@
       "sourceFiling": "Placeholder — pinned story TBD"
     },
     "stages": [
-      { "stage": 1,  "name": "article_input",        "delayMs": 400,   "data": { "title": "Bank Hapoalim demo placeholder — pinned story to be locked before meeting", "source": "TBD", "publishedAt": "TBD", "wordCount": 0, "fullText": "Placeholder content. Pinned story will be selected and authored before any Bank Hapoalim meeting. Pipeline page is currently hidden, so this data is unused." } },
+      { "stage": 1,  "name": "article_input",        "delayMs": 400,   "data": { "title": "Bank Hapoalim demo placeholder — pinned story to be locked before meeting", "source": "TBD", "publishedAt": "TBD", "wordCount": 0, "fullText": "Placeholder content. Pinned story will be selected and authored before any Bank Hapoalim meeting." } },
       { "stage": 2,  "name": "watcher_detection",    "delayMs": 3500,  "data": { "source": "TBD", "publishedAt": "TBD", "ticker": "TBD", "exchange": "TBD", "noveltyScore": 0, "noveltyReason": "Placeholder" } },
       { "stage": 3,  "name": "company_enrichment",   "delayMs": 7000,  "data": { "name": "TBD", "ticker": "TBD", "sector": "TBD", "industry": "TBD", "ceo": "TBD", "headquarters": "TBD", "foundedYear": "TBD", "marketCap": "TBD", "lastPrice": "TBD", "week52High": "TBD", "week52Low": "TBD", "keyProducts": "TBD", "competitors": "TBD", "description": "Placeholder", "dbSize": "32,000+", "dbExchanges": "53" } },
       { "stage": 4,  "name": "fact_extraction",      "delayMs": 11000, "data": { "facts": [], "totalWords": 0, "fullText": "Placeholder" } },
