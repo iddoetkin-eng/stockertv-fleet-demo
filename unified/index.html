@@ -6614,6 +6614,9 @@
   // Beats 3-7 — placeholder scenes; ship in subsequent commits
   // ============================================================================
 
+  // HIDDEN_FOR_LINKEDIN_OUTREACH — flip to true to restore the Pipeline page.
+  const SHOW_PIPELINE_PAGE = false;
+
   // ---- Beat enumeration ----
   const BEATS = {
     HOOK: 'hook',
@@ -6624,7 +6627,9 @@
     OUTPUT: 'output',
     CLOSE: 'close',
   };
-  const BEAT_ORDER = [BEATS.HOOK, BEATS.BRAND, BEATS.SCALE, BEATS.SAFETY, BEATS.PIPELINE, BEATS.OUTPUT, BEATS.CLOSE];
+  const BEAT_ORDER = SHOW_PIPELINE_PAGE
+    ? [BEATS.HOOK, BEATS.BRAND, BEATS.SCALE, BEATS.SAFETY, BEATS.PIPELINE, BEATS.OUTPUT, BEATS.CLOSE]
+    : [BEATS.HOOK, BEATS.BRAND, BEATS.SCALE, BEATS.SAFETY, BEATS.OUTPUT, BEATS.CLOSE];
 
   // ---- Brand registry (per Beat 4 B.4.B) ----
   // R11 — Citi added as 7th brand. URL alias 'citibank' resolves to 'citi'.
@@ -8682,7 +8687,7 @@
   // Audit upgrades: 7.2 co-brand mark, 1.2 beat indicator, 1.3 hover tooltips,
   // 7.3 brand-pill mini-marks via per-brand display
   // ============================================================================
-  const BEAT_LABELS = {
+  const BEAT_LABELS = SHOW_PIPELINE_PAGE ? {
     hook:     { num: '01', name: 'Hook' },
     brand:    { num: '02', name: 'Brand lock-in' },
     scale:    { num: '03', name: 'Scale reveal' },
@@ -8690,6 +8695,14 @@
     pipeline: { num: '05', name: 'Full pipeline' },
     output:   { num: '06', name: 'Output' },
     close:    { num: '07', name: 'Close' },
+  } : {
+    hook:     { num: '01', name: 'Hook' },
+    brand:    { num: '02', name: 'Brand lock-in' },
+    scale:    { num: '03', name: 'Scale reveal' },
+    safety:   { num: '04', name: 'Safety net' },
+    pipeline: { num: '05', name: 'Full pipeline' }, // HIDDEN_FOR_LINKEDIN_OUTREACH — kept for restore; unreachable when flag is off
+    output:   { num: '05', name: 'Output' },
+    close:    { num: '06', name: 'Close' },
   };
   function TopBar({ brandSlug, brandConfig, onBrandSwitch, theme, onToggleTheme, activeBeat, onAudioToggle, audioOn, brandLocked }) {
     const display = (brandConfig && brandConfig.branding && brandConfig.branding.shortName)
@@ -8718,7 +8731,7 @@
           </div>
           {/* 1.2 beat indicator */}
           <div className="stv-topbar-beat">
-            <span className="stv-topbar-beat-num">{beatMeta.num} / 07</span>
+            <span className="stv-topbar-beat-num">{beatMeta.num} / {String(BEAT_ORDER.length).padStart(2, '0')}</span>
             <span className="stv-topbar-beat-name">{beatMeta.name}</span>
           </div>
           <div className="stv-topbar-divider" />
@@ -10635,8 +10648,8 @@
             Engineered for the same editorial standards your team already applies to outbound content.{' '}
             573 production tests across the 4 services. Every story signed, archived, and reproducible on demand.
           </p>
-          <button className="scene-continue" onClick={onContinue} aria-label="Continue to full pipeline">
-            Continue to full pipeline
+          <button className="scene-continue" onClick={onContinue} aria-label={SHOW_PIPELINE_PAGE ? "Continue to full pipeline" : "Continue"}>
+            {SHOW_PIPELINE_PAGE ? 'Continue to full pipeline' : 'Continue'}
             <span className="scene-continue-arrow" aria-hidden="true">→</span>
           </button>
         </div>
@@ -12982,7 +12995,7 @@
     return (
       <nav className="stv-pager" aria-label="Beat navigation">
         <div className="stv-pager-current">
-          <span className="stv-pager-current-num">{meta.num} / 07</span>
+          <span className="stv-pager-current-num">{meta.num} / {String(BEAT_ORDER.length).padStart(2, '0')}</span>
           <span className="stv-pager-current-name">{meta.name}</span>
         </div>
         <div className="stv-pager-dots">
