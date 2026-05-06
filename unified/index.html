@@ -11106,6 +11106,22 @@
       : (BRAND_DISPLAY_DEFAULTS[brandSlug] || { shortName: 'this client' }).shortName;
     const isEtoro = brandSlug === 'etoro';
     const isCiti = brandSlug === 'citi';
+    // ---- v2 platformMockup config-driven dispatch ----
+    // cfg.platformMockup.archetype selects host-app shell:
+    //   'social-broker' (default) | 'institutional-bank' (citi) |
+    //   'israeli-retail-bank'     | 'digital-bank'
+    // openInLabel + tapToNavigateLabel let each client override hardcoded copy.
+    const platformMockup = (brandConfig && brandConfig.platformMockup) || {};
+    const archetype = platformMockup.archetype
+      || (isCiti ? 'institutional-bank' : 'social-broker');
+    const openInLabel = platformMockup.openInLabel || `Open in ${display} →`;
+    const tapToNavigateLabel = platformMockup.tapToNavigateLabel
+      || (archetype === 'institutional-bank' ? 'Invest tab'
+        : archetype === 'israeli-retail-bank' ? 'Investments tab'
+        : archetype === 'digital-bank' ? 'Markets tab'
+        : 'Watchlist or Discover');
+    const isBankArchetype = archetype === 'israeli-retail-bank' || archetype === 'institutional-bank';
+    const isDigitalBank = archetype === 'digital-bank';
     // R11 — country selector now applies for both eToro and Citi (each has its own variants).
     const countryVariants = isCiti ? CITI_COUNTRY_VARIANTS : ETORO_COUNTRY_VARIANTS;
     const showCountrySelector = isEtoro || isCiti;
@@ -11239,7 +11255,7 @@
               <span className="iphone-annotation-num" aria-hidden="true">03</span>
               <div className="iphone-annotation-body">
                 <div className="iphone-annotation-title">Tap any stock &middot; localized broadcast</div>
-                <div className="iphone-annotation-text">{isCiti ? 'Invest tab' : 'Watchlist or Discover'} &mdash; click a row to navigate. The widget switches video instantly.</div>
+                <div className="iphone-annotation-text">{tapToNavigateLabel} &mdash; click a row to navigate. The widget switches video instantly.</div>
               </div>
             </div>
             <div className="iphone-annotation" role="listitem">
@@ -11281,6 +11297,9 @@
             {/* The interactive iPhone */}
             <InteractiveIPhone
               brandSlug={brandSlug}
+              brandDisplay={display}
+              archetype={archetype}
+              openInLabel={openInLabel}
               activeScreen={activeScreen}
               activeStock={activeStock}
               detailMode={detailMode}
@@ -11381,21 +11400,28 @@
   // R10 — InteractiveIPhone: outer SVG-shaped frame + inner React-rendered screens
   // ============================================================================
   function InteractiveIPhone(props) {
-    const { brandSlug, activeScreen, activeStock, detailMode, activeVideoUrl, stock, iphoneVideoRef,
+    const { brandSlug, brandDisplay, archetype, openInLabel,
+            activeScreen, activeStock, detailMode, activeVideoUrl, stock, iphoneVideoRef,
             navigateToScreen, navigateToStock, swapToNativeMode, swapToBroadcastMode,
             onClickWidget, onAcademyClick } = props;
     const isCiti = brandSlug === 'citi';
-    const ariaLabel = isCiti ? 'Interactive Citi app simulation' : 'Interactive eToro app simulation';
+    const isIsraeliBank = archetype === 'israeli-retail-bank';
+    const isDigitalBank = archetype === 'digital-bank';
+    const ariaLabel = `Interactive ${brandDisplay || brandSlug} app simulation`;
 
     return (
-      <div className={`iphone-sim ${isCiti ? 'iphone-sim--citi' : ''}`} aria-label={ariaLabel} data-brand={brandSlug}>
+      <div className={`iphone-sim ${isCiti ? 'iphone-sim--citi' : ''} ${isIsraeliBank ? 'iphone-sim--ilbank' : ''} ${isDigitalBank ? 'iphone-sim--digbank' : ''}`} aria-label={ariaLabel} data-brand={brandSlug} data-archetype={archetype}>
         <div className="iphone-sim-frame" aria-hidden="true" />
         <div className="iphone-sim-screen">
           <IphoneStatusBar />
           <div className="iphone-sim-content">
+            {/* Stock detail — same component for all archetypes; banner/CTA copy + tabs adapt via props */}
             {activeScreen === 'stock_detail' && (
               <StockDetailScreen
                 brandSlug={brandSlug}
+                brandDisplay={brandDisplay}
+                openInLabel={openInLabel}
+                archetype={archetype}
                 stock={stock}
                 detailMode={detailMode}
                 videoUrl={activeVideoUrl}
@@ -11405,28 +11431,29 @@
                 onSwapToBroadcast={swapToBroadcastMode}
               />
             )}
-            {activeScreen === 'watchlist' && !isCiti && (
+            {/* social-broker (default) screens — unchanged */}
+            {activeScreen === 'watchlist' && !isCiti && !isIsraeliBank && !isDigitalBank && (
               <WatchlistScreen onStockClick={navigateToStock} activeTicker={activeStock} />
             )}
-            {activeScreen === 'discover' && !isCiti && (
+            {activeScreen === 'discover' && !isCiti && !isIsraeliBank && !isDigitalBank && (
               <DiscoverScreen onStockClick={navigateToStock} />
             )}
-            {activeScreen === 'home' && !isCiti && (
+            {activeScreen === 'home' && !isCiti && !isIsraeliBank && !isDigitalBank && (
               <HomeScreen onBroadcastClick={() => navigateToStock('NVDA')} />
             )}
-            {activeScreen === 'home' && isCiti && (
-              <CitiHomeScreen onBroadcastClick={() => navigateToStock('NVDA')} />
-            )}
-            {activeScreen === 'portfolio' && !isCiti && (
+            {activeScreen === 'portfolio' && !isCiti && !isIsraeliBank && !isDigitalBank && (
               <PortfolioScreen onWatchlistClick={() => navigateToScreen('watchlist')} />
             )}
-            {activeScreen === 'menu' && !isCiti && (
+            {activeScreen === 'menu' && !isCiti && !isIsraeliBank && !isDigitalBank && (
               <MenuScreen onAcademyClick={onAcademyClick} />
+            )}
+            {/* Citi (institutional-bank) screens */}
+            {activeScreen === 'home' && isCiti && (
+              <CitiHomeScreen onBroadcastClick={() => navigateToStock('NVDA')} />
             )}
             {activeScreen === 'menu' && isCiti && (
               <CitiSettingsScreen onAcademyClick={onAcademyClick} />
             )}
-            {/* R11 — Citi-only screens */}
             {activeScreen === 'pay_transfer' && isCiti && (
               <CitiPayTransferScreen />
             )}
@@ -11436,8 +11463,37 @@
             {activeScreen === 'cards' && isCiti && (
               <CitiCardsScreen />
             )}
+            {/* israeli-retail-bank screens */}
+            {activeScreen === 'home' && isIsraeliBank && (
+              <IlBankHomeScreen brandDisplay={brandDisplay} brandSlug={brandSlug} onInvestmentsClick={() => navigateToScreen('investments')} />
+            )}
+            {activeScreen === 'investments' && isIsraeliBank && (
+              <IlBankInvestmentsScreen brandDisplay={brandDisplay} brandSlug={brandSlug} onStockClick={navigateToStock} activeTicker={activeStock} />
+            )}
+            {activeScreen === 'cards' && isIsraeliBank && (
+              <IlBankCardsScreen brandDisplay={brandDisplay} />
+            )}
+            {activeScreen === 'pay_transfer' && isIsraeliBank && (
+              <IlBankPayScreen />
+            )}
+            {activeScreen === 'menu' && isIsraeliBank && (
+              <IlBankMoreScreen brandDisplay={brandDisplay} onAcademyClick={onAcademyClick} />
+            )}
+            {/* digital-bank screens */}
+            {activeScreen === 'home' && isDigitalBank && (
+              <DigitalBankHomeScreen brandDisplay={brandDisplay} onBriefingClick={() => navigateToStock('NVDA')} />
+            )}
+            {activeScreen === 'invest' && isDigitalBank && (
+              <DigitalBankMarketsScreen brandDisplay={brandDisplay} onStockClick={navigateToStock} activeTicker={activeStock} />
+            )}
+            {activeScreen === 'cards' && isDigitalBank && (
+              <DigitalBankCardsScreen />
+            )}
+            {activeScreen === 'menu' && isDigitalBank && (
+              <DigitalBankProfileScreen brandDisplay={brandDisplay} />
+            )}
           </div>
-          <IphoneBottomNav brandSlug={brandSlug} active={activeScreen} onChange={navigateToScreen} />
+          <IphoneBottomNav brandSlug={brandSlug} archetype={archetype} active={activeScreen} onChange={navigateToScreen} />
         </div>
         <div className="iphone-sim-notch" aria-hidden="true" />
         <div className="iphone-sim-button iphone-sim-button--left" aria-hidden="true" />
@@ -11470,8 +11526,10 @@
   // ---- Bottom nav (5 tabs) ----
   // R10.1 Fix 2 — last tab renamed Wallet → Settings (gear icon).
   // R11 — brand-aware: Citi gets its own banking-app tab set.
-  function IphoneBottomNav({ brandSlug, active, onChange }) {
+  function IphoneBottomNav({ brandSlug, archetype, active, onChange }) {
     const isCiti = brandSlug === 'citi';
+    const isIsraeliBank = archetype === 'israeli-retail-bank';
+    const isDigitalBank = archetype === 'digital-bank';
     const tabs = isCiti
       ? [
           { key: 'home',         label: 'Home',           icon: 'home' },
@@ -11480,6 +11538,21 @@
           { key: 'cards',        label: 'Cards',          icon: 'card' },
           { key: 'menu',         label: 'Settings',       icon: 'settings' },
         ]
+      : isIsraeliBank
+      ? [
+          { key: 'home',         label: 'Home',        icon: 'home' },
+          { key: 'cards',        label: 'Cards',       icon: 'card' },
+          { key: 'pay_transfer', label: 'Pay',         icon: 'transfer' },
+          { key: 'investments',  label: 'Investments', icon: 'pie' },
+          { key: 'menu',         label: 'More',        icon: 'settings' },
+        ]
+      : isDigitalBank
+      ? [
+          { key: 'home',   label: 'Home',    icon: 'home' },
+          { key: 'invest', label: 'Markets', icon: 'pie' },
+          { key: 'cards',  label: 'Cards',   icon: 'card' },
+          { key: 'menu',   label: 'Profile', icon: 'settings' },
+        ]
       : [
           { key: 'home',      label: 'Home',      icon: 'home' },
           { key: 'watchlist', label: 'Watchlist', icon: 'star' },
@@ -11487,9 +11560,13 @@
           { key: 'discover',  label: 'Discover',  icon: 'compass' },
           { key: 'menu',      label: 'Settings',  icon: 'settings' },
         ];
-    // stock_detail maps to: 'invest' tab for Citi (Invest is the trading entry-point);
-    // 'home' tab for eToro (default landing screen).
-    const stockDetailTab = isCiti ? 'invest' : 'home';
+    // Where stock_detail maps in each archetype's tab system:
+    // institutional-bank (citi) -> Invest; israeli-retail-bank -> Investments;
+    // digital-bank -> Markets; social-broker -> Home (eToro default landing).
+    const stockDetailTab = isCiti ? 'invest'
+      : isIsraeliBank ? 'investments'
+      : isDigitalBank ? 'invest'
+      : 'home';
     const activeTab = active === 'stock_detail' ? stockDetailTab : active;
     return (
       <nav className="ip-bottomnav" role="tablist" aria-label="App navigation">
@@ -11568,15 +11645,24 @@
   }
 
   // ---- Stock Detail Screen (broadcast mode = video; native mode = chart + Buy/Sell) ----
-  function StockDetailScreen({ brandSlug, stock, detailMode, videoUrl, videoRef, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
+  function StockDetailScreen({ brandSlug, brandDisplay, openInLabel, archetype, stock, detailMode, videoUrl, videoRef, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
     const isUp = stock.chgPct >= 0;
     const isCiti = brandSlug === 'citi';
-    const bannerArrow = isCiti ? 'Trade on citi →' : 'Open in eToro →';
+    const isIsraeliBank = archetype === 'israeli-retail-bank';
+    const isDigitalBank = archetype === 'digital-bank';
+    // Banner CTA: prefer config-supplied openInLabel; fallback to brand-named generic.
+    const bannerArrow = openInLabel
+      || (isCiti ? `Trade on ${brandDisplay || 'citi'} →` : `Open in ${brandDisplay || 'app'} →`);
+    // Detail tabs vary by archetype to match each platform's mental model.
     const tabs = isCiti
       ? ['Overview', 'Quote', 'News', 'Research']
+      : isIsraeliBank
+      ? ['Overview', 'Quote', 'News', 'Research']
+      : isDigitalBank
+      ? ['Overview', 'Quote', 'News']
       : ['Overview', 'Stats', 'News', 'Trades'];
     return (
-      <div className={`ip-screen ip-screen--stock-detail ${isCiti ? 'ip-screen--citi' : ''}`}>
+      <div className={`ip-screen ip-screen--stock-detail ${isCiti ? 'ip-screen--citi' : ''} ${isIsraeliBank ? 'ip-screen--ilbank' : ''} ${isDigitalBank ? 'ip-screen--digbank' : ''}`}>
         <div className="ip-screen-topbar">
           <button className="ip-topbar-icon" aria-label="Back" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
