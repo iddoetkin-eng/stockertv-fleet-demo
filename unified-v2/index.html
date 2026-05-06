@@ -12121,7 +12121,7 @@
               <PortfolioScreen onWatchlistClick={() => navigateToScreen('watchlist')} />
             )}
             {activeScreen === 'menu' && !isCiti && !isIsraeliBank && !isDigitalBank && (
-              <MenuScreen onAcademyClick={onAcademyClick} />
+              <MenuScreen brandDisplay={brandDisplay} onAcademyClick={onAcademyClick} />
             )}
             {/* Citi (institutional-bank) screens */}
             {activeScreen === 'home' && isCiti && (
@@ -12715,15 +12715,15 @@
   }
 
   // ---- Menu Screen (also wallet tab) ----
-  function MenuScreen({ onAcademyClick }) {
-    // R10.1 Fix 2 — `stockertv` row inserted at index 1 (between Copy Pro Investors
-    // and Economic Calendar). Custom render: Fraunces "Stocker" white + italic
-    // "TV" eToro green. Click opens https://www.stockertv.com in a new tab.
+  function MenuScreen({ brandDisplay, onAcademyClick }) {
+    // The Settings tab in the social-broker shell. Reads brandDisplay so
+    // fallback clients (IBKR, Plus500, T212, JPM, BAC) don't leak 'eToro'.
+    const brand = brandDisplay || 'eToro';
     const items = [
       { label: 'Copy Pro Investors', icon: '📊' },
       { label: 'StockerTV', kind: 'stockertv', href: 'https://www.stockertv.com' },
       { label: 'Economic Calendar', icon: '📅' },
-      { label: 'eToro Club', icon: '🎖' },
+      { label: `${brand} Club`, icon: '🎖' },
       { label: 'Invite Friends', icon: '📢' },
       { label: 'Withdraw Funds', icon: '💰' },
       { label: 'Settings', icon: '⚙' },
@@ -12734,7 +12734,7 @@
     return (
       <div className="ip-screen ip-screen--menu">
         <div className="ip-screen-topbar ip-screen-topbar--center">
-          <span className="ip-menu-wordmark">eToro</span>
+          <span className="ip-menu-wordmark">{brand}</span>
         </div>
         <div className="ip-menu-profile">
           <div className="ip-menu-avatar">DU</div>
