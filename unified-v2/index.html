@@ -11820,12 +11820,16 @@
     // default NVDA broadcast clip with a tailored video — gated on
     // onDefaultNvda so per-stock navigation (tap AAPL) still works.
     const stock = STOCKS[activeStock] || STOCKS.NVDA;
+    // Country selector gate stays strict (only on the very first NVDA view).
     const onDefaultNvda = !hasNavigated && activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
+    // firstVideoUrl gate is relaxed: any NVDA broadcast view (including navigated-back)
+    // so the custom video reappears whenever the viewer returns to NVDA.
+    const onNvdaBroadcast = activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
     const countryVariant = (showCountrySelector && onDefaultNvda) ? countryVariants.find((v) => v.key === countryKey) : null;
     const customFirstVideo = platformMockup.firstVideoUrl;
     const activeVideoUrl = countryVariant
       ? countryVariant.videoUrl
-      : (customFirstVideo && onDefaultNvda)
+      : (customFirstVideo && onNvdaBroadcast)
         ? customFirstVideo
         : stock.video;
 
