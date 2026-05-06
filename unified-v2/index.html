@@ -13604,12 +13604,19 @@
   const BRAND_CLOSE_WORDMARK = {
     etoro:   { text: 'eToro',         font: 'Helvetica, Arial, sans-serif',     weight: 700, letterSpacing: '-0.04em', size: 'clamp(1.6rem, 4.5vw, 2.4rem)' },
     ibkr:    { text: 'IBKR',          font: 'Helvetica, Arial, sans-serif',     weight: 800, letterSpacing: '-0.02em', size: 'clamp(1.6rem, 4.5vw, 2.4rem)' },
-    bac:     { text: 'Merrill Edge',  font: '"Times New Roman", Times, serif',  weight: 700, letterSpacing: '-0.01em', size: 'clamp(1.2rem, 3.6vw, 1.85rem)' },
-    jpm:     { text: 'J.P. Morgan',   font: '"Times New Roman", Times, serif',  weight: 700, letterSpacing: '-0.005em', size: 'clamp(1.2rem, 3.4vw, 1.7rem)' },
+    // Multi-line `lines` triggers the tspan render path — used when a brand name
+    // is too long to fit inside the right circle on a single line.
+    bac:     { text: 'Merrill Edge',  lines: ['Merrill', 'Edge'],            font: '"Times New Roman", Times, serif',  weight: 700, letterSpacing: '-0.01em', size: 'clamp(1.2rem, 3.6vw, 1.85rem)' },
+    jpm:     { text: 'J.P. Morgan',   lines: ['J.P. Morgan', 'Self-Directed'], font: '"Times New Roman", Times, serif',  weight: 700, letterSpacing: '-0.005em', size: 'clamp(1.2rem, 3.4vw, 1.7rem)' },
     plus500: { text: 'Plus500',       font: 'Helvetica, Arial, sans-serif',     weight: 700, letterSpacing: '-0.02em', size: 'clamp(1.5rem, 4.2vw, 2.2rem)' },
     t212:    { text: 'Trading 212',   font: 'Helvetica, Arial, sans-serif',     weight: 700, letterSpacing: '-0.01em', size: 'clamp(1.2rem, 3.4vw, 1.75rem)' },
-    // R11 — Citi: lowercase "citi" in DM Sans + red arc over the "t" (NOT the actual Citi logo asset)
     citi:    { text: 'citi',          font: "'DM Sans', Helvetica, Arial, sans-serif", weight: 700, letterSpacing: '-0.03em', size: 'clamp(1.7rem, 4.6vw, 2.5rem)', custom: 'citi-arc' },
+    hapoalim:{ text: 'Bank Hapoalim',     lines: ['Bank', 'Hapoalim'],     font: 'Helvetica, Arial, sans-serif',    weight: 700, letterSpacing: '-0.02em', size: 'clamp(1.4rem, 4vw, 2rem)' },
+    leumi:   { text: 'Bank Leumi',        lines: ['Bank', 'Leumi'],        font: 'Helvetica, Arial, sans-serif',    weight: 700, letterSpacing: '-0.02em', size: 'clamp(1.4rem, 4vw, 2rem)' },
+    fibi:    { text: 'First International', lines: ['First', 'International'], font: '"Times New Roman", Times, serif', weight: 700, letterSpacing: '-0.005em', size: 'clamp(1.2rem, 3.4vw, 1.7rem)' },
+    onezero: { text: 'ONE ZERO',          lines: ['ONE', 'ZERO'],          font: 'Helvetica, Arial, sans-serif',    weight: 800, letterSpacing: '0.02em',  size: 'clamp(1.6rem, 4.5vw, 2.3rem)' },
+    schwab:  { text: 'Charles Schwab',    lines: ['Charles', 'Schwab'],    font: '"Times New Roman", Times, serif', weight: 700, letterSpacing: '-0.01em', size: 'clamp(1.3rem, 3.6vw, 1.8rem)' },
+    nvidia:  { text: 'NVIDIA',            font: 'Helvetica, Arial, sans-serif',    weight: 800, letterSpacing: '0em',     size: 'clamp(1.5rem, 4.2vw, 2.2rem)' },
   };
 
   // R7 Fix 1 — text positioning needs sub-pixel precision so the labels stay
@@ -13628,11 +13635,17 @@
     const SVG_BRAND_SIZE = {
       etoro:   34,
       ibkr:    34,
-      bac:     22, // "Merrill Edge"
-      jpm:     22, // "J.P. Morgan"
+      bac:     26, // ['Merrill','Edge']
+      jpm:     18, // ['J.P. Morgan','Self-Directed']
       plus500: 30,
       t212:    24, // "Trading 212"
       citi:    44, // "citi" — short, lowercase, can render larger
+      hapoalim:24,
+      leumi:   26,
+      fibi:    22,
+      onezero: 30,
+      schwab:  24,
+      nvidia:  28,
     };
     const brandFontSize = SVG_BRAND_SIZE[brandSlug] || 30;
     return (
@@ -13686,6 +13699,22 @@
                 citi
               </text>
             </g>
+          ) : brand.lines ? (
+            <text
+              x="300"
+              y="110"
+              textAnchor="middle"
+              fontFamily={brand.font}
+              fontSize={brandFontSize}
+              fontWeight={brand.weight}
+              letterSpacing={brand.letterSpacing}
+              fill="var(--accent)"
+              dominantBaseline="middle"
+            >
+              {brand.lines.map((ln, i) => (
+                <tspan key={i} x="300" dy={i === 0 ? '-0.45em' : '1.05em'}>{ln}</tspan>
+              ))}
+            </text>
           ) : (
             <text
               x="300" y="120"
