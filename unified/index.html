@@ -11644,10 +11644,18 @@
 
     // Active video URL: country selector overrides ONLY on default NVDA screen
     // (when user hasn't navigated away yet). Otherwise stock's dedicated video.
+    // Per-client `cfg.platformMockup.firstVideoUrl` lets a brand override the
+    // default NVDA broadcast clip with a tailored video — gated on
+    // onDefaultNvda so per-stock navigation (tap AAPL) still works.
     const stock = STOCKS[activeStock] || STOCKS.NVDA;
     const onDefaultNvda = !hasNavigated && activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
     const countryVariant = (showCountrySelector && onDefaultNvda) ? countryVariants.find((v) => v.key === countryKey) : null;
-    const activeVideoUrl = countryVariant ? countryVariant.videoUrl : stock.video;
+    const customFirstVideo = platformMockup.firstVideoUrl;
+    const activeVideoUrl = countryVariant
+      ? countryVariant.videoUrl
+      : (customFirstVideo && onDefaultNvda)
+        ? customFirstVideo
+        : stock.video;
 
     // Reset to default state when switching brands
     useEffect(() => {
