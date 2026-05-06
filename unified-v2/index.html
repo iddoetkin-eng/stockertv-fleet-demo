@@ -6574,6 +6574,380 @@
       transition: transform 200ms ease;
     }
     .close-restart:hover .close-restart-arrow { transform: translateX(-4px); }
+
+    /* ============================================================================
+       Beat 5 — israeli-retail-bank archetype (hapoalim, leumi, fibi)
+       Light retail-banking mobile pattern. Reads --accent / --accent-deep /
+       --accent-2 from each brand's CSS vars.
+       ============================================================================ */
+    .ip-screen--ilbank {
+      background: #ffffff;
+      color: #14181F;
+      padding: 0 0 80px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .ilb-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px 8px;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: sticky; top: 0; z-index: 5;
+    }
+    .ilb-header-brand {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+    .ilb-header-icon {
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: 0;
+      color: #14181F; cursor: pointer;
+    }
+    .ilb-header-icon svg { width: 20px; height: 20px; }
+    .ip-screen--ilbank[data-brand="fibi"] .ilb-header {
+      border-bottom: 0;
+      box-shadow: inset 0 -2px 0 0 var(--accent-2, var(--accent));
+    }
+    .ilb-greet { padding: 16px 18px 6px; }
+    .ilb-greet-hi { font-size: 12px; color: #6B7280; letter-spacing: 0.04em; }
+    .ilb-greet-name { font-size: 18px; font-weight: 600; color: #14181F; margin-top: 2px; }
+    .ilb-balance-card {
+      margin: 8px 16px 16px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #FAFBFD);
+      border: 1px solid rgba(20,24,31,0.06);
+      box-shadow: 0 4px 16px -8px rgba(20,24,31,0.10);
+      padding: 18px 18px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ilb-balance-strip {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-deep, var(--accent)));
+    }
+    .ip-screen--ilbank[data-brand="fibi"] .ilb-balance-strip {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2, var(--accent)));
+    }
+    .ilb-balance-label { font-size: 11px; color: #6B7280; letter-spacing: 0.06em; }
+    .ilb-balance-amount {
+      font-size: 32px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      color: #14181F;
+      margin-top: 6px;
+      letter-spacing: -0.02em;
+    }
+    .ilb-balance-cents { font-size: 0.6em; vertical-align: super; }
+    .ilb-balance-foot {
+      margin-top: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: #6B7280;
+    }
+    .ilb-balance-avail strong { color: #14181F; font-weight: 600; }
+    .ilb-balance-eye { letter-spacing: 0.18em; color: #9CA3AF; }
+    .ilb-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 16px 18px; }
+    .ilb-action {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      background: #F4F6FA; border: 0; border-radius: 10px;
+      padding: 12px 6px 10px; cursor: pointer;
+      font-size: 11px; color: #14181F; font-weight: 500;
+      transition: background 200ms ease;
+    }
+    .ilb-action:hover { background: color-mix(in srgb, var(--accent) 8%, #F4F6FA); }
+    .ilb-action-ic {
+      font-size: 18px; width: 36px; height: 36px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #ffffff; border-radius: 50%;
+      color: var(--accent);
+      border: 1px solid rgba(20,24,31,0.06);
+    }
+    .ilb-section-title {
+      padding: 10px 18px 8px;
+      font-size: 11px; font-weight: 600; color: #6B7280;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .ilb-txns { padding: 0 12px; }
+    .ilb-txn {
+      display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center;
+      padding: 10px 6px; border-bottom: 1px solid rgba(20,24,31,0.04);
+    }
+    .ilb-txn:last-child { border-bottom: 0; }
+    .ilb-txn-ic {
+      width: 36px; height: 36px; border-radius: 50%; background: #F4F6FA;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .ilb-txn-merchant { font-size: 13px; font-weight: 500; color: #14181F; }
+    .ilb-txn-date { font-size: 11px; color: #6B7280; margin-top: 1px; }
+    .ilb-txn-amt { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .ilb-txn-amt--neg { color: #14181F; }
+    .ilb-txn-amt--pos { color: #16A34A; }
+    .ip-screen-topbar--ilbank { background: #ffffff; color: #14181F; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .ip-screen-topbar--ilbank .ilb-topbar-name { font-size: 15px; font-weight: 600; color: #14181F; }
+    .ilb-portfolio { padding: 16px 18px 14px; border-bottom: 1px solid rgba(20,24,31,0.04); }
+    .ilb-portfolio-label { font-size: 11px; color: #6B7280; letter-spacing: 0.04em; }
+    .ilb-portfolio-value {
+      font-size: 28px; font-family: 'Fraunces', Georgia, serif; font-weight: 500;
+      margin-top: 4px; letter-spacing: -0.02em;
+    }
+    .ilb-portfolio-day { margin-top: 8px; display: flex; align-items: center; gap: 8px; }
+    .ilb-portfolio-pill {
+      display: inline-flex; align-items: center;
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      color: var(--accent-deep, var(--accent));
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+    .ilb-portfolio-day-lbl { font-size: 11px; color: #6B7280; }
+    .ilb-briefing {
+      margin: 14px 16px 14px;
+      width: calc(100% - 32px);
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, #0E1116 0%, #1B2230 100%);
+      color: #F4F6FA; border: 0; border-radius: 14px;
+      padding: 16px 16px 16px 18px; cursor: pointer; text-align: left;
+      position: relative; overflow: hidden;
+      box-shadow: 0 12px 28px -14px color-mix(in srgb, var(--accent) 60%, transparent);
+    }
+    .ilb-briefing-stripe { position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--accent); }
+    .ilb-briefing-body { flex: 1; min-width: 0; }
+    .ilb-briefing-eyebrow {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); font-weight: 600;
+    }
+    .ilb-stv-mark { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: 0; text-transform: none; color: #fff; }
+    .ilb-stv-mark em { color: var(--accent); font-style: normal; }
+    .ilb-briefing-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+    .ilb-briefing-title { font-size: 14px; font-weight: 600; margin-top: 6px; color: #F9FAFB; line-height: 1.3; }
+    .ilb-briefing-meta { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+    .ilb-briefing-play {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; flex-shrink: 0;
+    }
+    .ilb-briefing-play svg { width: 20px; height: 20px; margin-left: 2px; }
+    .ilb-watchlist { padding: 0 12px; }
+    .ilb-stock {
+      display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+      padding: 12px 6px;
+      border-bottom: 1px solid rgba(20,24,31,0.04);
+      background: transparent; border-left: 0; border-right: 0; border-top: 0;
+      width: 100%; cursor: pointer; text-align: left;
+    }
+    .ilb-stock:last-child { border-bottom: 0; }
+    .ilb-stock.is-active { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+    .ilb-stock-tk-ticker {
+      font-size: 14px; font-weight: 700; color: #14181F;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .ilb-stock-tk-name { font-size: 11px; color: #6B7280; margin-top: 2px; }
+    .ilb-stock-rt { text-align: right; }
+    .ilb-stock-px { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .ilb-stock-chg { font-size: 11px; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .ilb-stock-chg--up   { color: #16A34A; }
+    .ilb-stock-chg--down { color: #DC2626; }
+    .ilb-card-stack { padding: 18px 16px 12px; }
+    .ilb-mock-card {
+      border-radius: 14px; padding: 18px 16px 14px; color: #fff;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep, var(--accent)) 100%);
+      box-shadow: 0 12px 24px -14px color-mix(in srgb, var(--accent) 60%, transparent);
+      position: relative; height: 170px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .ilb-mock-card-bank { font-family: 'Fraunces', Georgia, serif; font-size: 14px; font-weight: 600; }
+    .ilb-mock-card-num { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; letter-spacing: 0.08em; opacity: 0.92; }
+    .ilb-mock-card-foot { display: flex; justify-content: space-between; font-size: 10.5px; letter-spacing: 0.06em; opacity: 0.85; }
+    .ilb-mock-card-net {
+      position: absolute; right: 16px; bottom: 16px;
+      font-weight: 800; letter-spacing: 0.04em; font-size: 14px; font-style: italic;
+    }
+    .ilb-spend { padding: 8px 18px 18px; }
+    .ilb-spend-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; color: #14181F; }
+    .ilb-spend-row strong { font-weight: 600; }
+    .ilb-spend-bar { height: 6px; background: #F4F6FA; border-radius: 999px; margin-top: 8px; overflow: hidden; }
+    .ilb-spend-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-deep, var(--accent))); border-radius: 999px; }
+    .ilb-pay-grid { padding: 18px 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .ilb-pay-tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; background: #F4F6FA; border: 0; border-radius: 12px; padding: 18px 8px;
+      cursor: pointer; font-size: 12px; color: #14181F; font-weight: 500;
+    }
+    .ilb-pay-ic {
+      font-size: 22px; width: 44px; height: 44px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #ffffff; border-radius: 50%; color: var(--accent);
+    }
+    .ilb-more-list { padding: 8px 0; }
+    .ilb-more-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px;
+      background: transparent; border: 0;
+      border-bottom: 1px solid rgba(20,24,31,0.04);
+      width: 100%; text-align: left; cursor: pointer;
+      color: #14181F; font-size: 13px; font-weight: 500; text-decoration: none;
+    }
+    .ilb-more-row:last-child { border-bottom: 0; }
+    .ilb-more-row:hover { background: #F4F6FA; }
+    .ilb-more-ic { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+    .ilb-more-label { flex: 1; }
+    .ilb-more-label em { font-style: normal; color: var(--accent); font-weight: 700; }
+    .ilb-more-arrow { color: #9CA3AF; font-size: 18px; }
+    .ip-screen--stock-detail.ip-screen--ilbank { background: #ffffff; color: #14181F; }
+
+    /* ============================================================================
+       Beat 5 — digital-bank archetype (onezero)
+       ============================================================================ */
+    .ip-screen--digbank {
+      background: #0B0E14; color: #F4F6FA; padding: 0 0 80px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .db-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 18px 8px;
+      background: #0B0E14;
+      position: sticky; top: 0; z-index: 5;
+    }
+    .db-header-brand { font-family: 'Fraunces', Georgia, serif; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #F4F6FA; }
+    .db-header-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 24%, #161B26);
+      color: var(--accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .db-balance { padding: 14px 18px 18px; text-align: left; }
+    .db-balance-label { font-size: 11px; color: rgba(244,246,250,0.55); letter-spacing: 0.06em; text-transform: uppercase; }
+    .db-balance-amount { font-family: 'Fraunces', Georgia, serif; font-size: 38px; font-weight: 400; letter-spacing: -0.025em; color: #ffffff; margin-top: 4px; }
+    .db-balance-cents { font-size: 0.55em; vertical-align: super; opacity: 0.7; }
+    .db-balance-acct { font-size: 11px; color: rgba(244,246,250,0.4); margin-top: 4px; letter-spacing: 0.04em; }
+    .db-chips { display: flex; gap: 8px; padding: 0 18px 18px; }
+    .db-chip {
+      flex: 1;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 11px 10px;
+      border-radius: 10px;
+      background: #161B26; color: #F4F6FA;
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px; font-weight: 500; cursor: pointer;
+    }
+    .db-chip--accent { background: var(--accent); color: #fff; border-color: transparent; }
+    .db-chip-ic { font-size: 14px; }
+    .db-brief {
+      display: block;
+      width: calc(100% - 32px);
+      margin: 6px 16px 18px;
+      padding: 16px 16px 14px;
+      background: linear-gradient(135deg, #0E1116 0%, #14182A 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      color: #F4F6FA; cursor: pointer; text-align: left;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent),
+                  0 18px 32px -16px color-mix(in srgb, var(--accent) 50%, transparent);
+      position: relative; overflow: hidden;
+    }
+    .db-brief--inset { margin: 14px 16px 12px; }
+    .db-brief::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 36%, transparent), transparent 70%);
+      filter: blur(8px); pointer-events: none;
+    }
+    .db-brief-eyebrow {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(244,246,250,0.5); font-weight: 600; position: relative;
+    }
+    .db-stv-mark { font-weight: 700; letter-spacing: 0; text-transform: none; color: #fff; }
+    .db-stv-mark em { color: var(--accent); font-style: normal; }
+    .db-brief-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+    .db-brief-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 16px; line-height: 1.25; font-weight: 500;
+      color: #ffffff; margin-top: 8px; letter-spacing: -0.01em;
+      position: relative;
+    }
+    .db-brief-foot {
+      margin-top: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; color: rgba(244,246,250,0.55); position: relative;
+    }
+    .db-brief-play {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 10px;
+    }
+    .db-section { padding: 6px 18px 18px; }
+    .db-section-title {
+      font-size: 10.5px; color: rgba(244,246,250,0.5);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      font-weight: 600; padding-bottom: 8px;
+    }
+    .db-section-title--inset { padding-left: 18px; padding-right: 18px; padding-top: 6px; }
+    .db-line {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; font-size: 13px; color: rgba(244,246,250,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .db-line:last-child { border-bottom: 0; }
+    .db-line strong { color: #fff; font-weight: 600; }
+    .db-pos { color: #34D399 !important; }
+    .ip-screen-topbar--digbank { background: #0B0E14; color: #F4F6FA; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .db-topbar-name { font-size: 15px; font-weight: 600; color: #F4F6FA; }
+    .db-stocks { padding: 0 12px; }
+    .db-stock {
+      display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+      padding: 12px 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: transparent; border-left: 0; border-right: 0; border-top: 0;
+      width: 100%; cursor: pointer; text-align: left;
+      color: #F4F6FA;
+    }
+    .db-stock:last-child { border-bottom: 0; }
+    .db-stock.is-active { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+    .db-stock-tk { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; font-weight: 700; }
+    .db-stock-name { font-size: 11px; color: rgba(244,246,250,0.5); margin-top: 2px; }
+    .db-stock-rt { text-align: right; }
+    .db-stock-px { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .db-stock-chg { font-size: 11px; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .db-stock-chg--up   { color: #34D399; }
+    .db-stock-chg--down { color: #F87171; }
+    .db-card-stack { padding: 18px 16px; }
+    .db-mock-card {
+      border-radius: 14px; padding: 18px; color: #fff;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep, var(--accent)) 100%);
+      box-shadow: 0 18px 40px -20px color-mix(in srgb, var(--accent) 70%, transparent);
+      height: 180px;
+      position: relative;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .db-mock-card-bank { font-family: 'Fraunces', Georgia, serif; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+    .db-mock-card-num { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 16px; letter-spacing: 0.08em; opacity: 0.94; }
+    .db-mock-card-net { position: absolute; right: 18px; bottom: 18px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; opacity: 0.85; }
+    .db-profile { padding: 22px 18px 14px; text-align: center; }
+    .db-profile-avatar {
+      width: 64px; height: 64px; border-radius: 50%; margin: 0 auto;
+      background: color-mix(in srgb, var(--accent) 22%, #161B26);
+      color: var(--accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 700;
+    }
+    .db-profile-name { font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 500; margin-top: 10px; color: #fff; }
+    .db-profile-meta { font-size: 11px; color: rgba(244,246,250,0.5); margin-top: 4px; letter-spacing: 0.04em; }
+    .db-profile-list { padding: 10px 18px 18px; }
+    .ip-screen--stock-detail.ip-screen--digbank { background: #0B0E14; color: #F4F6FA; }
+
+    @media (max-width: 380px) {
+      .ilb-balance-amount, .ilb-portfolio-value { font-size: 26px; }
+      .db-balance-amount { font-size: 32px; }
+      .ilb-actions { gap: 6px; }
+      .ilb-action { padding: 10px 4px 8px; font-size: 10.5px; }
+    }
   </style>
 
   <!-- ============================================================
@@ -12789,6 +13163,367 @@
           })}
         </div>
         <button className="ip-citi-cta" type="button">Open new account</button>
+      </div>
+    );
+  }
+
+  // ============================================================================
+  // israeli-retail-bank archetype — used by hapoalim, leumi, fibi.
+  // ============================================================================
+  function IlBankHomeScreen({ brandDisplay, brandSlug, onInvestmentsClick }) {
+    return (
+      <div className="ip-screen ip-screen--ilbank" data-brand={brandSlug}>
+        <div className="ilb-header">
+          <button className="ilb-header-icon" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div className="ilb-header-brand">{brandDisplay}</div>
+          <button className="ilb-header-icon" aria-label="Notifications" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </button>
+        </div>
+        <div className="ilb-greet">
+          <div className="ilb-greet-hi">Good morning,</div>
+          <div className="ilb-greet-name">Daniel L.</div>
+        </div>
+        <div className="ilb-balance-card">
+          <div className="ilb-balance-strip" aria-hidden="true" />
+          <div className="ilb-balance-label">CURRENT ACCOUNT &middot; •• 4429</div>
+          <div className="ilb-balance-amount">$24,118.<span className="ilb-balance-cents">52</span></div>
+          <div className="ilb-balance-foot">
+            <span className="ilb-balance-avail">Available <strong>$22,910.40</strong></span>
+            <span className="ilb-balance-eye" aria-hidden="true">●●●●</span>
+          </div>
+        </div>
+        <div className="ilb-actions">
+          <button className="ilb-action" type="button"><span className="ilb-action-ic">↑</span><span>Transfer</span></button>
+          <button className="ilb-action" type="button"><span className="ilb-action-ic">⚡</span><span>Pay Bills</span></button>
+          <button className="ilb-action" type="button"><span className="ilb-action-ic">📄</span><span>Statements</span></button>
+          <button className="ilb-action" type="button" onClick={onInvestmentsClick}><span className="ilb-action-ic">📊</span><span>Investments</span></button>
+        </div>
+        <div className="ilb-section-title">Recent activity</div>
+        <div className="ilb-txns">
+          <div className="ilb-txn">
+            <div className="ilb-txn-ic" aria-hidden="true">☕</div>
+            <div className="ilb-txn-body">
+              <div className="ilb-txn-merchant">Aroma Espresso Bar</div>
+              <div className="ilb-txn-date">Today &middot; Card</div>
+            </div>
+            <div className="ilb-txn-amt ilb-txn-amt--neg">-$8.40</div>
+          </div>
+          <div className="ilb-txn">
+            <div className="ilb-txn-ic" aria-hidden="true">🛒</div>
+            <div className="ilb-txn-body">
+              <div className="ilb-txn-merchant">Shufersal Online</div>
+              <div className="ilb-txn-date">Yesterday &middot; Card</div>
+            </div>
+            <div className="ilb-txn-amt ilb-txn-amt--neg">-$184.20</div>
+          </div>
+          <div className="ilb-txn">
+            <div className="ilb-txn-ic" aria-hidden="true">💰</div>
+            <div className="ilb-txn-body">
+              <div className="ilb-txn-merchant">Salary deposit</div>
+              <div className="ilb-txn-date">Apr 28 &middot; Wire</div>
+            </div>
+            <div className="ilb-txn-amt ilb-txn-amt--pos">+$8,400.00</div>
+          </div>
+          <div className="ilb-txn">
+            <div className="ilb-txn-ic" aria-hidden="true">📱</div>
+            <div className="ilb-txn-body">
+              <div className="ilb-txn-merchant">Cellcom</div>
+              <div className="ilb-txn-date">Apr 27 &middot; Direct debit</div>
+            </div>
+            <div className="ilb-txn-amt ilb-txn-amt--neg">-$94.00</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function IlBankInvestmentsScreen({ brandDisplay, brandSlug, onStockClick, activeTicker }) {
+    const stocks = [
+      { ticker: 'NVDA',  name: 'NVIDIA Corp', price: '212.45', chg: -0.34 },
+      { ticker: 'AAPL',  name: 'Apple Inc',   price: '178.92', chg:  1.12 },
+      { ticker: 'TSLA',  name: 'Tesla Inc',   price: '245.67', chg:  2.45 },
+      { ticker: 'MSFT',  name: 'Microsoft',   price: '428.10', chg:  0.78 },
+      { ticker: 'GOOGL', name: 'Alphabet',    price: '180.55', chg: -1.04 },
+    ];
+    return (
+      <div className="ip-screen ip-screen--ilbank ip-screen--ilbank-invest" data-brand={brandSlug}>
+        <div className="ip-screen-topbar ip-screen-topbar--ilbank">
+          <button className="ip-topbar-icon" aria-label="Back" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div className="ip-topbar-title"><div className="ilb-topbar-name">Investments</div></div>
+          <button className="ip-topbar-icon" aria-label="Search" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </div>
+        <div className="ilb-portfolio">
+          <div className="ilb-portfolio-label">Portfolio Value</div>
+          <div className="ilb-portfolio-value">$89,432.<span className="ilb-balance-cents">10</span></div>
+          <div className="ilb-portfolio-day">
+            <span className="ilb-portfolio-pill">▲ +$1,205 (+1.36%)</span>
+            <span className="ilb-portfolio-day-lbl">Today</span>
+          </div>
+        </div>
+        <button type="button" className="ilb-briefing" onClick={() => onStockClick('NVDA')} aria-label="Open today's market briefing">
+          <div className="ilb-briefing-stripe" aria-hidden="true" />
+          <div className="ilb-briefing-body">
+            <div className="ilb-briefing-eyebrow">
+              <span className="ilb-stv-mark">Stocker<em>TV</em></span>
+              <span className="ilb-briefing-dot" aria-hidden="true" />
+              Daily Market Brief
+            </div>
+            <div className="ilb-briefing-title">NVIDIA closes data-center revenue quarter</div>
+            <div className="ilb-briefing-meta">47-second briefing &middot; English &middot; Tap to play</div>
+          </div>
+          <div className="ilb-briefing-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7L8 5z"/></svg>
+          </div>
+        </button>
+        <div className="ilb-section-title">My Watchlist</div>
+        <div className="ilb-watchlist">
+          {stocks.map((s) => (
+            <button key={s.ticker} type="button" className={`ilb-stock${s.ticker === activeTicker ? ' is-active' : ''}`} onClick={() => onStockClick(s.ticker)}>
+              <div className="ilb-stock-tk">
+                <div className="ilb-stock-tk-ticker">{s.ticker}</div>
+                <div className="ilb-stock-tk-name">{s.name}</div>
+              </div>
+              <div className="ilb-stock-rt">
+                <div className="ilb-stock-px">${s.price}</div>
+                <div className={`ilb-stock-chg ${s.chg >= 0 ? 'ilb-stock-chg--up' : 'ilb-stock-chg--down'}`}>
+                  {s.chg >= 0 ? '+' : ''}{s.chg.toFixed(2)}%
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function IlBankCardsScreen({ brandDisplay }) {
+    return (
+      <div className="ip-screen ip-screen--ilbank">
+        <div className="ip-screen-topbar ip-screen-topbar--ilbank">
+          <div className="ip-topbar-title"><div className="ilb-topbar-name">Cards</div></div>
+        </div>
+        <div className="ilb-card-stack">
+          <div className="ilb-mock-card">
+            <div className="ilb-mock-card-bank">{brandDisplay}</div>
+            <div className="ilb-mock-card-num">•••• •••• •••• 4429</div>
+            <div className="ilb-mock-card-foot">
+              <span>DANIEL L.</span><span>09/28</span>
+            </div>
+            <div className="ilb-mock-card-net">VISA</div>
+          </div>
+        </div>
+        <div className="ilb-section-title">This month</div>
+        <div className="ilb-spend">
+          <div className="ilb-spend-row"><span>Spent</span><strong>$1,842.30</strong></div>
+          <div className="ilb-spend-row"><span>Remaining limit</span><strong>$13,157.70</strong></div>
+          <div className="ilb-spend-bar"><div className="ilb-spend-bar-fill" style={{ width: '32%' }} /></div>
+        </div>
+      </div>
+    );
+  }
+
+  function IlBankPayScreen() {
+    const items = [
+      { ic: '↑',  label: 'Send Money' },
+      { ic: '⚡', label: 'Pay Bills' },
+      { ic: '↓',  label: 'Request' },
+      { ic: '📥', label: 'Direct Deposit' },
+      { ic: '📅', label: 'Standing Orders' },
+      { ic: '⌛', label: 'Pending' },
+    ];
+    return (
+      <div className="ip-screen ip-screen--ilbank">
+        <div className="ip-screen-topbar ip-screen-topbar--ilbank">
+          <div className="ip-topbar-title"><div className="ilb-topbar-name">Pay & Transfer</div></div>
+        </div>
+        <div className="ilb-pay-grid">
+          {items.map((it) => (
+            <button key={it.label} type="button" className="ilb-pay-tile">
+              <span className="ilb-pay-ic" aria-hidden="true">{it.ic}</span>
+              <span>{it.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function IlBankMoreScreen({ brandDisplay, onAcademyClick }) {
+    const items = [
+      { label: 'Profile & Security', ic: '👤' },
+      { label: 'StockerTV', kind: 'stockertv', href: 'https://www.stockertv.com' },
+      { label: 'Statements', ic: '📄' },
+      { label: 'Notifications', ic: '🔔' },
+      { label: 'Branches & ATMs', ic: '📍' },
+      { label: 'App Preferences', ic: '⚙' },
+      { label: 'Help & Support', ic: '❓' },
+      { label: `${brandDisplay} Academy`, ic: '🎓', onClick: onAcademyClick },
+      { label: 'Sign Out', ic: '➡' },
+    ];
+    return (
+      <div className="ip-screen ip-screen--ilbank">
+        <div className="ip-screen-topbar ip-screen-topbar--ilbank">
+          <div className="ip-topbar-title"><div className="ilb-topbar-name">More</div></div>
+        </div>
+        <div className="ilb-more-list">
+          {items.map((it) => {
+            if (it.kind === 'stockertv') {
+              return (
+                <a key={it.label} className="ilb-more-row ilb-more-row--stv" href={it.href} target="_blank" rel="noopener noreferrer">
+                  <span className="ilb-more-ic ilb-more-ic--stv">
+                    <span className="ip-menu-stv-mark"><span className="ip-menu-stv-mark-stocker">S</span><span className="ip-menu-stv-mark-tv">TV</span></span>
+                  </span>
+                  <span className="ilb-more-label">Stocker<em>TV</em></span>
+                  <span className="ilb-more-arrow">›</span>
+                </a>
+              );
+            }
+            return (
+              <button key={it.label} type="button" className="ilb-more-row" onClick={(e) => { e.preventDefault(); if (it.onClick) it.onClick(); }}>
+                <span className="ilb-more-ic">{it.ic}</span>
+                <span className="ilb-more-label">{it.label}</span>
+                <span className="ilb-more-arrow">›</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================================
+  // digital-bank archetype — used by onezero.
+  // ============================================================================
+  function DigitalBankHomeScreen({ brandDisplay, onBriefingClick }) {
+    return (
+      <div className="ip-screen ip-screen--digbank">
+        <div className="db-header">
+          <div className="db-header-brand">{brandDisplay}</div>
+          <div className="db-header-avatar" aria-hidden="true">DL</div>
+        </div>
+        <div className="db-balance">
+          <div className="db-balance-label">Total Balance</div>
+          <div className="db-balance-amount">$48,512.<span className="db-balance-cents">00</span></div>
+          <div className="db-balance-acct">Account &middot; •• 0029</div>
+        </div>
+        <div className="db-chips">
+          <button type="button" className="db-chip"><span className="db-chip-ic">↑</span>Send</button>
+          <button type="button" className="db-chip"><span className="db-chip-ic">＋</span>Save</button>
+          <button type="button" className="db-chip db-chip--accent" onClick={onBriefingClick}><span className="db-chip-ic">📊</span>Markets</button>
+        </div>
+        <button type="button" className="db-brief" onClick={onBriefingClick} aria-label="Open today's market briefing">
+          <div className="db-brief-eyebrow">
+            <span className="db-stv-mark">Stocker<em>TV</em></span>
+            <span className="db-brief-dot" aria-hidden="true" />
+            47-Second Briefing
+          </div>
+          <div className="db-brief-title">NVIDIA closes data-center revenue quarter</div>
+          <div className="db-brief-foot">
+            <span className="db-brief-meta">English &middot; Today, 9:00 AM</span>
+            <span className="db-brief-play" aria-hidden="true">▶</span>
+          </div>
+        </button>
+        <div className="db-section">
+          <div className="db-section-title">Recent</div>
+          <div className="db-line"><span>Apple Pay &middot; today</span><strong>-$24.30</strong></div>
+          <div className="db-line"><span>Salary &middot; Apr 28</span><strong className="db-pos">+$8,400</strong></div>
+          <div className="db-line"><span>Bezeq &middot; Apr 27</span><strong>-$112.00</strong></div>
+        </div>
+      </div>
+    );
+  }
+
+  function DigitalBankMarketsScreen({ brandDisplay, onStockClick, activeTicker }) {
+    const stocks = [
+      { ticker: 'NVDA',  name: 'NVIDIA',     price: '212.45', chg: -0.34 },
+      { ticker: 'AAPL',  name: 'Apple',      price: '178.92', chg:  1.12 },
+      { ticker: 'TSLA',  name: 'Tesla',      price: '245.67', chg:  2.45 },
+      { ticker: 'MSFT',  name: 'Microsoft',  price: '428.10', chg:  0.78 },
+      { ticker: 'GOOGL', name: 'Alphabet',   price: '180.55', chg: -1.04 },
+    ];
+    return (
+      <div className="ip-screen ip-screen--digbank">
+        <div className="ip-screen-topbar ip-screen-topbar--digbank">
+          <button className="ip-topbar-icon" aria-label="Back" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div className="ip-topbar-title"><div className="db-topbar-name">Markets</div></div>
+          <button className="ip-topbar-icon" aria-label="Search" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </div>
+        <button type="button" className="db-brief db-brief--inset" onClick={() => onStockClick('NVDA')}>
+          <div className="db-brief-eyebrow">
+            <span className="db-stv-mark">Stocker<em>TV</em></span>
+            <span className="db-brief-dot" aria-hidden="true" />
+            Today's Briefing
+          </div>
+          <div className="db-brief-title">NVIDIA closes data-center revenue quarter</div>
+          <div className="db-brief-foot">
+            <span className="db-brief-meta">47s &middot; English</span>
+            <span className="db-brief-play" aria-hidden="true">▶</span>
+          </div>
+        </button>
+        <div className="db-section-title db-section-title--inset">Watchlist</div>
+        <div className="db-stocks">
+          {stocks.map((s) => (
+            <button key={s.ticker} type="button" className={`db-stock${s.ticker === activeTicker ? ' is-active' : ''}`} onClick={() => onStockClick(s.ticker)}>
+              <div>
+                <div className="db-stock-tk">{s.ticker}</div>
+                <div className="db-stock-name">{s.name}</div>
+              </div>
+              <div className="db-stock-rt">
+                <div className="db-stock-px">${s.price}</div>
+                <div className={`db-stock-chg ${s.chg >= 0 ? 'db-stock-chg--up' : 'db-stock-chg--down'}`}>{s.chg >= 0 ? '+' : ''}{s.chg.toFixed(2)}%</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function DigitalBankCardsScreen() {
+    return (
+      <div className="ip-screen ip-screen--digbank">
+        <div className="ip-screen-topbar ip-screen-topbar--digbank">
+          <div className="ip-topbar-title"><div className="db-topbar-name">Cards</div></div>
+        </div>
+        <div className="db-card-stack">
+          <div className="db-mock-card">
+            <div className="db-mock-card-bank">ONE ZERO</div>
+            <div className="db-mock-card-num">•••• 0029</div>
+            <div className="db-mock-card-net">PLATINUM</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function DigitalBankProfileScreen({ brandDisplay }) {
+    return (
+      <div className="ip-screen ip-screen--digbank">
+        <div className="ip-screen-topbar ip-screen-topbar--digbank">
+          <div className="ip-topbar-title"><div className="db-topbar-name">Profile</div></div>
+        </div>
+        <div className="db-profile">
+          <div className="db-profile-avatar">DL</div>
+          <div className="db-profile-name">Daniel L.</div>
+          <div className="db-profile-meta">{brandDisplay} Member &middot; Since 2024</div>
+        </div>
+        <div className="db-profile-list">
+          <div className="db-line"><span>Plan</span><strong>Premium</strong></div>
+          <div className="db-line"><span>Notifications</span><strong>On</strong></div>
+          <div className="db-line"><span>Currency</span><strong>USD</strong></div>
+          <div className="db-line"><span>Language</span><strong>English</strong></div>
+        </div>
       </div>
     );
   }

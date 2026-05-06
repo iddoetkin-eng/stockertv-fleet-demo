@@ -11,6 +11,11 @@
     "themeMode": "light",
     "pageTitle": "StockerTV — ONE ZERO Demo"
   },
+  "platformMockup": {
+    "archetype": "digital-bank",
+    "openInLabel": "Open in ONE ZERO →",
+    "tapToNavigateLabel": "Markets tab"
+  },
   "hero": {
     "eyebrow": "Article → source-verified script in under a minute",
     "titleHtml": "See how <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> turns market news<br/>into broadcast-ready segments, automatically.",
