@@ -6861,6 +6861,57 @@
       color: #14181F;
     }
 
+    /* ---------------------------------------------------------------------------
+       Hapoalim language switcher — small pill row above the iPhone video.
+       Renders only when ?client=hapoalim is on the default NVDA broadcast view.
+       --------------------------------------------------------------------------- */
+    .ip-lang-switch {
+      padding: 10px 14px 8px;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .ip-lang-switch-head {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      color: #6B7280;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .ip-lang-switch-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+    .ip-lang-pill {
+      min-width: 32px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+      background: transparent;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition:
+        background 200ms cubic-bezier(0.22,1,0.36,1),
+        color      200ms cubic-bezier(0.22,1,0.36,1),
+        border     200ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .ip-lang-pill:hover {
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+    }
+    .ip-lang-pill[data-active='true'] {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
     /* ============================================================================
        Beat 5 — digital-bank archetype (onezero)
        Dark minimalist; large balance + briefing card on home; sparser nav.
@@ -7912,6 +7963,41 @@
       caption: 'INTERACTIVE BROKERS · London EMEA brief',
     },
   ];
+
+  // Hapoalim-only — multi-language reporter clips reachable from the in-iPhone
+  // pill row on Beat 5. The Hebrew entry is the wired Annual Report 2025 video;
+  // EN/AR/FR/ES reuse the same Supabase clips already in production for the
+  // eToro/Citi country selectors. Topbar override fields (ticker/company) are
+  // supplied here so the iPhone topbar stays semantically coherent with the
+  // playing clip — fixes the latent "NVDA topbar over Baxter video" issue.
+  const HAPOALIM_LANG_CLIPS = {
+    he: {
+      url: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/bank_hapoalim_annual_report_2025_1.2x.mp4',
+      ticker: 'POLI',
+      company: 'Bank Hapoalim',
+    },
+    en: {
+      url: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4',
+      ticker: 'NVDA',
+      company: 'NVIDIA Corporation',
+    },
+    ar: {
+      url: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/ARABIC%20VIDEO.mp4',
+      ticker: 'BN',
+      company: 'Danone',
+    },
+    fr: {
+      url: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/FRENCH%20VIDEO.mp4',
+      ticker: 'BAX',
+      company: 'Baxter International',
+    },
+    es: {
+      url: 'https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/SPANISH%20VIDEO.mp4',
+      ticker: 'NVDA',
+      company: 'NVIDIA Corporation',
+    },
+  };
+  const HAPOALIM_LANG_ORDER = ['he', 'en', 'ar', 'fr', 'es'];
 
   // Stock data for the 5 stocks visible across the interactive iPhone screens.
   // Each stock has: ticker, name, price, change %, change abs, embedded video URL,
@@ -11637,6 +11723,10 @@
     const [hasNavigated, setHasNavigated] = useState(false);
     const [countryKey, setCountryKey] = useState('us'); // default USA → NVDA English
     const [academyModalOpen, setAcademyModalOpen] = useState(false);
+    // Hapoalim-only language switcher. 'he' is the wired Annual Report video;
+    // EN/AR/FR/ES surface existing Supabase reporter clips. State preserved
+    // across NVDA->AAPL->NVDA navigation; reset to 'he' on brand-switch.
+    const [activeLang, setActiveLang] = useState('he');
 
     const iphoneVideoRef = useRef(null);
     const modalVideoRef = useRef(null);
@@ -11650,16 +11740,28 @@
     const stock = STOCKS[activeStock] || STOCKS.NVDA;
     // Country selector gate stays strict (only on the very first NVDA view).
     const onDefaultNvda = !hasNavigated && activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
-    // firstVideoUrl gate is relaxed: any NVDA broadcast view (including navigated-back)
-    // so the custom video reappears whenever the viewer returns to NVDA.
+    // firstVideoUrl / Hapoalim language gate: any NVDA broadcast view, so
+    // the custom video reappears whenever the viewer returns to NVDA.
     const onNvdaBroadcast = activeScreen === 'stock_detail' && activeStock === 'NVDA' && detailMode === 'broadcast';
     const countryVariant = (showCountrySelector && onDefaultNvda) ? countryVariants.find((v) => v.key === countryKey) : null;
     const customFirstVideo = platformMockup.firstVideoUrl;
+    // Hapoalim multi-language pill row drives both the video src AND the
+    // iPhone topbar override (so the topbar metadata stays coherent with the
+    // playing clip — pre-existing eToro/Citi country selector did NOT do this,
+    // creating a 'NVDA topbar over Baxter video' incoherence we now fix here).
+    const isHapoalim = brandSlug === 'hapoalim';
+    const hapoalimLangEntry = (isHapoalim && onNvdaBroadcast) ? HAPOALIM_LANG_CLIPS[activeLang] : null;
     const activeVideoUrl = countryVariant
       ? countryVariant.videoUrl
-      : (customFirstVideo && onNvdaBroadcast)
-        ? customFirstVideo
-        : stock.video;
+      : hapoalimLangEntry
+        ? hapoalimLangEntry.url
+        : (customFirstVideo && onNvdaBroadcast)
+          ? customFirstVideo
+          : stock.video;
+    // Topbar override for Hapoalim language switcher (null = use stock metadata).
+    const topbarOverride = hapoalimLangEntry
+      ? { ticker: hapoalimLangEntry.ticker, name: hapoalimLangEntry.company }
+      : null;
 
     // Reset to default state when switching brands
     useEffect(() => {
@@ -11668,6 +11770,7 @@
       setDetailMode('broadcast');
       setHasNavigated(false);
       setCountryKey('us');
+      setActiveLang('he');
     }, [brandSlug]);
 
     // Navigation handlers
@@ -11821,6 +11924,12 @@
               detailMode={detailMode}
               activeVideoUrl={activeVideoUrl}
               stock={stock}
+              topbarOverride={topbarOverride}
+              hapoalimLangSwitcher={hapoalimLangEntry ? {
+                activeLang,
+                languages: HAPOALIM_LANG_ORDER,
+                onLangChange: (lk) => { setActiveLang(lk); audioState.play('click'); },
+              } : null}
               iphoneVideoRef={iphoneVideoRef}
               navigateToScreen={navigateToScreen}
               navigateToStock={navigateToStock}
@@ -11917,7 +12026,8 @@
   // ============================================================================
   function InteractiveIPhone(props) {
     const { brandSlug, brandDisplay, archetype, openInLabel,
-            activeScreen, activeStock, detailMode, activeVideoUrl, stock, iphoneVideoRef,
+            activeScreen, activeStock, detailMode, activeVideoUrl, stock,
+            topbarOverride, hapoalimLangSwitcher, iphoneVideoRef,
             navigateToScreen, navigateToStock, swapToNativeMode, swapToBroadcastMode,
             onClickWidget, onAcademyClick } = props;
     const isCiti = brandSlug === 'citi';
@@ -11942,6 +12052,8 @@
                 detailMode={detailMode}
                 videoUrl={activeVideoUrl}
                 videoRef={iphoneVideoRef}
+                topbarOverride={topbarOverride}
+                hapoalimLangSwitcher={hapoalimLangSwitcher}
                 onClickVideo={onClickWidget}
                 onSwapToNative={swapToNativeMode}
                 onSwapToBroadcast={swapToBroadcastMode}
@@ -12161,7 +12273,7 @@
   }
 
   // ---- Stock Detail Screen (broadcast mode = video; native mode = chart + Buy/Sell) ----
-  function StockDetailScreen({ brandSlug, brandDisplay, openInLabel, archetype, stock, detailMode, videoUrl, videoRef, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
+  function StockDetailScreen({ brandSlug, brandDisplay, openInLabel, archetype, stock, detailMode, videoUrl, videoRef, topbarOverride, hapoalimLangSwitcher, onClickVideo, onSwapToNative, onSwapToBroadcast }) {
     const isUp = stock.chgPct >= 0;
     const isCiti = brandSlug === 'citi';
     const isIsraeliBank = archetype === 'israeli-retail-bank';
@@ -12169,6 +12281,9 @@
     // Banner CTA: prefer config-supplied openInLabel; fallback to brand-named generic.
     const bannerArrow = openInLabel
       || (isCiti ? `Trade on ${brandDisplay || 'citi'} →` : `Open in ${brandDisplay || 'app'} →`);
+    // Topbar metadata: override (Hapoalim language switcher) > stock fallback.
+    const topbarTicker = topbarOverride?.ticker || stock.ticker;
+    const topbarName   = topbarOverride?.name   || stock.name;
     // Detail tabs vary by archetype to match each platform's mental model.
     const tabs = isCiti
       ? ['Overview', 'Quote', 'News', 'Research']
@@ -12186,8 +12301,8 @@
             </svg>
           </button>
           <div className="ip-topbar-title">
-            <div className="ip-topbar-title-ticker">{stock.ticker}</div>
-            <div className="ip-topbar-title-name">{stock.name}</div>
+            <div className="ip-topbar-title-ticker">{topbarTicker}</div>
+            <div className="ip-topbar-title-name">{topbarName}</div>
           </div>
           <button className="ip-topbar-icon" aria-label="Favorite" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -12195,6 +12310,33 @@
             </svg>
           </button>
         </div>
+
+        {/* Hapoalim-only language switcher — sits above the iPhone video,
+            inside the scrolling content area. Renders only when the prop is
+            supplied (i.e. brandSlug==='hapoalim' AND on NVDA broadcast). */}
+        {hapoalimLangSwitcher && detailMode === 'broadcast' && (
+          <div className="ip-lang-switch" aria-label="Choose video language">
+            <div className="ip-lang-switch-head">CHOOSE YOUR LANGUAGE</div>
+            <div className="ip-lang-switch-row" role="tablist">
+              {hapoalimLangSwitcher.languages.map((lk) => {
+                const active = lk === hapoalimLangSwitcher.activeLang;
+                return (
+                  <button
+                    key={lk}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    data-active={active}
+                    className="ip-lang-pill"
+                    onClick={(e) => { e.stopPropagation(); hapoalimLangSwitcher.onLangChange(lk); }}
+                  >
+                    {lk.toUpperCase()}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {detailMode === 'broadcast' && (
           <div className="ip-stock-video" onClick={onClickVideo}>
