@@ -14,7 +14,8 @@
   "platformMockup": {
     "archetype": "israeli-retail-bank",
     "openInLabel": "Open in Hapoalim →",
-    "tapToNavigateLabel": "Investments tab"
+    "tapToNavigateLabel": "Investments tab",
+    "firstVideoUrl": "https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/bank_hapoalim_annual_report_2025_1.2x.mp4"
   },
   "hero": {
     "eyebrow": "Article → source-verified script in under a minute",
