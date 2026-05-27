@@ -156,6 +156,13 @@
     if (b.accentDeep)   html.style.setProperty("--accent-deep", b.accentDeep);
     if (b.accent2)      html.style.setProperty("--accent-2",    b.accent2);
     if (b.pageTitle) document.title = b.pageTitle;
+    // Optional RTL switch — when langDir === "rtl" the loader flips the
+    // document direction and updates lang so Hebrew/Arabic content lays out
+    // naturally. LTR configs are unaffected (no field present, no change).
+    if (b.langDir === "rtl") {
+      html.dir = "rtl";
+      if (b.lang) html.lang = b.lang;
+    }
     // clientName / logoUrl reserved for future use.
   }
 

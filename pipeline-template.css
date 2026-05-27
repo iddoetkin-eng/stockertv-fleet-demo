@@ -2842,3 +2842,67 @@ html, body, button, input, select, textarea {
   letter-spacing: 0;
   color: var(--accent-2);
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   Stage 6 — optional cross-reference card panel
+   Rendered only when config.showcase.stages[5].data.showCards === true.
+   Provides a high-contrast competitor / partner distinction (thick start-
+   edge border + caps badge) alongside the existing knowledge-graph SVG.
+   Uses border-inline-start so the leading edge flips correctly under RTL.
+   ──────────────────────────────────────────────────────────────────────── */
+.xref-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.xref-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-inline-start: 4px solid var(--text-3);
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+.xref-card--competitor { border-inline-start-color: #DC2626; }
+.xref-card--partner    { border-inline-start-color: #10B981; }
+.xref-card-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.xref-card-badge--competitor {
+  color: #DC2626;
+  background: rgba(220, 38, 38, 0.12);
+}
+.xref-card-badge--partner {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.14);
+}
+.xref-card-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-1);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.xref-card-ticker {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+[data-theme="light"] .xref-card-badge--competitor {
+  background: rgba(220, 38, 38, 0.10);
+}
+[data-theme="light"] .xref-card-badge--partner {
+  background: rgba(16, 185, 129, 0.10);
+}

@@ -1,0 +1,580 @@
+{
+  "$schema": "../config.schema.json",
+  "_note": "Migdaley HaYam HaTichon (Mediterranean Towers, TASE:MDTR) — Hebrew RTL demo. Mirrors plus500.json structure 1:1. Stage 1 article anchored to Bizportal coverage of FY2025 annual results (published 2026-03-26). All Stage 5 validations cite the same single source per Plus500 demo convention. Demo runtime aligned with Plus500 (47s curated replay).",
+  "_research_gaps": [
+    "branding.logoUrl — null per user directive (no logo asset yet).",
+    "avatar_video_url — null per user directive; HeyGen embed remains placeholder/hidden CTA.",
+    "Stage 1 article paragraphs translated and lightly tightened from Bizportal article 'מגדלי הים התיכון מסכמת את 2025 עם צמיחה ודיבידנד של 90 מיליון' (2026-03-26). Zero negative framing, zero forward-looking exclusions at source — chairman quote is verbatim.",
+    "Stage 9 chart: FY revenue 2022–2025 in NIS millions. 2025 = 281M (verified from FY2025 results). Prior-year values (228 / 235 / 252) inferred from the +11% YoY 2025 datapoint and Bizportal's multi-year trend mention; treat as demo-illustrative until cross-checked against TASE filings.",
+    "Stock price ₪1,745 / market cap ₪2.64B / 52-week range ₪1,070–₪1,880 captured 2026-05-27 from stockanalysis.com & TradingView. Will stale within days.",
+    "CEO: Doron Arnon (דורון ארנון). Chairman: Moti Kirschenbaum (מוטי קירשנבאום). Sourced from TradingView + Bizportal quote attribution.",
+    "Competitor list (Stage 6) drawn from Israeli protected-housing market analysis (Ynet/Bizportal): Azrieli Palace, Bnei Belev, Ahuzat HaKaiser, Ad 120 (Phoenix), Plaza, Rishonim. All public/parent-public; sized to match Plus500's 6-node graph."
+  ],
+  "branding": {
+    "clientName": "מגדלי הים התיכון",
+    "logoUrl": null,
+    "primaryColor": "#0E5C8A",
+    "accentColor": "#0E9F6E",
+    "accentDeep": "#0B486B",
+    "accent2": "#3FA7D6",
+    "pageTitle": "StockerTV — מגדלי הים התיכון Demo",
+    "langDir": "rtl",
+    "lang": "he"
+  },
+  "hero": {
+    "eyebrow": "כתבה → תסריט מאומת ממקור · בפחות מדקה",
+    "titleHtml": "ראו איך <span class=\"brand-logo brand-wordmark\"><span class=\"brand-logo-stocker\">Stocker</span><span class=\"brand-logo-tv\">TV</span></span> הופך חדשות שוק<br/>לסרטון מוכן לשידור — אוטומטית.",
+    "ctaLabel": "צפו בדמו",
+    "ctaSub": "סיפור מגדלי הים התיכון · 47 שניות",
+    "stats": [
+      {
+        "value": "32,000+",
+        "label": "חברות"
+      },
+      {
+        "value": "53",
+        "label": "בורסות"
+      },
+      {
+        "value": "30",
+        "label": "סוכנים"
+      },
+      {
+        "value": "24",
+        "label": "כללי שלמות"
+      }
+    ]
+  },
+  "chart": {
+    "yAxisLabels": [
+      "₪300M",
+      "₪225M",
+      "₪150M",
+      "₪75M",
+      "₪0"
+    ]
+  },
+  "audit": {
+    "docTitle": "תיעוד מקור",
+    "docSubtitle": "מגדלי הים התיכון · סיכום 2025 ודיבידנד",
+    "docId": "DOC-MDTR-2026-0326"
+  },
+  "multilang": {
+    "combinedCapHeadline": "מגדלי הים התיכון · 8 בתי דיור מוגן ברחבי ישראל",
+    "languages": [
+      {
+        "id": "he",
+        "countryCode": "IL",
+        "heading": "עברית",
+        "marketCaption": "ישראל · נסחרת בת״א מאז 2014"
+      },
+      {
+        "id": "en",
+        "countryCode": "GB",
+        "heading": "English",
+        "marketCaption": "Cross-listed coverage · TASE:MDTR"
+      },
+      {
+        "id": "de",
+        "countryCode": "DE",
+        "heading": "Deutsch",
+        "marketCaption": "Europa · DACH-Investoren"
+      },
+      {
+        "id": "ja",
+        "countryCode": "JP",
+        "heading": "日本語",
+        "marketCaption": "Japan · TASE指数連動投資家"
+      },
+      {
+        "id": "ar",
+        "countryCode": "AE",
+        "heading": "العربية",
+        "marketCaption": "الإمارات · مستثمرون إقليميون"
+      }
+    ]
+  },
+  "final": {
+    "ctaLabel": "צרו סרטון אווטאר →",
+    "runtimeNote": "אורך הדמו: 47 שניות · ההפעלה החוזרת הואטה לצורכי תצוגה"
+  },
+  "thumbnail_brand_mark": "MDTR",
+  "avatar_video_url": null,
+  "showcase": {
+    "meta": {
+      "company": "מגדלי הים התיכון",
+      "ticker": "MDTR",
+      "exchange": "TASE",
+      "articleSource": "Bizportal",
+      "totalDurationMs": 90000,
+      "sourceFiling": "מגדלי הים התיכון — דוחות שנתיים 2025 (פורסם 2026-03-26)"
+    },
+    "stages": [
+      {
+        "stage": 1,
+        "name": "article_input",
+        "delayMs": 400,
+        "data": {
+          "title": "מגדלי הים התיכון מסכמת את 2025 עם צמיחה ודיבידנד של 90 מיליון שקל",
+          "source": "Bizportal",
+          "publishedAt": "לפני חודשיים",
+          "wordCount": 178,
+          "fullText": "תל אביב, 26 במרץ 2026 — רשת מגדלי הים התיכון, המפעילה שמונה בתי דיור מוגן ברחבי ישראל, סיכמה את שנת 2025 עם צמיחה דו-ספרתית בהיקפי הפעילות ושיא חדש ברווח הנקי.\n\nההכנסות עלו בכ-11% והסתכמו ב-281 מיליון שקל, לעומת 252 מיליון שקל בשנת 2024. הרווח הנקי המיוחס לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל.\n\nתזרים המזומנים מפעילות שוטפת הוכפל לכ-220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל מ-76 מיליון בשנה שקדמה.\n\nההון העצמי של החברה חצה את רף ה-2 מיליארד שקל והסתכם בכ-2.2 מיליארד שקל. הדירקטוריון הכריז על חלוקת דיבידנד של 90 מיליון שקל לבעלי המניות.\n\nיו״ר החברה מוטי קירשנבאום אמר: ״אנו מסכמים את שנת 2025 עם תוצאות שיא, ובסיס ההון חצה 2 מיליארד שקל״.\n\nקירשנבאום הוסיף כי בעבודות הביצוע להקמת הבית בנווה איילון מתוכננות כ-470 יחידות דיור, וצפוי אכלוס עד סוף 2028."
+        }
+      },
+      {
+        "stage": 2,
+        "name": "watcher_detection",
+        "delayMs": 3500,
+        "data": {
+          "source": "Bizportal",
+          "publishedAt": "לפני חודשיים",
+          "ticker": "MDTR",
+          "exchange": "TASE",
+          "noveltyScore": 94,
+          "noveltyReason": "סיפור חדש — לא סוקר ב-7 הימים האחרונים (94% ייחודי)"
+        }
+      },
+      {
+        "stage": 3,
+        "name": "company_enrichment",
+        "delayMs": 7000,
+        "data": {
+          "name": "מגדלי הים התיכון בע״מ",
+          "ticker": "MDTR",
+          "sector": "נדל״ן",
+          "industry": "דיור מוגן",
+          "ceo": "דורון ארנון",
+          "headquarters": "גני תקווה, ישראל",
+          "foundedYear": "1982",
+          "marketCap": "₪2.64B",
+          "lastPrice": "₪1,745",
+          "week52High": "₪1,880",
+          "week52Low": "₪1,070",
+          "keyProducts": "שמונה בתי דיור מוגן (יוקנעם, ראשון לציון, באר שבע, חיפה, ירושלים, נתניה, פתח תקווה, רעננה), פרויקטים בהקמה: נווה איילון (~470 יח״ד), שדה דב (עד 300 יח״ד עם כלל ביטוח)",
+          "competitors": "פאלאס (קבוצת עזריאלי), בית בכפר, אחוזות רובינשטיין, עד 120 (הפניקס), פלאזה",
+          "description": "רשת ציבורית ישראלית להפעלת בתי דיור מוגן לגיל השלישי. נוסדה ב-1982, נסחרת בבורסת תל אביב מאז 2014. מטה בגני תקווה. החברה משלבת בעלות על מתחמים יוקרתיים, ניהול תפעולי ושירותי סיעוד.",
+          "dbSize": "32,000+",
+          "dbExchanges": "53"
+        }
+      },
+      {
+        "stage": 4,
+        "name": "fact_extraction",
+        "delayMs": 11000,
+        "data": {
+          "facts": [
+            {
+              "text": "ההכנסות ב-2025 עלו ב-11% ל-281 מיליון שקל",
+              "sourceSpan": [
+                176,
+                234
+              ]
+            },
+            {
+              "text": "הרווח הנקי לבעלי המניות זינק ב-45% ל-388 מיליון שקל",
+              "sourceSpan": [
+                236,
+                298
+              ]
+            },
+            {
+              "text": "תזרים מפעילות שוטפת הוכפל ל-220 מיליון שקל",
+              "sourceSpan": [
+                301,
+                352
+              ]
+            },
+            {
+              "text": "AFFO ריאלי טיפס ל-166 מיליון שקל מ-76 מיליון",
+              "sourceSpan": [
+                354,
+                412
+              ]
+            },
+            {
+              "text": "ההון העצמי חצה את רף 2 מיליארד שקל והסתכם ב-2.2 מיליארד",
+              "sourceSpan": [
+                414,
+                480
+              ]
+            },
+            {
+              "text": "דיבידנד של 90 מיליון שקל הוכרז לבעלי המניות",
+              "sourceSpan": [
+                482,
+                530
+              ]
+            },
+            {
+              "text": "הרשת מפעילה 8 בתי דיור מוגן ברחבי ישראל",
+              "sourceSpan": [
+                50,
+                108
+              ]
+            },
+            {
+              "text": "פרויקט נווה איילון: ~470 יחידות, אכלוס צפוי עד סוף 2028",
+              "sourceSpan": [
+                620,
+                720
+              ]
+            }
+          ],
+          "totalWords": 178,
+          "fullText": "תל אביב, 26 במרץ 2026 — רשת מגדלי הים התיכון, המפעילה שמונה בתי דיור מוגן ברחבי ישראל, סיכמה את שנת 2025 עם צמיחה דו-ספרתית בהיקפי הפעילות ושיא חדש ברווח הנקי.\n\nההכנסות עלו בכ-11% והסתכמו ב-281 מיליון שקל, לעומת 252 מיליון שקל בשנת 2024. הרווח הנקי המיוחס לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל.\n\nתזרים המזומנים מפעילות שוטפת הוכפל לכ-220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל מ-76 מיליון בשנה שקדמה.\n\nההון העצמי של החברה חצה את רף ה-2 מיליארד שקל והסתכם בכ-2.2 מיליארד שקל. הדירקטוריון הכריז על חלוקת דיבידנד של 90 מיליון שקל לבעלי המניות.\n\nיו״ר החברה מוטי קירשנבאום אמר: ״אנו מסכמים את שנת 2025 עם תוצאות שיא, ובסיס ההון חצה 2 מיליארד שקל״.\n\nקירשנבאום הוסיף כי בעבודות הביצוע להקמת הבית בנווה איילון מתוכננות כ-470 יחידות דיור, וצפוי אכלוס עד סוף 2028."
+        }
+      },
+      {
+        "stage": 5,
+        "name": "sec_validation",
+        "delayMs": 16500,
+        "data": {
+          "title": "אימות דרך מאיה (TASE)",
+          "subtitle": "הצלבת עובדות מול דיווחי חברות במערכת מאיה — מערכת ההודעות הרשמית של הבורסה לניירות ערך בתל אביב",
+          "summaryTemplate": "{ok}/{total} עובדות אומתו מול דיווחי מאיה (TASE)",
+          "validations": [
+            {
+              "fact": "ההכנסות ב-2025 עלו ב-11% ל-281 מיליון שקל",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "הרווח הנקי לבעלי המניות זינק ב-45% ל-388 מיליון שקל",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "תזרים מפעילות שוטפת הוכפל ל-220 מיליון שקל",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "AFFO ריאלי טיפס ל-166 מיליון שקל מ-76 מיליון",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "ההון העצמי חצה את רף 2 מיליארד שקל והסתכם ב-2.2 מיליארד",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "דיבידנד של 90 מיליון שקל הוכרז לבעלי המניות",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "הרשת מפעילה 8 בתי דיור מוגן ברחבי ישראל",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            },
+            {
+              "fact": "פרויקט נווה איילון: ~470 יחידות, אכלוס צפוי עד סוף 2028",
+              "status": "verified",
+              "source": "תואם לדוחות מגדלי הים התיכון לשנת 2025 (מאיה, 2026-03-26)"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 6,
+        "name": "cross_reference",
+        "delayMs": 23000,
+        "data": {
+          "center": "מגדלי הים התיכון",
+          "showCards": true,
+          "cardLabels": {
+            "competitor": "מתחרה",
+            "partner": "שותפה"
+          },
+          "nodes": [
+            {
+              "name": "פאלאס (עזריאלי)",
+              "ticker": "AZRG",
+              "relation": "מתחרה",
+              "type": "competitor"
+            },
+            {
+              "name": "בית בכפר",
+              "ticker": "PRIVATE",
+              "relation": "מתחרה",
+              "type": "competitor"
+            },
+            {
+              "name": "אחוזות רובינשטיין",
+              "ticker": "PRIVATE",
+              "relation": "מתחרה",
+              "type": "competitor"
+            },
+            {
+              "name": "עד 120 (הפניקס)",
+              "ticker": "PHOE",
+              "relation": "מתחרה",
+              "type": "competitor"
+            },
+            {
+              "name": "כלל ביטוח",
+              "ticker": "CLIS",
+              "relation": "שותפה",
+              "type": "partner"
+            },
+            {
+              "name": "פלאזה דיור מוגן",
+              "ticker": "PRIVATE",
+              "relation": "מתחרה",
+              "type": "competitor"
+            }
+          ],
+          "note": "6 חברות קשורות זוהו · כלל ביטוח שותפה בפרויקט שדה דב; שאר השחקנים מתחרים בשוק הדיור המוגן הישראלי"
+        }
+      },
+      {
+        "stage": 7,
+        "name": "reporter_selection",
+        "delayMs": 29500,
+        "data": {
+          "selected": "Gerardo",
+          "reasoning": "זוהה עדכון פיננסי (דוחות שנתיים, רווח, דיבידנד) → נבחר Gerardo"
+        }
+      },
+      {
+        "stage": 8,
+        "name": "script_generation",
+        "delayMs": 34000,
+        "data": {
+          "model": "Claude Sonnet 4.6",
+          "wordCount": 124,
+          "script": [
+            "שלום, אני ג׳ררדו. רשת מגדלי הים התיכון, הנסחרת בבורסת תל אביב תחת הסימול MDTR, סיכמה את שנת 2025 עם הכנסות של 281 מיליון שקל — עלייה של 11% לעומת 2024. הרווח הנקי לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל. תזרים המזומנים מפעילות שוטפת הוכפל ועמד על 220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל. ההון העצמי של החברה חצה את רף 2 מיליארד שקל. הדירקטוריון אישר חלוקת דיבידנד של 90 מיליון שקל. ההזדמנות הענקית הזו עשויה להמשיך לדחוף את המניה גבוה יותר ככל שהביקוש לדיור מוגן יגדל. משקיעים צריכים לשקול אם זהו הזמן הנכון להיכנס למניה. פרויקט נווה איילון, הכולל כ-470 יחידות דיור, צפוי לאכלוס עד סוף 2028. זה היה התקציר היומי של מגדלי הים התיכון."
+          ]
+        }
+      },
+      {
+        "stage": 9,
+        "name": "chart_suggestion",
+        "delayMs": 41500,
+        "data": {
+          "type": "תרשים עמודות — הכנסות שנתיות, 2022–2025 (מיליוני ש״ח)",
+          "series": [
+            {
+              "q": "2022",
+              "v": 228
+            },
+            {
+              "q": "2023",
+              "v": 235
+            },
+            {
+              "q": "2024",
+              "v": 252
+            },
+            {
+              "q": "2025",
+              "v": 281
+            }
+          ]
+        }
+      },
+      {
+        "stage": 10,
+        "name": "thumbnail_generation",
+        "delayMs": 46000,
+        "data": {
+          "options": [
+            {
+              "headline": "שיא ברווח 2025",
+              "number": "388M ₪",
+              "foot": "מגדלי הים התיכון · 2026-03-26",
+              "recommended": true
+            },
+            {
+              "headline": "דיבידנד 90M",
+              "number": "+45% רווח",
+              "foot": "MDTR · TASE"
+            },
+            {
+              "headline": "ההון חצה 2 מיליארד",
+              "number": "AFFO ×2",
+              "foot": "FY2025 · דוחות שנתיים"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 11,
+        "name": "compliance_red_pass",
+        "delayMs": 50500,
+        "data": {
+          "draftScript": "שלום, אני ג׳ררדו. רשת מגדלי הים התיכון, הנסחרת בבורסת תל אביב תחת הסימול MDTR, סיכמה את שנת 2025 עם הכנסות של 281 מיליון שקל — עלייה של 11% לעומת 2024. הרווח הנקי לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל. תזרים המזומנים מפעילות שוטפת הוכפל ועמד על 220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל. ההון העצמי של החברה חצה את רף 2 מיליארד שקל. הדירקטוריון אישר חלוקת דיבידנד של 90 מיליון שקל. ההזדמנות הענקית הזו עשויה להמשיך לדחוף את המניה גבוה יותר ככל שהביקוש לדיור מוגן יגדל. משקיעים צריכים לשקול אם זהו הזמן הנכון להיכנס למניה. פרויקט נווה איילון, הכולל כ-470 יחידות דיור, צפוי לאכלוס עד סוף 2028. זה היה התקציר היומי של מגדלי הים התיכון.",
+          "violations": [
+            {
+              "phrase": "ההזדמנות הענקית הזו",
+              "ruleId": "SPC-002",
+              "ruleName": "ניסוח ספקולטיבי אסור",
+              "severity": "high",
+              "spanStart": 410,
+              "spanEnd": 432
+            },
+            {
+              "phrase": "עשויה להמשיך לדחוף את המניה גבוה יותר",
+              "ruleId": "FWD-001",
+              "ruleName": "אמירה צופה פני עתיד אסורה",
+              "severity": "high",
+              "spanStart": 433,
+              "spanEnd": 478
+            },
+            {
+              "phrase": "משקיעים צריכים לשקול",
+              "ruleId": "ADV-001",
+              "ruleName": "ייעוץ השקעות אסור",
+              "severity": "critical",
+              "spanStart": 510,
+              "spanEnd": 535
+            }
+          ],
+          "rewrittenScript": "שלום, אני ג׳ררדו. רשת מגדלי הים התיכון, הנסחרת בבורסת תל אביב תחת הסימול MDTR, סיכמה את שנת 2025 עם הכנסות של 281 מיליון שקל — עלייה של 11% לעומת 2024. הרווח הנקי לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל. תזרים המזומנים מפעילות שוטפת הוכפל ועמד על 220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל. ההון העצמי של החברה חצה את רף 2 מיליארד שקל. הדירקטוריון אישר חלוקת דיבידנד של 90 מיליון שקל. החברה ציינה כי התוצאות משקפות צמיחה דו-ספרתית בהיקפי הפעילות לצד עלייה בשווי הנכסים. פרויקט נווה איילון, הכולל כ-470 יחידות דיור, נמצא בעבודות ביצוע ואכלוסו צפוי עד סוף 2028. זה היה התקציר היומי של מגדלי הים התיכון.",
+          "rewrites": [
+            {
+              "from": "ההזדמנות הענקית הזו עשויה להמשיך לדחוף את המניה גבוה יותר ככל שהביקוש לדיור מוגן יגדל. משקיעים צריכים לשקול אם זהו הזמן הנכון להיכנס למניה.",
+              "to": "החברה ציינה כי התוצאות משקפות צמיחה דו-ספרתית בהיקפי הפעילות לצד עלייה בשווי הנכסים."
+            }
+          ]
+        }
+      },
+      {
+        "stage": 12,
+        "name": "compliance_gates",
+        "delayMs": 63000,
+        "data": {
+          "l1": {
+            "ms": 14,
+            "passed": true,
+            "msg": "0 ביטויים אסורים"
+          },
+          "l2": {
+            "ms": 798,
+            "passed": true,
+            "msg": "ללא הבטחות מרומזות"
+          },
+          "l3": {
+            "ms": 2071,
+            "passed": true,
+            "msg": "טון מאוזן אומת"
+          },
+          "qualityScore": 95,
+          "complianceScore": 98
+        }
+      },
+      {
+        "stage": 13,
+        "name": "multilanguage",
+        "delayMs": 72000,
+        "data": {
+          "languages": [
+            {
+              "id": "he",
+              "script": [
+                "שלום, אני ג׳ררדו.",
+                "רשת מגדלי הים התיכון, הנסחרת בבורסת תל אביב תחת הסימול MDTR, סיכמה את שנת 2025 עם הכנסות של 281 מיליון שקל — עלייה של 11% לעומת 2024.",
+                "הרווח הנקי לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל.",
+                "תזרים המזומנים מפעילות שוטפת הוכפל ועמד על 220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל.",
+                "ההון העצמי של החברה חצה את רף 2 מיליארד שקל, והדירקטוריון אישר חלוקת דיבידנד של 90 מיליון שקל.",
+                "החברה ציינה כי התוצאות משקפות צמיחה דו-ספרתית בהיקפי הפעילות לצד עלייה בשווי הנכסים.",
+                "פרויקט נווה איילון, הכולל כ-470 יחידות דיור, נמצא בעבודות ביצוע ואכלוסו צפוי עד סוף 2028.",
+                "זה היה התקציר היומי של מגדלי הים התיכון."
+              ]
+            },
+            {
+              "id": "en",
+              "script": [
+                "Hi, I'm Gerardo.",
+                "TASE-listed Mediterranean Towers, ticker MDTR, closed 2025 with revenue of NIS 281 million — an 11% increase versus 2024.",
+                "Net income attributable to shareholders jumped 45% to NIS 388 million.",
+                "Operating cash flow doubled to NIS 220 million, and real AFFO climbed to NIS 166 million.",
+                "Shareholders' equity crossed the NIS 2 billion mark, and the board approved a NIS 90 million dividend.",
+                "The company said the results reflect double-digit growth in activity alongside higher asset values.",
+                "The Neve Ayalon project, with roughly 470 residential units, is under construction and occupancy is expected by the end of 2028.",
+                "That's today's Mediterranean Towers snapshot."
+              ]
+            },
+            {
+              "id": "de",
+              "script": [
+                "Hallo, ich bin Gerardo.",
+                "Die an der TASE notierte Mediterranean Towers, Kürzel MDTR, beendete 2025 mit Umsätzen von 281 Mio. NIS — ein Plus von 11% gegenüber 2024.",
+                "Der den Aktionären zurechenbare Nettogewinn stieg um 45% auf 388 Mio. NIS.",
+                "Der operative Cashflow verdoppelte sich auf 220 Mio. NIS, der reale AFFO kletterte auf 166 Mio. NIS.",
+                "Das Eigenkapital überschritt die Marke von 2 Mrd. NIS, der Vorstand beschloss eine Dividende von 90 Mio. NIS.",
+                "Das Unternehmen erklärte, die Ergebnisse spiegelten zweistelliges Aktivitätswachstum und höhere Vermögenswerte wider.",
+                "Das Projekt Neve Ayalon mit rund 470 Wohneinheiten befindet sich im Bau; der Bezug wird bis Ende 2028 erwartet.",
+                "Das war der heutige Mediterranean Towers Schnappschuss."
+              ]
+            },
+            {
+              "id": "ja",
+              "script": [
+                "こんにちは、ジェラルドです。",
+                "テルアビブ証券取引所上場のメディタレニアン・タワーズ（ティッカー：MDTR）は、2025年を売上高2億8,100万シェケルで締めくくり、前年比11%増となりました。",
+                "株主帰属純利益は45%増の3億8,800万シェケルに達しました。",
+                "営業キャッシュフローは2倍の2億2,000万シェケル、実質AFFOは1億6,600万シェケルに上昇しました。",
+                "株主資本は20億シェケルを突破し、取締役会は9,000万シェケルの配当を承認しました。",
+                "同社は、業績が二桁の事業成長と資産価値の上昇を反映していると述べました。",
+                "約470戸の住宅を備えるネヴェ・アヤロン・プロジェクトは建設中で、2028年末までの入居開始が見込まれます。",
+                "以上、本日のメディタレニアン・タワーズのスナップショットでした。"
+              ]
+            },
+            {
+              "id": "ar",
+              "script": [
+                "مرحباً، أنا جيراردو.",
+                "أنهت شركة Mediterranean Towers المدرجة في بورصة تل أبيب تحت الرمز MDTR عام 2025 بإيرادات بلغت 281 مليون شيكل — بزيادة 11% مقارنة بعام 2024.",
+                "قفز صافي الربح العائد للمساهمين بنسبة 45% ليصل إلى 388 مليون شيكل.",
+                "تضاعف التدفق النقدي التشغيلي ليصل إلى 220 مليون شيكل، فيما ارتفع AFFO الحقيقي إلى 166 مليون شيكل.",
+                "تجاوز حقوق المساهمين عتبة الملياري شيكل، وأقرّ مجلس الإدارة توزيع أرباح بقيمة 90 مليون شيكل.",
+                "وأفادت الشركة بأن النتائج تعكس نموّاً ذا رقمين في حجم النشاط إلى جانب ارتفاع قيم الأصول.",
+                "مشروع نيفيه أيالون، الذي يضم نحو 470 وحدة سكنية، قيد التنفيذ ومن المتوقع إشغاله بنهاية 2028.",
+                "تلك كانت لقطة Mediterranean Towers لليوم."
+              ]
+            }
+          ],
+          "driftPct": 2.0
+        }
+      },
+      {
+        "stage": 14,
+        "name": "audit_trail",
+        "delayMs": 79500,
+        "data": {
+          "steps": 15,
+          "durationSec": 47,
+          "humanInterventions": 0,
+          "sourcesTitle": "מקורות",
+          "sources": [
+            "<span class=\"k\">כתבה ראשית:</span> <span class=\"v\">Bizportal</span> · דוחות שנתיים 2025 (2026-03-26)",
+            "<span class=\"k\">דיווח רשמי:</span> <span class=\"v\">מאיה (TASE)</span> · דוחות חברה מס' 1614",
+            "<span class=\"k\">נתוני מסחר:</span> <span class=\"v\">TradingView</span> · TASE:MDTR",
+            "<span class=\"k\">פרופיל מניה:</span> <span class=\"v\">StockAnalysis</span> · TLV:MDTR",
+            "<span class=\"k\">סיקור H1 2025:</span> <span class=\"v\">Ice</span> · 2025-08-26"
+          ]
+        }
+      },
+      {
+        "stage": 15,
+        "name": "final_output",
+        "delayMs": 84000,
+        "data": {
+          "reporter": "Gerardo",
+          "reporterRole": "עדכון פיננסי",
+          "finalScript": "שלום, אני ג׳ררדו. רשת מגדלי הים התיכון, הנסחרת בבורסת תל אביב תחת הסימול MDTR, סיכמה את שנת 2025 עם הכנסות של 281 מיליון שקל — עלייה של 11% לעומת 2024. הרווח הנקי לבעלי המניות זינק ב-45% והגיע ל-388 מיליון שקל. תזרים המזומנים מפעילות שוטפת הוכפל ועמד על 220 מיליון שקל, וה-AFFO הריאלי טיפס ל-166 מיליון שקל. ההון העצמי של החברה חצה את רף 2 מיליארד שקל. הדירקטוריון אישר חלוקת דיבידנד של 90 מיליון שקל. החברה ציינה כי התוצאות משקפות צמיחה דו-ספרתית בהיקפי הפעילות לצד עלייה בשווי הנכסים. פרויקט נווה איילון, הכולל כ-470 יחידות דיור, נמצא בעבודות ביצוע ואכלוסו צפוי עד סוף 2028. זה היה התקציר היומי של מגדלי הים התיכון.",
+          "qualityScore": 95,
+          "complianceScore": 98,
+          "ticker": "MDTR",
+          "exchange": "TASE",
+          "source": "Bizportal",
+          "totalSeconds": 47
+        }
+      }
+    ]
+  }
+}

@@ -31,7 +31,9 @@
         "accentColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Hex color; overrides CSS --green. Success/completion color — checkmarks, validation ticks, compliance pass states." },
         "accentDeep": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Hex color; overrides CSS --accent-deep. Top stop of the default CTA gradient and bottom stop of the hover CTA gradient. Pick one shade darker/richer than primaryColor to match the original nvidia gradient depth, or one shade lighter to invert." },
         "accent2": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Hex color; overrides CSS --accent-2. Top stop of the hover CTA gradient — usually the lightest shade in the primary palette." },
-        "pageTitle": { "type": "string", "description": "Applied to <title> on load." }
+        "pageTitle": { "type": "string", "description": "Applied to <title> on load." },
+        "langDir": { "type": "string", "enum": ["ltr", "rtl"], "description": "Optional. When 'rtl', client-loader sets <html dir=\"rtl\"> for natural Hebrew/Arabic layout. Omit for LTR (default)." },
+        "lang": { "type": "string", "description": "Optional ISO language tag applied to <html lang=...> when langDir is set (e.g. 'he', 'ar')." }
       }
     },
     "hero": {

@@ -265,7 +265,28 @@
   }
 
   // ── Stage 5: SEC EDGAR VALIDATION ───────────────────────────────────────
+  // Optional config overrides (used by non-US clients like migdaley/TASE):
+  //   data.title           — replaces the static ".stage-title" text
+  //   data.subtitle        — injects a ".stage-subtitle" between header & content
+  //   data.summaryTemplate — pattern with {ok} and {total} placeholders for the
+  //                          summary footer; defaults to "{ok}/{total} facts
+  //                          verified against SEC filings"
   async function renderSecValidation(stage, data) {
+    if (typeof data.title === "string") {
+      const titleEl = stage.querySelector(".stage-title");
+      if (titleEl) titleEl.textContent = data.title;
+    }
+    if (typeof data.subtitle === "string") {
+      let subEl = stage.querySelector(".stage-subtitle");
+      if (!subEl) {
+        subEl = document.createElement("div");
+        subEl.className = "stage-subtitle";
+        const header = stage.querySelector(".stage-header");
+        if (header && header.parentNode) header.parentNode.insertBefore(subEl, header.nextSibling);
+      }
+      subEl.textContent = data.subtitle;
+    }
+
     const list = $("#validation-list");
     list.innerHTML = "";
     const v = Array.isArray(data.validations) ? data.validations : [];
@@ -285,7 +306,12 @@
       if (ok) SoundFX.playCheckmark(); else SoundFX.playError();
       await wait(600);
     }
-    $("#validation-summary-text").textContent = `${okCount}/${v.length} facts verified against SEC filings`;
+    const summaryTpl = typeof data.summaryTemplate === "string"
+      ? data.summaryTemplate
+      : "{ok}/{total} facts verified against SEC filings";
+    $("#validation-summary-text").textContent = summaryTpl
+      .replace("{ok}", String(okCount))
+      .replace("{total}", String(v.length));
     $("#validation-summary-text").scrollIntoView({ behavior: "smooth", block: "nearest" });
     await wait(500);
   }
@@ -320,11 +346,14 @@
     });
 
     // Draw edges first (so they render under nodes). Each edge gets a
-    // relation-based color class.
+    // relation-based color class. Prefer the machine-readable `type` field
+    // (e.g. "competitor") over the display-only `relation` text (which may
+    // be localized, e.g. Hebrew "מתחרה"). Falls back to relation for v1
+    // configs that don't carry `type`.
     nodes.forEach((n, i) => {
       const p = positions[i];
-      const rel = String(n.relation || "").toLowerCase();
-      const relClass = EDGE_REL_CLASS[rel] || "edge--supplier";
+      const relKey = String(n.type || n.relation || "").toLowerCase();
+      const relClass = EDGE_REL_CLASS[relKey] || "edge--supplier";
       const edge = svgEl("line", {
         x1: cx, y1: cy, x2: p.x, y2: p.y,
         class: `edge ${relClass}`,
@@ -364,6 +393,41 @@
       await wait(260);
     }
     $("#xref-note").textContent = data.note || `${nodes.length} related companies identified.`;
+
+    // Optional card panel — opt-in via data.showCards. Renders a list of
+    // entries under the graph with thick start-edge borders and caps badges
+    // to make competitor / partner distinction unmistakable at glance.
+    // Plus500 and other v1 configs omit showCards → no card panel.
+    if (data.showCards) {
+      const stageContent = stage.querySelector(".stage-content");
+      let cards = stage.querySelector("#xref-cards");
+      if (!cards && stageContent) {
+        cards = document.createElement("div");
+        cards.id = "xref-cards";
+        cards.className = "xref-cards";
+        stageContent.appendChild(cards);
+      }
+      if (cards) {
+        cards.innerHTML = "";
+        const labels = data.cardLabels || {};
+        const labelFor = (t) =>
+          labels[t] || (t ? t.toUpperCase() : "");
+        nodes.forEach((n) => {
+          const t = String(n.type || n.relation || "").toLowerCase();
+          const card = document.createElement("div");
+          card.className = `xref-card xref-card--${t || "neutral"}`;
+          const ticker = n.ticker && n.ticker !== "PRIVATE"
+            ? `<span class="xref-card-ticker">${escapeHtml(n.ticker)}</span>`
+            : "";
+          card.innerHTML =
+            `<span class="xref-card-badge xref-card-badge--${t || "neutral"}">${escapeHtml(labelFor(t))}</span>` +
+            `<span class="xref-card-name">${escapeHtml(n.name || "")}</span>` +
+            ticker;
+          cards.appendChild(card);
+        });
+      }
+    }
+
     await wait(400);
   }
 
@@ -730,11 +794,18 @@
     const body = $("#audit-doc-body");
     body.innerHTML = "";
 
+    // Default sources block — Plus500 / Citi / etc inherit the original
+    // Reuters + 10-K placeholders. Per-client configs (e.g. migdaley/TASE)
+    // can override by setting data.sources to an array of pre-formatted
+    // HTML strings; data.sourcesTitle may rename the section heading.
+    const customSources = Array.isArray(data.sources) && data.sources.length > 0
+      ? data.sources.map((html) => [String(html)])
+      : null;
     const sections = [
       {
         key: "sources",
-        title: "Sources",
-        lines: [
+        title: data.sourcesTitle || "Sources",
+        lines: customSources || [
           ['<span class="k">Article:</span> <span class="v">Reuters</span> · 47 min ago'],
           ['<span class="k">Filing:</span> <span class="v">10-K, FY2025</span> (filed 2025-02-26)'],
         ],
