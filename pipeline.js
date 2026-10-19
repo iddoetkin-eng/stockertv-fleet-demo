@@ -1135,7 +1135,7 @@
 
   // ── Avatar video modal ──────────────────────────────────────────────────
   const AVATAR_VIDEO_URL =
-    "https://leoofwrctjxtkmhqphtw.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4";
+    "https://yusmntynkiwadtsaagbr.supabase.co/storage/v1/object/public/Tradetok%20videos/NVIDIA%20Q4%20Record%20Financial%20Update_1080p_caption.mp4";
 
   const finalCta      = $("#final-cta");
   const finalCtaLabel = finalCta.textContent;
